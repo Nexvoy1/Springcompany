@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="description" content="Springcompany — The World's Premier Celebrity Booking Platform. Book your favorite stars for events, meet & greets, and exclusive experiences.">
 <meta name="keywords" content="celebrity booking, book celebrity, entertainment, star booking">
 <title>Springcompany — Book Your Favorite Celebrities</title>
@@ -347,15 +347,99 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   .contact-grid{grid-template-columns:1fr}
   .profile-grid{grid-template-columns:1fr}
 }
+@media(max-width:900px){
+  .celeb-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .profile-grid{grid-template-columns:1fr}
+}
+
 @media(max-width:768px){
+  /* NAVBAR — stops zooming needed */
+  #navbar{padding:0 12px;height:58px}
   .nav-center{display:none}
-  .celeb-grid{grid-template-columns:repeat(2,1fr)}
-  .hero-title{font-size:3.2rem}
-  .section{padding:60px 16px}
-  #navbar{padding:0 16px}
-  .footer-grid{grid-template-columns:1fr}
+  .nav-logo-text{font-size:1.1rem;letter-spacing:1px}
+  .nav-logo-icon{width:30px;height:30px;font-size:.85rem}
+  .nav-btn{padding:6px 10px;font-size:.75rem}
+  .nav-right{gap:6px}
+  .hamburger{width:34px;height:34px;font-size:.9rem}
+
+  /* HERO */
+  .hero-title{font-size:2.8rem}
+  .hero-sub{font-size:.88rem;padding:0 10px}
+  .hero-actions{flex-direction:column;align-items:center;gap:10px;padding:0 20px}
+  .btn-book-now{width:100%;text-align:center;padding:14px 24px;font-size:1.1rem}
+  .btn-explore{width:100%;text-align:center;padding:13px 24px}
+
+  /* SECTIONS */
+  .section{padding:50px 14px}
+  .section-inner{padding:0}
+
+  /* CELEBRITY GRID */
+  .celeb-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+
+  /* FORMS */
   .form-row,.bf-row{grid-template-columns:1fr}
   .fan-card-grid{grid-template-columns:1fr}
+  .about-features{grid-template-columns:1fr}
+
+  /* FOOTER */
+  .footer-grid{grid-template-columns:1fr}
+  .footer-grid > div{text-align:center}
+  .footer-social{justify-content:center}
+
+  /* MEGA MENU */
+  .mega-menu{width:100%;border-radius:0}
+
+  /* STATS */
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+
+  /* MEET & GREET PERKS */
+  .mg-perks{flex-direction:column;align-items:center;gap:12px}
+  .btn-mg{padding:16px 32px;font-size:1.1rem}
+
+  /* NEWSLETTER */
+  .nl-row{flex-direction:column}
+  .nl-input,.nl-btn{width:100%}
+
+  /* ABOUT */
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+
+  /* PROFILE PAGE */
+  .profile-grid{grid-template-columns:1fr}
+  .bf-row{grid-template-columns:1fr}
+}
+
+@media(max-width:480px){
+  /* VERY SMALL PHONES */
+  #navbar{padding:0 10px;height:54px}
+  .nav-logo-text{font-size:1rem;letter-spacing:0}
+  .nav-logo-icon{width:28px;height:28px;font-size:.8rem}
+  .nav-btn{padding:5px 8px;font-size:.72rem}
+  .nav-right{gap:4px}
+  .hamburger{width:32px;height:32px;font-size:.85rem}
+
+  .hero-title{font-size:2.2rem;letter-spacing:2px}
+  .hero-badge{font-size:.68rem;padding:5px 12px}
+
+  .celeb-grid{grid-template-columns:1fr}
+  .fan-card-grid{grid-template-columns:1fr}
+
+  .section{padding:40px 12px}
+  .mg-title{font-size:2.2rem}
+  .about-features{grid-template-columns:1fr}
+  .profile-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:360px){
+  /* VERY TINY PHONES like older Androids */
+  #navbar{padding:0 8px}
+  .nav-btn{display:none}
+  .hamburger{width:30px;height:30px}
+  .nav-logo-text{font-size:.9rem}
+  .hero-title{font-size:1.9rem}
 }
 </style>
 </head>
