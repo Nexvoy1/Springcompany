@@ -33,9 +33,7 @@
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:default}
 
-/* CUSTOM CURSOR */
-.cursor{width:12px;height:12px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:99999;transition:transform .1s;mix-blend-mode:difference}
-.cursor-ring{width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:99998;transition:all .15s ease;mix-blend-mode:difference}
+
 
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:4px}
@@ -363,9 +361,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 </head>
 <body>
 
-<!-- CUSTOM CURSOR -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+
 
 <!-- ── NAVBAR ── -->
 <nav id="navbar">
@@ -888,26 +884,10 @@ var heroIndex = 0;
 var heroSlides, heroDots;
 
 // ── INIT ──────────────────────────────────────
-window.addEventListener('load', function() {
-  initHero();
-  renderTrending();
-  renderCelebs(CELEBRITIES);
-  initMeetGreetStars();
-  initCursor();
-  initScrollNav();
-});
+
 
 // ── CUSTOM CURSOR ──────────────────────────────
-function initCursor() {
-  var cur = document.getElementById('cursor');
-  var ring = document.getElementById('cursorRing');
-  document.addEventListener('mousemove', function(e) {
-    cur.style.left = (e.clientX - 6) + 'px';
-    cur.style.top = (e.clientY - 6) + 'px';
-    ring.style.left = (e.clientX - 18) + 'px';
-    ring.style.top = (e.clientY - 18) + 'px';
-  });
-}
+
 
 // ── SCROLL NAV ────────────────────────────────
 function initScrollNav() {
