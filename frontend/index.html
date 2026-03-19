@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Springcompany — The World's Premier Celebrity Booking Platform. Book your favorite stars for events, meet & greets, and exclusive experiences.">
 <meta name="keywords" content="celebrity booking, book celebrity, entertainment, star booking">
-<title>Springcompany — Book The Stars</title>
+<title>Springcompany — Book Your Favorite Celebrities</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -86,10 +86,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
 .hero-badge span{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,10vw,7.5rem);line-height:.95;letter-spacing:4px;margin-bottom:12px;animation:fadeUp .8s ease .5s both}
-.hero-title span{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-title span{-webkit-text-fill-color:transparent;background:linear-gradient(135deg,#ffffff,#FF4500,#ffffff,#FF6347);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;animation:titleBlink 2s ease-in-out infinite}
 .hero-sub{font-size:1.1rem;color:rgba(240,238,248,.75);max-width:520px;margin:0 auto 36px;line-height:1.7;animation:fadeUp .8s ease .7s both}
 .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s ease .9s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes titleBlink{0%{background-position:0% 50%;opacity:1}50%{background-position:100% 50%;opacity:.75}100%{background-position:0% 50%;opacity:1}}
 .btn-book-now{position:relative;padding:18px 48px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;border:none;border-radius:4px;cursor:pointer;overflow:hidden;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
 .btn-book-now::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold2),var(--gold));opacity:0;transition:opacity .3s}
 .btn-book-now:hover::before{opacity:1}
@@ -439,7 +440,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   <div class="hero-overlay2"></div>
   <div class="hero-content">
     <div class="hero-badge"><span></span>World's #1 Celebrity Booking Platform</div>
-    <h1 class="hero-title">BOOK THE<br><span>STARS</span></h1>
+    <h1 class="hero-title" style="color:#ffffff;text-shadow:0 2px 20px rgba(0,0,0,0.5)">BOOK YOUR FAVORITE<br><span>CELEBRITIES</span></h1>
     <p class="hero-sub">Connect with the world's most iconic entertainers. Book celebrities for events, appearances, meet & greets, and exclusive experiences.</p>
     <div class="hero-actions">
       <button class="btn-book-now" onclick="document.getElementById('celebrities').scrollIntoView({behavior:'smooth'})">BOOK NOW</button>
