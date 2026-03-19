@@ -1091,34 +1091,207 @@ function socialAuth(provider) {
   showToast('✅ Signed in with ' + provider + '! Welcome to Springcompany.');
 }
 function doRegister() {
-  var first = document.getElementById('regFirst').value;
-  var email = document.getElementById('regEmail').value;
-  var pass = document.getElementById('regPass').value;
-  if (!first || !email || pass.length < 8) { showToast('⚠️ Please fill all fields (password min 8 chars)'); return; }
-  USERS.push({name: first, email: email, pass: pass});
-  currentUser = {name: first, email: email};
-  closeAuth();
-  showToast('🎉 Account created! Welcome to Springcompany, ' + first + '!');
-}
-function doLogin() {
-  var email = document.getElementById('loginEmail').value;
-  var pass = document.getElementById('loginPass').value;
-  if (!email || !pass) { showToast('⚠️ Please enter email and password'); return; }
-  var user = USERS.find(function(u) { return u.email === email && u.pass === pass; });
-  if (user) {
-    currentUser = user;
-    closeAuth();
-    showToast('✅ Welcome back, ' + user.name + '!');
-  } else if (pass.length >= 6) {
-    currentUser = {name: email.split('@')[0], email: email};
-    closeAuth();
-    showToast('✅ Welcome back to Springcompany!');
-  } else {
-    showToast('❌ Incorrect email or password');
-  }
+  var first = (document.getElementById('regFirst').value || '').trim();
+  var last  = (document.getElementById('regLast').value || '').trim();
+  var email = (document.getElementById('regEmail').value || '').trim();
+  var pass  = document.getElementById('regPass').value || '';
+
+  // Validation
+  if (!first) { showAuthError('Please enter your first name'); return; }
+  if (!email || !email.includes('@')) { showAuthError('Please enter a valid email'); return; }
+  if (pass.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
+
+  // Show loading state
+  var btn = document.querySelector('#registerFields .btn-auth');
+  var original = btn.textContent;
+  btn.textContent = 'Creating account...';
+  btn.disabled = true;
+
+  // Send to your real backend
+  fetch('/api/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstName: first,
+      lastName: last,
+      email: email,
+      password: pass
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    btn.textContent = original;
+    btn.disabled = false;
+
+    if (data.success) {
+      // Save the token and user info
+      localStorage.setItem('sc_token', data.token);
+      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+      closeAuth();
+      updateNavForLoggedInUser(data.user.firstName);
+      showToast('🎉 Welcome to Springcompany, ' + data.user.firstName + '!');
+    } else {
+      showAuthError(data.message || 'Registration failed. Please try again.');
+    }
+  })
+  .catch(function() {
+    btn.textContent = original;
+    btn.disabled = false;
+    showAuthError('Connection error. Please check your internet and try again.');
+  });
 }
 
 // ── NAV ───────────────────────────────────────
+function doLogin() {
+  var email = (document.getElementById('loginEmail').value || '').trim();
+  var pass  = document.getElementById('loginPass').value || '';
+
+  if (!email) { showAuthError('Please enter your email'); return; }
+  if (!pass)  { showAuthError('Please enter your password'); return; }
+
+  var btn = document.querySelector('#loginFields .btn-auth');
+  var original = btn.textContent;
+  btn.textContent = 'Signing in...';
+  btn.disabled = true;
+
+  fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, password: pass })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    btn.textContent = original;
+    btn.disabled = false;
+    if (data.success) {
+      localStorage.setItem('sc_token', data.token);
+      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+      closeAuth();
+      updateNavForLoggedInUser(data.user.firstName);
+      showToast('✅ Welcome back, ' + data.user.firstName + '!');
+    } else {
+      showAuthError(data.message || 'Incorrect email or password.');
+    }
+  })
+  .catch(function() {
+    btn.textContent = original;
+    btn.disabled = false;
+    showAuthError('Connection error. Please check your internet and try again.');
+  });
+}
+
+function showAuthError(msg) {
+  var err = document.getElementById('authError');
+  if (!err) {
+    err = document.createElement('div');
+    err.id = 'authError';
+    err.style.cssText = 'background:rgba(244,63,94,0.12);border:1px solid rgba(244,63,94,0.3);color:#F43F5E;padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:12px;text-align:center;font-weight:500';
+    var loginFields = document.getElementById('loginFields');
+    var regFields = document.getElementById('registerFields');
+    var visible = (loginFields && loginFields.style.display !== 'none') ? loginFields : regFields;
+    if (visible) visible.insertBefore(err, visible.firstChild);
+  }
+  err.textContent = msg;
+  err.style.display = 'block';
+}
+
+function updateNavForLoggedInUser(name) {
+  if (!name) return;
+  name = name.charAt(0).toUpperCase() + name.slice(1);
+  var signInBtn = document.querySelector('.nav-btn.btn-ghost');
+  var joinBtn   = document.querySelector('.nav-btn.btn-gold');
+  if (signInBtn) signInBtn.style.display = 'none';
+  if (joinBtn)   joinBtn.style.display   = 'none';
+  var pill = document.getElementById('navUserPill');
+  if (!pill) {
+    pill = document.createElement('div');
+    pill.id = 'navUserPill';
+    pill.style.cssText = 'display:flex;align-items:center;gap:8px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);padding:6px 14px;border-radius:50px;cursor:pointer;margin-left:4px';
+    pill.onclick = showUserMenu;
+    var av = document.createElement('div');
+    av.id = 'navUserAv';
+    av.style.cssText = 'width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#8B7322);display:flex;align-items:center;justify-content:center;color:#000;font-size:11px;font-weight:700;flex-shrink:0';
+    av.textContent = name.charAt(0).toUpperCase();
+    var nm = document.createElement('span');
+    nm.id = 'navUserName';
+    nm.style.cssText = 'font-size:13px;font-weight:600;color:#D4AF37;font-family:DM Sans,sans-serif';
+    nm.textContent = name;
+    var arr = document.createElement('span');
+    arr.style.cssText = 'font-size:10px;color:#8A87A0';
+    arr.textContent = '▼';
+    pill.appendChild(av);
+    pill.appendChild(nm);
+    pill.appendChild(arr);
+    var navRight = document.querySelector('.nav-right');
+    if (navRight) navRight.appendChild(pill);
+  } else {
+    pill.style.display = 'flex';
+    var av2 = document.getElementById('navUserAv');
+    var nm2 = document.getElementById('navUserName');
+    if (av2) av2.textContent = name.charAt(0).toUpperCase();
+    if (nm2) nm2.textContent = name;
+  }
+}
+
+function showUserMenu() {
+  var existing = document.getElementById('userDropdown');
+  if (existing) { existing.remove(); return; }
+  var currentUser = JSON.parse(localStorage.getItem('sc_current_user') || 'null');
+  var dropdown = document.createElement('div');
+  dropdown.id = 'userDropdown';
+  dropdown.style.cssText = 'position:fixed;top:68px;right:16px;background:#18181F;border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:8px;min-width:180px;z-index:9999;box-shadow:0 12px 32px rgba(0,0,0,0.5);font-family:DM Sans,sans-serif';
+  var userName  = currentUser ? (currentUser.firstName || currentUser.name || 'User') : 'User';
+  var userEmail = currentUser ? (currentUser.email || '') : '';
+  dropdown.innerHTML =
+    '<div style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:6px">' +
+      '<div style="font-size:.84rem;font-weight:700;color:#F0EEF8">' + userName + '</div>' +
+      '<div style="font-size:.72rem;color:#8A87A0;margin-top:2px">' + userEmail + '</div>' +
+    '</div>' +
+    '<div onclick="showToast(\'My Bookings coming soon!\')" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#D0CDE8" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'transparent\'">' +
+      '<i class="fas fa-calendar-check" style="color:#D4AF37;width:16px"></i> My Bookings' +
+    '</div>' +
+    '<div onclick="showToast(\'Fan Cards coming soon!\')" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#D0CDE8" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'transparent\'">' +
+      '<i class="fas fa-id-card" style="color:#D4AF37;width:16px"></i> My Fan Cards' +
+    '</div>' +
+    '<div style="border-top:1px solid rgba(255,255,255,0.07);margin-top:6px;padding-top:6px">' +
+      '<div onclick="doLogout()" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#F43F5E" onmouseover="this.style.background=\'rgba(244,63,94,0.08)\'" onmouseout="this.style.background=\'transparent\'">' +
+        '<i class="fas fa-sign-out-alt" style="width:16px"></i> Sign Out' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(dropdown);
+  setTimeout(function() {
+    document.addEventListener('click', function closeDD(e) {
+      if (!dropdown.contains(e.target) && !e.target.closest('#navUserPill')) {
+        dropdown.remove();
+        document.removeEventListener('click', closeDD);
+      }
+    });
+  }, 100);
+}
+
+function doLogout() {
+  localStorage.removeItem('sc_token');
+  localStorage.removeItem('sc_current_user');
+  var dd = document.getElementById('userDropdown');
+  if (dd) dd.remove();
+  var pill = document.getElementById('navUserPill');
+  if (pill) pill.style.display = 'none';
+  var signInBtn = document.querySelector('.nav-btn.btn-ghost');
+  var joinBtn   = document.querySelector('.nav-btn.btn-gold');
+  if (signInBtn) signInBtn.style.display = '';
+  if (joinBtn)   joinBtn.style.display   = '';
+  showToast('👋 You have been signed out. See you soon!');
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  var savedUser  = localStorage.getItem('sc_current_user');
+  var savedToken = localStorage.getItem('sc_token');
+  if (savedUser && savedToken) {
+    var user = JSON.parse(savedUser);
+    updateNavForLoggedInUser(user.firstName || user.name || 'User');
+  }
+});
+
 function showHome() {
   closeProfile();
 }
