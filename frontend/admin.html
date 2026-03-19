@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Springcompany Admin Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+:root{
+  --gold:#D4AF37;--gold2:#F5CC5A;--gold3:#8B7322;
+  --bg:#0A0A0F;--bg2:#111118;--bg3:#18181F;--bg4:#1E1E28;
+  --text:#F0EEF8;--muted:#8A87A0;--dim:#4A4860;
+  --green:#10B981;--red:#F43F5E;--blue:#3B82F6;--orange:#F97316;
+  --border:rgba(255,255,255,0.08);--border2:rgba(212,175,55,0.25);
+  --r:10px;--sidebar:240px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform .3s}
+.sidebar-logo{padding:20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.logo-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--gold3));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;color:#000;font-size:1rem}
+.logo-text{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-badge{font-size:.6rem;background:var(--red);color:#fff;padding:1px 6px;border-radius:4px;font-weight:700;margin-left:2px;-webkit-text-fill-color:#fff}
+.sidebar-nav{flex:1;padding:16px 10px;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.nav-section{font-size:.65rem;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;padding:8px 8px 4px;margin-top:8px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--muted);font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;border:none;background:transparent;width:100%;text-align:left;position:relative}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:rgba(212,175,55,0.12);color:var(--gold);border-left:3px solid var(--gold)}
+.nav-item .nav-ico{width:18px;text-align:center;font-size:.85rem;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:.62rem;font-weight:700;padding:1px 6px;border-radius:10px}
+.sidebar-footer{padding:14px 12px;border-top:1px solid var(--border)}
+.admin-pill{display:flex;align-items:center;gap:9px;padding:8px 10px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)}
+.admin-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold3));display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#000;flex-shrink:0}
+.admin-info{flex:1;min-width:0}
+.admin-name{font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-role{font-size:.68rem;color:var(--gold)}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{height:60px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.page-title{font-size:1rem;font-weight:700;color:var(--text)}
+.page-sub{font-size:.76rem;color:var(--muted)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.tb-btn{background:transparent;border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;position:relative;transition:all .2s}
+.tb-btn:hover{border-color:var(--gold);color:var(--gold)}
+.tb-dot{position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1px solid var(--bg2)}
+.search-bar{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 12px;width:220px}
+.search-bar input{background:transparent;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.84rem;flex:1}
+.search-bar input::placeholder{color:var(--dim)}
+
+.content{padding:24px;flex:1}
+
+/* ── PANELS ── */
+.panel{display:none}
+.panel.active{display:block}
+
+/* ── STAT CARDS ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;transition:all .25s;cursor:default}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.stat-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.stat-ico{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.stat-change{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:20px}
+.stat-change.up{background:rgba(16,185,129,0.12);color:var(--green)}
+.stat-change.down{background:rgba(244,63,94,0.12);color:var(--red)}
+.stat-num{font-size:1.8rem;font-weight:800;letter-spacing:-1px;display:block;margin-bottom:2px}
+.stat-label{font-size:.76rem;color:var(--muted)}
+
+/* ── CARD / TABLE ── */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.card-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)}
+.card-title{font-size:.9rem;font-weight:700}
+.card-sub{font-size:.76rem;color:var(--muted);margin-top:1px}
+.card-body{padding:16px 20px}
+.card-body.no-pad{padding:0}
+table{width:100%;border-collapse:collapse}
+thead th{padding:10px 14px;text-align:left;font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;background:var(--bg4);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+tbody tr:hover{background:rgba(255,255,255,0.02)}
+tbody tr:last-child{border:none}
+tbody td{padding:11px 14px;font-size:.83rem;color:var(--text)}
+.avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--gold3),var(--bg4));display:inline-flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--gold);overflow:hidden;flex-shrink:0}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.celeb-row{display:flex;align-items:center;gap:10px}
+.celeb-row-info{display:flex;flex-direction:column}
+.celeb-row-name{font-weight:600;font-size:.84rem}
+.celeb-row-sub{font-size:.72rem;color:var(--muted)}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:700;white-space:nowrap}
+.badge-green{background:rgba(16,185,129,0.12);color:var(--green)}
+.badge-red{background:rgba(244,63,94,0.12);color:var(--red)}
+.badge-gold{background:rgba(212,175,55,0.12);color:var(--gold)}
+.badge-blue{background:rgba(59,130,246,0.12);color:var(--blue)}
+.badge-orange{background:rgba(249,115,22,0.12);color:var(--orange)}
+.badge-gray{background:rgba(255,255,255,0.06);color:var(--muted)}
+
+/* FORMS */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-grid.three{grid-template-columns:1fr 1fr 1fr}
+.f{margin-bottom:14px}
+.f label{display:block;font-size:.74rem;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.f input,.f select,.f textarea{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.86rem;outline:none;transition:border .2s}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--gold)}
+.f select option{background:var(--bg3)}
+.f textarea{resize:none;min-height:80px}
+.toggle{position:relative;display:inline-block;width:40px;height:22px}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;inset:0;background:var(--bg4);border-radius:11px;transition:.3s;border:1px solid var(--border)}
+.slider:before{content:'';position:absolute;width:16px;height:16px;left:2px;top:2px;background:var(--muted);border-radius:50%;transition:.3s}
+input:checked + .slider{background:var(--green);border-color:var(--green)}
+input:checked + .slider:before{transform:translateX(18px);background:#fff}
+
+/* BUTTONS */
+.btn{border:none;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.84rem;padding:9px 18px;transition:all .2s;display:inline-flex;align-items:center;gap:7px}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(212,175,55,0.3)}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-danger{background:rgba(244,63,94,0.12);color:var(--red);border:1px solid rgba(244,63,94,0.2)}
+.btn-danger:hover{background:var(--red);color:#fff}
+.btn-success{background:rgba(16,185,129,0.12);color:var(--green);border:1px solid rgba(16,185,129,0.2)}
+.btn-success:hover{background:var(--green);color:#fff}
+.btn-sm{padding:6px 12px;font-size:.76rem}
+.btn-icon{width:32px;height:32px;padding:0;justify-content:center}
+
+/* TWO COL LAYOUT */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.modal-bg.open{display:flex}
+.modal-box{background:var(--bg3);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;animation:mIn .2s ease}
+@keyframes mIn{from{opacity:0;transform:scale(.96) translateY(-10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-head{padding:20px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-head h3{font-size:.95rem;font-weight:700}
+.modal-body{padding:22px}
+.modal-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+
+/* PROGRESS BAR */
+.pbar{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.pbar-fill{height:100%;border-radius:3px;transition:width .6s ease}
+
+/* ACTIVITY FEED */
+.activity-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.activity-item:last-child{border:none}
+.act-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+.act-text{font-size:.82rem;color:var(--text);line-height:1.5}
+.act-time{font-size:.72rem;color:var(--dim);margin-top:2px}
+
+/* CHART PLACEHOLDER */
+.chart-wrap{height:200px;background:var(--bg4);border-radius:8px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.chart-bars{display:flex;align-items:flex-end;gap:8px;height:160px;padding:0 20px;position:absolute;bottom:20px;left:0;right:0}
+.chart-bar{flex:1;border-radius:4px 4px 0 0;background:rgba(212,175,55,0.2);border:1px solid rgba(212,175,55,0.3);transition:all .3s;cursor:pointer;position:relative}
+.chart-bar:hover{background:rgba(212,175,55,0.5)}
+.chart-bar .bar-tip{position:absolute;top:-24px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border2);border-radius:4px;padding:2px 7px;font-size:.68rem;color:var(--gold);white-space:nowrap;display:none}
+.chart-bar:hover .bar-tip{display:block}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;gap:6px;margin-top:16px}
+.page-btn{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.page-btn.active,.page-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
+.page-info{font-size:.78rem;color:var(--muted);margin-left:auto}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:11px 20px;border-radius:9px;font-size:.84rem;font-weight:600;z-index:99999;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.4);animation:toastIn .3s ease;max-width:320px}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .two-col,.three-col,.form-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">SB</div>
+    <span class="logo-text">Springcompany</span>
+    <span class="logo-badge">ADMIN</span>
+  </div>
+  <nav class="sidebar-nav">
+    <span class="nav-section">Overview</span>
+    <button class="nav-item active" onclick="showPanel('dashboard',this)">
+      <span class="nav-ico"><i class="fas fa-chart-line"></i></span> Dashboard
+    </button>
+    <button class="nav-item" onclick="showPanel('analytics',this)">
+      <span class="nav-ico"><i class="fas fa-chart-bar"></i></span> Analytics
+    </button>
+
+    <span class="nav-section">Management</span>
+    <button class="nav-item" onclick="showPanel('celebrities',this)">
+      <span class="nav-ico"><i class="fas fa-star"></i></span> Celebrities
+    </button>
+    <button class="nav-item" onclick="showPanel('bookings',this)">
+      <span class="nav-ico"><i class="fas fa-calendar-check"></i></span> Bookings
+      <span class="nav-badge" id="pendingBadge">3</span>
+    </button>
+    <button class="nav-item" onclick="showPanel('users',this)">
+      <span class="nav-ico"><i class="fas fa-users"></i></span> Users
+    </button>
+    <button class="nav-item" onclick="showPanel('fancards',this)">
+      <span class="nav-ico"><i class="fas fa-id-card"></i></span> Fan Cards
+    </button>
+
+    <span class="nav-section">Finance</span>
+    <button class="nav-item" onclick="showPanel('payments',this)">
+      <span class="nav-ico"><i class="fas fa-credit-card"></i></span> Payments
+    </button>
+    <button class="nav-item" onclick="showPanel('revenue',this)">
+      <span class="nav-ico"><i class="fas fa-dollar-sign"></i></span> Revenue
+    </button>
+
+    <span class="nav-section">Content</span>
+    <button class="nav-item" onclick="showPanel('posts',this)">
+      <span class="nav-ico"><i class="fas fa-newspaper"></i></span> Posts
+    </button>
+    <button class="nav-item" onclick="showPanel('calendar',this)">
+      <span class="nav-ico"><i class="fas fa-calendar-alt"></i></span> Calendar
+    </button>
+    <button class="nav-item" onclick="showPanel('messages',this)">
+      <span class="nav-ico"><i class="fas fa-envelope"></i></span> Messages
+      <span class="nav-badge">5</span>
+    </button>
+
+    <span class="nav-section">System</span>
+    <button class="nav-item" onclick="showPanel('settings',this)">
+      <span class="nav-ico"><i class="fas fa-cog"></i></span> Settings
+    </button>
+    <button class="nav-item" onclick="window.open('index.html')">
+      <span class="nav-ico"><i class="fas fa-external-link-alt"></i></span> View Site
+    </button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="admin-pill">
+      <div class="admin-av">A</div>
+      <div class="admin-info">
+        <div class="admin-name">Admin User</div>
+        <div class="admin-role">⭐ Super Admin</div>
+      </div>
+      <button class="btn btn-ghost btn-icon btn-sm" title="Logout" onclick="showToast('👋 Logged out')"><i class="fas fa-sign-out-alt"></i></button>
+    </div>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="tb-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div>
+        <div class="page-title" id="pageTitle">Dashboard</div>
+        <div class="page-sub" id="pageSub">Welcome back, Admin</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="search-bar">
+        <i class="fas fa-search" style="color:var(--dim);font-size:.8rem"></i>
+        <input type="text" placeholder="Search platform...">
+      </div>
+      <button class="tb-btn" onclick="showToast('📣 No new announcements')">
+        <i class="fas fa-bell"></i><span class="tb-dot"></span>
+      </button>
+      <button class="tb-btn" onclick="showToast('✅ All systems operational')">
+        <i class="fas fa-shield-alt"></i>
+      </button>
+      <div style="width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold3));display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#000;cursor:pointer">A</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ══ DASHBOARD ══ -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ico" style="background:rgba(212,175,55,0.12);color:var(--gold)"><i class="fas fa-star"></i></div>
+            <span class="stat-change up">↑ 12%</span>
+          </div>
+          <span class="stat-num">512</span>
+          <span class="stat-label">Total Celebrities</span>
+          <div class="pbar mt-2"><div class="pbar-fill" style="width:78%;background:var(--gold)"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ico" style="background:rgba(59,130,246,0.12);color:var(--blue)"><i class="fas fa-calendar-check"></i></div>
+            <span class="stat-change up">↑ 24%</span>
+          </div>
+          <span class="stat-num">1,284</span>
+          <span class="stat-label">Total Bookings</span>
+          <div class="pbar mt-2"><div class="pbar-fill" style="width:65%;background:var(--blue)"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ico" style="background:rgba(16,185,129,0.12);color:var(--green)"><i class="fas fa-dollar-sign"></i></div>
+            <span class="stat-change up">↑ 31%</span>
+          </div>
+          <span class="stat-num">$2.4M</span>
+          <span class="stat-label">Total Revenue</span>
+          <div class="pbar mt-2"><div class="pbar-fill" style="width:82%;background:var(--green)"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ico" style="background:rgba(249,115,22,0.12);color:var(--orange)"><i class="fas fa-users"></i></div>
+            <span class="stat-change up">↑ 18%</span>
+          </div>
+          <span class="stat-num">45.2K</span>
+          <span class="stat-label">Registered Users</span>
+          <div class="pbar mt-2"><div class="pbar-fill" style="width:71%;background:var(--orange)"></div></div>
+        </div>
+      </div>
+
+      <!-- Second row stats -->
+      <div class="three-col" style="margin-bottom:20px">
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ico" style="background:rgba(192,132,252,0.12);color:#C084FC"><i class="fas fa-id-card"></i></div>
+            <span class="stat-change up">↑ 44%</span>
+          </div>
+          <span class="stat-num">3,821</span>
+          <span class="stat-label">Active Fan Cards</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ico" style="background:rgba(244,63,94,0.12);color:var(--red)"><i class="fas fa-clock"></i></div>
+            <span class="stat-change down">↓ 3</span>
+          </div>
+          <span class="stat-num">3</span>
+          <span class="stat-label">Pending Bookings</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ico" style="background:rgba(16,185,129,0.12);color:var(--green)"><i class="fas fa-envelope"></i></div>
+            <span class="stat-change down">5 unread</span>
+          </div>
+          <span class="stat-num">5</span>
+          <span class="stat-label">New Messages</span>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <!-- Revenue Chart -->
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Revenue Overview</div><div class="card-sub">Last 8 months</div></div>
+            <select style="background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.76rem;outline:none">
+              <option>2025</option><option>2024</option>
+            </select>
+          </div>
+          <div class="card-body">
+            <div class="chart-wrap">
+              <div class="chart-bars" id="revenueChart"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:8px;padding:0 20px">
+              <span style="font-size:.7rem;color:var(--dim)">Aug</span>
+              <span style="font-size:.7rem;color:var(--dim)">Sep</span>
+              <span style="font-size:.7rem;color:var(--dim)">Oct</span>
+              <span style="font-size:.7rem;color:var(--dim)">Nov</span>
+              <span style="font-size:.7rem;color:var(--dim)">Dec</span>
+              <span style="font-size:.7rem;color:var(--dim)">Jan</span>
+              <span style="font-size:.7rem;color:var(--dim)">Feb</span>
+              <span style="font-size:.7rem;color:var(--dim)">Mar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Recent Activity</div><div class="card-sub">Latest platform events</div></div>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Activity log exported!')"><i class="fas fa-download"></i> Export</button>
+          </div>
+          <div class="card-body" id="activityFeed"></div>
+        </div>
+      </div>
+
+      <!-- Recent Bookings -->
+      <div class="card" style="margin-top:20px">
+        <div class="card-head">
+          <div><div class="card-title">Recent Bookings</div><div class="card-sub">Latest booking requests</div></div>
+          <button class="btn btn-primary btn-sm" onclick="showPanel('bookings',null)">View All</button>
+        </div>
+        <div class="card-body no-pad">
+          <table>
+            <thead><tr><th>Booking</th><th>Celebrity</th><th>Event Date</th><th>Budget</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="dashBookingsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CELEBRITIES ══ -->
+    <div class="panel" id="panel-celebrities">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+          <h2 style="font-size:1rem;font-weight:700">Celebrity Management</h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-top:2px">Add, edit and manage celebrity profiles</p>
+        </div>
+        <button class="btn btn-primary" onclick="openCelebModal()"><i class="fas fa-plus"></i> Add Celebrity</button>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+        <div class="search-bar" style="width:240px"><i class="fas fa-search" style="color:var(--dim);font-size:.8rem"></i><input type="text" placeholder="Search celebrities..." oninput="filterTable('celebTable',this.value)"></div>
+        <select style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none" onchange="filterCelebCat(this.value)">
+          <option value="">All Categories</option>
+          <option>Music</option><option>Film</option><option>Sports</option><option>Comedy</option><option>Fashion</option>
+        </select>
+        <select style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none">
+          <option>All Status</option><option>Verified</option><option>Unverified</option>
+        </select>
+      </div>
+      <div class="card">
+        <div class="card-body no-pad">
+          <table>
+            <thead><tr><th>Celebrity</th><th>Category</th><th>Base Fee</th><th>Bookings</th><th>Rating</th><th>Verified</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="celebTable"></tbody>
+          </table>
+        </div>
+        <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center">
+          <div class="pagination" id="celebPagination"></div>
+          <span class="page-info">Showing 1–8 of 512 celebrities</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ BOOKINGS ══ -->
+    <div class="panel" id="panel-bookings">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+          <h2 style="font-size:1rem;font-weight:700">Booking Management</h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-top:2px">Review and manage all booking requests</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm" onclick="showToast('📊 Bookings exported to CSV!')"><i class="fas fa-download"></i> Export</button>
+          <select style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none" onchange="filterBookings(this.value)">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="reviewing">Reviewing</option>
+            <option value="approved">Approved</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
+      <!-- Booking stat pills -->
+      <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:1.1rem;font-weight:800;color:var(--text)">1,284</span>
+          <span style="font-size:.76rem;color:var(--muted)">Total</span>
+        </div>
+        <div style="background:rgba(244,63,94,0.08);border:1px solid rgba(244,63,94,0.2);border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:1.1rem;font-weight:800;color:var(--red)">3</span>
+          <span style="font-size:.76rem;color:var(--muted)">Pending</span>
+        </div>
+        <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:1.1rem;font-weight:800;color:var(--blue)">12</span>
+          <span style="font-size:.76rem;color:var(--muted)">Reviewing</span>
+        </div>
+        <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:1.1rem;font-weight:800;color:var(--green)">1,198</span>
+          <span style="font-size:.76rem;color:var(--muted)">Confirmed</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body no-pad">
+          <table>
+            <thead><tr><th>Ref</th><th>Client</th><th>Celebrity</th><th>Event</th><th>Date</th><th>Budget</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="bookingsTable"></tbody>
+          </table>
+        </div>
+        <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center">
+          <div class="pagination">
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn"><i class="fas fa-chevron-right" style="font-size:.7rem"></i></button>
+          </div>
+          <span class="page-info">Showing 1–10 of 1,284 bookings</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ USERS ══ -->
+    <div class="panel" id="panel-users">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+          <h2 style="font-size:1rem;font-weight:700">User Management</h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-top:2px">Manage all platform users and roles</p>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('📊 Users exported!')"><i class="fas fa-download"></i> Export Users</button>
+      </div>
+      <div class="card">
+        <div class="card-body no-pad">
+          <table>
+            <thead><tr><th>User</th><th>Email</th><th>Role</th><th>Bookings</th><th>Fan Cards</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="usersTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAYMENTS ══ -->
+    <div class="panel" id="panel-payments">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+          <h2 style="font-size:1rem;font-weight:700">Payment Transactions</h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-top:2px">All payment records across all gateways</p>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('📊 Payments exported!')"><i class="fas fa-download"></i> Export</button>
+      </div>
+      <div class="card">
+        <div class="card-body no-pad">
+          <table>
+            <thead><tr><th>Reference</th><th>User</th><th>Type</th><th>Method</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody id="paymentsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FAN CARDS ══ -->
+    <div class="panel" id="panel-fancards">
+      <div style="margin-bottom:20px">
+        <h2 style="font-size:1rem;font-weight:700">Fan Card Management</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:2px">Monitor all fan card subscriptions</p>
+      </div>
+      <div class="three-col" style="margin-bottom:20px">
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(160,160,170,0.12);color:#aaa"><i class="fas fa-medal"></i></div></div><span class="stat-num" style="color:#aaa">1,240</span><span class="stat-label">Silver Cards</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(212,175,55,0.12);color:var(--gold)"><i class="fas fa-medal"></i></div></div><span class="stat-num" style="color:var(--gold)">1,891</span><span class="stat-label">Gold Cards</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(192,132,252,0.12);color:#C084FC"><i class="fas fa-crown"></i></div></div><span class="stat-num" style="color:#C084FC">690</span><span class="stat-label">VIP Cards</span></div>
+      </div>
+      <div class="card">
+        <div class="card-body no-pad">
+          <table>
+            <thead><tr><th>Card No.</th><th>User</th><th>Celebrity</th><th>Tier</th><th>Price</th><th>Status</th><th>Expires</th><th>Actions</th></tr></thead>
+            <tbody id="fanCardsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MESSAGES ══ -->
+    <div class="panel" id="panel-messages">
+      <div style="margin-bottom:20px">
+        <h2 style="font-size:1rem;font-weight:700">Contact Messages</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:2px">Messages from the contact form</p>
+      </div>
+      <div class="card">
+        <div class="card-body no-pad">
+          <table>
+            <thead><tr><th>From</th><th>Subject</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="messagesTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ POSTS ══ -->
+    <div class="panel" id="panel-posts">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+          <h2 style="font-size:1rem;font-weight:700">Posts & Announcements</h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-top:2px">Manage trending posts and news</p>
+        </div>
+        <button class="btn btn-primary" onclick="openPostModal()"><i class="fas fa-plus"></i> New Post</button>
+      </div>
+      <div class="card">
+        <div class="card-body no-pad">
+          <table>
+            <thead><tr><th>Title</th><th>Category</th><th>Views</th><th>Featured</th><th>Published</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="postsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ REVENUE ══ -->
+    <div class="panel" id="panel-revenue">
+      <div style="margin-bottom:20px">
+        <h2 style="font-size:1rem;font-weight:700">Revenue Analytics</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:2px">Financial overview and breakdown</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(16,185,129,0.12);color:var(--green)"><i class="fas fa-dollar-sign"></i></div><span class="stat-change up">↑ 31%</span></div><span class="stat-num">$2.4M</span><span class="stat-label">Total Revenue</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(212,175,55,0.12);color:var(--gold)"><i class="fas fa-calendar-check"></i></div><span class="stat-change up">↑ 24%</span></div><span class="stat-num">$1.8M</span><span class="stat-label">Booking Revenue</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(192,132,252,0.12);color:#C084FC"><i class="fas fa-id-card"></i></div><span class="stat-change up">↑ 44%</span></div><span class="stat-num">$445K</span><span class="stat-label">Fan Card Revenue</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(249,115,22,0.12);color:var(--orange)"><i class="fas fa-handshake"></i></div><span class="stat-change up">↑ 12%</span></div><span class="stat-num">$155K</span><span class="stat-label">Meet & Greet Revenue</span></div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-head"><div class="card-title">Revenue by Payment Method</div></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:.82rem">Paystack (Cards)</span><span style="font-size:.82rem;font-weight:700;color:var(--gold)">$1.2M · 50%</span></div><div class="pbar"><div class="pbar-fill" style="width:50%;background:var(--gold)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:.82rem">Flutterwave</span><span style="font-size:.82rem;font-weight:700;color:var(--blue)">$600K · 25%</span></div><div class="pbar"><div class="pbar-fill" style="width:25%;background:var(--blue)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:.82rem">Bitcoin (BTC)</span><span style="font-size:.82rem;font-weight:700;color:var(--orange)">$360K · 15%</span></div><div class="pbar"><div class="pbar-fill" style="width:15%;background:var(--orange)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:.82rem">Wire Transfer</span><span style="font-size:.82rem;font-weight:700;color:var(--green)">$180K · 7.5%</span></div><div class="pbar"><div class="pbar-fill" style="width:7.5%;background:var(--green)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:.82rem">Western Union</span><span style="font-size:.82rem;font-weight:700;color:#C084FC">$60K · 2.5%</span></div><div class="pbar"><div class="pbar-fill" style="width:2.5%;background:#C084FC"></div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Top Earning Celebrities</div></div>
+          <div class="card-body no-pad">
+            <table>
+              <thead><tr><th>#</th><th>Celebrity</th><th>Bookings</th><th>Revenue</th></tr></thead>
+              <tbody>
+                <tr><td style="color:var(--gold);font-weight:700">1</td><td><div class="celeb-row"><div class="avatar">AR</div><div class="celeb-row-info"><div class="celeb-row-name">Aria Sinclair</div><div class="celeb-row-sub">Music</div></div></div></td><td>247</td><td style="color:var(--green);font-weight:700">$485K</td></tr>
+                <tr><td style="color:var(--muted);font-weight:700">2</td><td><div class="celeb-row"><div class="avatar">JB</div><div class="celeb-row-info"><div class="celeb-row-name">Jordan Blake</div><div class="celeb-row-sub">Sports</div></div></div></td><td>156</td><td style="color:var(--green);font-weight:700">$412K</td></tr>
+                <tr><td style="color:var(--muted);font-weight:700">3</td><td><div class="celeb-row"><div class="avatar">MW</div><div class="celeb-row-info"><div class="celeb-row-name">Marcus Williams</div><div class="celeb-row-sub">Film</div></div></div></td><td>189</td><td style="color:var(--green);font-weight:700">$380K</td></tr>
+                <tr><td style="color:var(--muted);font-weight:700">4</td><td><div class="celeb-row"><div class="avatar">SR</div><div class="celeb-row-info"><div class="celeb-row-name">Sofia Reyes</div><div class="celeb-row-sub">Music</div></div></div></td><td>312</td><td style="color:var(--green);font-weight:700">$341K</td></tr>
+                <tr><td style="color:var(--muted);font-weight:700">5</td><td><div class="celeb-row"><div class="avatar">IV</div><div class="celeb-row-info"><div class="celeb-row-name">Isabella Voss</div><div class="celeb-row-sub">Music</div></div></div></td><td>278</td><td style="color:var(--green);font-weight:700">$298K</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CALENDAR ══ -->
+    <div class="panel" id="panel-calendar">
+      <div style="margin-bottom:20px">
+        <h2 style="font-size:1rem;font-weight:700">Availability Calendar</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:2px">Manage celebrity schedules and availability</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title" id="calMonthLabel">March 2025</div>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-ghost btn-sm btn-icon" onclick="changeMonth(-1)"><i class="fas fa-chevron-left" style="font-size:.7rem"></i></button>
+              <button class="btn btn-ghost btn-sm btn-icon" onclick="changeMonth(1)"><i class="fas fa-chevron-right" style="font-size:.7rem"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px">
+              <div style="text-align:center;font-size:.68rem;color:var(--muted);font-weight:700">Su</div>
+              <div style="text-align:center;font-size:.68rem;color:var(--muted);font-weight:700">Mo</div>
+              <div style="text-align:center;font-size:.68rem;color:var(--muted);font-weight:700">Tu</div>
+              <div style="text-align:center;font-size:.68rem;color:var(--muted);font-weight:700">We</div>
+              <div style="text-align:center;font-size:.68rem;color:var(--muted);font-weight:700">Th</div>
+              <div style="text-align:center;font-size:.68rem;color:var(--muted);font-weight:700">Fr</div>
+              <div style="text-align:center;font-size:.68rem;color:var(--muted);font-weight:700">Sa</div>
+            </div>
+            <div id="calGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px"></div>
+            <div style="display:flex;gap:12px;margin-top:14px">
+              <div style="display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--muted)"><div style="width:10px;height:10px;border-radius:2px;background:var(--green)"></div>Available</div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--muted)"><div style="width:10px;height:10px;border-radius:2px;background:var(--red)"></div>Booked</div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--muted)"><div style="width:10px;height:10px;border-radius:2px;background:var(--gold)"></div>Today</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Upcoming Events</div></div>
+          <div class="card-body" id="upcomingEvents"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ANALYTICS ══ -->
+    <div class="panel" id="panel-analytics">
+      <div style="margin-bottom:20px">
+        <h2 style="font-size:1rem;font-weight:700">Platform Analytics</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:2px">Insights and performance metrics</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(212,175,55,0.12);color:var(--gold)"><i class="fas fa-eye"></i></div><span class="stat-change up">↑ 22%</span></div><span class="stat-num">1.2M</span><span class="stat-label">Page Views / Month</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(59,130,246,0.12);color:var(--blue)"><i class="fas fa-mouse-pointer"></i></div><span class="stat-change up">↑ 8%</span></div><span class="stat-num">6.4%</span><span class="stat-label">Booking Conversion</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(16,185,129,0.12);color:var(--green)"><i class="fas fa-clock"></i></div><span class="stat-change up">↑ 15%</span></div><span class="stat-num">4m 32s</span><span class="stat-label">Avg. Session Duration</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-ico" style="background:rgba(249,115,22,0.12);color:var(--orange)"><i class="fas fa-redo"></i></div><span class="stat-change up">↑ 5%</span></div><span class="stat-num">38%</span><span class="stat-label">Return Visitor Rate</span></div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-head"><div class="card-title">Bookings by Category</div></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:.82rem">Music</span><span style="font-size:.82rem;font-weight:700;color:var(--gold)">42%</span></div><div class="pbar"><div class="pbar-fill" style="width:42%;background:var(--gold)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:.82rem">Film & TV</span><span style="font-size:.82rem;font-weight:700;color:var(--blue)">28%</span></div><div class="pbar"><div class="pbar-fill" style="width:28%;background:var(--blue)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:.82rem">Sports</span><span style="font-size:.82rem;font-weight:700;color:var(--green)">16%</span></div><div class="pbar"><div class="pbar-fill" style="width:16%;background:var(--green)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:.82rem">Comedy</span><span style="font-size:.82rem;font-weight:700;color:var(--orange)">9%</span></div><div class="pbar"><div class="pbar-fill" style="width:9%;background:var(--orange)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:.82rem">Fashion</span><span style="font-size:.82rem;font-weight:700;color:#C084FC">5%</span></div><div class="pbar"><div class="pbar-fill" style="width:5%;background:#C084FC"></div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Top Countries</div></div>
+          <div class="card-body no-pad">
+            <table>
+              <thead><tr><th>Country</th><th>Bookings</th><th>Revenue</th><th>Share</th></tr></thead>
+              <tbody>
+                <tr><td>🇺🇸 United States</td><td>412</td><td style="color:var(--green)">$820K</td><td><div class="pbar" style="width:80px"><div class="pbar-fill" style="width:70%;background:var(--gold)"></div></div></td></tr>
+                <tr><td>🇬🇧 United Kingdom</td><td>198</td><td style="color:var(--green)">$395K</td><td><div class="pbar" style="width:80px"><div class="pbar-fill" style="width:45%;background:var(--gold)"></div></div></td></tr>
+                <tr><td>🇳🇬 Nigeria</td><td>156</td><td style="color:var(--green)">$178K</td><td><div class="pbar" style="width:80px"><div class="pbar-fill" style="width:30%;background:var(--gold)"></div></div></td></tr>
+                <tr><td>🇦🇪 UAE</td><td>134</td><td style="color:var(--green)">$310K</td><td><div class="pbar" style="width:80px"><div class="pbar-fill" style="width:25%;background:var(--gold)"></div></div></td></tr>
+                <tr><td>🇿🇦 South Africa</td><td>89</td><td style="color:var(--green)">$95K</td><td><div class="pbar" style="width:80px"><div class="pbar-fill" style="width:18%;background:var(--gold)"></div></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SETTINGS ══ -->
+    <div class="panel" id="panel-settings">
+      <div style="margin-bottom:20px">
+        <h2 style="font-size:1rem;font-weight:700">Platform Settings</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:2px">Configure your Springcompany platform</p>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-head"><div class="card-title">General Settings</div></div>
+            <div class="card-body">
+              <div class="f"><label>Platform Name</label><input type="text" value="Springcompany"></div>
+              <div class="f"><label>Support Email</label><input type="email" value="support@springcompany.com"></div>
+              <div class="f"><label>Booking Commission (%)</label><input type="number" value="15" min="0" max="50"></div>
+              <div class="f"><label>Default Currency</label>
+                <select><option>USD — US Dollar</option><option>GBP — British Pound</option><option>EUR — Euro</option><option>NGN — Nigerian Naira</option></select>
+              </div>
+              <button class="btn btn-primary" onclick="showToast('✅ Settings saved!')"><i class="fas fa-save"></i> Save Settings</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><div class="card-title">Email Notifications</div></div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:.84rem;font-weight:500">New Booking Request</div><div style="font-size:.74rem;color:var(--muted)">Email admin when new booking submitted</div></div><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:.84rem;font-weight:500">Payment Received</div><div style="font-size:.74rem;color:var(--muted)">Alert on successful payment</div></div><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:.84rem;font-weight:500">New User Registration</div><div style="font-size:.74rem;color:var(--muted)">Notify when new user joins</div></div><label class="toggle"><input type="checkbox"><span class="slider"></span></label></div>
+                <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:.84rem;font-weight:500">Contact Messages</div><div style="font-size:.74rem;color:var(--muted)">Alert on new contact form submission</div></div><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-head"><div class="card-title">Payment Gateways</div></div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg4);border-radius:8px;border:1px solid var(--border)">
+                  <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:7px;background:rgba(16,185,129,0.12);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:.85rem"><i class="fas fa-credit-card"></i></div><div><div style="font-size:.84rem;font-weight:600">Paystack</div><div style="font-size:.72rem;color:var(--muted)">Cards + Bank Transfer</div></div></div>
+                  <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg4);border-radius:8px;border:1px solid var(--border)">
+                  <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:7px;background:rgba(249,115,22,0.12);display:flex;align-items:center;justify-content:center;color:var(--orange);font-size:.85rem"><i class="fas fa-globe"></i></div><div><div style="font-size:.84rem;font-weight:600">Flutterwave</div><div style="font-size:.72rem;color:var(--muted)">International Payments</div></div></div>
+                  <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg4);border-radius:8px;border:1px solid var(--border)">
+                  <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:7px;background:rgba(212,175,55,0.12);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.85rem"><i class="fab fa-bitcoin"></i></div><div><div style="font-size:.84rem;font-weight:600">Bitcoin (BTC)</div><div style="font-size:.72rem;color:var(--muted)">Crypto Payments</div></div></div>
+                  <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><div class="card-title">Fan Card Pricing</div></div>
+            <div class="card-body">
+              <div class="f"><label>Silver Card Price (USD)</label><input type="number" value="29"></div>
+              <div class="f"><label>Gold Card Price (USD)</label><input type="number" value="79"></div>
+              <div class="f"><label>VIP Card Price (USD)</label><input type="number" value="199"></div>
+              <button class="btn btn-primary" onclick="showToast('✅ Fan card prices updated!')"><i class="fas fa-save"></i> Update Prices</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end content -->
+</div><!-- end main -->
+
+<!-- ── ADD CELEBRITY MODAL ── -->
+<div class="modal-bg" id="celebModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="celebModalTitle">Add New Celebrity</h3>
+      <button class="btn btn-ghost btn-icon btn-sm" onclick="closeCelebModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="f"><label>Full Name *</label><input type="text" id="cName" placeholder="Celebrity Name"></div>
+        <div class="f"><label>Occupation *</label><input type="text" id="cOcc" placeholder="Singer, Actor..."></div>
+      </div>
+      <div class="form-grid">
+        <div class="f"><label>Category *</label>
+          <select id="cCat"><option>Music</option><option>Film</option><option>Sports</option><option>Comedy</option><option>Fashion</option><option>TV</option><option>Other</option></select>
+        </div>
+        <div class="f"><label>Base Fee</label><input type="text" id="cFee" placeholder="$50,000+"></div>
+      </div>
+      <div class="form-grid">
+        <div class="f"><label>Date of Birth</label><input type="text" id="cDob" placeholder="January 1, 1990"></div>
+        <div class="f"><label>Nationality</label><input type="text" id="cNation" placeholder="American"></div>
+      </div>
+      <div class="form-grid">
+        <div class="f"><label>Years Active</label><input type="text" id="cYears" placeholder="2010–Present"></div>
+        <div class="f"><label>Image URL</label><input type="url" id="cImg" placeholder="https://..."></div>
+      </div>
+      <div class="f"><label>Biography *</label><textarea id="cBio" placeholder="Write a short biography..."></textarea></div>
+      <div style="display:flex;gap:16px">
+        <div style="display:flex;align-items:center;gap:8px"><label class="toggle"><input type="checkbox" id="cVerified"><span class="slider"></span></label><span style="font-size:.84rem">Verified Celebrity</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><label class="toggle"><input type="checkbox" id="cFeatured"><span class="slider"></span></label><span style="font-size:.84rem">Featured on Homepage</span></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeCelebModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCeleb()"><i class="fas fa-save"></i> Save Celebrity</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// SPRINGCOMPANY ADMIN DASHBOARD — JAVASCRIPT
+// ══════════════════════════════════════════════
+
+// ── DEMO DATA ─────────────────────────────────
+var CELEBS = [
+  {id:1,name:'Aria Sinclair',occ:'Pop Artist',cat:'Music',fee:'$50,000+',bookings:247,rating:4.9,verified:true,active:true},
+  {id:2,name:'Marcus Williams',occ:'Film Actor',cat:'Film',fee:'$75,000+',bookings:189,rating:4.8,verified:true,active:true},
+  {id:3,name:'Sofia Reyes',occ:'Latin Pop Singer',cat:'Music',fee:'$35,000+',bookings:312,rating:4.9,verified:true,active:true},
+  {id:4,name:'Jordan Blake',occ:'Athlete',cat:'Sports',fee:'$100,000+',bookings:156,rating:4.7,verified:true,active:true},
+  {id:5,name:'Luna Chase',occ:'Fashion Model',cat:'Fashion',fee:'$25,000+',bookings:98,rating:4.6,verified:false,active:true},
+  {id:6,name:'Kevin Stone',occ:'Comedian',cat:'Comedy',fee:'$30,000+',bookings:203,rating:4.8,verified:true,active:true},
+  {id:7,name:'Isabella Voss',occ:'R&B Singer',cat:'Music',fee:'$45,000+',bookings:278,rating:4.9,verified:true,active:true},
+  {id:8,name:'Theo Anderson',occ:'Actor/Producer',cat:'Film',fee:'$60,000+',bookings:134,rating:4.7,verified:false,active:true},
+];
+
+var BOOKINGS = [
+  {ref:'SB-A1B2',client:'James Wilson',celeb:'Aria Sinclair',event:'Corporate Gala',date:'Apr 15, 2025',budget:'$75,000',payment:'paystack',payStatus:'paid',status:'confirmed'},
+  {ref:'SB-C3D4',client:'Sarah Johnson',celeb:'Jordan Blake',event:'Brand Launch',date:'May 2, 2025',budget:'$120,000',payment:'bitcoin',payStatus:'paid',status:'confirmed'},
+  {ref:'SB-E5F6',client:'Michael Brown',celeb:'Sofia Reyes',event:'Concert',date:'May 18, 2025',budget:'$50,000',payment:'flutterwave',payStatus:'unpaid',status:'pending'},
+  {ref:'SB-G7H8',client:'Emma Davis',celeb:'Marcus Williams',event:'Film Promo',date:'Jun 1, 2025',budget:'$90,000',payment:'wire',payStatus:'paid',status:'reviewing'},
+  {ref:'SB-I9J0',client:'Robert Lee',celeb:'Luna Chase',event:'Fashion Show',date:'Jun 20, 2025',budget:'$35,000',payment:'paystack',payStatus:'unpaid',status:'pending'},
+];
+
+var USERS = [
+  {name:'James Wilson',email:'james@example.com',role:'user',bookings:3,fanCards:2,joined:'Jan 2025',active:true},
+  {name:'Sarah Johnson',email:'sarah@example.com',role:'user',bookings:5,fanCards:1,joined:'Feb 2025',active:true},
+  {name:'Admin User',email:'admin@springcompany.com',role:'admin',bookings:0,fanCards:0,joined:'Jan 2025',active:true},
+  {name:'Michael Brown',email:'michael@example.com',role:'user',bookings:2,fanCards:3,joined:'Mar 2025',active:true},
+  {name:'Emma Davis',email:'emma@example.com',role:'user',bookings:1,fanCards:2,joined:'Mar 2025',active:false},
+];
+
+var PAYMENTS = [
+  {ref:'PAY-001',user:'James Wilson',type:'Booking',method:'paystack',amount:'$75,000',status:'completed',date:'Apr 1'},
+  {ref:'PAY-002',user:'Sarah Johnson',type:'Booking',method:'bitcoin',amount:'$120,000',status:'completed',date:'Mar 28'},
+  {ref:'PAY-003',user:'Emma Davis',type:'Fan Card',method:'paystack',amount:'$199',status:'completed',date:'Mar 25'},
+  {ref:'PAY-004',user:'Michael Brown',type:'Booking',method:'flutterwave',amount:'$50,000',status:'pending',date:'Mar 22'},
+  {ref:'PAY-005',user:'Robert Lee',type:'Fan Card',method:'paystack',amount:'$79',status:'completed',date:'Mar 20'},
+];
+
+var FANCARDS = [
+  {no:'FC-A1B2C3',user:'Emma Davis',celeb:'Aria Sinclair',tier:'VIP',price:'$199',active:true,expires:'Mar 2026'},
+  {no:'FC-D4E5F6',user:'James Wilson',celeb:'Sofia Reyes',tier:'Gold',price:'$79',active:true,expires:'Jan 2026'},
+  {no:'FC-G7H8I9',user:'Sarah Johnson',celeb:'Jordan Blake',tier:'Silver',price:'$29',active:false,expires:'Feb 2026'},
+  {no:'FC-J0K1L2',user:'Michael Brown',celeb:'Marcus Williams',tier:'Gold',price:'$79',active:true,expires:'Mar 2026'},
+];
+
+var MESSAGES = [
+  {from:'Alex Turner',email:'alex@example.com',subject:'Booking for Sofia Reyes',message:'I would like to book Sofia Reyes for a corporate event in Dubai...',date:'2h ago',read:false},
+  {from:'Maria Santos',email:'maria@example.com',subject:'VIP Meet & Greet',message:'Is it possible to arrange a VIP meet and greet with Jordan Blake?',date:'5h ago',read:false},
+  {from:'David Kim',email:'david@example.com',subject:'Celebrity Partnership',message:'We are interested in a brand partnership involving multiple celebrities...',date:'1d ago',read:true},
+  {from:'Lisa White',email:'lisa@example.com',subject:'Fan Card Upgrade',message:'I would like to upgrade my Gold fan card to VIP...',date:'2d ago',read:true},
+  {from:'Tom Black',email:'tom@example.com',subject:'Event Enquiry',message:'Can you provide more details about the booking process for large events?',date:'3d ago',read:false},
+];
+
+var POSTS = [
+  {title:'Record Celebrity Bookings in Q1 2025',cat:'News',views:45200,featured:true,published:true,date:'Mar 15'},
+  {title:'New VIP Meet & Greet Packages',cat:'Announcement',views:32100,featured:true,published:true,date:'Mar 10'},
+  {title:'Bitcoin Payments Now Accepted',cat:'Feature',views:28750,featured:false,published:true,date:'Mar 5'},
+];
+
+var ACTIVITY = [
+  {ico:'fas fa-calendar-check',color:'rgba(16,185,129,0.12)',iconColor:'var(--green)',text:'<strong>New booking confirmed</strong> — Aria Sinclair for Corporate Gala (James Wilson)',time:'2 minutes ago'},
+  {ico:'fas fa-credit-card',color:'rgba(212,175,55,0.12)',iconColor:'var(--gold)',text:'<strong>Payment received</strong> — $75,000 via Paystack (Ref: PAY-001)',time:'8 minutes ago'},
+  {ico:'fas fa-user-plus',color:'rgba(59,130,246,0.12)',iconColor:'var(--blue)',text:'<strong>New user registered</strong> — robert.lee@gmail.com joined Springcompany',time:'24 minutes ago'},
+  {ico:'fas fa-star',color:'rgba(192,132,252,0.12)',iconColor:'#C084FC',text:'<strong>Celebrity verified</strong> — Sofia Reyes verified by admin',time:'1 hour ago'},
+  {ico:'fas fa-id-card',color:'rgba(249,115,22,0.12)',iconColor:'var(--orange)',text:'<strong>Fan Card purchased</strong> — Emma Davis bought VIP fan card for Aria Sinclair',time:'2 hours ago'},
+  {ico:'fas fa-envelope',color:'rgba(244,63,94,0.12)',iconColor:'var(--red)',text:'<strong>New contact message</strong> — Alex Turner: Booking for Sofia Reyes',time:'3 hours ago'},
+];
+
+// ── INIT ──────────────────────────────────────
+window.addEventListener('load', function(){
+  renderCelebTable();
+  renderBookingsTable();
+  renderUsersTable();
+  renderPaymentsTable();
+  renderFanCardsTable();
+  renderMessagesTable();
+  renderPostsTable();
+  renderDashBookings();
+  renderActivityFeed();
+  renderRevenueChart();
+  renderCalendar();
+  renderUpcomingEvents();
+});
+
+// ── PANEL SWITCHING ───────────────────────────
+var panelTitles = {
+  dashboard:'Dashboard', celebrities:'Celebrity Management', bookings:'Bookings',
+  users:'User Management', payments:'Payments', fancards:'Fan Cards',
+  posts:'Posts & Announcements', revenue:'Revenue Analytics', calendar:'Calendar',
+  analytics:'Analytics', settings:'Settings', messages:'Messages'
+};
+
+function showPanel(id, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('pageTitle').textContent = panelTitles[id]||id;
+}
+
+// ── CELEBRITY TABLE ────────────────────────────
+function renderCelebTable(){
+  var tbody = document.getElementById('celebTable');
+  tbody.innerHTML = CELEBS.map(c=>`
+    <tr>
+      <td><div class="celeb-row"><div class="avatar">${c.name.split(' ').map(w=>w[0]).join('')}</div><div class="celeb-row-info"><div class="celeb-row-name">${c.name}</div><div class="celeb-row-sub">${c.occ}</div></div></div></td>
+      <td><span class="badge badge-blue">${c.cat}</span></td>
+      <td style="color:var(--gold);font-weight:600">${c.fee}</td>
+      <td>${c.bookings}</td>
+      <td><span style="color:var(--gold)">★</span> ${c.rating}</td>
+      <td><span class="badge ${c.verified?'badge-green':'badge-gray'}">${c.verified?'✓ Verified':'Unverified'}</span></td>
+      <td><span class="badge ${c.active?'badge-green':'badge-red'}">${c.active?'Active':'Inactive'}</span></td>
+      <td>
+        <div style="display:flex;gap:5px">
+          <button class="btn btn-ghost btn-icon btn-sm" onclick="editCeleb(${c.id})" title="Edit"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-success btn-icon btn-sm" onclick="toggleVerify(${c.id})" title="Toggle Verify"><i class="fas fa-check"></i></button>
+          <button class="btn btn-danger btn-icon btn-sm" onclick="showToast('Celebrity deactivated')" title="Deactivate"><i class="fas fa-ban"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
+  // Pagination
+  document.getElementById('celebPagination').innerHTML = [1,2,3,'...','64'].map((p,i)=>
+    `<button class="page-btn ${i===0?'active':''}" onclick="showToast('Page ${p}')">${p}</button>`).join('');
+}
+
+function filterTable(tbodyId, q){
+  var rows = document.querySelectorAll('#'+tbodyId+' tr');
+  rows.forEach(r=>{
+    r.style.display = r.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+
+function filterCelebCat(cat){
+  if(!cat){ renderCelebTable(); return; }
+  document.querySelectorAll('#celebTable tr').forEach(r=>{
+    r.style.display = r.textContent.includes(cat) ? '' : 'none';
+  });
+}
+
+function editCeleb(id){
+  var c = CELEBS.find(x=>x.id===id);
+  document.getElementById('celebModalTitle').textContent = 'Edit Celebrity';
+  document.getElementById('cName').value = c.name;
+  document.getElementById('cOcc').value = c.occ;
+  document.getElementById('cFee').value = c.fee;
+  document.getElementById('celebModal').classList.add('open');
+}
+
+function toggleVerify(id){
+  var c = CELEBS.find(x=>x.id===id);
+  c.verified = !c.verified;
+  renderCelebTable();
+  showToast(c.verified ? '✅ Celebrity verified!' : '⚠️ Verification removed');
+}
+
+// ── BOOKINGS TABLE ─────────────────────────────
+function renderBookingsTable(filter){
+  var data = filter ? BOOKINGS.filter(b=>b.status===filter) : BOOKINGS;
+  var tbody = document.getElementById('bookingsTable');
+  tbody.innerHTML = data.map(b=>`
+    <tr>
+      <td><span style="font-family:monospace;font-size:.76rem;color:var(--gold)">${b.ref}</span></td>
+      <td>${b.client}</td>
+      <td>${b.celeb}</td>
+      <td style="font-size:.8rem">${b.event}</td>
+      <td style="font-size:.8rem">${b.date}</td>
+      <td style="color:var(--green);font-weight:600">${b.budget}</td>
+      <td><span class="badge ${b.payStatus==='paid'?'badge-green':'badge-orange'}">${b.payStatus}</span></td>
+      <td><span class="badge ${statusBadge(b.status)}">${b.status}</span></td>
+      <td>
+        <div style="display:flex;gap:5px">
+          <button class="btn btn-success btn-icon btn-sm" onclick="updateBookingStatus('${b.ref}','confirmed')" title="Approve"><i class="fas fa-check"></i></button>
+          <button class="btn btn-danger btn-icon btn-sm" onclick="updateBookingStatus('${b.ref}','rejected')" title="Reject"><i class="fas fa-times"></i></button>
+          <button class="btn btn-ghost btn-icon btn-sm" onclick="showToast('Booking details: ${b.ref}')" title="View"><i class="fas fa-eye"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function statusBadge(s){
+  return {pending:'badge-orange',reviewing:'badge-blue',approved:'badge-gold',confirmed:'badge-green',rejected:'badge-red',completed:'badge-green',cancelled:'badge-gray'}[s]||'badge-gray';
+}
+
+function filterBookings(status){ renderBookingsTable(status||null); }
+
+function updateBookingStatus(ref, newStatus){
+  var b = BOOKINGS.find(x=>x.ref===ref);
+  if(b){ b.status = newStatus; renderBookingsTable(); renderDashBookings(); }
+  showToast(newStatus==='confirmed' ? '✅ Booking confirmed!' : '❌ Booking rejected');
+  document.getElementById('pendingBadge').textContent = BOOKINGS.filter(x=>x.status==='pending').length;
+}
+
+// ── DASHBOARD BOOKINGS TABLE ───────────────────
+function renderDashBookings(){
+  var tbody = document.getElementById('dashBookingsTable');
+  tbody.innerHTML = BOOKINGS.slice(0,5).map(b=>`
+    <tr>
+      <td><span style="font-family:monospace;font-size:.76rem;color:var(--gold)">${b.ref}</span></td>
+      <td>${b.celeb}</td>
+      <td style="font-size:.8rem">${b.date}</td>
+      <td style="color:var(--green);font-weight:600">${b.budget}</td>
+      <td><span class="badge ${b.payStatus==='paid'?'badge-green':'badge-orange'}">${b.payStatus}</span></td>
+      <td><span class="badge ${statusBadge(b.status)}">${b.status}</span></td>
+      <td>
+        <div style="display:flex;gap:5px">
+          <button class="btn btn-success btn-icon btn-sm" onclick="updateBookingStatus('${b.ref}','confirmed')"><i class="fas fa-check"></i></button>
+          <button class="btn btn-danger btn-icon btn-sm" onclick="updateBookingStatus('${b.ref}','rejected')"><i class="fas fa-times"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+// ── USERS TABLE ────────────────────────────────
+function renderUsersTable(){
+  document.getElementById('usersTable').innerHTML = USERS.map(u=>`
+    <tr>
+      <td><div class="celeb-row"><div class="avatar" style="background:var(--bg4);color:var(--muted)">${u.name[0]}</div><span style="margin-left:4px">${u.name}</span></div></td>
+      <td style="font-size:.8rem;color:var(--muted)">${u.email}</td>
+      <td><span class="badge ${u.role==='admin'?'badge-gold':'badge-blue'}">${u.role}</span></td>
+      <td>${u.bookings}</td>
+      <td>${u.fanCards}</td>
+      <td style="font-size:.78rem;color:var(--muted)">${u.joined}</td>
+      <td><span class="badge ${u.active?'badge-green':'badge-red'}">${u.active?'Active':'Suspended'}</span></td>
+      <td>
+        <div style="display:flex;gap:5px">
+          <button class="btn btn-ghost btn-icon btn-sm" onclick="showToast('Viewing user: ${u.name}')"><i class="fas fa-eye"></i></button>
+          <button class="btn btn-danger btn-icon btn-sm" onclick="showToast('User ${u.active?'suspended':'activated'}')"><i class="fas fa-ban"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+// ── PAYMENTS TABLE ─────────────────────────────
+function renderPaymentsTable(){
+  document.getElementById('paymentsTable').innerHTML = PAYMENTS.map(p=>`
+    <tr>
+      <td><span style="font-family:monospace;font-size:.76rem;color:var(--gold)">${p.ref}</span></td>
+      <td>${p.user}</td>
+      <td><span class="badge badge-blue">${p.type}</span></td>
+      <td style="text-transform:capitalize">${p.method}</td>
+      <td style="color:var(--green);font-weight:700">${p.amount}</td>
+      <td><span class="badge ${p.status==='completed'?'badge-green':p.status==='pending'?'badge-orange':'badge-red'}">${p.status}</span></td>
+      <td style="font-size:.8rem;color:var(--muted)">${p.date}</td>
+    </tr>`).join('');
+}
+
+// ── FAN CARDS TABLE ────────────────────────────
+function renderFanCardsTable(){
+  document.getElementById('fanCardsTable').innerHTML = FANCARDS.map(c=>`
+    <tr>
+      <td><span style="font-family:monospace;font-size:.76rem;color:var(--muted)">${c.no}</span></td>
+      <td>${c.user}</td>
+      <td>${c.celeb}</td>
+      <td><span class="badge ${c.tier==='VIP'?'badge-gold':c.tier==='Gold'?'badge-orange':'badge-gray'}">${c.tier}</span></td>
+      <td style="color:var(--green);font-weight:600">${c.price}</td>
+      <td><span class="badge ${c.active?'badge-green':'badge-red'}">${c.active?'Active':'Inactive'}</span></td>
+      <td style="font-size:.8rem;color:var(--muted)">${c.expires}</td>
+      <td><button class="btn btn-ghost btn-icon btn-sm" onclick="showToast('Fan card details')"><i class="fas fa-eye"></i></button></td>
+    </tr>`).join('');
+}
+
+// ── MESSAGES TABLE ─────────────────────────────
+function renderMessagesTable(){
+  document.getElementById('messagesTable').innerHTML = MESSAGES.map(m=>`
+    <tr style="${!m.read?'background:rgba(212,175,55,0.03)':''}">
+      <td><div style="display:flex;align-items:center;gap:8px">${!m.read?'<span style="width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0"></span>':''}<div><div style="font-weight:${m.read?'400':'600'}">${m.from}</div><div style="font-size:.72rem;color:var(--muted)">${m.email}</div></div></div></td>
+      <td style="font-size:.84rem">${m.subject}</td>
+      <td style="font-size:.78rem;color:var(--muted);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.message}</td>
+      <td style="font-size:.78rem;color:var(--dim)">${m.date}</td>
+      <td><span class="badge ${m.read?'badge-gray':'badge-gold'}">${m.read?'Read':'Unread'}</span></td>
+      <td>
+        <div style="display:flex;gap:5px">
+          <button class="btn btn-primary btn-icon btn-sm" onclick="showToast('Reply window opened')"><i class="fas fa-reply"></i></button>
+          <button class="btn btn-ghost btn-icon btn-sm" onclick="markRead('${m.from}')"><i class="fas fa-check"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function markRead(from){
+  var m = MESSAGES.find(x=>x.from===from);
+  if(m){ m.read=true; renderMessagesTable(); }
+  showToast('✅ Message marked as read');
+}
+
+// ── POSTS TABLE ────────────────────────────────
+function renderPostsTable(){
+  document.getElementById('postsTable').innerHTML = POSTS.map(p=>`
+    <tr>
+      <td style="font-weight:600;font-size:.84rem">${p.title}</td>
+      <td><span class="badge badge-blue">${p.cat}</span></td>
+      <td style="color:var(--muted)">${p.views.toLocaleString()}</td>
+      <td><span class="badge ${p.featured?'badge-gold':'badge-gray'}">${p.featured?'Featured':'—'}</span></td>
+      <td><span class="badge ${p.published?'badge-green':'badge-gray'}">${p.published?'Published':'Draft'}</span></td>
+      <td style="font-size:.78rem;color:var(--muted)">${p.date}</td>
+      <td><div style="display:flex;gap:5px"><button class="btn btn-ghost btn-icon btn-sm" onclick="showToast('Editing post...')"><i class="fas fa-edit"></i></button><button class="btn btn-danger btn-icon btn-sm" onclick="showToast('Post deleted')"><i class="fas fa-trash"></i></button></div></td>
+    </tr>`).join('');
+}
+
+// ── ACTIVITY FEED ──────────────────────────────
+function renderActivityFeed(){
+  document.getElementById('activityFeed').innerHTML = ACTIVITY.map(a=>`
+    <div class="activity-item">
+      <div class="act-ico" style="background:${a.color};color:${a.iconColor}"><i class="${a.ico}"></i></div>
+      <div><div class="act-text">${a.text}</div><div class="act-time">${a.time}</div></div>
+    </div>`).join('');
+}
+
+// ── REVENUE CHART ──────────────────────────────
+function renderRevenueChart(){
+  var data = [45,62,38,75,90,68,82,95];
+  var labels = ['$45K','$62K','$38K','$75K','$90K','$68K','$82K','$95K'];
+  var chart = document.getElementById('revenueChart');
+  var max = Math.max(...data);
+  chart.innerHTML = data.map((v,i)=>`
+    <div class="chart-bar" style="height:${(v/max)*100}%">
+      <div class="bar-tip">${labels[i]}</div>
+    </div>`).join('');
+}
+
+// ── CALENDAR ──────────────────────────────────
+var calYear = 2025, calMonth = 2; // March 2025 (0-indexed)
+var bookedDays = [3, 8, 12, 15, 22, 28];
+
+function renderCalendar(){
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('calMonthLabel').textContent = months[calMonth] + ' ' + calYear;
+  var firstDay = new Date(calYear, calMonth, 1).getDay();
+  var daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  var today = new Date(); var todayD = today.getDate(), todayM = today.getMonth(), todayY = today.getFullYear();
+  var html = '';
+  for(var i=0;i<firstDay;i++) html += '<div></div>';
+  for(var d=1;d<=daysInMonth;d++){
+    var isToday = d===todayD && calMonth===todayM && calYear===todayY;
+    var isBooked = bookedDays.includes(d);
+    var bg = isToday ? 'var(--gold)' : isBooked ? 'rgba(244,63,94,0.15)' : 'rgba(16,185,129,0.08)';
+    var border = isToday ? 'var(--gold)' : isBooked ? 'rgba(244,63,94,0.3)' : 'rgba(16,185,129,0.2)';
+    var color = isToday ? '#000' : isBooked ? 'var(--red)' : 'var(--green)';
+    html += `<div style="text-align:center;padding:6px 2px;border-radius:6px;background:${bg};border:1px solid ${border};font-size:.78rem;color:${color};font-weight:${isToday?'700':'500'};cursor:pointer" onclick="showToast('${months[calMonth]} ${d}: ${isBooked?'Booked':'Available'}')">${d}</div>`;
+  }
+  document.getElementById('calGrid').innerHTML = html;
+}
+
+function changeMonth(dir){
+  calMonth += dir;
+  if(calMonth < 0){ calMonth=11; calYear--; }
+  if(calMonth > 11){ calMonth=0; calYear++; }
+  renderCalendar();
+}
+
+function renderUpcomingEvents(){
+  var events = [
+    {celeb:'Aria Sinclair',event:'Corporate Gala',date:'Apr 15',color:'var(--gold)'},
+    {celeb:'Jordan Blake',event:'Brand Launch',date:'May 2',color:'var(--blue)'},
+    {celeb:'Sofia Reyes',event:'Concert',date:'May 18',color:'#C084FC'},
+    {celeb:'Marcus Williams',event:'Film Premiere',date:'Jun 1',color:'var(--orange)'},
+  ];
+  document.getElementById('upcomingEvents').innerHTML = events.map(e=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)">
+      <div style="width:36px;height:36px;border-radius:8px;background:${e.color}22;color:${e.color};display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0">${e.date}</div>
+      <div><div style="font-size:.84rem;font-weight:600">${e.celeb}</div><div style="font-size:.74rem;color:var(--muted)">${e.event}</div></div>
+      <span class="badge badge-green" style="margin-left:auto">Confirmed</span>
+    </div>`).join('');
+}
+
+// ── CELEBRITY MODAL ────────────────────────────
+function openCelebModal(){
+  document.getElementById('celebModalTitle').textContent = 'Add New Celebrity';
+  document.getElementById('celebModal').classList.add('open');
+}
+function closeCelebModal(){ document.getElementById('celebModal').classList.remove('open'); }
+
+function saveCeleb(){
+  var name = document.getElementById('cName').value;
+  var occ  = document.getElementById('cOcc').value;
+  if(!name||!occ){ showToast('⚠️ Name and occupation required'); return; }
+  CELEBS.push({
+    id: CELEBS.length+1, name, occ,
+    cat: document.getElementById('cCat').value,
+    fee: document.getElementById('cFee').value||'TBD',
+    bookings:0, rating:4.5,
+    verified: document.getElementById('cVerified').checked,
+    active: true
+  });
+  renderCelebTable();
+  closeCelebModal();
+  showToast('✅ Celebrity added successfully!');
+}
+
+function openPostModal(){ showToast('Post editor opening...'); }
+
+// ── TOAST ──────────────────────────────────────
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(()=>t.style.display='none', 3500);
+}
+</script>
+</body>
+</html>

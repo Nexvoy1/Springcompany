@@ -1,0 +1,240 @@
+<!--
+═══════════════════════════════════════════════════
+  SPRINGCOMPANY AI CHATBOT WIDGET
+  Paste this entire block just before </body> in index.html
+═══════════════════════════════════════════════════
+-->
+
+<!-- AI CHATBOT STYLES -->
+<style>
+/* ── CHAT BUBBLE ── */
+.sb-chat-bubble{position:fixed;bottom:28px;right:28px;z-index:8000;width:52px;height:52px;background:linear-gradient(135deg,#D4AF37,#8B7322);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 28px rgba(212,175,55,0.4);transition:all .3s;animation:chatPulse 3s ease-in-out infinite}
+@keyframes chatPulse{0%,100%{box-shadow:0 8px 28px rgba(212,175,55,0.4)}50%{box-shadow:0 8px 40px rgba(212,175,55,0.7),0 0 0 8px rgba(212,175,55,0.12)}}
+.sb-chat-bubble:hover{transform:scale(1.08)}
+.sb-chat-bubble i{color:#000;font-size:1.1rem;transition:all .3s}
+.sb-chat-bubble.open i{transform:rotate(90deg)}
+.sb-chat-dot{position:absolute;top:2px;right:2px;width:12px;height:12px;background:#10B981;border-radius:50%;border:2px solid var(--bg,#0A0A0F);animation:dotBlink 2s infinite}
+@keyframes dotBlink{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── CHAT WINDOW ── */
+.sb-chat-window{position:fixed;bottom:92px;right:28px;z-index:7999;width:340px;background:var(--bg3,#18181F);border:1px solid rgba(212,175,55,0.25);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);display:none;flex-direction:column;max-height:520px;animation:chatOpen .25s cubic-bezier(.4,0,.2,1)}
+@keyframes chatOpen{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.sb-chat-window.open{display:flex}
+
+/* ── CHAT HEADER ── */
+.sb-chat-head{background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(168,85,247,0.08));padding:14px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(212,175,55,0.15);flex-shrink:0}
+.sb-chat-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#8B7322);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.sb-chat-info{flex:1}
+.sb-chat-name{font-size:.88rem;font-weight:700;color:#F0EEF8;font-family:'DM Sans',sans-serif}
+.sb-chat-status{font-size:.7rem;color:#10B981;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif}
+.sb-chat-status::before{content:'';width:5px;height:5px;background:#10B981;border-radius:50%;flex-shrink:0}
+.sb-chat-close{background:transparent;border:none;color:#8A87A0;cursor:pointer;font-size:.9rem;padding:4px;transition:color .2s}
+.sb-chat-close:hover{color:#F0EEF8}
+
+/* ── CHAT MESSAGES ── */
+.sb-chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:240px}
+.sb-chat-msgs::-webkit-scrollbar{width:3px}
+.sb-chat-msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.06);border-radius:2px}
+.sb-msg{max-width:86%;font-size:.82rem;line-height:1.55;font-family:'DM Sans',sans-serif}
+.sb-msg-bot{align-self:flex-start;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:4px 14px 14px 14px;padding:9px 13px;color:#D0CDE8}
+.sb-msg-user{align-self:flex-end;background:linear-gradient(135deg,rgba(212,175,55,0.25),rgba(139,115,34,0.3));border:1px solid rgba(212,175,55,0.2);border-radius:14px 4px 14px 14px;padding:9px 13px;color:#F0EEF8}
+.sb-msg-typing{align-self:flex-start;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:4px 14px 14px 14px;padding:10px 16px;display:flex;gap:4px;align-items:center}
+.sb-typing-dot{width:6px;height:6px;background:#8A87A0;border-radius:50%;animation:typeDot 1.2s infinite}
+.sb-typing-dot:nth-child(2){animation-delay:.2s}
+.sb-typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes typeDot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+
+/* ── QUICK CHIPS ── */
+.sb-chips{padding:0 14px 10px;display:flex;flex-wrap:wrap;gap:5px;flex-shrink:0}
+.sb-chip{background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);color:#D4AF37;font-size:.72rem;padding:5px 10px;border-radius:20px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .2s;white-space:nowrap}
+.sb-chip:hover{background:rgba(212,175,55,0.2);border-color:rgba(212,175,55,0.4)}
+
+/* ── CHAT INPUT ── */
+.sb-chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid rgba(255,255,255,0.06);flex-shrink:0;background:rgba(0,0,0,0.2)}
+.sb-chat-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 12px;color:#F0EEF8;font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none;transition:border .2s;resize:none}
+.sb-chat-input:focus{border-color:rgba(212,175,55,0.4)}
+.sb-chat-input::placeholder{color:#4A4860}
+.sb-chat-send{background:linear-gradient(135deg,#D4AF37,#8B7322);border:none;width:36px;height:36px;border-radius:9px;cursor:pointer;color:#000;font-size:.9rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;align-self:flex-end}
+.sb-chat-send:hover{transform:scale(1.05)}
+
+/* ── CHAT FOOTER ── */
+.sb-chat-footer{text-align:center;padding:7px;font-size:.64rem;color:#4A4860;font-family:'DM Sans',sans-serif;border-top:1px solid rgba(255,255,255,0.04);flex-shrink:0}
+.sb-chat-footer a{color:#D4AF37;text-decoration:none}
+</style>
+
+<!-- AI CHAT HTML -->
+<button class="sb-chat-bubble" id="sbBubble" onclick="sbToggleChat()">
+  <i class="fas fa-robot" id="sbBubbleIco"></i>
+  <span class="sb-chat-dot"></span>
+</button>
+
+<div class="sb-chat-window" id="sbChatWindow">
+  <div class="sb-chat-head">
+    <div class="sb-chat-av">⭐</div>
+    <div class="sb-chat-info">
+      <div class="sb-chat-name">Springcompany AI Assistant</div>
+      <div class="sb-chat-status">Online · Typically replies instantly</div>
+    </div>
+    <button class="sb-chat-close" onclick="sbToggleChat()"><i class="fas fa-times"></i></button>
+  </div>
+
+  <div class="sb-chat-msgs" id="sbMsgs">
+    <div class="sb-msg sb-msg-bot">
+      👋 Hello! I'm the <strong>Springcompany AI Assistant</strong>. I can help you book celebrities, find the perfect star for your event, or answer any questions. How can I help you today?
+    </div>
+  </div>
+
+  <div class="sb-chips" id="sbChips">
+    <span class="sb-chip" onclick="sbChip('How do I book a celebrity?')">How to book?</span>
+    <span class="sb-chip" onclick="sbChip('Show me music celebrities')">Music stars</span>
+    <span class="sb-chip" onclick="sbChip('What are the payment options?')">Payments</span>
+    <span class="sb-chip" onclick="sbChip('What is a Fan Card?')">Fan Cards</span>
+    <span class="sb-chip" onclick="sbChip('How much does it cost to book?')">Pricing</span>
+    <span class="sb-chip" onclick="sbChip('Tell me about Meet & Greet')">Meet & Greet</span>
+  </div>
+
+  <div class="sb-chat-input-row">
+    <textarea class="sb-chat-input" id="sbInput" placeholder="Ask me anything..." rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sbSend()}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
+    <button class="sb-chat-send" onclick="sbSend()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+  <div class="sb-chat-footer">Powered by <a href="#">Springcompany AI</a> · <a href="#">Privacy</a></div>
+</div>
+
+<!-- AI CHATBOT JAVASCRIPT -->
+<script>
+// ══════════════════════════════════════════════
+// SPRINGCOMPANY AI CHATBOT
+// ══════════════════════════════════════════════
+
+var sbOpen = false;
+
+function sbToggleChat() {
+  sbOpen = !sbOpen;
+  var win = document.getElementById('sbChatWindow');
+  var ico = document.getElementById('sbBubbleIco');
+  var bub = document.getElementById('sbBubble');
+  win.classList.toggle('open', sbOpen);
+  bub.classList.toggle('open', sbOpen);
+  ico.className = sbOpen ? 'fas fa-times' : 'fas fa-robot';
+  if (sbOpen) {
+    setTimeout(function() {
+      var inp = document.getElementById('sbInput');
+      if (inp) inp.focus();
+    }, 300);
+  }
+}
+
+// ── AI KNOWLEDGE BASE ─────────────────────────
+var sbKnowledge = {
+  booking: [
+    "To book a celebrity on Springcompany: \n\n1️⃣ Browse the celebrity grid\n2️⃣ Click 'View Profile' on your chosen star\n3️⃣ Fill in the booking request form\n4️⃣ Submit — we'll confirm within 24 hours!\n\nPayment is only required after confirmation.",
+    "Booking is simple! Find your celebrity, click 'Book Now', fill in your event details including the date, budget, and event type, then submit. Our team reviews every request within 24 hours and contacts you to confirm.",
+  ],
+  payment: [
+    "We accept multiple payment methods:\n\n💳 Paystack — Cards & bank transfer\n🌍 Flutterwave — International\n₿ Bitcoin — Crypto payments\n🏦 Wire Transfer — SWIFT USD/EUR/GBP\n🌐 Western Union — Manual confirmation\n\nPayment is only required after your booking is confirmed!",
+    "Springcompany supports Paystack (cards, bank transfer), Flutterwave, Bitcoin, Western Union and bank wire transfers. All payments are 100% secure and encrypted.",
+  ],
+  pricing: [
+    "Celebrity fees vary based on their profile and event type. Base fees start from:\n\n🎵 Music artists — from $25,000\n🎬 Film & TV stars — from $40,000\n⚽ Athletes — from $30,000\n😂 Comedians — from $20,000\n\nYour event budget is reviewed as part of the booking process.",
+    "Each celebrity sets their own base fee which is shown on their profile page. Fees can vary depending on event type, location, duration and date. Contact us for a custom quote!",
+  ],
+  fancard: [
+    "Fan Cards give you exclusive perks for your favourite celebrity! 🎉\n\n🥈 Silver ($29/yr) — Exclusive content, monthly updates\n🥇 Gold ($79/yr) — Priority booking, signed digital photo\n👑 VIP ($199/yr) — Meet & Greet invite, signed merch pack\n\nGo to any celebrity profile and click 'Buy Fan Card' to get started!",
+    "Fan Cards are annual subscriptions that unlock exclusive benefits with your favourite celebrity. There are 3 tiers: Silver ($29), Gold ($79) and VIP ($199) — each with progressively better perks!",
+  ],
+  meetgreet: [
+    "Meet & Greet experiences include:\n\n📸 Professional photo session\n✍️ Signed memorabilia\n💬 Private Q&A session\n👑 VIP access pass\n🎁 Exclusive merch pack\n\nScroll down to the 'Meet Your Favorite Celebrity Live' section to book yours!",
+    "A Meet & Greet is an intimate, once-in-a-lifetime experience. You get up close time with your favourite celebrity, professional photos, signed items, and more. Book through the Meet & Greet section on our homepage!",
+  ],
+  music: [
+    "Our music celebrities include:\n\n⭐ Aria Sinclair — Pop artist, $50K+\n⭐ Sofia Reyes — Latin pop, $35K+\n⭐ Isabella Voss — R&B singer, $45K+\n\nClick 'Music' in the celebrity filter to see all music stars available for booking!",
+    "We have over 200 music artists available for bookings — from pop and R&B to hip-hop, jazz and classical. Use the 'Music' filter on the celebrities page to browse them all!",
+  ],
+  film: [
+    "Our film & TV celebrities include:\n\n⭐ Marcus Williams — Hollywood actor, $75K+\n⭐ Theo Anderson — Actor/Producer, $60K+\n\nClick 'Film & TV' in the celebrity filter to browse all available actors!",
+  ],
+  sports: [
+    "Our sports celebrities include:\n\n⭐ Jordan Blake — NBA Champion, $100K+\n\nAthletes are great for brand activations, corporate events, sports camps, and inspirational talks. Check the 'Sports' category to see all available athletes!",
+  ],
+  default: [
+    "That's a great question! I'd recommend browsing our celebrity profiles to find the perfect match for your event. You can filter by category (Music, Film, Sports, Comedy, Fashion) and search by name. Can I help you narrow it down? 🌟",
+    "I'm here to help you find and book the perfect celebrity for your event! Feel free to ask me about specific celebrities, pricing, the booking process, or anything else about Springcompany.",
+    "I'd love to help you with that! For specific requests or complex bookings, our team is available 24/7 at bookings@springcompany.com. Is there anything specific about our celebrities or booking process I can explain?",
+    "Great question! Springcompany has over 500 verified celebrities across Music, Film, Sports, Comedy and Fashion. Is there a specific type of celebrity or event you have in mind? I can help you find the perfect match! 🎯",
+  ],
+};
+
+function sbGetReply(msg) {
+  var m = msg.toLowerCase();
+  if (m.includes('book') || m.includes('reserve') || m.includes('hire')) return sbPick(sbKnowledge.booking);
+  if (m.includes('pay') || m.includes('bitcoin') || m.includes('crypto') || m.includes('paystack') || m.includes('card')) return sbPick(sbKnowledge.payment);
+  if (m.includes('price') || m.includes('cost') || m.includes('fee') || m.includes('how much')) return sbPick(sbKnowledge.pricing);
+  if (m.includes('fan card') || m.includes('fancard') || m.includes('membership') || m.includes('subscribe')) return sbPick(sbKnowledge.fancard);
+  if (m.includes('meet') || m.includes('greet') || m.includes('photo') || m.includes('personal')) return sbPick(sbKnowledge.meetgreet);
+  if (m.includes('music') || m.includes('singer') || m.includes('artist') || m.includes('pop')) return sbPick(sbKnowledge.music);
+  if (m.includes('film') || m.includes('actor') || m.includes('movie') || m.includes('tv')) return sbPick(sbKnowledge.film);
+  if (m.includes('sport') || m.includes('athlete') || m.includes('basketball') || m.includes('football')) return sbPick(sbKnowledge.sports);
+  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! 👋 Welcome to Springcompany — the world's premier celebrity booking platform. How can I help you today?";
+  if (m.includes('thank')) return "You're very welcome! Is there anything else I can help you with? ⭐";
+  if (m.includes('human') || m.includes('agent') || m.includes('person') || m.includes('support')) return "To speak with a human agent, email us at support@springcompany.com or use the Contact form on our homepage. Our team typically responds within 2 hours! 😊";
+  return sbPick(sbKnowledge.default);
+}
+
+function sbPick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function sbAddMsg(text, type) {
+  var msgs = document.getElementById('sbMsgs');
+  var div = document.createElement('div');
+  div.className = 'sb-msg sb-msg-' + type;
+  // Allow line breaks
+  div.innerHTML = text.replace(/\n/g, '<br>');
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function sbShowTyping() {
+  var msgs = document.getElementById('sbMsgs');
+  var div = document.createElement('div');
+  div.className = 'sb-msg-typing';
+  div.id = 'sbTyping';
+  div.innerHTML = '<div class="sb-typing-dot"></div><div class="sb-typing-dot"></div><div class="sb-typing-dot"></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sbRemoveTyping() {
+  var t = document.getElementById('sbTyping');
+  if (t) t.remove();
+}
+
+function sbSend() {
+  var inp = document.getElementById('sbInput');
+  var val = inp.value.trim();
+  if (!val) return;
+  sbAddMsg(val, 'user');
+  inp.value = '';
+  inp.style.height = 'auto';
+  document.getElementById('sbChips').style.display = 'none';
+  sbShowTyping();
+  var delay = 800 + Math.random() * 700;
+  setTimeout(function() {
+    sbRemoveTyping();
+    sbAddMsg(sbGetReply(val), 'bot');
+  }, delay);
+}
+
+function sbChip(text) {
+  sbAddMsg(text, 'user');
+  document.getElementById('sbChips').style.display = 'none';
+  sbShowTyping();
+  setTimeout(function() {
+    sbRemoveTyping();
+    sbAddMsg(sbGetReply(text), 'bot');
+  }, 900);
+}
+</script>

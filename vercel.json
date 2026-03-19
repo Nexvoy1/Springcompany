@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "name": "springcompany",
+  "builds": [
+    { "src": "server.js", "use": "@vercel/node" },
+    { "src": "frontend/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "server.js" },
+    { "src": "/(.*)", "dest": "frontend/index.html" }
+  ],
+  "env": { "NODE_ENV": "production" }
+}

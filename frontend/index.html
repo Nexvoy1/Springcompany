@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Springcompany — The World's Premier Celebrity Booking Platform. Book your favorite stars for events, meet & greets, and exclusive experiences.">
+<meta name="keywords" content="celebrity booking, book celebrity, entertainment, star booking">
+<title>Springcompany — Book The Stars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   SPRINGCOMPANY — COMPLETE PLATFORM CSS
+═══════════════════════════════════════ */
+:root{
+  --gold:#D4AF37;--gold2:#F5CC5A;--gold3:#8B7322;
+  --bg:#0A0A0F;--bg2:#111118;--bg3:#18181F;--bg4:#1E1E28;
+  --surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --text:#F0EEF8;--muted:#8A87A0;--dim:#4A4860;
+  --accent:#C084FC;--accent2:#A855F7;--red:#F43F5E;--green:#10B981;
+  --border:rgba(255,255,255,0.08);--border2:rgba(212,175,55,0.25);
+  --glow:0 0 40px rgba(212,175,55,0.15);
+  --r:12px;--r2:20px;
+}
+[data-theme="light"]{
+  --bg:#F8F7FF;--bg2:#F0EEF8;--bg3:#E8E5F5;--bg4:#DDD9F0;
+  --text:#0A0A1F;--muted:#5A5780;--dim:#9A97B0;
+  --surface:rgba(0,0,0,0.03);--surface2:rgba(0,0,0,0.06);
+  --border:rgba(0,0,0,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:default}
+
+/* CUSTOM CURSOR */
+.cursor{width:12px;height:12px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:99999;transition:transform .1s;mix-blend-mode:difference}
+.cursor-ring{width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:99998;transition:all .15s ease;mix-blend-mode:difference}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:2px}
+
+/* TYPOGRAPHY */
+.display{font-family:'Bebas Neue',sans-serif;letter-spacing:2px}
+.serif{font-family:'Playfair Display',serif}
+
+/* ── NAVBAR ── */
+#navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;transition:all .3s}
+#navbar.scrolled{background:rgba(10,10,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--gold3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-family:'Bebas Neue',sans-serif;color:#000;letter-spacing:0}
+.nav-logo-text{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-center{display:flex;align-items:center;gap:2px}
+.nav-link{color:var(--muted);font-size:.84rem;font-weight:500;text-decoration:none;padding:8px 14px;border-radius:8px;transition:all .2s;letter-spacing:.3px}
+.nav-link:hover{color:var(--gold);background:rgba(212,175,55,0.08)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-btn{padding:9px 20px;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.84rem;cursor:pointer;transition:all .2s;border:none}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--gold)}
+.btn-ghost:hover{background:rgba(212,175,55,0.1)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(212,175,55,0.3)}
+.hamburger{background:transparent;border:1px solid var(--border);color:var(--text);width:40px;height:40px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .2s}
+.hamburger:hover{border-color:var(--gold);color:var(--gold)}
+
+/* MEGA MENU */
+.mega-menu{position:fixed;top:72px;right:0;width:320px;background:rgba(15,15,22,0.97);backdrop-filter:blur(30px);border:1px solid var(--border2);border-radius:0 0 0 20px;padding:24px;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:999}
+.mega-menu.open{transform:translateX(0)}
+.mega-menu-item{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:10px;text-decoration:none;color:var(--text);font-size:.9rem;font-weight:500;transition:all .2s;margin-bottom:4px}
+.mega-menu-item:hover{background:var(--surface2);color:var(--gold)}
+.mega-menu-item .mmi-ico{width:36px;height:36px;border-radius:9px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.mega-menu-item:hover .mmi-ico{background:rgba(212,175,55,0.15);color:var(--gold)}
+.theme-toggle{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;cursor:pointer;margin-top:12px;border-top:1px solid var(--border);padding-top:16px;color:var(--muted);font-size:.84rem}
+
+/* ── HERO SECTION ── */
+#hero{position:relative;height:100vh;min-height:700px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero-slides{position:absolute;inset:0}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s ease;background-size:cover;background-position:center;transform:scale(1.08)}
+.hero-slide.active{opacity:1;animation:heroZoom 7s ease-in-out forwards}
+@keyframes heroZoom{0%{transform:scale(1.08)}100%{transform:scale(1)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,.3) 0%,rgba(10,10,15,.55) 50%,rgba(10,10,15,.9) 100%);z-index:1}
+.hero-overlay2{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,transparent 30%,rgba(10,10,15,.6) 100%);z-index:1}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 20px;max-width:860px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,175,55,0.12);border:1px solid var(--border2);border-radius:50px;padding:6px 18px;font-size:.78rem;color:var(--gold);margin-bottom:24px;letter-spacing:1px;text-transform:uppercase;animation:fadeUp .8s ease .3s both}
+.hero-badge span{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,10vw,7.5rem);line-height:.95;letter-spacing:4px;margin-bottom:12px;animation:fadeUp .8s ease .5s both}
+.hero-title span{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:1.1rem;color:rgba(240,238,248,.75);max-width:520px;margin:0 auto 36px;line-height:1.7;animation:fadeUp .8s ease .7s both}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s ease .9s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.btn-book-now{position:relative;padding:18px 48px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;border:none;border-radius:4px;cursor:pointer;overflow:hidden;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.btn-book-now::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold2),var(--gold));opacity:0;transition:opacity .3s}
+.btn-book-now:hover::before{opacity:1}
+.btn-book-now:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(212,175,55,0.4)}
+.btn-explore{padding:17px 36px;background:transparent;border:1px solid rgba(255,255,255,0.3);color:#fff;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;border-radius:4px;cursor:pointer;transition:all .3s;letter-spacing:.5px}
+.btn-explore:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.06)}
+.hero-dots{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px}
+.hero-dot{width:28px;height:3px;background:rgba(255,255,255,0.25);border-radius:2px;cursor:pointer;transition:all .3s}
+.hero-dot.active{background:var(--gold);width:48px}
+.hero-scroll{position:absolute;bottom:28px;right:32px;z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer}
+.hero-scroll::after{content:'';width:1px;height:40px;background:linear-gradient(var(--gold),transparent)}
+
+/* ── FLOATING SOCIALS ── */
+.float-social{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;border-radius:0 12px 12px 0;overflow:hidden}
+.float-social a{width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;text-decoration:none;transition:all .25s;position:relative}
+.float-social a:hover{width:120px;justify-content:flex-start;padding-left:12px;gap:8px}
+.float-social a .fs-lbl{font-size:11px;font-weight:600;opacity:0;max-width:0;overflow:hidden;transition:all .25s;white-space:nowrap}
+.float-social a:hover .fs-lbl{opacity:1;max-width:80px}
+.fs-wa{background:#25D366}.fs-tg{background:#229ED9}
+
+/* ── SECTION STYLES ── */
+.section{padding:90px 32px}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-tag{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;color:var(--gold);text-transform:uppercase;letter-spacing:2.5px;font-weight:600;margin-bottom:12px}
+.section-tag::before{content:'';width:24px;height:1px;background:var(--gold)}
+h2.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin-bottom:16px}
+h2.section-title span{color:var(--gold)}
+.section-sub{color:var(--muted);font-size:.95rem;line-height:1.75;max-width:560px}
+
+/* ── TRENDING POSTS ── */
+#trending{background:var(--bg2);overflow:hidden}
+.trending-track{display:flex;gap:20px;animation:scrollTrack 30s linear infinite;width:max-content}
+.trending-track:hover{animation-play-state:paused}
+@keyframes scrollTrack{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.trend-card{flex-shrink:0;width:280px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .25s;cursor:pointer}
+.trend-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:var(--glow)}
+.trend-img{height:160px;background-size:cover;background-position:center;position:relative}
+.trend-category{position:absolute;top:10px;left:10px;background:rgba(212,175,55,0.9);color:#000;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:20px}
+.trend-body{padding:14px}
+.trend-body h4{font-size:.88rem;font-weight:600;margin-bottom:6px;line-height:1.4}
+.trend-body p{font-size:.78rem;color:var(--muted);line-height:1.5}
+.trend-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.trend-footer span{font-size:.72rem;color:var(--dim)}
+
+/* ── CELEBRITY GRID ── */
+#celebrities{background:var(--bg)}
+.celeb-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.filter-btn{padding:7px 18px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.82rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.filter-btn.active,.filter-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
+.celeb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.celeb-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:all .3s;position:relative;group:true}
+.celeb-card:hover{border-color:var(--border2);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.4),var(--glow)}
+.celeb-img-wrap{position:relative;height:260px;overflow:hidden}
+.celeb-img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.celeb-card:hover .celeb-img{transform:scale(1.06)}
+.celeb-img-placeholder{width:100%;height:100%;background-size:cover;background-position:center top;transition:transform .5s ease}
+.celeb-card:hover .celeb-img-placeholder{transform:scale(1.06)}
+.celeb-badge{position:absolute;top:12px;right:12px;background:rgba(10,10,15,0.85);border:1px solid var(--gold);border-radius:6px;padding:3px 8px;font-size:.68rem;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:4px;backdrop-filter:blur(8px)}
+.celeb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,15,.9) 0%,transparent 50%);opacity:0;transition:opacity .3s}
+.celeb-card:hover .celeb-overlay{opacity:1}
+.celeb-quick-book{position:absolute;bottom:14px;left:50%;transform:translateX(-50%) translateY(10px);opacity:0;transition:all .3s;white-space:nowrap;background:var(--gold);color:#000;font-size:.75rem;font-weight:700;padding:7px 18px;border-radius:4px;border:none;cursor:pointer;z-index:2;letter-spacing:.5px}
+.celeb-card:hover .celeb-quick-book{opacity:1;transform:translateX(-50%) translateY(0)}
+.celeb-body{padding:16px}
+.celeb-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:3px}
+.celeb-occ{font-size:.78rem;color:var(--muted);margin-bottom:10px}
+.celeb-bio{font-size:.78rem;color:var(--dim);line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.celeb-actions{display:flex;gap:8px}
+.btn-view{flex:1;padding:8px;border:1px solid var(--border2);background:transparent;color:var(--gold);font-size:.78rem;font-weight:600;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-view:hover{background:rgba(212,175,55,0.1)}
+.btn-book{flex:1;padding:8px;border:none;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-size:.78rem;font-weight:700;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-book:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(212,175,55,0.3)}
+.celeb-stats{display:flex;gap:12px;margin-bottom:10px}
+.celeb-stat{font-size:.72rem;color:var(--dim);display:flex;align-items:center;gap:4px}
+.celeb-stat i{color:var(--gold);font-size:.65rem}
+
+/* ── VIDEO SLIDER ── */
+#videos{background:var(--bg2)}
+.video-track{display:flex;gap:20px;overflow-x:auto;padding-bottom:12px;scroll-behavior:smooth;scrollbar-width:none}
+.video-track::-webkit-scrollbar{display:none}
+.video-card{flex-shrink:0;width:360px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);background:var(--bg3);transition:all .25s}
+.video-card:hover{border-color:var(--border2);box-shadow:var(--glow)}
+.video-embed{position:relative;padding-top:56.25%;background:#000}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.video-body{padding:14px}
+.video-title{font-size:.9rem;font-weight:600;margin-bottom:4px}
+.video-sub{font-size:.76rem;color:var(--muted)}
+.video-nav{display:flex;gap:10px;margin-top:20px}
+.video-nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.video-nav-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
+
+/* ── ABOUT ── */
+#about{background:var(--bg)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-img-wrap{position:relative}
+.about-img{width:100%;height:500px;object-fit:cover;border-radius:var(--r2);background-size:cover;background-position:center}
+.about-badge{position:absolute;bottom:-20px;right:-20px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;padding:20px 28px;border-radius:var(--r);text-align:center}
+.about-badge strong{display:block;font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:2px;line-height:1}
+.about-badge span{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.about-features{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+.about-feat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;align-items:flex-start;gap:12px;transition:all .2s}
+.about-feat:hover{border-color:var(--border2)}
+.af-ico{width:36px;height:36px;border-radius:8px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.9rem;flex-shrink:0}
+.af-title{font-size:.84rem;font-weight:600;margin-bottom:2px}
+.af-text{font-size:.76rem;color:var(--muted);line-height:1.5}
+
+/* ── MEET & GREET ── */
+#meet-greet{background:linear-gradient(135deg,var(--bg2) 0%,rgba(212,175,55,0.05) 50%,var(--bg2) 100%);position:relative;overflow:hidden;text-align:center;padding:100px 32px}
+#meet-greet::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(212,175,55,0.06) 0%,transparent 70%);pointer-events:none}
+.mg-stars{position:absolute;inset:0;pointer-events:none}
+.mg-star{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;animation:twinkle 3s infinite}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+.mg-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5.5rem);letter-spacing:4px;margin-bottom:16px;position:relative;z-index:1}
+.mg-title span{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s ease-in-out infinite}
+@keyframes shimmer{0%,100%{filter:brightness(1)}50%{filter:brightness(1.3)}}
+.mg-sub{font-size:1.1rem;color:var(--muted);max-width:520px;margin:0 auto 36px;line-height:1.75;position:relative;z-index:1}
+.btn-mg{padding:20px 56px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;border:none;border-radius:4px;cursor:pointer;position:relative;z-index:1;transition:all .3s;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);animation:btnBlink 2.5s ease-in-out infinite}
+@keyframes btnBlink{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0)}50%{box-shadow:0 0 32px 8px rgba(212,175,55,0.3)}}
+.btn-mg:hover{transform:translateY(-3px) scale(1.02)}
+.mg-perks{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:48px;position:relative;z-index:1}
+.mg-perk{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:50px;padding:10px 20px;font-size:.82rem;color:var(--text)}
+.mg-perk i{color:var(--gold)}
+
+/* ── CONTACT ── */
+#contact{background:var(--bg3)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:start}
+.contact-info{display:flex;flex-direction:column;gap:20px}
+.ci-item{display:flex;align-items:flex-start;gap:14px;padding:16px;background:var(--bg4);border-radius:var(--r);border:1px solid var(--border)}
+.ci-ico{width:40px;height:40px;border-radius:9px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.95rem;flex-shrink:0}
+.ci-title{font-size:.82rem;font-weight:600;margin-bottom:2px}
+.ci-text{font-size:.78rem;color:var(--muted)}
+.contact-form{background:var(--bg4);border:1px solid var(--border);border-radius:var(--r2);padding:32px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-field{margin-bottom:14px}
+.form-field label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.form-field input,.form-field select,.form-field textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border .2s}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--gold)}
+.form-field textarea{resize:none;min-height:110px}
+.form-field select option{background:var(--bg3)}
+
+/* ── NEWSLETTER ── */
+#newsletter{background:var(--bg2);padding:70px 32px;text-align:center}
+.nl-inner{max-width:600px;margin:0 auto}
+.nl-row{display:flex;gap:10px;margin-top:28px}
+.nl-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:13px 18px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border .2s}
+.nl-input:focus{border-color:var(--gold)}
+.nl-btn{padding:13px 28px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700;font-size:.88rem;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'DM Sans',sans-serif}
+.nl-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(212,175,55,0.3)}
+
+/* ── FOOTER ── */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px 28px}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand p{font-size:.82rem;color:var(--muted);line-height:1.75;margin-top:12px;max-width:260px}
+.footer-social{display:flex;gap:10px;margin-top:20px}
+.fsoc{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.88rem;cursor:pointer;transition:all .2s;text-decoration:none}
+.fsoc:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
+.footer-col h4{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:16px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-col ul li a{color:var(--muted);font-size:.82rem;text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:6px}
+.footer-col ul li a::before{content:'›';color:var(--gold);font-size:1rem}
+.footer-col ul li a:hover{color:var(--gold)}
+.footer-bottom{max-width:1200px;margin:0 auto;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:.76rem;color:var(--dim)}
+
+/* ── AUTH MODAL ── */
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.modal-backdrop.open{display:flex}
+.modal{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);width:100%;max-width:440px;overflow:hidden;animation:modalIn .25s ease;position:relative;max-height:92vh;overflow-y:auto}
+@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(-12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-head{background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(168,85,247,0.1));padding:28px;text-align:center;border-bottom:1px solid var(--border)}
+.modal-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:4px;background:linear-gradient(135deg,var(--gold),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.07);border:none;color:var(--muted);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:var(--text);background:var(--surface2)}
+.modal-body{padding:24px}
+.modal-tabs{display:flex;background:var(--bg4);border-radius:10px;padding:3px;margin-bottom:20px;gap:3px}
+.modal-tab{flex:1;padding:.5rem;border-radius:8px;border:none;cursor:pointer;font-size:.84rem;color:var(--muted);background:transparent;font-family:'DM Sans',sans-serif;transition:all .2s}
+.modal-tab.active{background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700}
+.soc-btns{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.soc-btn{display:flex;align-items:center;gap:12px;width:100%;padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg4);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);transition:all .2s}
+.soc-btn:hover{border-color:var(--gold);background:rgba(212,175,55,0.06)}
+.divline{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--dim);font-size:.76rem}
+.divline::before,.divline::after{content:'';flex:1;height:1px;background:var(--border)}
+.mf{margin-bottom:14px}
+.mf label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.mf input{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border .2s}
+.mf input:focus{border-color:var(--gold)}
+.btn-auth{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700;border:none;border-radius:9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.92rem;margin-top:6px;transition:all .2s}
+.btn-auth:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(212,175,55,0.3)}
+.auth-hint{text-align:center;font-size:.76rem;color:var(--muted);margin-top:12px}
+.auth-hint a{color:var(--gold);cursor:pointer;text-decoration:none;font-weight:600}
+
+/* ── CELEBRITY PROFILE PAGE ── */
+#celeb-profile-page{display:none;position:fixed;inset:0;background:var(--bg);z-index:2000;overflow-y:auto;animation:pageIn .3s ease}
+@keyframes pageIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.profile-back{position:fixed;top:20px;left:20px;z-index:2001;background:var(--bg3);border:1px solid var(--border2);color:var(--gold);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:600;display:flex;align-items:center;gap:8px;transition:all .2s;font-family:'DM Sans',sans-serif}
+.profile-back:hover{background:rgba(212,175,55,0.1)}
+.profile-hero{height:380px;background-size:cover;background-position:center top;position:relative}
+.profile-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,0) 30%,rgba(10,10,15,1) 100%)}
+.profile-content{max-width:1200px;margin:0 auto;padding:0 32px 80px}
+.profile-grid{display:grid;grid-template-columns:340px 1fr;gap:40px;margin-top:-80px;position:relative;z-index:1}
+.profile-left{display:flex;flex-direction:column;gap:20px}
+.profile-card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden}
+.profile-img{height:380px;background-size:cover;background-position:center top}
+.profile-info{padding:20px}
+.profile-name{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.verified-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(212,175,55,0.15);border:1px solid var(--border2);border-radius:20px;padding:2px 10px;font-size:.68rem;color:var(--gold);font-weight:600}
+.profile-occ{color:var(--muted);font-size:.84rem;margin-bottom:16px}
+.profile-detail{display:flex;flex-direction:column;gap:9px}
+.pd-row{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;padding:7px 0;border-bottom:1px solid var(--border)}
+.pd-row:last-child{border:none}
+.pd-label{color:var(--muted)}
+.pd-value{font-weight:600;color:var(--text)}
+.profile-right{}
+.booking-form-card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);padding:28px}
+.booking-form-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:4px}
+.booking-form-sub{font-size:.82rem;color:var(--muted);margin-bottom:24px}
+.bf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bf-field{margin-bottom:14px}
+.bf-field label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px}
+.bf-field input,.bf-field select,.bf-field textarea{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.87rem;outline:none;transition:border .2s}
+.bf-field input:focus,.bf-field select:focus,.bf-field textarea:focus{border-color:var(--gold)}
+.bf-field select option{background:var(--bg3)}
+.bf-field textarea{resize:none;min-height:90px}
+.file-upload{border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .2s}
+.file-upload:hover{border-color:var(--gold);background:rgba(212,175,55,0.04)}
+.file-upload i{font-size:1.4rem;color:var(--gold);margin-bottom:6px;display:block}
+.file-upload p{font-size:.78rem;color:var(--muted)}
+.btn-submit-booking{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;border:none;border-radius:6px;cursor:pointer;margin-top:6px;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.btn-submit-booking:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,175,55,0.35)}
+
+/* ── FAN CARD SECTION ── */
+.fan-cards-section{margin-top:32px}
+.fan-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.fan-card{border-radius:var(--r);padding:20px;text-align:center;transition:all .25s;cursor:pointer;position:relative;overflow:hidden}
+.fan-card.silver{background:linear-gradient(135deg,#4a4a6a,#2a2a40);border:1px solid #8888aa}
+.fan-card.gold{background:linear-gradient(135deg,#5a4a00,#3a2a00);border:1px solid var(--gold)}
+.fan-card.vip{background:linear-gradient(135deg,#4a0a5a,#2a0535);border:1px solid var(--accent)}
+.fan-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.4)}
+.fan-card-tier{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;margin-bottom:6px}
+.fan-card.silver .fan-card-tier{color:#bbbbd0}
+.fan-card.gold .fan-card-tier{color:var(--gold)}
+.fan-card.vip .fan-card-tier{color:var(--accent)}
+.fan-card-price{font-size:1.3rem;font-weight:800;margin-bottom:8px}
+.fan-card-perks{font-size:.72rem;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.fan-card-btn{width:100%;padding:8px;border-radius:6px;border:none;cursor:pointer;font-size:.76rem;font-weight:700;font-family:'DM Sans',sans-serif;transition:all .2s}
+.fan-card.silver .fan-card-btn{background:#8888aa;color:#fff}
+.fan-card.gold .fan-card-btn{background:var(--gold);color:#000}
+.fan-card.vip .fan-card-btn{background:var(--accent);color:#fff}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:12px 24px;border-radius:50px;font-size:.84rem;font-weight:600;z-index:99999;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.4);font-family:'DM Sans',sans-serif;white-space:nowrap}
+
+/* ── UTILITIES ── */
+.btn{border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.text-gold{color:var(--gold)}
+.mt-2{margin-top:8px}.mt-3{margin-top:16px}.mt-4{margin-top:24px}
+.fade-in{animation:fadeUp .6s ease both}
+
+@media(max-width:1024px){
+  .celeb-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .profile-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .nav-center{display:none}
+  .celeb-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-title{font-size:3.2rem}
+  .section{padding:60px 16px}
+  #navbar{padding:0 16px}
+  .footer-grid{grid-template-columns:1fr}
+  .form-row,.bf-row{grid-template-columns:1fr}
+  .fan-card-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── NAVBAR ── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo" onclick="showHome()">
+    <div class="nav-logo-icon">SB</div>
+    <span class="nav-logo-text">Springcompany</span>
+  </a>
+  <div class="nav-center">
+    <a href="#" class="nav-link" onclick="showHome()">Home</a>
+    <a href="#celebrities" class="nav-link">Celebrities</a>
+    <a href="#" class="nav-link">Featured Stars</a>
+    <a href="#about" class="nav-link">About Us</a>
+    <a href="#contact" class="nav-link">Contact Us</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn btn-ghost" onclick="openAuth('login')">Sign In</button>
+    <button class="nav-btn btn-gold" onclick="openAuth('register')">Join Free</button>
+    <button class="hamburger" onclick="toggleMenu()" id="hamBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- MEGA MENU -->
+<div class="mega-menu" id="megaMenu">
+  <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-building"></i></div><div><div style="font-weight:600">Company</div><div style="font-size:.74rem;color:var(--muted)">About & Team</div></div></a>
+  <a href="#celebrities" class="mega-menu-item" onclick="closeMenu()"><div class="mmi-ico"><i class="fas fa-star"></i></div><div><div style="font-weight:600">Celebrity</div><div style="font-size:.74rem;color:var(--muted)">Browse all stars</div></div></a>
+  <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-bullhorn"></i></div><div><div style="font-weight:600">Announce</div><div style="font-size:.74rem;color:var(--muted)">News & Updates</div></div></a>
+  <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-photo-video"></i></div><div><div style="font-weight:600">Content</div><div style="font-size:.74rem;color:var(--muted)">Exclusive media</div></div></a>
+  <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-microphone"></i></div><div><div style="font-weight:600">Audition</div><div style="font-size:.74rem;color:var(--muted)">Submit your talent</div></div></a>
+  <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-shopping-bag"></i></div><div><div style="font-weight:600">Shop</div><div style="font-size:.74rem;color:var(--muted)">Merch & collectibles</div></div></a>
+  <div class="theme-toggle" onclick="toggleTheme()">
+    <i class="fas fa-moon" id="themeIco"></i>
+    <span id="themeLabel">Switch to Light Mode</span>
+  </div>
+</div>
+
+<!-- FLOATING SOCIAL -->
+<div class="float-social">
+  <a href="https://wa.me/1234567890" target="_blank" class="fs-wa" title="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span class="fs-lbl">WhatsApp</span>
+  </a>
+  <a href="https://t.me/springcompany" target="_blank" class="fs-tg" title="Telegram">
+    <i class="fab fa-telegram"></i>
+    <span class="fs-lbl">Telegram</span>
+  </a>
+</div>
+
+<!-- ══════════════ HOMEPAGE ══════════════ -->
+<div id="homepage">
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1600&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1600&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1600&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1600&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1600&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1600&q=80')"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-overlay2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span></span>World's #1 Celebrity Booking Platform</div>
+    <h1 class="hero-title">BOOK THE<br><span>STARS</span></h1>
+    <p class="hero-sub">Connect with the world's most iconic entertainers. Book celebrities for events, appearances, meet & greets, and exclusive experiences.</p>
+    <div class="hero-actions">
+      <button class="btn-book-now" onclick="document.getElementById('celebrities').scrollIntoView({behavior:'smooth'})">BOOK NOW</button>
+      <button class="btn-explore" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Explore Platform</button>
+    </div>
+  </div>
+  <div class="hero-dots" id="heroDots"></div>
+  <div class="hero-scroll" onclick="document.getElementById('trending').scrollIntoView({behavior:'smooth'})">
+    Scroll
+  </div>
+</section>
+
+<!-- ── TRENDING POSTS ── -->
+<section id="trending" class="section" style="padding:60px 0">
+  <div class="section-inner" style="padding:0 32px;margin-bottom:28px">
+    <div class="section-tag">Latest News</div>
+    <h2 class="section-title">Trending <span>Posts</span></h2>
+  </div>
+  <div style="overflow:hidden;padding:8px 0">
+    <div class="trending-track" id="trendTrack">
+      <!-- Cards generated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ── CELEBRITIES ── -->
+<section id="celebrities" class="section">
+  <div class="section-inner">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;flex-wrap:wrap;gap:16px">
+      <div>
+        <div class="section-tag">Browse & Book</div>
+        <h2 class="section-title">Featured <span>Celebrities</span></h2>
+      </div>
+      <div style="display:flex;gap:8px">
+        <div style="position:relative">
+          <input id="searchCeleb" type="text" placeholder="Search celebrities..." style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 14px 9px 36px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none;width:200px;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'" oninput="filterCelebs(this.value)">
+          <i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.8rem"></i>
+        </div>
+      </div>
+    </div>
+    <div class="celeb-filters" id="celebFilters">
+      <button class="filter-btn active" onclick="filterByCategory('All',this)">All</button>
+      <button class="filter-btn" onclick="filterByCategory('Music',this)">Music</button>
+      <button class="filter-btn" onclick="filterByCategory('Film',this)">Film & TV</button>
+      <button class="filter-btn" onclick="filterByCategory('Sports',this)">Sports</button>
+      <button class="filter-btn" onclick="filterByCategory('Comedy',this)">Comedy</button>
+      <button class="filter-btn" onclick="filterByCategory('Fashion',this)">Fashion</button>
+    </div>
+    <div class="celeb-grid" id="celebGrid"></div>
+    <div style="text-align:center;margin-top:36px">
+      <button class="btn-explore" style="padding:13px 36px;border-radius:8px;font-size:.9rem">Load More Celebrities</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── VIDEO SLIDER ── -->
+<section id="videos" class="section">
+  <div class="section-inner">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;flex-wrap:wrap;gap:16px">
+      <div>
+        <div class="section-tag">Exclusive Content</div>
+        <h2 class="section-title">Featured <span>Videos</span></h2>
+      </div>
+      <div class="video-nav">
+        <button class="video-nav-btn" onclick="scrollVideos(-1)"><i class="fas fa-chevron-left"></i></button>
+        <button class="video-nav-btn" onclick="scrollVideos(1)"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+    <div class="video-track" id="videoTrack">
+      <div class="video-card">
+        <div class="video-embed"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen loading="lazy"></iframe></div>
+        <div class="video-body"><div class="video-title">Celebrity Event Highlights 2024</div><div class="video-sub">Springcompany Exclusive • 2.4M views</div></div>
+      </div>
+      <div class="video-card">
+        <div class="video-embed"><iframe src="https://www.youtube.com/embed/9bZkp7q19f0" allowfullscreen loading="lazy"></iframe></div>
+        <div class="video-body"><div class="video-title">Behind The Scenes: VIP Booking</div><div class="video-sub">Springcompany Exclusive • 1.8M views</div></div>
+      </div>
+      <div class="video-card">
+        <div class="video-embed"><iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk" allowfullscreen loading="lazy"></iframe></div>
+        <div class="video-body"><div class="video-title">Meet & Greet Experience Recap</div><div class="video-sub">Springcompany Exclusive • 3.1M views</div></div>
+      </div>
+      <div class="video-card">
+        <div class="video-embed"><iframe src="https://www.youtube.com/embed/OPf0YbXqDm0" allowfullscreen loading="lazy"></iframe></div>
+        <div class="video-body"><div class="video-title">Top Celebrity Appearances 2025</div><div class="video-sub">Springcompany Exclusive • 945K views</div></div>
+      </div>
+      <div class="video-card">
+        <div class="video-embed"><iframe src="https://www.youtube.com/embed/JGwWNGJdvx8" allowfullscreen loading="lazy"></iframe></div>
+        <div class="video-body"><div class="video-title">Fan Card Unboxing — VIP Tier</div><div class="video-sub">Springcompany Exclusive • 670K views</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about" class="section">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <div class="about-img" style="background-image:url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80')"></div>
+        <div class="about-badge">
+          <strong>500+</strong>
+          <span>Celebrities</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-tag">Who We Are</div>
+        <h2 class="section-title">The World's Most Trusted <span>Celebrity Platform</span></h2>
+        <p class="section-sub" style="margin-bottom:20px">Springcompany connects fans, event organisers and brands with the world's most iconic entertainers. We handle everything — from initial booking to day-of logistics — so you can focus on creating unforgettable moments.</p>
+        <p class="section-sub">With over 500 verified celebrity profiles, secure payments, and a dedicated support team, Springcompany is the gold standard in celebrity engagement.</p>
+        <div class="about-features">
+          <div class="about-feat"><div class="af-ico"><i class="fas fa-shield-alt"></i></div><div><div class="af-title">100% Verified</div><div class="af-text">All celebrities personally verified by our team</div></div></div>
+          <div class="about-feat"><div class="af-ico"><i class="fas fa-lock"></i></div><div><div class="af-title">Secure Payments</div><div class="af-text">Multiple payment methods, fully encrypted</div></div></div>
+          <div class="about-feat"><div class="af-ico"><i class="fas fa-headset"></i></div><div><div class="af-title">24/7 Support</div><div class="af-text">Dedicated concierge for every booking</div></div></div>
+          <div class="about-feat"><div class="af-ico"><i class="fas fa-calendar-check"></i></div><div><div class="af-title">Smart Scheduling</div><div class="af-text">Real-time availability calendar system</div></div></div>
+        </div>
+      </div>
+    </div>
+    <!-- STATS -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:56px">
+      <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px">500+</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Verified Celebrities</div>
+      </div>
+      <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px">12K+</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Successful Bookings</div>
+      </div>
+      <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px">98%</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Client Satisfaction</div>
+      </div>
+      <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px">80+</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Countries Served</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MEET & GREET ── -->
+<section id="meet-greet">
+  <div id="mgStars"></div>
+  <div class="section-tag" style="justify-content:center;margin-bottom:16px">Exclusive Experience</div>
+  <h2 class="mg-title">MEET YOUR FAVORITE<br><span>CELEBRITY LIVE</span></h2>
+  <p class="mg-sub">An intimate, once-in-a-lifetime experience. Get up close with your idol, take photos, receive signed merchandise, and create memories that last forever.</p>
+  <button class="btn-mg" onclick="openAuth('register')">BOOK MEET & GREET</button>
+  <div class="mg-perks">
+    <div class="mg-perk"><i class="fas fa-camera"></i> Professional Photos</div>
+    <div class="mg-perk"><i class="fas fa-signature"></i> Signed Memorabilia</div>
+    <div class="mg-perk"><i class="fas fa-comments"></i> Private Q&A Session</div>
+    <div class="mg-perk"><i class="fas fa-crown"></i> VIP Access Pass</div>
+    <div class="mg-perk"><i class="fas fa-gift"></i> Exclusive Merch Pack</div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact" class="section">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="section-tag" style="justify-content:center">Get In Touch</div>
+      <h2 class="section-title" style="text-align:center">Contact <span>Springcompany</span></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="ci-item"><div class="ci-ico"><i class="fas fa-envelope"></i></div><div><div class="ci-title">Email Us</div><div class="ci-text">bookings@springcompany.com<br>support@springcompany.com</div></div></div>
+        <div class="ci-item"><div class="ci-ico"><i class="fas fa-phone"></i></div><div><div class="ci-title">Call Us</div><div class="ci-text">+1 (800) SPRINGCOMPANY<br>Mon–Fri 9AM–6PM EST</div></div></div>
+        <div class="ci-item"><div class="ci-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="ci-title">Head Office</div><div class="ci-text">Beverly Hills, CA 90210<br>United States</div></div></div>
+        <div class="ci-item"><div class="ci-ico"><i class="fas fa-clock"></i></div><div><div class="ci-title">Response Time</div><div class="ci-text">Bookings confirmed within 24 hours<br>Support replies within 2 hours</div></div></div>
+      </div>
+      <div class="contact-form">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:20px">Send Us a Message</h3>
+        <div class="form-row">
+          <div class="form-field"><label>Full Name</label><input type="text" placeholder="John Doe"></div>
+          <div class="form-field"><label>Email</label><input type="email" placeholder="you@example.com"></div>
+        </div>
+        <div class="form-field"><label>Subject</label>
+          <select><option>Booking Enquiry</option><option>Celebrity Onboarding</option><option>Meet & Greet</option><option>Fan Card</option><option>Technical Support</option><option>Other</option></select>
+        </div>
+        <div class="form-field"><label>Message</label><textarea placeholder="Tell us how we can help..."></textarea></div>
+        <button class="btn-auth" onclick="showToast('✅ Message sent! We will respond within 2 hours.')">Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NEWSLETTER ── -->
+<section id="newsletter">
+  <div class="nl-inner">
+    <div class="section-tag" style="justify-content:center;margin-bottom:12px">Stay Updated</div>
+    <h2 class="section-title" style="text-align:center">Never Miss a <span>Star</span></h2>
+    <p style="color:var(--muted);font-size:.9rem;margin-top:8px">Get notified about new celebrity sign-ups, exclusive events, and limited booking slots.</p>
+    <div class="nl-row">
+      <input class="nl-input" type="email" placeholder="Enter your email address...">
+      <button class="nl-btn" onclick="showToast('🎉 Subscribed! Welcome to Springcompany.')">Subscribe</button>
+    </div>
+    <p style="font-size:.72rem;color:var(--dim);margin-top:10px">No spam. Unsubscribe anytime. Join 45,000+ subscribers.</p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="display:inline-flex" onclick="showHome()">
+        <div class="nav-logo-icon">SB</div>
+        <span class="nav-logo-text">Springcompany</span>
+      </a>
+      <p>The world's most trusted celebrity booking platform. Connecting fans, brands and event organisers with iconic entertainers since 2020.</p>
+      <div class="footer-social">
+        <a class="fsoc" href="#"><i class="fab fa-instagram"></i></a>
+        <a class="fsoc" href="#"><i class="fab fa-twitter"></i></a>
+        <a class="fsoc" href="#"><i class="fab fa-facebook-f"></i></a>
+        <a class="fsoc" href="#"><i class="fab fa-tiktok"></i></a>
+        <a class="fsoc" href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <ul>
+        <li><a href="#">Browse Celebrities</a></li>
+        <li><a href="#">How It Works</a></li>
+        <li><a href="#">Pricing & Packages</a></li>
+        <li><a href="#">Fan Cards</a></li>
+        <li><a href="#">Meet & Greet</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#about">About Springcompany</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press & Media</a></li>
+        <li><a href="#">Celebrity Sign-Up</a></li>
+        <li><a href="#">Investors</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#contact">Contact Us</a></li>
+        <li><a href="#">Help Centre</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Refund Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Springcompany Entertainment Ltd. All rights reserved.</p>
+    <p>Made with ⭐ for fans worldwide</p>
+  </div>
+</footer>
+
+</div><!-- end homepage -->
+
+<!-- ══════════════ CELEBRITY PROFILE PAGE ══════════════ -->
+<div id="celeb-profile-page">
+  <button class="profile-back" onclick="closeProfile()">
+    <i class="fas fa-arrow-left"></i> Back to Celebrities
+  </button>
+  <div class="profile-hero" id="profileHero"></div>
+  <div class="profile-content">
+    <div class="profile-grid">
+      <div class="profile-left">
+        <div class="profile-card">
+          <div class="profile-img" id="profileImg"></div>
+          <div class="profile-info">
+            <div class="profile-name" id="profileName">
+              Celebrity Name
+              <span class="verified-badge" id="profileBadge"><i class="fas fa-check-circle"></i> Verified</span>
+            </div>
+            <div class="profile-occ" id="profileOcc">Occupation</div>
+            <div class="profile-detail">
+              <div class="pd-row"><span class="pd-label">Date of Birth</span><span class="pd-value" id="profileDob">—</span></div>
+              <div class="pd-row"><span class="pd-label">Age</span><span class="pd-value" id="profileAge">—</span></div>
+              <div class="pd-row"><span class="pd-label">Nationality</span><span class="pd-value" id="profileNation">—</span></div>
+              <div class="pd-row"><span class="pd-label">Years Active</span><span class="pd-value" id="profileYears">—</span></div>
+              <div class="pd-row"><span class="pd-label">Category</span><span class="pd-value" id="profileCat">—</span></div>
+              <div class="pd-row"><span class="pd-label">Base Fee</span><span class="pd-value" id="profileFee" style="color:var(--gold)">—</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- FAN CARDS -->
+        <div class="fan-cards-section">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:4px">Fan Cards</h3>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Get exclusive perks and priority access</p>
+          <div class="fan-card-grid">
+            <div class="fan-card silver">
+              <div class="fan-card-tier">Silver</div>
+              <div class="fan-card-price">$29</div>
+              <div class="fan-card-perks">Exclusive content<br>Monthly updates<br>Fan community access</div>
+              <button class="fan-card-btn" onclick="showToast('💳 Redirecting to Silver Fan Card checkout...')">Buy Silver</button>
+            </div>
+            <div class="fan-card gold">
+              <div class="fan-card-tier">Gold ⭐</div>
+              <div class="fan-card-price">$79</div>
+              <div class="fan-card-perks">All Silver perks<br>Priority booking<br>Signed digital photo</div>
+              <button class="fan-card-btn" onclick="showToast('💳 Redirecting to Gold Fan Card checkout...')">Buy Gold</button>
+            </div>
+            <div class="fan-card vip">
+              <div class="fan-card-tier">VIP 👑</div>
+              <div class="fan-card-price">$199</div>
+              <div class="fan-card-perks">All Gold perks<br>Meet & Greet invite<br>Signed merch pack</div>
+              <button class="fan-card-btn" onclick="showToast('💳 Redirecting to VIP Fan Card checkout...')">Buy VIP</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-right">
+        <div class="booking-form-card">
+          <div class="booking-form-title">Submit Booking Request</div>
+          <div class="booking-form-sub" id="bookingFormSub">Complete the form below to request this celebrity for your event</div>
+          <div class="bf-row">
+            <div class="bf-field"><label>Celebrity Name</label><input type="text" id="bfCelebName" readonly style="opacity:.7;cursor:not-allowed"></div>
+            <div class="bf-field"><label>Date of Event *</label><input type="date" id="bfDate"></div>
+          </div>
+          <div class="bf-row">
+            <div class="bf-field"><label>Event Budget (USD) *</label><input type="number" placeholder="e.g. 50000" id="bfBudget"></div>
+            <div class="bf-field"><label>Type of Event *</label>
+              <select id="bfType">
+                <option value="">Select event type</option>
+                <option>Corporate Event</option>
+                <option>Concert / Performance</option>
+                <option>Brand Activation</option>
+                <option>Private Party</option>
+                <option>Award Show</option>
+                <option>Film / TV Appearance</option>
+                <option>Meet & Greet</option>
+                <option>Sports Event</option>
+                <option>Wedding / Birthday</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="bf-row">
+            <div class="bf-field"><label>Event Name *</label><input type="text" placeholder="e.g. Annual Gala 2025" id="bfEventName"></div>
+            <div class="bf-field"><label>Your Job Title *</label><input type="text" placeholder="e.g. Event Director" id="bfJobTitle"></div>
+          </div>
+          <div class="bf-row">
+            <div class="bf-field"><label>Organisation *</label><input type="text" placeholder="Company / Organisation name" id="bfOrg"></div>
+            <div class="bf-field"><label>Email Address *</label><input type="email" placeholder="you@company.com" id="bfEmail"></div>
+          </div>
+          <div class="bf-field"><label>Full Home / Office Address *</label><input type="text" placeholder="Street, City, Country" id="bfAddress"></div>
+          <div class="bf-row">
+            <div class="bf-field"><label>Nearest Airport *</label><input type="text" placeholder="e.g. LAX, JFK, LHR" id="bfAirport"></div>
+            <div class="bf-field"><label>Payment Method</label>
+              <select id="bfPayment">
+                <option>Paystack (Card/Bank)</option>
+                <option>Flutterwave</option>
+                <option>Bitcoin (BTC)</option>
+                <option>Western Union</option>
+                <option>Online Banking</option>
+              </select>
+            </div>
+          </div>
+          <div class="bf-field"><label>Additional Information About Event</label><textarea placeholder="Describe your event, requirements, expectations..." id="bfInfo"></textarea></div>
+          <div class="bf-field">
+            <label>Upload ID Card (optional)</label>
+            <div class="file-upload" onclick="document.getElementById('bfFile').click()">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Click to upload ID card (JPG, PNG, PDF)</p>
+              <input type="file" id="bfFile" accept=".jpg,.jpeg,.png,.pdf" style="display:none">
+            </div>
+          </div>
+          <button class="btn-submit-booking" onclick="submitBooking()">SUBMIT BOOKING REQUEST</button>
+          <p style="font-size:.72rem;color:var(--dim);text-align:center;margin-top:12px">Your request will be reviewed within 24 hours. Payment is only required upon confirmation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── AUTH MODAL ── -->
+<div class="modal-backdrop" id="authModal" onclick="if(event.target===this)closeAuth()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuth()">✕</button>
+    <div class="modal-head">
+      <div class="modal-logo">★ SPRINGCOMPANY</div>
+      <div style="font-size:.82rem;color:var(--muted)" id="authSubtitle">Join the world's premier celebrity platform</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <button class="modal-tab" id="tabRegister" onclick="switchAuthTab('register')">Create Account</button>
+        <button class="modal-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
+      </div>
+      <!-- Social -->
+      <div class="soc-btns">
+        <button class="soc-btn" onclick="socialAuth('Google')">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </button>
+        <button class="soc-btn" onclick="socialAuth('Apple')">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          Continue with Apple
+        </button>
+        <button class="soc-btn" onclick="socialAuth('Facebook')">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Continue with Facebook
+        </button>
+      </div>
+      <div class="divline">or with email</div>
+      <!-- Register -->
+      <div id="registerFields" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="mf"><label>First Name</label><input type="text" id="regFirst" placeholder="John"></div>
+          <div class="mf"><label>Last Name</label><input type="text" id="regLast" placeholder="Doe"></div>
+        </div>
+        <div class="mf"><label>Email</label><input type="email" id="regEmail" placeholder="you@example.com"></div>
+        <div class="mf"><label>Password</label><input type="password" id="regPass" placeholder="Min 8 characters"></div>
+        <button class="btn-auth" onclick="doRegister()">Create My Account →</button>
+        <div class="auth-hint">Already registered? <a onclick="switchAuthTab('login')">Sign in</a></div>
+      </div>
+      <!-- Login -->
+      <div id="loginFields">
+        <div class="mf"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com"></div>
+        <div class="mf"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+        <div style="text-align:right;margin-bottom:14px"><a style="font-size:.76rem;color:var(--gold);cursor:pointer">Forgot password?</a></div>
+        <button class="btn-auth" onclick="doLogin()">Sign In to Springcompany →</button>
+        <div class="auth-hint">New to Springcompany? <a onclick="switchAuthTab('register')">Create free account</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// SPRINGCOMPANY — COMPLETE JAVASCRIPT
+// ══════════════════════════════════════════════
+
+// ── DATA ──────────────────────────────────────
+var CELEBRITIES = [
+  {id:1,name:'Aria Sinclair',occ:'Pop Artist & Performer',cat:'Music',img:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',verified:true,dob:'March 15, 1990',age:35,nation:'American',years:'2010–Present',fee:'$50,000+',bio:'Multi-platinum pop artist with 12 Grammy nominations and worldwide tours.',rating:4.9,bookings:247},
+  {id:2,name:'Marcus Williams',occ:'Film Actor & Director',cat:'Film',img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',verified:true,dob:'June 22, 1985',age:39,nation:'British',years:'2005–Present',fee:'$75,000+',bio:'Award-winning actor known for blockbuster franchises and independent films.',rating:4.8,bookings:189},
+  {id:3,name:'Sofia Reyes',occ:'Latin Pop Singer',cat:'Music',img:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80',verified:true,dob:'July 4, 1995',age:29,nation:'Mexican',years:'2015–Present',fee:'$35,000+',bio:'Latin pop sensation with over 2 billion streams and international chart-toppers.',rating:4.9,bookings:312},
+  {id:4,name:'Jordan Blake',occ:'Professional Athlete',cat:'Sports',img:'https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=400&q=80',verified:true,dob:'September 10, 1992',age:32,nation:'American',years:'2012–Present',fee:'$100,000+',bio:'NBA champion and Olympic gold medalist. Brand ambassador for 15+ global brands.',rating:4.7,bookings:156},
+  {id:5,name:'Luna Chase',occ:'Fashion Model & Actress',cat:'Fashion',img:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',verified:false,dob:'January 28, 1998',age:27,nation:'French',years:'2018–Present',fee:'$25,000+',bio:'Rising fashion icon featured in Vogue, Elle, and 30+ international campaigns.',rating:4.6,bookings:98},
+  {id:6,name:'Kevin Stone',occ:'Stand-Up Comedian',cat:'Comedy',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',verified:true,dob:'April 5, 1983',age:41,nation:'British',years:'2006–Present',fee:'$30,000+',bio:'Chart-topping comedian with 3 Netflix specials and sold-out world tours.',rating:4.8,bookings:203},
+  {id:7,name:'Isabella Voss',occ:'R&B Singer & Songwriter',cat:'Music',img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',verified:true,dob:'November 12, 1993',age:31,nation:'Brazilian',years:'2013–Present',fee:'$45,000+',bio:'Soul and R&B powerhouse with a voice that has moved millions worldwide.',rating:4.9,bookings:278},
+  {id:8,name:'Theo Anderson',occ:'Actor & Producer',cat:'Film',img:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',verified:false,dob:'February 18, 1988',age:37,nation:'Australian',years:'2008–Present',fee:'$60,000+',bio:'Critically acclaimed actor turned producer with projects across Hollywood.',rating:4.7,bookings:134},
+];
+
+var TRENDING = [
+  {cat:'Booking',title:'Taylor Swift Clone Books Out in Minutes',text:'Record-breaking demand for pop star lookalike appearances at corporate events.',img:'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80',date:'2h ago'},
+  {cat:'News',title:'Meet & Greet Packages Now Include VR Experience',text:'Springcompany launches immersive virtual reality pre-show meet and greet experiences.',img:'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&q=80',date:'5h ago'},
+  {cat:'Celebrity',title:'Marcus Williams Joins Springcompany Platform',text:'Oscar-winning actor Marcus Williams officially joins the Springcompany booking roster.',img:'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80',date:'1d ago'},
+  {cat:'Fan Card',title:'Gold Fan Cards Sell Out in 48 Hours',text:'Unprecedented demand for gold tier fan cards as platform hits 1M users.',img:'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&q=80',date:'2d ago'},
+  {cat:'Payment',title:'Bitcoin Payments Now Accepted Globally',text:'Springcompany becomes first major booking platform to accept full BTC payments.',img:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&q=80',date:'3d ago'},
+  {cat:'Event',title:'Hollywood Gala 2025 — Celebrity Lineup Revealed',text:'12 A-list celebrities confirmed for the most star-studded gala in platform history.',img:'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=400&q=80',date:'4d ago'},
+  {cat:'Booking',title:'Taylor Swift Clone Books Out in Minutes',text:'Record-breaking demand for pop star lookalike appearances at corporate events.',img:'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80',date:'2h ago'},
+  {cat:'News',title:'Meet & Greet Packages Now Include VR Experience',text:'Springcompany launches immersive virtual reality pre-show meet and greet experiences.',img:'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&q=80',date:'5h ago'},
+];
+
+var USERS = [];
+var currentUser = null;
+var currentCeleb = null;
+var heroIndex = 0;
+var heroSlides, heroDots;
+
+// ── INIT ──────────────────────────────────────
+window.addEventListener('load', function() {
+  initHero();
+  renderTrending();
+  renderCelebs(CELEBRITIES);
+  initMeetGreetStars();
+  initCursor();
+  initScrollNav();
+});
+
+// ── CUSTOM CURSOR ──────────────────────────────
+function initCursor() {
+  var cur = document.getElementById('cursor');
+  var ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', function(e) {
+    cur.style.left = (e.clientX - 6) + 'px';
+    cur.style.top = (e.clientY - 6) + 'px';
+    ring.style.left = (e.clientX - 18) + 'px';
+    ring.style.top = (e.clientY - 18) + 'px';
+  });
+}
+
+// ── SCROLL NAV ────────────────────────────────
+function initScrollNav() {
+  window.addEventListener('scroll', function() {
+    var nav = document.getElementById('navbar');
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+}
+
+// ── HERO SLIDESHOW ────────────────────────────
+function initHero() {
+  heroSlides = document.querySelectorAll('.hero-slide');
+  var dotsEl = document.getElementById('heroDots');
+  heroSlides.forEach(function(_, i) {
+    var d = document.createElement('div');
+    d.className = 'hero-dot' + (i === 0 ? ' active' : '');
+    d.onclick = function() { goHeroSlide(i); };
+    dotsEl.appendChild(d);
+  });
+  setInterval(function() { goHeroSlide((heroIndex + 1) % heroSlides.length); }, 6000);
+}
+
+function goHeroSlide(n) {
+  heroSlides[heroIndex].classList.remove('active');
+  document.querySelectorAll('.hero-dot')[heroIndex].classList.remove('active');
+  heroIndex = n;
+  heroSlides[heroIndex].classList.add('active');
+  document.querySelectorAll('.hero-dot')[heroIndex].classList.add('active');
+}
+
+// ── TRENDING POSTS ────────────────────────────
+function renderTrending() {
+  var track = document.getElementById('trendTrack');
+  track.innerHTML = TRENDING.map(function(t) {
+    return '<div class="trend-card"><div class="trend-img" style="background-image:url(\''+t.img+'\')" loading="lazy"><span class="trend-category">'+t.cat+'</span></div><div class="trend-body"><h4>'+t.title+'</h4><p>'+t.text+'</p><div class="trend-footer"><span>'+t.date+'</span><span style="color:var(--gold);font-size:.76rem;font-weight:600;cursor:pointer">Read →</span></div></div></div>';
+  }).join('');
+}
+
+// ── CELEBRITY GRID ────────────────────────────
+function renderCelebs(list) {
+  var grid = document.getElementById('celebGrid');
+  if (!list.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px">No celebrities found matching your search.</div>';
+    return;
+  }
+  grid.innerHTML = list.map(function(c) {
+    return '<div class="celeb-card">'+
+      '<div class="celeb-img-wrap">'+
+      '<div class="celeb-img-placeholder" style="background-image:url(\''+c.img+'\')" loading="lazy"></div>'+
+      (c.verified ? '<div class="celeb-badge"><i class="fas fa-check-circle"></i> Verified</div>' : '')+
+      '<div class="celeb-overlay"></div>'+
+      '<button class="celeb-quick-book" onclick="openProfile('+c.id+')">Quick Book</button>'+
+      '</div>'+
+      '<div class="celeb-body">'+
+      '<div class="celeb-stats"><span class="celeb-stat"><i class="fas fa-star"></i>'+c.rating+'</span><span class="celeb-stat"><i class="fas fa-calendar-check"></i>'+c.bookings+' bookings</span><span class="celeb-stat" style="color:var(--gold);font-size:.72rem;font-weight:600">'+c.cat+'</span></div>'+
+      '<div class="celeb-name">'+c.name+'</div>'+
+      '<div class="celeb-occ">'+c.occ+'</div>'+
+      '<div class="celeb-bio">'+c.bio+'</div>'+
+      '<div class="celeb-actions">'+
+      '<button class="btn-view" onclick="openProfile('+c.id+')">View Profile</button>'+
+      '<button class="btn-book" onclick="openProfile('+c.id+')">Book Now</button>'+
+      '</div></div></div>';
+  }).join('');
+}
+
+function filterByCategory(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderCelebs(cat === 'All' ? CELEBRITIES : CELEBRITIES.filter(function(c) { return c.cat === cat; }));
+}
+
+function filterCelebs(query) {
+  var q = query.toLowerCase();
+  renderCelebs(q ? CELEBRITIES.filter(function(c) {
+    return c.name.toLowerCase().includes(q) || c.occ.toLowerCase().includes(q) || c.cat.toLowerCase().includes(q);
+  }) : CELEBRITIES);
+}
+
+// ── CELEBRITY PROFILE ────────────────────────
+function openProfile(id) {
+  var c = CELEBRITIES.find(function(x) { return x.id === id; });
+  if (!c) return;
+  currentCeleb = c;
+  document.getElementById('profileHero').style.backgroundImage = "url('" + c.img + "')";
+  document.getElementById('profileImg').style.backgroundImage = "url('" + c.img + "')";
+  document.getElementById('profileName').childNodes[0].textContent = c.name + ' ';
+  document.getElementById('profileBadge').style.display = c.verified ? 'inline-flex' : 'none';
+  document.getElementById('profileOcc').textContent = c.occ;
+  document.getElementById('profileDob').textContent = c.dob;
+  document.getElementById('profileAge').textContent = c.age + ' years old';
+  document.getElementById('profileNation').textContent = c.nation;
+  document.getElementById('profileYears').textContent = c.years;
+  document.getElementById('profileCat').textContent = c.cat;
+  document.getElementById('profileFee').textContent = c.fee;
+  document.getElementById('bfCelebName').value = c.name;
+  document.getElementById('bookingFormSub').textContent = 'Complete the form to book ' + c.name + ' for your event';
+  document.getElementById('celeb-profile-page').style.display = 'block';
+  window.scrollTo(0, 0);
+  document.body.style.overflow = 'hidden';
+  document.getElementById('celeb-profile-page').scrollTop = 0;
+  document.body.style.overflow = '';
+}
+
+function closeProfile() {
+  document.getElementById('celeb-profile-page').style.display = 'none';
+  currentCeleb = null;
+}
+
+function submitBooking() {
+  var date = document.getElementById('bfDate').value;
+  var budget = document.getElementById('bfBudget').value;
+  var type = document.getElementById('bfType').value;
+  var email = document.getElementById('bfEmail').value;
+  if (!date || !budget || !type || !email) {
+    showToast('⚠️ Please fill in all required fields');
+    return;
+  }
+  showToast('🎉 Booking request submitted! We will confirm within 24 hours.');
+  setTimeout(closeProfile, 2000);
+}
+
+// ── VIDEO SLIDER ──────────────────────────────
+function scrollVideos(dir) {
+  var track = document.getElementById('videoTrack');
+  track.scrollBy({ left: dir * 380, behavior: 'smooth' });
+}
+
+// ── MEET & GREET STARS ────────────────────────
+function initMeetGreetStars() {
+  var cont = document.getElementById('mgStars');
+  for (var i = 0; i < 60; i++) {
+    var s = document.createElement('div');
+    s.className = 'mg-star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = Math.random() * 3 + 's';
+    s.style.animationDuration = (2 + Math.random() * 2) + 's';
+    cont.appendChild(s);
+  }
+}
+
+// ── MENU ──────────────────────────────────────
+function toggleMenu() {
+  document.getElementById('megaMenu').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('megaMenu').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#megaMenu') && !e.target.closest('#hamBtn')) closeMenu();
+});
+
+// ── THEME ──────────────────────────────────────
+function toggleTheme() {
+  var html = document.documentElement;
+  var isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeIco').className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+  document.getElementById('themeLabel').textContent = isDark ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+}
+
+// ── AUTH ──────────────────────────────────────
+function openAuth(type) {
+  document.getElementById('authModal').classList.add('open');
+  switchAuthTab(type === 'register' ? 'register' : 'login');
+}
+function closeAuth() {
+  document.getElementById('authModal').classList.remove('open');
+}
+function switchAuthTab(tab) {
+  var isReg = tab === 'register';
+  document.getElementById('tabRegister').classList.toggle('active', isReg);
+  document.getElementById('tabLogin').classList.toggle('active', !isReg);
+  document.getElementById('registerFields').style.display = isReg ? 'block' : 'none';
+  document.getElementById('loginFields').style.display = isReg ? 'none' : 'block';
+  document.getElementById('authSubtitle').textContent = isReg ? 'Join the world\'s premier celebrity platform' : 'Welcome back to Springcompany';
+}
+function socialAuth(provider) {
+  closeAuth();
+  showToast('✅ Signed in with ' + provider + '! Welcome to Springcompany.');
+}
+function doRegister() {
+  var first = document.getElementById('regFirst').value;
+  var email = document.getElementById('regEmail').value;
+  var pass = document.getElementById('regPass').value;
+  if (!first || !email || pass.length < 8) { showToast('⚠️ Please fill all fields (password min 8 chars)'); return; }
+  USERS.push({name: first, email: email, pass: pass});
+  currentUser = {name: first, email: email};
+  closeAuth();
+  showToast('🎉 Account created! Welcome to Springcompany, ' + first + '!');
+}
+function doLogin() {
+  var email = document.getElementById('loginEmail').value;
+  var pass = document.getElementById('loginPass').value;
+  if (!email || !pass) { showToast('⚠️ Please enter email and password'); return; }
+  var user = USERS.find(function(u) { return u.email === email && u.pass === pass; });
+  if (user) {
+    currentUser = user;
+    closeAuth();
+    showToast('✅ Welcome back, ' + user.name + '!');
+  } else if (pass.length >= 6) {
+    currentUser = {name: email.split('@')[0], email: email};
+    closeAuth();
+    showToast('✅ Welcome back to Springcompany!');
+  } else {
+    showToast('❌ Incorrect email or password');
+  }
+}
+
+// ── NAV ───────────────────────────────────────
+function showHome() {
+  closeProfile();
+}
+
+// ── TOAST ─────────────────────────────────────
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(function() { t.style.display = 'none'; }, 3500);
+}
+</script>
+<!-- AI CHATBOT STYLES -->
+<style>
+/* ── CHAT BUBBLE ── */
+.sb-chat-bubble{position:fixed;bottom:28px;right:28px;z-index:8000;width:52px;height:52px;background:linear-gradient(135deg,#D4AF37,#8B7322);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 28px rgba(212,175,55,0.4);transition:all .3s;animation:chatPulse 3s ease-in-out infinite}
+@keyframes chatPulse{0%,100%{box-shadow:0 8px 28px rgba(212,175,55,0.4)}50%{box-shadow:0 8px 40px rgba(212,175,55,0.7),0 0 0 8px rgba(212,175,55,0.12)}}
+.sb-chat-bubble:hover{transform:scale(1.08)}
+.sb-chat-bubble i{color:#000;font-size:1.1rem;transition:all .3s}
+.sb-chat-bubble.open i{transform:rotate(90deg)}
+.sb-chat-dot{position:absolute;top:2px;right:2px;width:12px;height:12px;background:#10B981;border-radius:50%;border:2px solid var(--bg,#0A0A0F);animation:dotBlink 2s infinite}
+@keyframes dotBlink{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── CHAT WINDOW ── */
+.sb-chat-window{position:fixed;bottom:92px;right:28px;z-index:7999;width:340px;background:var(--bg3,#18181F);border:1px solid rgba(212,175,55,0.25);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);display:none;flex-direction:column;max-height:520px;animation:chatOpen .25s cubic-bezier(.4,0,.2,1)}
+@keyframes chatOpen{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.sb-chat-window.open{display:flex}
+
+/* ── CHAT HEADER ── */
+.sb-chat-head{background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(168,85,247,0.08));padding:14px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(212,175,55,0.15);flex-shrink:0}
+.sb-chat-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#8B7322);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.sb-chat-info{flex:1}
+.sb-chat-name{font-size:.88rem;font-weight:700;color:#F0EEF8;font-family:'DM Sans',sans-serif}
+.sb-chat-status{font-size:.7rem;color:#10B981;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif}
+.sb-chat-status::before{content:'';width:5px;height:5px;background:#10B981;border-radius:50%;flex-shrink:0}
+.sb-chat-close{background:transparent;border:none;color:#8A87A0;cursor:pointer;font-size:.9rem;padding:4px;transition:color .2s}
+.sb-chat-close:hover{color:#F0EEF8}
+
+/* ── CHAT MESSAGES ── */
+.sb-chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:240px}
+.sb-chat-msgs::-webkit-scrollbar{width:3px}
+.sb-chat-msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.06);border-radius:2px}
+.sb-msg{max-width:86%;font-size:.82rem;line-height:1.55;font-family:'DM Sans',sans-serif}
+.sb-msg-bot{align-self:flex-start;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:4px 14px 14px 14px;padding:9px 13px;color:#D0CDE8}
+.sb-msg-user{align-self:flex-end;background:linear-gradient(135deg,rgba(212,175,55,0.25),rgba(139,115,34,0.3));border:1px solid rgba(212,175,55,0.2);border-radius:14px 4px 14px 14px;padding:9px 13px;color:#F0EEF8}
+.sb-msg-typing{align-self:flex-start;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:4px 14px 14px 14px;padding:10px 16px;display:flex;gap:4px;align-items:center}
+.sb-typing-dot{width:6px;height:6px;background:#8A87A0;border-radius:50%;animation:typeDot 1.2s infinite}
+.sb-typing-dot:nth-child(2){animation-delay:.2s}
+.sb-typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes typeDot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+
+/* ── QUICK CHIPS ── */
+.sb-chips{padding:0 14px 10px;display:flex;flex-wrap:wrap;gap:5px;flex-shrink:0}
+.sb-chip{background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);color:#D4AF37;font-size:.72rem;padding:5px 10px;border-radius:20px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .2s;white-space:nowrap}
+.sb-chip:hover{background:rgba(212,175,55,0.2);border-color:rgba(212,175,55,0.4)}
+
+/* ── CHAT INPUT ── */
+.sb-chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid rgba(255,255,255,0.06);flex-shrink:0;background:rgba(0,0,0,0.2)}
+.sb-chat-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 12px;color:#F0EEF8;font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none;transition:border .2s;resize:none}
+.sb-chat-input:focus{border-color:rgba(212,175,55,0.4)}
+.sb-chat-input::placeholder{color:#4A4860}
+.sb-chat-send{background:linear-gradient(135deg,#D4AF37,#8B7322);border:none;width:36px;height:36px;border-radius:9px;cursor:pointer;color:#000;font-size:.9rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;align-self:flex-end}
+.sb-chat-send:hover{transform:scale(1.05)}
+
+/* ── CHAT FOOTER ── */
+.sb-chat-footer{text-align:center;padding:7px;font-size:.64rem;color:#4A4860;font-family:'DM Sans',sans-serif;border-top:1px solid rgba(255,255,255,0.04);flex-shrink:0}
+.sb-chat-footer a{color:#D4AF37;text-decoration:none}
+</style>
+
+<!-- AI CHAT HTML -->
+<button class="sb-chat-bubble" id="sbBubble" onclick="sbToggleChat()">
+  <i class="fas fa-robot" id="sbBubbleIco"></i>
+  <span class="sb-chat-dot"></span>
+</button>
+
+<div class="sb-chat-window" id="sbChatWindow">
+  <div class="sb-chat-head">
+    <div class="sb-chat-av">⭐</div>
+    <div class="sb-chat-info">
+      <div class="sb-chat-name">Springcompany AI Assistant</div>
+      <div class="sb-chat-status">Online · Typically replies instantly</div>
+    </div>
+    <button class="sb-chat-close" onclick="sbToggleChat()"><i class="fas fa-times"></i></button>
+  </div>
+
+  <div class="sb-chat-msgs" id="sbMsgs">
+    <div class="sb-msg sb-msg-bot">
+      👋 Hello! I'm the <strong>Springcompany AI Assistant</strong>. I can help you book celebrities, find the perfect star for your event, or answer any questions. How can I help you today?
+    </div>
+  </div>
+
+  <div class="sb-chips" id="sbChips">
+    <span class="sb-chip" onclick="sbChip('How do I book a celebrity?')">How to book?</span>
+    <span class="sb-chip" onclick="sbChip('Show me music celebrities')">Music stars</span>
+    <span class="sb-chip" onclick="sbChip('What are the payment options?')">Payments</span>
+    <span class="sb-chip" onclick="sbChip('What is a Fan Card?')">Fan Cards</span>
+    <span class="sb-chip" onclick="sbChip('How much does it cost to book?')">Pricing</span>
+    <span class="sb-chip" onclick="sbChip('Tell me about Meet & Greet')">Meet & Greet</span>
+  </div>
+
+  <div class="sb-chat-input-row">
+    <textarea class="sb-chat-input" id="sbInput" placeholder="Ask me anything..." rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sbSend()}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
+    <button class="sb-chat-send" onclick="sbSend()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+  <div class="sb-chat-footer">Powered by <a href="#">Springcompany AI</a> · <a href="#">Privacy</a></div>
+</div>
+
+<!-- AI CHATBOT JAVASCRIPT -->
+<script>
+// ══════════════════════════════════════════════
+// SPRINGCOMPANY AI CHATBOT
+// ══════════════════════════════════════════════
+
+var sbOpen = false;
+
+function sbToggleChat() {
+  sbOpen = !sbOpen;
+  var win = document.getElementById('sbChatWindow');
+  var ico = document.getElementById('sbBubbleIco');
+  var bub = document.getElementById('sbBubble');
+  win.classList.toggle('open', sbOpen);
+  bub.classList.toggle('open', sbOpen);
+  ico.className = sbOpen ? 'fas fa-times' : 'fas fa-robot';
+  if (sbOpen) {
+    setTimeout(function() {
+      var inp = document.getElementById('sbInput');
+      if (inp) inp.focus();
+    }, 300);
+  }
+}
+
+// ── AI KNOWLEDGE BASE ─────────────────────────
+var sbKnowledge = {
+  booking: [
+    "To book a celebrity on Springcompany: \n\n1️⃣ Browse the celebrity grid\n2️⃣ Click 'View Profile' on your chosen star\n3️⃣ Fill in the booking request form\n4️⃣ Submit — we'll confirm within 24 hours!\n\nPayment is only required after confirmation.",
+    "Booking is simple! Find your celebrity, click 'Book Now', fill in your event details including the date, budget, and event type, then submit. Our team reviews every request within 24 hours and contacts you to confirm.",
+  ],
+  payment: [
+    "We accept multiple payment methods:\n\n💳 Paystack — Cards & bank transfer\n🌍 Flutterwave — International\n₿ Bitcoin — Crypto payments\n🏦 Wire Transfer — SWIFT USD/EUR/GBP\n🌐 Western Union — Manual confirmation\n\nPayment is only required after your booking is confirmed!",
+    "Springcompany supports Paystack (cards, bank transfer), Flutterwave, Bitcoin, Western Union and bank wire transfers. All payments are 100% secure and encrypted.",
+  ],
+  pricing: [
+    "Celebrity fees vary based on their profile and event type. Base fees start from:\n\n🎵 Music artists — from $25,000\n🎬 Film & TV stars — from $40,000\n⚽ Athletes — from $30,000\n😂 Comedians — from $20,000\n\nYour event budget is reviewed as part of the booking process.",
+    "Each celebrity sets their own base fee which is shown on their profile page. Fees can vary depending on event type, location, duration and date. Contact us for a custom quote!",
+  ],
+  fancard: [
+    "Fan Cards give you exclusive perks for your favourite celebrity! 🎉\n\n🥈 Silver ($29/yr) — Exclusive content, monthly updates\n🥇 Gold ($79/yr) — Priority booking, signed digital photo\n👑 VIP ($199/yr) — Meet & Greet invite, signed merch pack\n\nGo to any celebrity profile and click 'Buy Fan Card' to get started!",
+    "Fan Cards are annual subscriptions that unlock exclusive benefits with your favourite celebrity. There are 3 tiers: Silver ($29), Gold ($79) and VIP ($199) — each with progressively better perks!",
+  ],
+  meetgreet: [
+    "Meet & Greet experiences include:\n\n📸 Professional photo session\n✍️ Signed memorabilia\n💬 Private Q&A session\n👑 VIP access pass\n🎁 Exclusive merch pack\n\nScroll down to the 'Meet Your Favorite Celebrity Live' section to book yours!",
+    "A Meet & Greet is an intimate, once-in-a-lifetime experience. You get up close time with your favourite celebrity, professional photos, signed items, and more. Book through the Meet & Greet section on our homepage!",
+  ],
+  music: [
+    "Our music celebrities include:\n\n⭐ Aria Sinclair — Pop artist, $50K+\n⭐ Sofia Reyes — Latin pop, $35K+\n⭐ Isabella Voss — R&B singer, $45K+\n\nClick 'Music' in the celebrity filter to see all music stars available for booking!",
+    "We have over 200 music artists available for bookings — from pop and R&B to hip-hop, jazz and classical. Use the 'Music' filter on the celebrities page to browse them all!",
+  ],
+  film: [
+    "Our film & TV celebrities include:\n\n⭐ Marcus Williams — Hollywood actor, $75K+\n⭐ Theo Anderson — Actor/Producer, $60K+\n\nClick 'Film & TV' in the celebrity filter to browse all available actors!",
+  ],
+  sports: [
+    "Our sports celebrities include:\n\n⭐ Jordan Blake — NBA Champion, $100K+\n\nAthletes are great for brand activations, corporate events, sports camps, and inspirational talks. Check the 'Sports' category to see all available athletes!",
+  ],
+  default: [
+    "That's a great question! I'd recommend browsing our celebrity profiles to find the perfect match for your event. You can filter by category (Music, Film, Sports, Comedy, Fashion) and search by name. Can I help you narrow it down? 🌟",
+    "I'm here to help you find and book the perfect celebrity for your event! Feel free to ask me about specific celebrities, pricing, the booking process, or anything else about Springcompany.",
+    "I'd love to help you with that! For specific requests or complex bookings, our team is available 24/7 at bookings@springcompany.com. Is there anything specific about our celebrities or booking process I can explain?",
+    "Great question! Springcompany has over 500 verified celebrities across Music, Film, Sports, Comedy and Fashion. Is there a specific type of celebrity or event you have in mind? I can help you find the perfect match! 🎯",
+  ],
+};
+
+function sbGetReply(msg) {
+  var m = msg.toLowerCase();
+  if (m.includes('book') || m.includes('reserve') || m.includes('hire')) return sbPick(sbKnowledge.booking);
+  if (m.includes('pay') || m.includes('bitcoin') || m.includes('crypto') || m.includes('paystack') || m.includes('card')) return sbPick(sbKnowledge.payment);
+  if (m.includes('price') || m.includes('cost') || m.includes('fee') || m.includes('how much')) return sbPick(sbKnowledge.pricing);
+  if (m.includes('fan card') || m.includes('fancard') || m.includes('membership') || m.includes('subscribe')) return sbPick(sbKnowledge.fancard);
+  if (m.includes('meet') || m.includes('greet') || m.includes('photo') || m.includes('personal')) return sbPick(sbKnowledge.meetgreet);
+  if (m.includes('music') || m.includes('singer') || m.includes('artist') || m.includes('pop')) return sbPick(sbKnowledge.music);
+  if (m.includes('film') || m.includes('actor') || m.includes('movie') || m.includes('tv')) return sbPick(sbKnowledge.film);
+  if (m.includes('sport') || m.includes('athlete') || m.includes('basketball') || m.includes('football')) return sbPick(sbKnowledge.sports);
+  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! 👋 Welcome to Springcompany — the world's premier celebrity booking platform. How can I help you today?";
+  if (m.includes('thank')) return "You're very welcome! Is there anything else I can help you with? ⭐";
+  if (m.includes('human') || m.includes('agent') || m.includes('person') || m.includes('support')) return "To speak with a human agent, email us at support@springcompany.com or use the Contact form on our homepage. Our team typically responds within 2 hours! 😊";
+  return sbPick(sbKnowledge.default);
+}
+
+function sbPick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function sbAddMsg(text, type) {
+  var msgs = document.getElementById('sbMsgs');
+  var div = document.createElement('div');
+  div.className = 'sb-msg sb-msg-' + type;
+  // Allow line breaks
+  div.innerHTML = text.replace(/\n/g, '<br>');
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function sbShowTyping() {
+  var msgs = document.getElementById('sbMsgs');
+  var div = document.createElement('div');
+  div.className = 'sb-msg-typing';
+  div.id = 'sbTyping';
+  div.innerHTML = '<div class="sb-typing-dot"></div><div class="sb-typing-dot"></div><div class="sb-typing-dot"></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sbRemoveTyping() {
+  var t = document.getElementById('sbTyping');
+  if (t) t.remove();
+}
+
+function sbSend() {
+  var inp = document.getElementById('sbInput');
+  var val = inp.value.trim();
+  if (!val) return;
+  sbAddMsg(val, 'user');
+  inp.value = '';
+  inp.style.height = 'auto';
+  document.getElementById('sbChips').style.display = 'none';
+  sbShowTyping();
+  var delay = 800 + Math.random() * 700;
+  setTimeout(function() {
+    sbRemoveTyping();
+    sbAddMsg(sbGetReply(val), 'bot');
+  }, delay);
+}
+
+function sbChip(text) {
+  sbAddMsg(text, 'user');
+  document.getElementById('sbChips').style.display = 'none';
+  sbShowTyping();
+  setTimeout(function() {
+    sbRemoveTyping();
+    sbAddMsg(sbGetReply(text), 'bot');
+  }, 900);
+}
+</script>
+
+</body>
+</html>
