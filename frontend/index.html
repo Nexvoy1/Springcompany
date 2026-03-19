@@ -884,6 +884,13 @@ var heroIndex = 0;
 var heroSlides, heroDots;
 
 // ── INIT ──────────────────────────────────────
+window.addEventListener('load', function() {
+  initHero();
+  renderTrending();
+  renderCelebs(CELEBRITIES);
+  initMeetGreetStars();
+  initScrollNav();
+});
 
 
 // ── CUSTOM CURSOR ──────────────────────────────
