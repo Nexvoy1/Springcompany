@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="description" content="Springcompany — The World's Premier Celebrity Booking Platform. Book your favorite stars for events, meet & greets, and exclusive experiences.">
 <meta name="keywords" content="celebrity booking, book celebrity, entertainment, star booking">
-<title>Springcompany — Book The Stars</title>
+<title>Springcompany — Book Your Favorite Celebrities</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -33,9 +33,7 @@
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:default}
 
-/* CUSTOM CURSOR */
-.cursor{width:12px;height:12px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:99999;transition:transform .1s;mix-blend-mode:difference}
-.cursor-ring{width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:99998;transition:all .15s ease;mix-blend-mode:difference}
+
 
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:4px}
@@ -86,7 +84,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
 .hero-badge span{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,10vw,7.5rem);line-height:.95;letter-spacing:4px;margin-bottom:12px;animation:fadeUp .8s ease .5s both}
-.hero-title span{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-title span{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s ease-in-out infinite}
 .hero-sub{font-size:1.1rem;color:rgba(240,238,248,.75);max-width:520px;margin:0 auto 36px;line-height:1.7;animation:fadeUp .8s ease .7s both}
 .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s ease .9s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
@@ -103,12 +101,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
 .hero-scroll::after{content:'';width:1px;height:40px;background:linear-gradient(var(--gold),transparent)}
 
 /* ── FLOATING SOCIALS ── */
-.float-social{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;border-radius:0 12px 12px 0;overflow:hidden}
-.float-social a{width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;text-decoration:none;transition:all .25s;position:relative}
-.float-social a:hover{width:120px;justify-content:flex-start;padding-left:12px;gap:8px}
-.float-social a .fs-lbl{font-size:11px;font-weight:600;opacity:0;max-width:0;overflow:hidden;transition:all .25s;white-space:nowrap}
-.float-social a:hover .fs-lbl{opacity:1;max-width:80px}
-.fs-wa{background:#25D366}.fs-tg{background:#229ED9}
+
 
 /* ── SECTION STYLES ── */
 .section{padding:90px 32px}
@@ -354,28 +347,110 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   .contact-grid{grid-template-columns:1fr}
   .profile-grid{grid-template-columns:1fr}
 }
+@media(max-width:900px){
+  .celeb-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .profile-grid{grid-template-columns:1fr}
+}
+
 @media(max-width:768px){
+  /* NAVBAR — stops zooming needed */
+  #navbar{padding:0 12px;height:58px}
   .nav-center{display:none}
-  .celeb-grid{grid-template-columns:repeat(2,1fr)}
-  .hero-title{font-size:3.2rem}
-  .section{padding:60px 16px}
-  #navbar{padding:0 16px}
-  .footer-grid{grid-template-columns:1fr}
+  .nav-logo-text{font-size:1.1rem;letter-spacing:1px}
+  .nav-logo-icon{width:30px;height:30px;font-size:.85rem}
+  .nav-btn{padding:6px 10px;font-size:.75rem}
+  .nav-right{gap:6px}
+  .hamburger{width:34px;height:34px;font-size:.9rem}
+
+  /* HERO */
+  .hero-title{font-size:2.8rem}
+  .hero-sub{font-size:.88rem;padding:0 10px}
+  .hero-actions{flex-direction:column;align-items:center;gap:10px;padding:0 20px}
+  .btn-book-now{width:100%;text-align:center;padding:14px 24px;font-size:1.1rem}
+  .btn-explore{width:100%;text-align:center;padding:13px 24px}
+
+  /* SECTIONS */
+  .section{padding:50px 14px}
+  .section-inner{padding:0}
+
+  /* CELEBRITY GRID */
+  .celeb-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+
+  /* FORMS */
   .form-row,.bf-row{grid-template-columns:1fr}
   .fan-card-grid{grid-template-columns:1fr}
+  .about-features{grid-template-columns:1fr}
+
+  /* FOOTER */
+  .footer-grid{grid-template-columns:1fr}
+  .footer-grid > div{text-align:center}
+  .footer-social{justify-content:center}
+
+  /* MEGA MENU */
+  .mega-menu{width:100%;border-radius:0}
+
+  /* STATS */
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+
+  /* MEET & GREET PERKS */
+  .mg-perks{flex-direction:column;align-items:center;gap:12px}
+  .btn-mg{padding:16px 32px;font-size:1.1rem}
+
+  /* NEWSLETTER */
+  .nl-row{flex-direction:column}
+  .nl-input,.nl-btn{width:100%}
+
+  /* ABOUT */
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+
+  /* PROFILE PAGE */
+  .profile-grid{grid-template-columns:1fr}
+  .bf-row{grid-template-columns:1fr}
+}
+
+@media(max-width:480px){
+  /* VERY SMALL PHONES */
+  #navbar{padding:0 10px;height:54px}
+  .nav-logo-text{font-size:1rem;letter-spacing:0}
+  .nav-logo-icon{width:28px;height:28px;font-size:.8rem}
+  .nav-btn{padding:5px 8px;font-size:.72rem}
+  .nav-right{gap:4px}
+  .hamburger{width:32px;height:32px;font-size:.85rem}
+
+  .hero-title{font-size:2.2rem;letter-spacing:2px}
+  .hero-badge{font-size:.68rem;padding:5px 12px}
+
+  .celeb-grid{grid-template-columns:1fr}
+  .fan-card-grid{grid-template-columns:1fr}
+
+  .section{padding:40px 12px}
+  .mg-title{font-size:2.2rem}
+  .about-features{grid-template-columns:1fr}
+  .profile-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:360px){
+  /* VERY TINY PHONES like older Androids */
+  #navbar{padding:0 8px}
+  .nav-btn{display:none}
+  .hamburger{width:30px;height:30px}
+  .nav-logo-text{font-size:.9rem}
+  .hero-title{font-size:1.9rem}
 }
 </style>
 </head>
 <body>
 
-<!-- CUSTOM CURSOR -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+
 
 <!-- ── NAVBAR ── -->
 <nav id="navbar">
   <a href="#" class="nav-logo" onclick="showHome()">
-    <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;object-fit:contain;border-radius:10px">
+    <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain">
     <span class="nav-logo-text">Springcompany</span>
   </a>
   <div class="nav-center">
@@ -404,21 +479,12 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-shopping-bag"></i></div><div><div style="font-weight:600">Shop</div><div style="font-size:.74rem;color:var(--muted)">Merch & collectibles</div></div></a>
   <div class="theme-toggle" onclick="toggleTheme()">
     <i class="fas fa-moon" id="themeIco"></i>
-    <span id="themeLabel">Switch to Light Mode</span>
+    <span id="themeLabel">Switch to Dark Mode</span>
   </div>
 </div>
 
 <!-- FLOATING SOCIAL -->
-<div class="float-social">
-  <a href="https://wa.me/1234567890" target="_blank" class="fs-wa" title="WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-    <span class="fs-lbl">WhatsApp</span>
-  </a>
-  <a href="https://t.me/springcompany" target="_blank" class="fs-tg" title="Telegram">
-    <i class="fab fa-telegram"></i>
-    <span class="fs-lbl">Telegram</span>
-  </a>
-</div>
+
 
 <!-- ══════════════ HOMEPAGE ══════════════ -->
 <div id="homepage">
@@ -439,7 +505,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   <div class="hero-overlay2"></div>
   <div class="hero-content">
     <div class="hero-badge"><span></span>World's #1 Celebrity Booking Platform</div>
-    <h1 class="hero-title">BOOK THE<br><span>STARS</span></h1>
+    <h1 class="hero-title" style="text-shadow:0 2px 20px rgba(0,0,0,0.4)"><span>BOOK YOUR FAVORITE</span><br><span>CELEBRITIES</span></h1>
     <p class="hero-sub">Connect with the world's most iconic entertainers. Book celebrities for events, appearances, meet & greets, and exclusive experiences.</p>
     <div class="hero-actions">
       <button class="btn-book-now" onclick="document.getElementById('celebrities').scrollIntoView({behavior:'smooth'})">BOOK NOW</button>
@@ -604,7 +670,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
     </div>
     <div class="contact-grid">
       <div class="contact-info">
-        <div class="ci-item"><div class="ci-ico"><i class="fas fa-envelope"></i></div><div><div class="ci-title">Email Us</div><div class="ci-text"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8eece1e1e5e7e0e9fdcefdfefce7e0e9ede1e3feefe0f7a0ede1e3">[email&#160;protected]</a><br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b8cbcdc8c8d7caccf8cbc8cad1d6dfdbd7d5c8d9d6c196dbd7d5">[email&#160;protected]</a></div></div></div>
+        <div class="ci-item"><div class="ci-ico"><i class="fas fa-envelope"></i></div><div><div class="ci-title">Email Us</div><div class="ci-text">bookings@springcompany.com<br>support@springcompany.com</div></div></div>
         <div class="ci-item"><div class="ci-ico"><i class="fas fa-phone"></i></div><div><div class="ci-title">Call Us</div><div class="ci-text">+1 (800) SPRINGCOMPANY<br>Mon–Fri 9AM–6PM EST</div></div></div>
         <div class="ci-item"><div class="ci-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="ci-title">Head Office</div><div class="ci-text">Beverly Hills, CA 90210<br>United States</div></div></div>
         <div class="ci-item"><div class="ci-ico"><i class="fas fa-clock"></i></div><div><div class="ci-title">Response Time</div><div class="ci-text">Bookings confirmed within 24 hours<br>Support replies within 2 hours</div></div></div>
@@ -644,7 +710,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   <div class="footer-grid">
     <div class="footer-brand">
       <a href="#" class="nav-logo" style="display:inline-flex" onclick="showHome()">
-        <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;object-fit:contain;border-radius:10px">
+        <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain">
         <span class="nav-logo-text">Springcompany</span>
       </a>
       <p>The world's most trusted celebrity booking platform. Connecting fans, brands and event organisers with iconic entertainers since 2020.</p>
@@ -867,7 +933,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ══════════════════════════════════════════════
 // SPRINGCOMPANY — COMPLETE JAVASCRIPT
 // ══════════════════════════════════════════════
@@ -907,21 +973,12 @@ window.addEventListener('load', function() {
   renderTrending();
   renderCelebs(CELEBRITIES);
   initMeetGreetStars();
-  initCursor();
   initScrollNav();
 });
 
+
 // ── CUSTOM CURSOR ──────────────────────────────
-function initCursor() {
-  var cur = document.getElementById('cursor');
-  var ring = document.getElementById('cursorRing');
-  document.addEventListener('mousemove', function(e) {
-    cur.style.left = (e.clientX - 6) + 'px';
-    cur.style.top = (e.clientY - 6) + 'px';
-    ring.style.left = (e.clientX - 18) + 'px';
-    ring.style.top = (e.clientY - 18) + 'px';
-  });
-}
+
 
 // ── SCROLL NAV ────────────────────────────────
 function initScrollNav() {
@@ -1105,34 +1162,207 @@ function socialAuth(provider) {
   showToast('✅ Signed in with ' + provider + '! Welcome to Springcompany.');
 }
 function doRegister() {
-  var first = document.getElementById('regFirst').value;
-  var email = document.getElementById('regEmail').value;
-  var pass = document.getElementById('regPass').value;
-  if (!first || !email || pass.length < 8) { showToast('⚠️ Please fill all fields (password min 8 chars)'); return; }
-  USERS.push({name: first, email: email, pass: pass});
-  currentUser = {name: first, email: email};
-  closeAuth();
-  showToast('🎉 Account created! Welcome to Springcompany, ' + first + '!');
-}
-function doLogin() {
-  var email = document.getElementById('loginEmail').value;
-  var pass = document.getElementById('loginPass').value;
-  if (!email || !pass) { showToast('⚠️ Please enter email and password'); return; }
-  var user = USERS.find(function(u) { return u.email === email && u.pass === pass; });
-  if (user) {
-    currentUser = user;
-    closeAuth();
-    showToast('✅ Welcome back, ' + user.name + '!');
-  } else if (pass.length >= 6) {
-    currentUser = {name: email.split('@')[0], email: email};
-    closeAuth();
-    showToast('✅ Welcome back to Springcompany!');
-  } else {
-    showToast('❌ Incorrect email or password');
-  }
+  var first = (document.getElementById('regFirst').value || '').trim();
+  var last  = (document.getElementById('regLast').value || '').trim();
+  var email = (document.getElementById('regEmail').value || '').trim();
+  var pass  = document.getElementById('regPass').value || '';
+
+  // Validation
+  if (!first) { showAuthError('Please enter your first name'); return; }
+  if (!email || !email.includes('@')) { showAuthError('Please enter a valid email'); return; }
+  if (pass.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
+
+  // Show loading state
+  var btn = document.querySelector('#registerFields .btn-auth');
+  var original = btn.textContent;
+  btn.textContent = 'Creating account...';
+  btn.disabled = true;
+
+  // Send to your real backend
+  fetch('/api/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstName: first,
+      lastName: last,
+      email: email,
+      password: pass
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    btn.textContent = original;
+    btn.disabled = false;
+
+    if (data.success) {
+      // Save the token and user info
+      localStorage.setItem('sc_token', data.token);
+      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+      closeAuth();
+      updateNavForLoggedInUser(data.user.firstName);
+      showToast('🎉 Welcome to Springcompany, ' + data.user.firstName + '!');
+    } else {
+      showAuthError(data.message || 'Registration failed. Please try again.');
+    }
+  })
+  .catch(function() {
+    btn.textContent = original;
+    btn.disabled = false;
+    showAuthError('Connection error. Please check your internet and try again.');
+  });
 }
 
 // ── NAV ───────────────────────────────────────
+function doLogin() {
+  var email = (document.getElementById('loginEmail').value || '').trim();
+  var pass  = document.getElementById('loginPass').value || '';
+
+  if (!email) { showAuthError('Please enter your email'); return; }
+  if (!pass)  { showAuthError('Please enter your password'); return; }
+
+  var btn = document.querySelector('#loginFields .btn-auth');
+  var original = btn.textContent;
+  btn.textContent = 'Signing in...';
+  btn.disabled = true;
+
+  fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, password: pass })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    btn.textContent = original;
+    btn.disabled = false;
+    if (data.success) {
+      localStorage.setItem('sc_token', data.token);
+      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+      closeAuth();
+      updateNavForLoggedInUser(data.user.firstName);
+      showToast('✅ Welcome back, ' + data.user.firstName + '!');
+    } else {
+      showAuthError(data.message || 'Incorrect email or password.');
+    }
+  })
+  .catch(function() {
+    btn.textContent = original;
+    btn.disabled = false;
+    showAuthError('Connection error. Please check your internet and try again.');
+  });
+}
+
+function showAuthError(msg) {
+  var err = document.getElementById('authError');
+  if (!err) {
+    err = document.createElement('div');
+    err.id = 'authError';
+    err.style.cssText = 'background:rgba(244,63,94,0.12);border:1px solid rgba(244,63,94,0.3);color:#F43F5E;padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:12px;text-align:center;font-weight:500';
+    var loginFields = document.getElementById('loginFields');
+    var regFields = document.getElementById('registerFields');
+    var visible = (loginFields && loginFields.style.display !== 'none') ? loginFields : regFields;
+    if (visible) visible.insertBefore(err, visible.firstChild);
+  }
+  err.textContent = msg;
+  err.style.display = 'block';
+}
+
+function updateNavForLoggedInUser(name) {
+  if (!name) return;
+  name = name.charAt(0).toUpperCase() + name.slice(1);
+  var signInBtn = document.querySelector('.nav-btn.btn-ghost');
+  var joinBtn   = document.querySelector('.nav-btn.btn-gold');
+  if (signInBtn) signInBtn.style.display = 'none';
+  if (joinBtn)   joinBtn.style.display   = 'none';
+  var pill = document.getElementById('navUserPill');
+  if (!pill) {
+    pill = document.createElement('div');
+    pill.id = 'navUserPill';
+    pill.style.cssText = 'display:flex;align-items:center;gap:8px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);padding:6px 14px;border-radius:50px;cursor:pointer;margin-left:4px';
+    pill.onclick = showUserMenu;
+    var av = document.createElement('div');
+    av.id = 'navUserAv';
+    av.style.cssText = 'width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#8B7322);display:flex;align-items:center;justify-content:center;color:#000;font-size:11px;font-weight:700;flex-shrink:0';
+    av.textContent = name.charAt(0).toUpperCase();
+    var nm = document.createElement('span');
+    nm.id = 'navUserName';
+    nm.style.cssText = 'font-size:13px;font-weight:600;color:#D4AF37;font-family:DM Sans,sans-serif';
+    nm.textContent = name;
+    var arr = document.createElement('span');
+    arr.style.cssText = 'font-size:10px;color:#8A87A0';
+    arr.textContent = '▼';
+    pill.appendChild(av);
+    pill.appendChild(nm);
+    pill.appendChild(arr);
+    var navRight = document.querySelector('.nav-right');
+    if (navRight) navRight.appendChild(pill);
+  } else {
+    pill.style.display = 'flex';
+    var av2 = document.getElementById('navUserAv');
+    var nm2 = document.getElementById('navUserName');
+    if (av2) av2.textContent = name.charAt(0).toUpperCase();
+    if (nm2) nm2.textContent = name;
+  }
+}
+
+function showUserMenu() {
+  var existing = document.getElementById('userDropdown');
+  if (existing) { existing.remove(); return; }
+  var currentUser = JSON.parse(localStorage.getItem('sc_current_user') || 'null');
+  var dropdown = document.createElement('div');
+  dropdown.id = 'userDropdown';
+  dropdown.style.cssText = 'position:fixed;top:68px;right:16px;background:#18181F;border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:8px;min-width:180px;z-index:9999;box-shadow:0 12px 32px rgba(0,0,0,0.5);font-family:DM Sans,sans-serif';
+  var userName  = currentUser ? (currentUser.firstName || currentUser.name || 'User') : 'User';
+  var userEmail = currentUser ? (currentUser.email || '') : '';
+  dropdown.innerHTML =
+    '<div style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:6px">' +
+      '<div style="font-size:.84rem;font-weight:700;color:#F0EEF8">' + userName + '</div>' +
+      '<div style="font-size:.72rem;color:#8A87A0;margin-top:2px">' + userEmail + '</div>' +
+    '</div>' +
+    '<div onclick="showToast(\'My Bookings coming soon!\')" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#D0CDE8" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'transparent\'">' +
+      '<i class="fas fa-calendar-check" style="color:#D4AF37;width:16px"></i> My Bookings' +
+    '</div>' +
+    '<div onclick="showToast(\'Fan Cards coming soon!\')" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#D0CDE8" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'transparent\'">' +
+      '<i class="fas fa-id-card" style="color:#D4AF37;width:16px"></i> My Fan Cards' +
+    '</div>' +
+    '<div style="border-top:1px solid rgba(255,255,255,0.07);margin-top:6px;padding-top:6px">' +
+      '<div onclick="doLogout()" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#F43F5E" onmouseover="this.style.background=\'rgba(244,63,94,0.08)\'" onmouseout="this.style.background=\'transparent\'">' +
+        '<i class="fas fa-sign-out-alt" style="width:16px"></i> Sign Out' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(dropdown);
+  setTimeout(function() {
+    document.addEventListener('click', function closeDD(e) {
+      if (!dropdown.contains(e.target) && !e.target.closest('#navUserPill')) {
+        dropdown.remove();
+        document.removeEventListener('click', closeDD);
+      }
+    });
+  }, 100);
+}
+
+function doLogout() {
+  localStorage.removeItem('sc_token');
+  localStorage.removeItem('sc_current_user');
+  var dd = document.getElementById('userDropdown');
+  if (dd) dd.remove();
+  var pill = document.getElementById('navUserPill');
+  if (pill) pill.style.display = 'none';
+  var signInBtn = document.querySelector('.nav-btn.btn-ghost');
+  var joinBtn   = document.querySelector('.nav-btn.btn-gold');
+  if (signInBtn) signInBtn.style.display = '';
+  if (joinBtn)   joinBtn.style.display   = '';
+  showToast('👋 You have been signed out. See you soon!');
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  var savedUser  = localStorage.getItem('sc_current_user');
+  var savedToken = localStorage.getItem('sc_token');
+  if (savedUser && savedToken) {
+    var user = JSON.parse(savedUser);
+    updateNavForLoggedInUser(user.firstName || user.name || 'User');
+  }
+});
+
 function showHome() {
   closeProfile();
 }
@@ -1210,9 +1440,9 @@ function showToast(msg) {
 
 <div class="sb-chat-window" id="sbChatWindow">
   <div class="sb-chat-head">
-    <div class="sb-chat-av">⭐</div>
+    <div class="sb-chat-av"></div>
     <div class="sb-chat-info">
-      <div class="sb-chat-name">Springcompany AI Assistant</div>
+      <div class="sb-chat-name">Springcompany online Moderator Help Desk</div>
       <div class="sb-chat-status">Online · Typically replies instantly</div>
     </div>
     <button class="sb-chat-close" onclick="sbToggleChat()"><i class="fas fa-times"></i></button>
@@ -1220,7 +1450,7 @@ function showToast(msg) {
 
   <div class="sb-chat-msgs" id="sbMsgs">
     <div class="sb-msg sb-msg-bot">
-      👋 Hello! I'm the <strong>Springcompany AI Assistant</strong>. I can help you book celebrities, find the perfect star for your event, or answer any questions. How can I help you today?
+      👋 Hello! I'm the <strong>Springcompany Online Moderator Help Desk</strong>. I can help you book celebrities, find the perfect star for your event, or answer any questions. How can I help you today?
     </div>
   </div>
 
@@ -1239,7 +1469,7 @@ function showToast(msg) {
       oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
     <button class="sb-chat-send" onclick="sbSend()"><i class="fas fa-paper-plane"></i></button>
   </div>
-  <div class="sb-chat-footer">Powered by <a href="#">Springcompany AI</a> · <a href="#">Privacy</a></div>
+  <div class="sb-chat-footer">Powered by <a href="#">Springcompany Moderator</a> · <a href="#">Privacy</a></div>
 </div>
 
 <!-- AI CHATBOT JAVASCRIPT -->
@@ -1361,4 +1591,23 @@ function sbSend() {
   inp.style.height = 'auto';
   document.getElementById('sbChips').style.display = 'none';
   sbShowTyping();
-  var delay = 800 + Math.random() 
+  var delay = 800 + Math.random() * 700;
+  setTimeout(function() {
+    sbRemoveTyping();
+    sbAddMsg(sbGetReply(val), 'bot');
+  }, delay);
+}
+
+function sbChip(text) {
+  sbAddMsg(text, 'user');
+  document.getElementById('sbChips').style.display = 'none';
+  sbShowTyping();
+  setTimeout(function() {
+    sbRemoveTyping();
+    sbAddMsg(sbGetReply(text), 'bot');
+  }, 900);
+}
+</script>
+
+</body>
+</html>
