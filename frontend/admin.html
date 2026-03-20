@@ -833,7 +833,7 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── ADMIN PROTECTION ──────────────────────────
+ // ── ADMIN PROTECTION ──────────────────────────
 (function() {
   var token = localStorage.getItem('sc_token');
   var userStr = localStorage.getItem('sc_current_user');
@@ -845,44 +845,24 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
     return;
   }
 
-  // Check role from saved data first
+  // Parse saved user
+  var user = null;
   try {
-    var user = JSON.parse(userStr);
-    if (user.role === 'admin') {
-      // Already confirmed admin from saved data
-      console.log('Admin access granted:', user.email);
-      return;
-    }
-  } catch(e) {}
+    user = JSON.parse(userStr);
+  } catch(e) {
+    window.location.href = '/';
+    return;
+  }
 
-  // If role not confirmed yet verify with server
-  fetch('/api/auth/me', {
-    headers: { 'Authorization': 'Bearer ' + token }
-  })
-  .then(function(res) { return res.json(); })
-  .then(function(data) {
-    if (data.success && data.user && data.user.role === 'admin') {
-      // Save fresh user data
-      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
-      console.log('Admin verified by server:', data.user.email);
-    } else {
-      alert('Access denied. Admins only.');
-      window.location.href = '/';
-    }
-  })
-  .catch(function() {
-    // If server check fails allow if saved data says admin
-    var userStr2 = localStorage.getItem('sc_current_user');
-    try {
-      var user2 = JSON.parse(userStr2);
-      if (user2.role !== 'admin') {
-        alert('Access denied. Admins only.');
-        window.location.href = '/';
-      }
-    } catch(e) {
-      window.location.href = '/';
-    }
-  });
+  // Check role
+  if (!user || user.role !== 'admin') {
+    alert('Access denied. Admins only.');
+    window.location.href = '/';
+    return;
+  }
+
+  // All good — user is admin
+  console.log('✅ Admin access granted:', user.email);
 })();
 // ══════════════════════════════════════════════
 // SPRINGCOMPANY ADMIN DASHBOARD — JAVASCRIPT
