@@ -28,7 +28,11 @@
   --text:#0A0A1F;--muted:#5A5780;--dim:#9A97B0;
   --surface:rgba(0,0,0,0.03);--surface2:rgba(0,0,0,0.06);
   --border:rgba(0,0,0,0.08);
-}
+--surface2:rgba(0,0,0,0.06);}[data-theme="light"] .mega-menu{background:rgba(255,255,255,0.99);border-color:rgba(212,175,55,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.12)}
+[data-theme="light"] .mega-menu-item{color:#1a1a3a}
+[data-theme="light"] .mega-menu-item:hover{background:rgba(212,175,55,0.08);color:#8B7322}
+[data-theme="light"] .mega-menu-item .mmi-ico{background:rgba(0,0,0,0.05)}
+[data-theme="light"] .theme-toggle{color:#3a3760;border-top-color:rgba(0,0,0,0.08)}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:default}
@@ -63,13 +67,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
 .hamburger:hover{border-color:var(--gold);color:var(--gold)}
 
 /* MEGA MENU */
-.mega-menu{position:fixed;top:72px;right:0;width:320px;background:rgba(15,15,22,0.97);backdrop-filter:blur(30px);border:1px solid var(--border2);border-radius:0 0 0 20px;padding:24px;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:999}
+.mega-menu{position:fixed;top:72px;right:0;width:320px;background:var(--bg3);backdrop-filter:blur(30px);border:1px solid var(--border2);border-radius:0 0 0 20px;padding:24px;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:999}
 .mega-menu.open{transform:translateX(0)}
-.mega-menu-item{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:10px;text-decoration:none;color:var(--text);font-size:.9rem;font-weight:500;transition:all .2s;margin-bottom:4px}
+.mega-menu-item{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:10px;text-decoration:none;color:var(--text);font-size:.9rem;font-weight:600;transition:all .2s;margin-bottom:4px}
 .mega-menu-item:hover{background:var(--surface2);color:var(--gold)}
 .mega-menu-item .mmi-ico{width:36px;height:36px;border-radius:9px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
 .mega-menu-item:hover .mmi-ico{background:rgba(212,175,55,0.15);color:var(--gold)}
-.theme-toggle{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;cursor:pointer;margin-top:12px;border-top:1px solid var(--border);padding-top:16px;color:var(--muted);font-size:.84rem}
+.theme-toggle{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;cursor:pointer;margin-top:12px;border-top:1px solid var(--border);padding-top:16px;color:var(--text);font-size:.84rem;font-weight:600}
 
 /* ── HERO SECTION ── */
 #hero{position:relative;height:100vh;min-height:700px;overflow:hidden;display:flex;align-items:center;justify-content:center}
