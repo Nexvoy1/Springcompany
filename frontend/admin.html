@@ -19,6 +19,12 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
 
+/* ── LOADING SCREEN ── */
+#loadingScreen{position:fixed;inset:0;background:var(--bg);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+#loadingScreen .spin{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loadingScreen p{color:var(--muted);font-size:.84rem}
+
 /* ── SIDEBAR ── */
 .sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform .3s}
 .sidebar-logo{padding:20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
@@ -52,7 +58,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .search-bar{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 12px;width:220px}
 .search-bar input{background:transparent;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.84rem;flex:1}
 .search-bar input::placeholder{color:var(--dim)}
-
 .content{padding:24px;flex:1}
 
 /* ── PANELS ── */
@@ -189,10 +194,16 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
 </head>
 <body>
 
+<!-- LOADING SCREEN — shows while we verify admin -->
+<div id="loadingScreen">
+  <div class="spin"></div>
+  <p>Verifying access...</p>
+</div>
+
 <!-- ── SIDEBAR ── -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <div class="logo-mark">SB</div>
+    <div class="logo-mark">SC</div>
     <span class="logo-text">Springcompany</span>
     <span class="logo-badge">ADMIN</span>
   </div>
@@ -244,24 +255,26 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
     <button class="nav-item" onclick="showPanel('settings',this)">
       <span class="nav-ico"><i class="fas fa-cog"></i></span> Settings
     </button>
-    <button class="nav-item" onclick="window.open('index.html')">
+    <button class="nav-item" onclick="window.open('/')">
       <span class="nav-ico"><i class="fas fa-external-link-alt"></i></span> View Site
+    </button>
+    <button class="nav-item" onclick="adminLogout()">
+      <span class="nav-ico"><i class="fas fa-sign-out-alt"></i></span> Logout
     </button>
   </nav>
   <div class="sidebar-footer">
     <div class="admin-pill">
-      <div class="admin-av">A</div>
+      <div class="admin-av" id="adminAv">A</div>
       <div class="admin-info">
-        <div class="admin-name">Admin User</div>
+        <div class="admin-name" id="adminName">Admin</div>
         <div class="admin-role">⭐ Super Admin</div>
       </div>
-      <button class="btn btn-ghost btn-icon btn-sm" title="Logout" onclick="showToast('👋 Logged out')"><i class="fas fa-sign-out-alt"></i></button>
     </div>
   </div>
 </aside>
 
 <!-- ── MAIN ── -->
-<div class="main">
+<div class="main" id="mainContent" style="display:none">
 
   <!-- TOPBAR -->
   <div class="topbar">
@@ -285,7 +298,7 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
       <button class="tb-btn" onclick="showToast('✅ All systems operational')">
         <i class="fas fa-shield-alt"></i>
       </button>
-      <div style="width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold3));display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#000;cursor:pointer">A</div>
+      <div id="topbarAv" style="width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold3));display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#000;cursor:pointer">A</div>
     </div>
   </div>
 
@@ -333,7 +346,6 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
         </div>
       </div>
 
-      <!-- Second row stats -->
       <div class="three-col" style="margin-bottom:20px">
         <div class="stat-card">
           <div class="stat-top">
@@ -362,7 +374,6 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
       </div>
 
       <div class="two-col">
-        <!-- Revenue Chart -->
         <div class="card">
           <div class="card-head">
             <div><div class="card-title">Revenue Overview</div><div class="card-sub">Last 8 months</div></div>
@@ -386,8 +397,6 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
             </div>
           </div>
         </div>
-
-        <!-- Recent Activity -->
         <div class="card">
           <div class="card-head">
             <div><div class="card-title">Recent Activity</div><div class="card-sub">Latest platform events</div></div>
@@ -397,7 +406,6 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
         </div>
       </div>
 
-      <!-- Recent Bookings -->
       <div class="card" style="margin-top:20px">
         <div class="card-head">
           <div><div class="card-title">Recent Bookings</div><div class="card-sub">Latest booking requests</div></div>
@@ -426,9 +434,6 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
         <select style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none" onchange="filterCelebCat(this.value)">
           <option value="">All Categories</option>
           <option>Music</option><option>Film</option><option>Sports</option><option>Comedy</option><option>Fashion</option>
-        </select>
-        <select style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none">
-          <option>All Status</option><option>Verified</option><option>Unverified</option>
         </select>
       </div>
       <div class="card">
@@ -464,7 +469,6 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
           </select>
         </div>
       </div>
-      <!-- Booking stat pills -->
       <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px">
           <span style="font-size:1.1rem;font-weight:800;color:var(--text)">1,284</span>
@@ -489,15 +493,6 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
             <thead><tr><th>Ref</th><th>Client</th><th>Celebrity</th><th>Event</th><th>Date</th><th>Budget</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody id="bookingsTable"></tbody>
           </table>
-        </div>
-        <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center">
-          <div class="pagination">
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <button class="page-btn"><i class="fas fa-chevron-right" style="font-size:.7rem"></i></button>
-          </div>
-          <span class="page-info">Showing 1–10 of 1,284 bookings</span>
         </div>
       </div>
     </div>
@@ -833,42 +828,87 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
 <div class="toast" id="toast"></div>
 
 <script>
- // ── ADMIN PROTECTION ──────────────────────────
+// ══════════════════════════════════════════════
+// ADMIN PROTECTION — RUNS FIRST BEFORE ANYTHING
+// Shows loading screen while verifying
+// then shows dashboard if admin
+// or redirects to homepage if not
+// ══════════════════════════════════════════════
 (function() {
-  var token = localStorage.getItem('sc_token');
+  var token   = localStorage.getItem('sc_token');
   var userStr = localStorage.getItem('sc_current_user');
 
-  // Not logged in at all
+  // Not logged in at all — go home immediately
   if (!token || !userStr) {
-    alert('Please log in first.');
     window.location.href = '/';
     return;
   }
 
-  // Parse saved user
+  // Try to parse saved user
   var user = null;
-  try {
-    user = JSON.parse(userStr);
-  } catch(e) {
-    window.location.href = '/';
+  try { user = JSON.parse(userStr); } catch(e) {}
+
+  // If saved user is already confirmed admin — show dashboard immediately
+  if (user && user.role === 'admin') {
+    showDashboard(user);
     return;
   }
 
-  // Check role
-  if (!user || user.role !== 'admin') {
-    alert('Access denied. Admins only.');
-    window.location.href = '/';
-    return;
-  }
+  // If saved user is not admin — verify with server one more time
+  // in case role was recently updated in MongoDB
+  fetch('/api/auth/me', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success && data.user && data.user.role === 'admin') {
+      // Update saved user with fresh data
+      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+      showDashboard(data.user);
+    } else {
+      // Not admin — go home
+      window.location.href = '/';
+    }
+  })
+  .catch(function() {
+    // Server error — fall back to saved data
+    if (user && user.role === 'admin') {
+      showDashboard(user);
+    } else {
+      window.location.href = '/';
+    }
+  });
 
-  // All good — user is admin
-  console.log('✅ Admin access granted:', user.email);
+  function showDashboard(user) {
+    // Hide loading screen
+    document.getElementById('loadingScreen').style.display = 'none';
+    // Show main content
+    document.getElementById('mainContent').style.display = 'flex';
+    // Fill in admin name
+    var firstName = user.firstName || user.name || 'Admin';
+    var initial   = firstName.charAt(0).toUpperCase();
+    var nameEl    = document.getElementById('adminName');
+    var avEl      = document.getElementById('adminAv');
+    var topbarAv  = document.getElementById('topbarAv');
+    var subEl     = document.getElementById('pageSub');
+    if (nameEl)   nameEl.textContent   = firstName;
+    if (avEl)     avEl.textContent     = initial;
+    if (topbarAv) topbarAv.textContent = initial;
+    if (subEl)    subEl.textContent    = 'Welcome back, ' + firstName;
+  }
 })();
+
+// ── LOGOUT ────────────────────────────────────
+function adminLogout() {
+  localStorage.removeItem('sc_token');
+  localStorage.removeItem('sc_current_user');
+  window.location.href = '/';
+}
+
 // ══════════════════════════════════════════════
 // SPRINGCOMPANY ADMIN DASHBOARD — JAVASCRIPT
 // ══════════════════════════════════════════════
 
-// ── DEMO DATA ─────────────────────────────────
 var CELEBS = [
   {id:1,name:'Aria Sinclair',occ:'Pop Artist',cat:'Music',fee:'$50,000+',bookings:247,rating:4.9,verified:true,active:true},
   {id:2,name:'Marcus Williams',occ:'Film Actor',cat:'Film',fee:'$75,000+',bookings:189,rating:4.8,verified:true,active:true},
@@ -888,10 +928,10 @@ var BOOKINGS = [
   {ref:'SB-I9J0',client:'Robert Lee',celeb:'Luna Chase',event:'Fashion Show',date:'Jun 20, 2025',budget:'$35,000',payment:'paystack',payStatus:'unpaid',status:'pending'},
 ];
 
-var USERS = [
+var USERS_DATA = [
   {name:'James Wilson',email:'james@example.com',role:'user',bookings:3,fanCards:2,joined:'Jan 2025',active:true},
   {name:'Sarah Johnson',email:'sarah@example.com',role:'user',bookings:5,fanCards:1,joined:'Feb 2025',active:true},
-  {name:'Admin User',email:'admin@springcompany.com',role:'admin',bookings:0,fanCards:0,joined:'Jan 2025',active:true},
+  {name:'Spring Company',email:'zencoderick@gmail.com',role:'admin',bookings:0,fanCards:0,joined:'Mar 2025',active:true},
   {name:'Michael Brown',email:'michael@example.com',role:'user',bookings:2,fanCards:3,joined:'Mar 2025',active:true},
   {name:'Emma Davis',email:'emma@example.com',role:'user',bookings:1,fanCards:2,joined:'Mar 2025',active:false},
 ];
@@ -959,9 +999,9 @@ var panelTitles = {
 };
 
 function showPanel(id, btn){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
   document.getElementById('panel-'+id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   if(btn) btn.classList.add('active');
   document.getElementById('pageTitle').textContent = panelTitles[id]||id;
 }
@@ -969,44 +1009,43 @@ function showPanel(id, btn){
 // ── CELEBRITY TABLE ────────────────────────────
 function renderCelebTable(){
   var tbody = document.getElementById('celebTable');
-  tbody.innerHTML = CELEBS.map(c=>`
-    <tr>
-      <td><div class="celeb-row"><div class="avatar">${c.name.split(' ').map(w=>w[0]).join('')}</div><div class="celeb-row-info"><div class="celeb-row-name">${c.name}</div><div class="celeb-row-sub">${c.occ}</div></div></div></td>
-      <td><span class="badge badge-blue">${c.cat}</span></td>
-      <td style="color:var(--gold);font-weight:600">${c.fee}</td>
-      <td>${c.bookings}</td>
-      <td><span style="color:var(--gold)">★</span> ${c.rating}</td>
-      <td><span class="badge ${c.verified?'badge-green':'badge-gray'}">${c.verified?'✓ Verified':'Unverified'}</span></td>
-      <td><span class="badge ${c.active?'badge-green':'badge-red'}">${c.active?'Active':'Inactive'}</span></td>
-      <td>
-        <div style="display:flex;gap:5px">
-          <button class="btn btn-ghost btn-icon btn-sm" onclick="editCeleb(${c.id})" title="Edit"><i class="fas fa-edit"></i></button>
-          <button class="btn btn-success btn-icon btn-sm" onclick="toggleVerify(${c.id})" title="Toggle Verify"><i class="fas fa-check"></i></button>
-          <button class="btn btn-danger btn-icon btn-sm" onclick="showToast('Celebrity deactivated')" title="Deactivate"><i class="fas fa-ban"></i></button>
-        </div>
-      </td>
-    </tr>`).join('');
-  // Pagination
-  document.getElementById('celebPagination').innerHTML = [1,2,3,'...','64'].map((p,i)=>
-    `<button class="page-btn ${i===0?'active':''}" onclick="showToast('Page ${p}')">${p}</button>`).join('');
+  tbody.innerHTML = CELEBS.map(function(c){
+    return '<tr>'+
+      '<td><div class="celeb-row"><div class="avatar">'+c.name.split(' ').map(function(w){return w[0];}).join('')+'</div><div class="celeb-row-info"><div class="celeb-row-name">'+c.name+'</div><div class="celeb-row-sub">'+c.occ+'</div></div></div></td>'+
+      '<td><span class="badge badge-blue">'+c.cat+'</span></td>'+
+      '<td style="color:var(--gold);font-weight:600">'+c.fee+'</td>'+
+      '<td>'+c.bookings+'</td>'+
+      '<td><span style="color:var(--gold)">★</span> '+c.rating+'</td>'+
+      '<td><span class="badge '+(c.verified?'badge-green':'badge-gray')+'">'+(c.verified?'✓ Verified':'Unverified')+'</span></td>'+
+      '<td><span class="badge '+(c.active?'badge-green':'badge-red')+'">'+(c.active?'Active':'Inactive')+'</span></td>'+
+      '<td><div style="display:flex;gap:5px">'+
+        '<button class="btn btn-ghost btn-icon btn-sm" onclick="editCeleb('+c.id+')" title="Edit"><i class="fas fa-edit"></i></button>'+
+        '<button class="btn btn-success btn-icon btn-sm" onclick="toggleVerify('+c.id+')" title="Toggle Verify"><i class="fas fa-check"></i></button>'+
+        '<button class="btn btn-danger btn-icon btn-sm" onclick="showToast(\'Celebrity deactivated\')" title="Deactivate"><i class="fas fa-ban"></i></button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join('');
+  document.getElementById('celebPagination').innerHTML = [1,2,3,'...','64'].map(function(p,i){
+    return '<button class="page-btn '+(i===0?'active':'')+'" onclick="showToast(\'Page '+p+'\')">'+p+'</button>';
+  }).join('');
 }
 
 function filterTable(tbodyId, q){
   var rows = document.querySelectorAll('#'+tbodyId+' tr');
-  rows.forEach(r=>{
+  rows.forEach(function(r){
     r.style.display = r.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
   });
 }
 
 function filterCelebCat(cat){
   if(!cat){ renderCelebTable(); return; }
-  document.querySelectorAll('#celebTable tr').forEach(r=>{
+  document.querySelectorAll('#celebTable tr').forEach(function(r){
     r.style.display = r.textContent.includes(cat) ? '' : 'none';
   });
 }
 
 function editCeleb(id){
-  var c = CELEBS.find(x=>x.id===id);
+  var c = CELEBS.find(function(x){return x.id===id;});
   document.getElementById('celebModalTitle').textContent = 'Edit Celebrity';
   document.getElementById('cName').value = c.name;
   document.getElementById('cOcc').value = c.occ;
@@ -1015,7 +1054,7 @@ function editCeleb(id){
 }
 
 function toggleVerify(id){
-  var c = CELEBS.find(x=>x.id===id);
+  var c = CELEBS.find(function(x){return x.id===id;});
   c.verified = !c.verified;
   renderCelebTable();
   showToast(c.verified ? '✅ Celebrity verified!' : '⚠️ Verification removed');
@@ -1023,155 +1062,160 @@ function toggleVerify(id){
 
 // ── BOOKINGS TABLE ─────────────────────────────
 function renderBookingsTable(filter){
-  var data = filter ? BOOKINGS.filter(b=>b.status===filter) : BOOKINGS;
+  var data = filter ? BOOKINGS.filter(function(b){return b.status===filter;}) : BOOKINGS;
   var tbody = document.getElementById('bookingsTable');
-  tbody.innerHTML = data.map(b=>`
-    <tr>
-      <td><span style="font-family:monospace;font-size:.76rem;color:var(--gold)">${b.ref}</span></td>
-      <td>${b.client}</td>
-      <td>${b.celeb}</td>
-      <td style="font-size:.8rem">${b.event}</td>
-      <td style="font-size:.8rem">${b.date}</td>
-      <td style="color:var(--green);font-weight:600">${b.budget}</td>
-      <td><span class="badge ${b.payStatus==='paid'?'badge-green':'badge-orange'}">${b.payStatus}</span></td>
-      <td><span class="badge ${statusBadge(b.status)}">${b.status}</span></td>
-      <td>
-        <div style="display:flex;gap:5px">
-          <button class="btn btn-success btn-icon btn-sm" onclick="updateBookingStatus('${b.ref}','confirmed')" title="Approve"><i class="fas fa-check"></i></button>
-          <button class="btn btn-danger btn-icon btn-sm" onclick="updateBookingStatus('${b.ref}','rejected')" title="Reject"><i class="fas fa-times"></i></button>
-          <button class="btn btn-ghost btn-icon btn-sm" onclick="showToast('Booking details: ${b.ref}')" title="View"><i class="fas fa-eye"></i></button>
-        </div>
-      </td>
-    </tr>`).join('');
+  tbody.innerHTML = data.map(function(b){
+    return '<tr>'+
+      '<td><span style="font-family:monospace;font-size:.76rem;color:var(--gold)">'+b.ref+'</span></td>'+
+      '<td>'+b.client+'</td>'+
+      '<td>'+b.celeb+'</td>'+
+      '<td style="font-size:.8rem">'+b.event+'</td>'+
+      '<td style="font-size:.8rem">'+b.date+'</td>'+
+      '<td style="color:var(--green);font-weight:600">'+b.budget+'</td>'+
+      '<td><span class="badge '+(b.payStatus==='paid'?'badge-green':'badge-orange')+'">'+b.payStatus+'</span></td>'+
+      '<td><span class="badge '+statusBadge(b.status)+'">'+b.status+'</span></td>'+
+      '<td><div style="display:flex;gap:5px">'+
+        '<button class="btn btn-success btn-icon btn-sm" onclick="updateBookingStatus(\''+b.ref+'\',\'confirmed\')"><i class="fas fa-check"></i></button>'+
+        '<button class="btn btn-danger btn-icon btn-sm" onclick="updateBookingStatus(\''+b.ref+'\',\'rejected\')"><i class="fas fa-times"></i></button>'+
+        '<button class="btn btn-ghost btn-icon btn-sm" onclick="showToast(\'Booking details: '+b.ref+'\')"><i class="fas fa-eye"></i></button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join('');
 }
 
 function statusBadge(s){
-  return {pending:'badge-orange',reviewing:'badge-blue',approved:'badge-gold',confirmed:'badge-green',rejected:'badge-red',completed:'badge-green',cancelled:'badge-gray'}[s]||'badge-gray';
+  var map = {pending:'badge-orange',reviewing:'badge-blue',approved:'badge-gold',confirmed:'badge-green',rejected:'badge-red',completed:'badge-green',cancelled:'badge-gray'};
+  return map[s]||'badge-gray';
 }
 
 function filterBookings(status){ renderBookingsTable(status||null); }
 
 function updateBookingStatus(ref, newStatus){
-  var b = BOOKINGS.find(x=>x.ref===ref);
+  var b = BOOKINGS.find(function(x){return x.ref===ref;});
   if(b){ b.status = newStatus; renderBookingsTable(); renderDashBookings(); }
   showToast(newStatus==='confirmed' ? '✅ Booking confirmed!' : '❌ Booking rejected');
-  document.getElementById('pendingBadge').textContent = BOOKINGS.filter(x=>x.status==='pending').length;
+  document.getElementById('pendingBadge').textContent = BOOKINGS.filter(function(x){return x.status==='pending';}).length;
 }
 
 // ── DASHBOARD BOOKINGS TABLE ───────────────────
 function renderDashBookings(){
   var tbody = document.getElementById('dashBookingsTable');
-  tbody.innerHTML = BOOKINGS.slice(0,5).map(b=>`
-    <tr>
-      <td><span style="font-family:monospace;font-size:.76rem;color:var(--gold)">${b.ref}</span></td>
-      <td>${b.celeb}</td>
-      <td style="font-size:.8rem">${b.date}</td>
-      <td style="color:var(--green);font-weight:600">${b.budget}</td>
-      <td><span class="badge ${b.payStatus==='paid'?'badge-green':'badge-orange'}">${b.payStatus}</span></td>
-      <td><span class="badge ${statusBadge(b.status)}">${b.status}</span></td>
-      <td>
-        <div style="display:flex;gap:5px">
-          <button class="btn btn-success btn-icon btn-sm" onclick="updateBookingStatus('${b.ref}','confirmed')"><i class="fas fa-check"></i></button>
-          <button class="btn btn-danger btn-icon btn-sm" onclick="updateBookingStatus('${b.ref}','rejected')"><i class="fas fa-times"></i></button>
-        </div>
-      </td>
-    </tr>`).join('');
+  tbody.innerHTML = BOOKINGS.slice(0,5).map(function(b){
+    return '<tr>'+
+      '<td><span style="font-family:monospace;font-size:.76rem;color:var(--gold)">'+b.ref+'</span></td>'+
+      '<td>'+b.celeb+'</td>'+
+      '<td style="font-size:.8rem">'+b.date+'</td>'+
+      '<td style="color:var(--green);font-weight:600">'+b.budget+'</td>'+
+      '<td><span class="badge '+(b.payStatus==='paid'?'badge-green':'badge-orange')+'">'+b.payStatus+'</span></td>'+
+      '<td><span class="badge '+statusBadge(b.status)+'">'+b.status+'</span></td>'+
+      '<td><div style="display:flex;gap:5px">'+
+        '<button class="btn btn-success btn-icon btn-sm" onclick="updateBookingStatus(\''+b.ref+'\',\'confirmed\')"><i class="fas fa-check"></i></button>'+
+        '<button class="btn btn-danger btn-icon btn-sm" onclick="updateBookingStatus(\''+b.ref+'\',\'rejected\')"><i class="fas fa-times"></i></button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join('');
 }
 
 // ── USERS TABLE ────────────────────────────────
 function renderUsersTable(){
-  document.getElementById('usersTable').innerHTML = USERS.map(u=>`
-    <tr>
-      <td><div class="celeb-row"><div class="avatar" style="background:var(--bg4);color:var(--muted)">${u.name[0]}</div><span style="margin-left:4px">${u.name}</span></div></td>
-      <td style="font-size:.8rem;color:var(--muted)">${u.email}</td>
-      <td><span class="badge ${u.role==='admin'?'badge-gold':'badge-blue'}">${u.role}</span></td>
-      <td>${u.bookings}</td>
-      <td>${u.fanCards}</td>
-      <td style="font-size:.78rem;color:var(--muted)">${u.joined}</td>
-      <td><span class="badge ${u.active?'badge-green':'badge-red'}">${u.active?'Active':'Suspended'}</span></td>
-      <td>
-        <div style="display:flex;gap:5px">
-          <button class="btn btn-ghost btn-icon btn-sm" onclick="showToast('Viewing user: ${u.name}')"><i class="fas fa-eye"></i></button>
-          <button class="btn btn-danger btn-icon btn-sm" onclick="showToast('User ${u.active?'suspended':'activated'}')"><i class="fas fa-ban"></i></button>
-        </div>
-      </td>
-    </tr>`).join('');
+  document.getElementById('usersTable').innerHTML = USERS_DATA.map(function(u){
+    return '<tr>'+
+      '<td><div class="celeb-row"><div class="avatar" style="background:var(--bg4);color:var(--muted)">'+u.name[0]+'</div><span style="margin-left:4px">'+u.name+'</span></div></td>'+
+      '<td style="font-size:.8rem;color:var(--muted)">'+u.email+'</td>'+
+      '<td><span class="badge '+(u.role==='admin'?'badge-gold':'badge-blue')+'">'+u.role+'</span></td>'+
+      '<td>'+u.bookings+'</td>'+
+      '<td>'+u.fanCards+'</td>'+
+      '<td style="font-size:.78rem;color:var(--muted)">'+u.joined+'</td>'+
+      '<td><span class="badge '+(u.active?'badge-green':'badge-red')+'">'+(u.active?'Active':'Suspended')+'</span></td>'+
+      '<td><div style="display:flex;gap:5px">'+
+        '<button class="btn btn-ghost btn-icon btn-sm" onclick="showToast(\'Viewing user: '+u.name+'\')"><i class="fas fa-eye"></i></button>'+
+        '<button class="btn btn-danger btn-icon btn-sm" onclick="showToast(\'User action performed\')"><i class="fas fa-ban"></i></button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join('');
 }
 
 // ── PAYMENTS TABLE ─────────────────────────────
 function renderPaymentsTable(){
-  document.getElementById('paymentsTable').innerHTML = PAYMENTS.map(p=>`
-    <tr>
-      <td><span style="font-family:monospace;font-size:.76rem;color:var(--gold)">${p.ref}</span></td>
-      <td>${p.user}</td>
-      <td><span class="badge badge-blue">${p.type}</span></td>
-      <td style="text-transform:capitalize">${p.method}</td>
-      <td style="color:var(--green);font-weight:700">${p.amount}</td>
-      <td><span class="badge ${p.status==='completed'?'badge-green':p.status==='pending'?'badge-orange':'badge-red'}">${p.status}</span></td>
-      <td style="font-size:.8rem;color:var(--muted)">${p.date}</td>
-    </tr>`).join('');
+  document.getElementById('paymentsTable').innerHTML = PAYMENTS.map(function(p){
+    return '<tr>'+
+      '<td><span style="font-family:monospace;font-size:.76rem;color:var(--gold)">'+p.ref+'</span></td>'+
+      '<td>'+p.user+'</td>'+
+      '<td><span class="badge badge-blue">'+p.type+'</span></td>'+
+      '<td style="text-transform:capitalize">'+p.method+'</td>'+
+      '<td style="color:var(--green);font-weight:700">'+p.amount+'</td>'+
+      '<td><span class="badge '+(p.status==='completed'?'badge-green':p.status==='pending'?'badge-orange':'badge-red')+'">'+p.status+'</span></td>'+
+      '<td style="font-size:.8rem;color:var(--muted)">'+p.date+'</td>'+
+    '</tr>';
+  }).join('');
 }
 
 // ── FAN CARDS TABLE ────────────────────────────
 function renderFanCardsTable(){
-  document.getElementById('fanCardsTable').innerHTML = FANCARDS.map(c=>`
-    <tr>
-      <td><span style="font-family:monospace;font-size:.76rem;color:var(--muted)">${c.no}</span></td>
-      <td>${c.user}</td>
-      <td>${c.celeb}</td>
-      <td><span class="badge ${c.tier==='VIP'?'badge-gold':c.tier==='Gold'?'badge-orange':'badge-gray'}">${c.tier}</span></td>
-      <td style="color:var(--green);font-weight:600">${c.price}</td>
-      <td><span class="badge ${c.active?'badge-green':'badge-red'}">${c.active?'Active':'Inactive'}</span></td>
-      <td style="font-size:.8rem;color:var(--muted)">${c.expires}</td>
-      <td><button class="btn btn-ghost btn-icon btn-sm" onclick="showToast('Fan card details')"><i class="fas fa-eye"></i></button></td>
-    </tr>`).join('');
+  document.getElementById('fanCardsTable').innerHTML = FANCARDS.map(function(c){
+    return '<tr>'+
+      '<td><span style="font-family:monospace;font-size:.76rem;color:var(--muted)">'+c.no+'</span></td>'+
+      '<td>'+c.user+'</td>'+
+      '<td>'+c.celeb+'</td>'+
+      '<td><span class="badge '+(c.tier==='VIP'?'badge-gold':c.tier==='Gold'?'badge-orange':'badge-gray')+'">'+c.tier+'</span></td>'+
+      '<td style="color:var(--green);font-weight:600">'+c.price+'</td>'+
+      '<td><span class="badge '+(c.active?'badge-green':'badge-red')+'">'+(c.active?'Active':'Inactive')+'</span></td>'+
+      '<td style="font-size:.8rem;color:var(--muted)">'+c.expires+'</td>'+
+      '<td><button class="btn btn-ghost btn-icon btn-sm" onclick="showToast(\'Fan card details\')"><i class="fas fa-eye"></i></button></td>'+
+    '</tr>';
+  }).join('');
 }
 
 // ── MESSAGES TABLE ─────────────────────────────
 function renderMessagesTable(){
-  document.getElementById('messagesTable').innerHTML = MESSAGES.map(m=>`
-    <tr style="${!m.read?'background:rgba(212,175,55,0.03)':''}">
-      <td><div style="display:flex;align-items:center;gap:8px">${!m.read?'<span style="width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0"></span>':''}<div><div style="font-weight:${m.read?'400':'600'}">${m.from}</div><div style="font-size:.72rem;color:var(--muted)">${m.email}</div></div></div></td>
-      <td style="font-size:.84rem">${m.subject}</td>
-      <td style="font-size:.78rem;color:var(--muted);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.message}</td>
-      <td style="font-size:.78rem;color:var(--dim)">${m.date}</td>
-      <td><span class="badge ${m.read?'badge-gray':'badge-gold'}">${m.read?'Read':'Unread'}</span></td>
-      <td>
-        <div style="display:flex;gap:5px">
-          <button class="btn btn-primary btn-icon btn-sm" onclick="showToast('Reply window opened')"><i class="fas fa-reply"></i></button>
-          <button class="btn btn-ghost btn-icon btn-sm" onclick="markRead('${m.from}')"><i class="fas fa-check"></i></button>
-        </div>
-      </td>
-    </tr>`).join('');
+  document.getElementById('messagesTable').innerHTML = MESSAGES.map(function(m){
+    return '<tr style="'+(m.read?'':'background:rgba(212,175,55,0.03)')+'">' +
+      '<td><div style="display:flex;align-items:center;gap:8px">'+(!m.read?'<span style="width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0"></span>':'')+
+        '<div><div style="font-weight:'+(m.read?'400':'600')+'">'+m.from+'</div><div style="font-size:.72rem;color:var(--muted)">'+m.email+'</div></div></div></td>'+
+      '<td style="font-size:.84rem">'+m.subject+'</td>'+
+      '<td style="font-size:.78rem;color:var(--muted);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+m.message+'</td>'+
+      '<td style="font-size:.78rem;color:var(--dim)">'+m.date+'</td>'+
+      '<td><span class="badge '+(m.read?'badge-gray':'badge-gold')+'">'+(m.read?'Read':'Unread')+'</span></td>'+
+      '<td><div style="display:flex;gap:5px">'+
+        '<button class="btn btn-primary btn-icon btn-sm" onclick="showToast(\'Reply window opened\')"><i class="fas fa-reply"></i></button>'+
+        '<button class="btn btn-ghost btn-icon btn-sm" onclick="markRead(\''+m.from+'\')"><i class="fas fa-check"></i></button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join('');
 }
 
 function markRead(from){
-  var m = MESSAGES.find(x=>x.from===from);
+  var m = MESSAGES.find(function(x){return x.from===from;});
   if(m){ m.read=true; renderMessagesTable(); }
   showToast('✅ Message marked as read');
 }
 
 // ── POSTS TABLE ────────────────────────────────
 function renderPostsTable(){
-  document.getElementById('postsTable').innerHTML = POSTS.map(p=>`
-    <tr>
-      <td style="font-weight:600;font-size:.84rem">${p.title}</td>
-      <td><span class="badge badge-blue">${p.cat}</span></td>
-      <td style="color:var(--muted)">${p.views.toLocaleString()}</td>
-      <td><span class="badge ${p.featured?'badge-gold':'badge-gray'}">${p.featured?'Featured':'—'}</span></td>
-      <td><span class="badge ${p.published?'badge-green':'badge-gray'}">${p.published?'Published':'Draft'}</span></td>
-      <td style="font-size:.78rem;color:var(--muted)">${p.date}</td>
-      <td><div style="display:flex;gap:5px"><button class="btn btn-ghost btn-icon btn-sm" onclick="showToast('Editing post...')"><i class="fas fa-edit"></i></button><button class="btn btn-danger btn-icon btn-sm" onclick="showToast('Post deleted')"><i class="fas fa-trash"></i></button></div></td>
-    </tr>`).join('');
+  document.getElementById('postsTable').innerHTML = POSTS.map(function(p){
+    return '<tr>'+
+      '<td style="font-weight:600;font-size:.84rem">'+p.title+'</td>'+
+      '<td><span class="badge badge-blue">'+p.cat+'</span></td>'+
+      '<td style="color:var(--muted)">'+p.views.toLocaleString()+'</td>'+
+      '<td><span class="badge '+(p.featured?'badge-gold':'badge-gray')+'">'+(p.featured?'Featured':'—')+'</span></td>'+
+      '<td><span class="badge '+(p.published?'badge-green':'badge-gray')+'">'+(p.published?'Published':'Draft')+'</span></td>'+
+      '<td style="font-size:.78rem;color:var(--muted)">'+p.date+'</td>'+
+      '<td><div style="display:flex;gap:5px">'+
+        '<button class="btn btn-ghost btn-icon btn-sm" onclick="showToast(\'Editing post...\')"><i class="fas fa-edit"></i></button>'+
+        '<button class="btn btn-danger btn-icon btn-sm" onclick="showToast(\'Post deleted\')"><i class="fas fa-trash"></i></button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join('');
 }
 
 // ── ACTIVITY FEED ──────────────────────────────
 function renderActivityFeed(){
-  document.getElementById('activityFeed').innerHTML = ACTIVITY.map(a=>`
-    <div class="activity-item">
-      <div class="act-ico" style="background:${a.color};color:${a.iconColor}"><i class="${a.ico}"></i></div>
-      <div><div class="act-text">${a.text}</div><div class="act-time">${a.time}</div></div>
-    </div>`).join('');
+  document.getElementById('activityFeed').innerHTML = ACTIVITY.map(function(a){
+    return '<div class="activity-item">'+
+      '<div class="act-ico" style="background:'+a.color+';color:'+a.iconColor+'"><i class="'+a.ico+'"></i></div>'+
+      '<div><div class="act-text">'+a.text+'</div><div class="act-time">'+a.time+'</div></div>'+
+    '</div>';
+  }).join('');
 }
 
 // ── REVENUE CHART ──────────────────────────────
@@ -1179,40 +1223,39 @@ function renderRevenueChart(){
   var data = [45,62,38,75,90,68,82,95];
   var labels = ['$45K','$62K','$38K','$75K','$90K','$68K','$82K','$95K'];
   var chart = document.getElementById('revenueChart');
-  var max = Math.max(...data);
-  chart.innerHTML = data.map((v,i)=>`
-    <div class="chart-bar" style="height:${(v/max)*100}%">
-      <div class="bar-tip">${labels[i]}</div>
-    </div>`).join('');
+  var max = Math.max.apply(null, data);
+  chart.innerHTML = data.map(function(v,i){
+    return '<div class="chart-bar" style="height:'+(v/max*100)+'%"><div class="bar-tip">'+labels[i]+'</div></div>';
+  }).join('');
 }
 
 // ── CALENDAR ──────────────────────────────────
-var calYear = 2025, calMonth = 2; // March 2025 (0-indexed)
-var bookedDays = [3, 8, 12, 15, 22, 28];
+var calYear = 2025, calMonth = 2;
+var bookedDays = [3,8,12,15,22,28];
 
 function renderCalendar(){
   var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  document.getElementById('calMonthLabel').textContent = months[calMonth] + ' ' + calYear;
-  var firstDay = new Date(calYear, calMonth, 1).getDay();
-  var daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
-  var today = new Date(); var todayD = today.getDate(), todayM = today.getMonth(), todayY = today.getFullYear();
+  document.getElementById('calMonthLabel').textContent = months[calMonth]+' '+calYear;
+  var firstDay = new Date(calYear,calMonth,1).getDay();
+  var daysInMonth = new Date(calYear,calMonth+1,0).getDate();
+  var today = new Date();
   var html = '';
   for(var i=0;i<firstDay;i++) html += '<div></div>';
   for(var d=1;d<=daysInMonth;d++){
-    var isToday = d===todayD && calMonth===todayM && calYear===todayY;
+    var isToday = d===today.getDate() && calMonth===today.getMonth() && calYear===today.getFullYear();
     var isBooked = bookedDays.includes(d);
-    var bg = isToday ? 'var(--gold)' : isBooked ? 'rgba(244,63,94,0.15)' : 'rgba(16,185,129,0.08)';
-    var border = isToday ? 'var(--gold)' : isBooked ? 'rgba(244,63,94,0.3)' : 'rgba(16,185,129,0.2)';
-    var color = isToday ? '#000' : isBooked ? 'var(--red)' : 'var(--green)';
-    html += `<div style="text-align:center;padding:6px 2px;border-radius:6px;background:${bg};border:1px solid ${border};font-size:.78rem;color:${color};font-weight:${isToday?'700':'500'};cursor:pointer" onclick="showToast('${months[calMonth]} ${d}: ${isBooked?'Booked':'Available'}')">${d}</div>`;
+    var bg = isToday?'var(--gold)':isBooked?'rgba(244,63,94,0.15)':'rgba(16,185,129,0.08)';
+    var border = isToday?'var(--gold)':isBooked?'rgba(244,63,94,0.3)':'rgba(16,185,129,0.2)';
+    var color = isToday?'#000':isBooked?'var(--red)':'var(--green)';
+    html += '<div style="text-align:center;padding:6px 2px;border-radius:6px;background:'+bg+';border:1px solid '+border+';font-size:.78rem;color:'+color+';font-weight:'+(isToday?'700':'500')+';cursor:pointer" onclick="showToast(\''+months[calMonth]+' '+d+': '+(isBooked?'Booked':'Available')+'\')">'+d+'</div>';
   }
   document.getElementById('calGrid').innerHTML = html;
 }
 
 function changeMonth(dir){
   calMonth += dir;
-  if(calMonth < 0){ calMonth=11; calYear--; }
-  if(calMonth > 11){ calMonth=0; calYear++; }
+  if(calMonth<0){calMonth=11;calYear--;}
+  if(calMonth>11){calMonth=0;calYear++;}
   renderCalendar();
 }
 
@@ -1223,12 +1266,13 @@ function renderUpcomingEvents(){
     {celeb:'Sofia Reyes',event:'Concert',date:'May 18',color:'#C084FC'},
     {celeb:'Marcus Williams',event:'Film Premiere',date:'Jun 1',color:'var(--orange)'},
   ];
-  document.getElementById('upcomingEvents').innerHTML = events.map(e=>`
-    <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)">
-      <div style="width:36px;height:36px;border-radius:8px;background:${e.color}22;color:${e.color};display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0">${e.date}</div>
-      <div><div style="font-size:.84rem;font-weight:600">${e.celeb}</div><div style="font-size:.74rem;color:var(--muted)">${e.event}</div></div>
-      <span class="badge badge-green" style="margin-left:auto">Confirmed</span>
-    </div>`).join('');
+  document.getElementById('upcomingEvents').innerHTML = events.map(function(e){
+    return '<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)">'+
+      '<div style="width:36px;height:36px;border-radius:8px;background:'+e.color+'22;color:'+e.color+';display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0">'+e.date+'</div>'+
+      '<div><div style="font-size:.84rem;font-weight:600">'+e.celeb+'</div><div style="font-size:.74rem;color:var(--muted)">'+e.event+'</div></div>'+
+      '<span class="badge badge-green" style="margin-left:auto">Confirmed</span>'+
+    '</div>';
+  }).join('');
 }
 
 // ── CELEBRITY MODAL ────────────────────────────
@@ -1243,7 +1287,7 @@ function saveCeleb(){
   var occ  = document.getElementById('cOcc').value;
   if(!name||!occ){ showToast('⚠️ Name and occupation required'); return; }
   CELEBS.push({
-    id: CELEBS.length+1, name, occ,
+    id: CELEBS.length+1, name: name, occ: occ,
     cat: document.getElementById('cCat').value,
     fee: document.getElementById('cFee').value||'TBD',
     bookings:0, rating:4.5,
@@ -1260,8 +1304,9 @@ function openPostModal(){ showToast('Post editor opening...'); }
 // ── TOAST ──────────────────────────────────────
 function showToast(msg){
   var t = document.getElementById('toast');
-  t.textContent = msg; t.style.display = 'block';
-  setTimeout(()=>t.style.display='none', 3500);
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(function(){ t.style.display='none'; }, 3500);
 }
 </script>
 </body>
