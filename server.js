@@ -1,5 +1,6 @@
 require('dotenv').config();
-const express   = require('express');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;const express   = require('express');
 const mongoose  = require('mongoose');
 const helmet    = require('helmet');
 const cors      = require('cors');
@@ -22,6 +23,55 @@ app.use('/api/webhooks', express.raw({ type: 'application/json' }),
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));
+// ── PASSPORT SETUP ────────────────────────────
+app.use(passport.initialize());
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: '/api/auth/google/callback'
+}, async function(accessToken, refreshToken, profile, done) {
+  try {
+    const { User } = require('./models/index');
+    let user = await User.findOne({ email: profile.emails[0].value });
+    if (!user) {
+      user = await User.create({
+        firstName: profile.name.givenName,
+        lastName:  profile.name.familyName || '',
+        email:     profile.emails[0].value,
+        password:  'google-' + profile.id,
+        role:      'user'
+      });
+    }
+    return done(null, user);
+  } catch(err) {
+    return done(err, null);
+  }
+}));
+
+// ── GOOGLE AUTH ROUTES ─────────────────────────
+app.get('/api/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'], session: false })
+);
+
+app.get('/api/auth/google/callback',
+  passport.authenticate('google', { session: false, failureRedirect: '/?error=google' }),
+  function(req, res) {
+    const jwt = require('jsonwebtoken');
+    const token = jwt.sign(
+      { id: req.user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+    const user = {
+      firstName: req.user.firstName,
+      lastName:  req.user.lastName,
+      email:     req.user.email,
+      role:      req.user.role
+    };
+    res.redirect('/?token=' + token + '&user=' + encodeURIComponent(JSON.stringify(user)));
+  }
+);
 
 // ── Rate limiting ──────────────────────────────
 app.use('/api/', rateLimit({ windowMs: 15*60*1000, max: 200 }));
