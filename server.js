@@ -24,7 +24,14 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));
 // ── PASSPORT SETUP ────────────────────────────
+const session = require('express-session');
+app.use(session({
+  secret: process.env.JWT_SECRET || 'springcompany-session-secret',
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(passport.initialize());
+app.use(passport.session());
 
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
@@ -47,7 +54,18 @@ passport.use(new GoogleStrategy({
   } catch(err) {
     return done(err, null);
   }
-}));
+})); passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+passport.deserializeUser(async function(id, done) {
+  try {
+    const { User } = require('./models/index');
+    const user = await User.findById(id);
+    done(null, user);
+  } catch(err) {
+    done(err, null);
+  }
+});
 
 // ── GOOGLE AUTH ROUTES ─────────────────────────
 app.get('/api/auth/google',
