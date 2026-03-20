@@ -1201,12 +1201,12 @@ function doRegister() {
     btn.disabled = false;
 
     if (data.success) {
-      // Save the token and user info
-      localStorage.setItem('sc_token', data.token);
-      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
-      closeAuth();
-      updateNavForLoggedInUser(data.user.firstName);
-      showToast('🎉 Welcome to Springcompany, ' + data.user.firstName + '!');
+  localStorage.setItem('sc_token', data.token);
+  localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+  closeAuth();
+  updateNavForLoggedInUser(data.user.firstName);
+  showToast('🎉 Welcome to Springcompany, ' + data.user.firstName + '!');
+
     } else {
       showAuthError(data.message || 'Registration failed. Please try again.');
     }
@@ -1241,11 +1241,25 @@ function doLogin() {
     btn.textContent = original;
     btn.disabled = false;
     if (data.success) {
-      localStorage.setItem('sc_token', data.token);
-      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
-      closeAuth();
-      updateNavForLoggedInUser(data.user.firstName);
-      showToast('✅ Welcome back, ' + data.user.firstName + '!');
+  // Save token and full user including role
+  localStorage.setItem('sc_token', data.token);
+  localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+
+  // Verify it saved correctly
+  var saved = localStorage.getItem('sc_current_user');
+  console.log('Saved user:', saved);
+
+  closeAuth();
+  updateNavForLoggedInUser(data.user.firstName);
+  showToast('✅ Welcome back, ' + data.user.firstName + '!');
+
+  // If user is admin redirect to admin dashboard
+  if (data.user.role === 'admin') {
+    showToast('👑 Welcome Admin ' + data.user.firstName + '! Redirecting to dashboard...');
+    setTimeout(function() {
+      window.location.href = '/admin.html';
+    }, 1500);
+  }
     } else {
       showAuthError(data.message || 'Incorrect email or password.');
     }
@@ -1382,11 +1396,40 @@ window.addEventListener('DOMContentLoaded', function() {
     window.history.replaceState({}, document.title, '/');
   }
   var savedUser  = localStorage.getItem('sc_current_user');
-  var savedToken = localStorage.getItem('sc_token');
-  if (savedUser && savedToken) {
+var savedToken = localStorage.getItem('sc_token');
+if (savedUser && savedToken) {
+  try {
     var user = JSON.parse(savedUser);
     updateNavForLoggedInUser(user.firstName || user.name || 'User');
-  }
+
+    // Silently refresh user data from server to get latest role
+    fetch('/api/auth/me', {
+      headers: { 'Authorization': 'Bearer ' + savedToken }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(me) {
+      if (me.success && me.user) {
+        localStorage.setItem('sc_current_user', JSON.stringify(me.user));
+      }
+    })
+    .catch(function() {});
+  } catch(e) {}
+}
+
+// Handle OAuth redirect
+var urlParams = new URLSearchParams(window.location.search);
+var oauthToken = urlParams.get('token');
+var oauthUser  = urlParams.get('user');
+if (oauthToken && oauthUser) {
+  try {
+    var user = JSON.parse(decodeURIComponent(oauthUser));
+    localStorage.setItem('sc_token', oauthToken);
+    localStorage.setItem('sc_current_user', JSON.stringify(user));
+    updateNavForLoggedInUser(user.firstName);
+    showToast('✅ Welcome, ' + user.firstName + '!');
+    window.history.replaceState({}, document.title, '/');
+  } catch(e) {}
+}
 });
 
 function showHome() {
