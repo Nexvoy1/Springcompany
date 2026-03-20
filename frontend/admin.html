@@ -833,6 +833,14 @@ input:checked + .slider:before{transform:translateX(18px);background:#fff}
 <div class="toast" id="toast"></div>
 
 <script>
+  // ── ADMIN PROTECTION ──────────────────────────
+var currentUser = JSON.parse(localStorage.getItem('sc_current_user') || 'null');
+var token = localStorage.getItem('sc_token');
+
+if (!currentUser || !token || currentUser.role !== 'admin') {
+  alert('Access denied. Admins only.');
+  window.location.href = '/';
+}
 // ══════════════════════════════════════════════
 // SPRINGCOMPANY ADMIN DASHBOARD — JAVASCRIPT
 // ══════════════════════════════════════════════
