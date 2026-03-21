@@ -102,6 +102,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ── API Routes ─────────────────────────────────
 app.use('/api/auth',        require('./routes/auth'));
+app.use('/api/profile', require('./routes/profile'));
 app.use('/api/celebrities', require('./routes/celebrities'));
 app.use('/api/bookings',    require('./routes/bookings'));
 app.use('/api/payments',    require('./routes/payments'));
