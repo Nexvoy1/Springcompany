@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="description" content="Get help with celebrity bookings, payments, fan cards, account issues and more. Springcompany Help Centre — answers to all your questions.">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="apple-touch-icon" href="/img/logo.png">
+<title>Help Centre — Springcompany Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   SPRINGCOMPANY — COMPLETE PLATFORM CSS
+═══════════════════════════════════════ */
+:root{
+  --gold:#D4AF37;--gold2:#F5CC5A;--gold3:#8B7322;
+  --bg:#0A0A0F;--bg2:#111118;--bg3:#18181F;--bg4:#1E1E28;
+  --surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --text:#F0EEF8;--muted:#8A87A0;--dim:#4A4860;
+  --accent:#C084FC;--accent2:#A855F7;--red:#F43F5E;--green:#10B981;
+  --border:rgba(255,255,255,0.08);--border2:rgba(212,175,55,0.25);
+  --glow:0 0 40px rgba(212,175,55,0.15);
+  --r:12px;--r2:20px;
+}
+[data-theme="light"]{
+  --bg:#F8F7FF;--bg2:#F0EEF8;--bg3:#E8E5F5;--bg4:#DDD9F0;
+  --text:#0A0A1F;--muted:#5A5780;--dim:#9A97B0;
+  --surface:rgba(0,0,0,0.03);--surface2:rgba(0,0,0,0.06);
+  --border:rgba(0,0,0,0.08);
+--surface2:rgba(0,0,0,0.06);}[data-theme="light"] .mega-menu{background:rgba(255,255,255,0.99);border-color:rgba(212,175,55,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.12)}
+[data-theme="light"] .mega-menu-item{color:#1a1a3a}
+[data-theme="light"] .mega-menu-item:hover{background:rgba(212,175,55,0.08);color:#8B7322}
+[data-theme="light"] .mega-menu-item .mmi-ico{background:rgba(0,0,0,0.05)}
+[data-theme="light"] .theme-toggle{color:#3a3760;border-top-color:rgba(0,0,0,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:default}
+
+
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:2px}
+
+/* TYPOGRAPHY */
+.display{font-family:'Bebas Neue',sans-serif;letter-spacing:2px}
+.serif{font-family:'Playfair Display',serif}
+
+/* ── NAVBAR ── */
+#navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;transition:all .3s;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,175,55,0.15);box-shadow:0 2px 20px rgba(0,0,0,0.06)}
+#navbar.scrolled{background:rgba(10,10,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--gold3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-family:'Bebas Neue',sans-serif;color:#000;letter-spacing:0}
+.nav-logo-text{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;background:linear-gradient(135deg,#8B7322,#D4AF37);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-center{display:flex;align-items:center;gap:2px}
+.nav-link{color:#3a3760;font-size:.84rem;font-weight:600;text-decoration:none;padding:8px 14px;border-radius:8px;transition:all .2s;letter-spacing:.3px}
+.nav-link:hover{color:var(--gold);background:rgba(212,175,55,0.08)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-btn{padding:9px 20px;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.84rem;cursor:pointer;transition:all .2s;border:none}
+.btn-ghost{background:transparent;border:1px solid rgba(212,175,55,0.5);color:#8B7322}
+.btn-ghost:hover{background:rgba(212,175,55,0.1)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(212,175,55,0.3)}
+.hamburger{background:transparent;border:1px solid rgba(0,0,0,0.15);color:#3a3760;width:40px;height:40px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .2s}
+.hamburger:hover{border-color:var(--gold);color:var(--gold)}
+
+/* MEGA MENU */
+.mega-menu{position:fixed;top:72px;right:0;width:320px;background:var(--bg3);backdrop-filter:blur(30px);border:1px solid var(--border2);border-radius:0 0 0 20px;padding:24px;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:999}
+.mega-menu.open{transform:translateX(0)}
+.mega-menu-item{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:10px;text-decoration:none;color:var(--text);font-size:.9rem;font-weight:600;transition:all .2s;margin-bottom:4px}
+.mega-menu-item:hover{background:var(--surface2);color:var(--gold)}
+.mega-menu-item .mmi-ico{width:36px;height:36px;border-radius:9px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.mega-menu-item:hover .mmi-ico{background:rgba(212,175,55,0.15);color:var(--gold)}
+.theme-toggle{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;cursor:pointer;margin-top:12px;border-top:1px solid var(--border);padding-top:16px;color:var(--text);font-size:.84rem;font-weight:600}
+
+/* ── HERO SECTION ── */
+#hero{position:relative;height:100vh;min-height:700px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero-slides{position:absolute;inset:0}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s ease;background-size:cover;background-position:center;transform:scale(1.08)}
+.hero-slide.active{opacity:1;animation:heroZoom 7s ease-in-out forwards}
+@keyframes heroZoom{0%{transform:scale(1.08)}100%{transform:scale(1)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,.3) 0%,rgba(10,10,15,.55) 50%,rgba(10,10,15,.9) 100%);z-index:1}
+.hero-overlay2{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,transparent 30%,rgba(10,10,15,.6) 100%);z-index:1}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 20px;max-width:860px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,175,55,0.12);border:1px solid var(--border2);border-radius:50px;padding:6px 18px;font-size:.78rem;color:var(--gold);margin-bottom:24px;letter-spacing:1px;text-transform:uppercase;animation:fadeUp .8s ease .3s both}
+.hero-badge span{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,10vw,7.5rem);line-height:.95;letter-spacing:4px;margin-bottom:12px;animation:fadeUp .8s ease .5s both}
+.hero-title span{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s ease-in-out infinite}
+.hero-sub{font-size:1.1rem;color:rgba(240,238,248,.75);max-width:520px;margin:0 auto 36px;line-height:1.7;animation:fadeUp .8s ease .7s both}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s ease .9s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.btn-book-now{position:relative;padding:18px 48px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;border:none;border-radius:4px;cursor:pointer;overflow:hidden;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.btn-book-now::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold2),var(--gold));opacity:0;transition:opacity .3s}
+.btn-book-now:hover::before{opacity:1}
+.btn-book-now:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(212,175,55,0.4)}
+.btn-explore{padding:17px 36px;background:transparent;border:1px solid rgba(255,255,255,0.3);color:#fff;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;border-radius:4px;cursor:pointer;transition:all .3s;letter-spacing:.5px}
+.btn-explore:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.06)}
+.hero-dots{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px}
+.hero-dot{width:28px;height:3px;background:rgba(255,255,255,0.25);border-radius:2px;cursor:pointer;transition:all .3s}
+.hero-dot.active{background:var(--gold);width:48px}
+.hero-scroll{position:absolute;bottom:28px;right:32px;z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer}
+.hero-scroll::after{content:'';width:1px;height:40px;background:linear-gradient(var(--gold),transparent)}
+
+/* ── FLOATING SOCIALS ── */
+
+
+/* ── SECTION STYLES ── */
+.section{padding:90px 32px}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-tag{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;color:var(--gold);text-transform:uppercase;letter-spacing:2.5px;font-weight:600;margin-bottom:12px}
+.section-tag::before{content:'';width:24px;height:1px;background:var(--gold)}
+h2.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin-bottom:16px}
+h2.section-title span{color:var(--gold)}
+.section-sub{color:var(--muted);font-size:.95rem;line-height:1.75;max-width:560px}
+
+/* ── TRENDING POSTS ── */
+#trending{background:var(--bg2);overflow:hidden}
+.trending-track{display:flex;gap:20px;animation:scrollTrack 30s linear infinite;width:max-content}
+.trending-track:hover{animation-play-state:paused}
+@keyframes scrollTrack{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.trend-card{flex-shrink:0;width:280px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .25s;cursor:pointer}
+.trend-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:var(--glow)}
+.trend-img{height:160px;background-size:cover;background-position:center;position:relative}
+.trend-category{position:absolute;top:10px;left:10px;background:rgba(212,175,55,0.9);color:#000;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:20px}
+.trend-body{padding:14px}
+.trend-body h4{font-size:.88rem;font-weight:600;margin-bottom:6px;line-height:1.4}
+.trend-body p{font-size:.78rem;color:var(--muted);line-height:1.5}
+.trend-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.trend-footer span{font-size:.72rem;color:var(--dim)}
+
+/* ── CELEBRITY GRID ── */
+#celebrities{background:var(--bg)}
+.celeb-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.filter-btn{padding:7px 18px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.82rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.filter-btn.active,.filter-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
+.celeb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.celeb-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:all .3s;position:relative;group:true;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.celeb-card:hover{border-color:var(--border2);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.4),var(--glow)}
+.celeb-img-wrap{position:relative;height:260px;overflow:hidden}
+.celeb-img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.celeb-card:hover .celeb-img{transform:scale(1.06)}
+.celeb-img-placeholder{width:100%;height:100%;background-size:cover;background-position:center top;transition:transform .5s ease}
+.celeb-card:hover .celeb-img-placeholder{transform:scale(1.06)}
+.celeb-badge{position:absolute;top:12px;right:12px;background:rgba(10,10,15,0.85);border:1px solid var(--gold);border-radius:6px;padding:3px 8px;font-size:.68rem;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:4px;backdrop-filter:blur(8px)}
+.celeb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,15,.9) 0%,transparent 50%);opacity:0;transition:opacity .3s}
+.celeb-card:hover .celeb-overlay{opacity:1}
+.celeb-quick-book{position:absolute;bottom:14px;left:50%;transform:translateX(-50%) translateY(10px);opacity:0;transition:all .3s;white-space:nowrap;background:var(--gold);color:#000;font-size:.75rem;font-weight:700;padding:7px 18px;border-radius:4px;border:none;cursor:pointer;z-index:2;letter-spacing:.5px}
+.celeb-card:hover .celeb-quick-book{opacity:1;transform:translateX(-50%) translateY(0)}
+.celeb-body{padding:16px}
+.celeb-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:3px}
+.celeb-occ{font-size:.78rem;color:var(--muted);margin-bottom:10px}
+.celeb-bio{font-size:.78rem;color:var(--dim);line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.celeb-actions{display:flex;gap:8px}
+.btn-view{flex:1;padding:8px;border:1px solid var(--border2);background:transparent;color:var(--gold);font-size:.78rem;font-weight:600;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-view:hover{background:rgba(212,175,55,0.1)}
+.btn-book{flex:1;padding:8px;border:none;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-size:.78rem;font-weight:700;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-book:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(212,175,55,0.3)}
+.celeb-stats{display:flex;gap:12px;margin-bottom:10px}
+.celeb-stat{font-size:.72rem;color:var(--dim);display:flex;align-items:center;gap:4px}
+.celeb-stat i{color:var(--gold);font-size:.65rem}
+
+/* ── VIDEO SLIDER ── */
+#videos{background:var(--bg2)}
+.video-track{display:flex;gap:20px;overflow-x:auto;padding-bottom:12px;scroll-behavior:smooth;scrollbar-width:none}
+.video-track::-webkit-scrollbar{display:none}
+.video-card{flex-shrink:0;width:360px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);background:var(--bg3);transition:all .25s}
+.video-card:hover{border-color:var(--border2);box-shadow:var(--glow)}
+.video-embed{position:relative;padding-top:56.25%;background:#000}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.video-body{padding:14px}
+.video-title{font-size:.9rem;font-weight:600;margin-bottom:4px}
+.video-sub{font-size:.76rem;color:var(--muted)}
+.video-nav{display:flex;gap:10px;margin-top:20px}
+.video-nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.video-nav-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
+
+/* ── ABOUT ── */
+#about{background:var(--bg)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-img-wrap{position:relative}
+.about-img{width:100%;height:500px;object-fit:cover;border-radius:var(--r2);background-size:cover;background-position:center}
+.about-badge{position:absolute;bottom:-20px;right:-20px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;padding:20px 28px;border-radius:var(--r);text-align:center}
+.about-badge strong{display:block;font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:2px;line-height:1}
+.about-badge span{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.about-features{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+.about-feat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;align-items:flex-start;gap:12px;transition:all .2s}
+.about-feat:hover{border-color:var(--border2)}
+.af-ico{width:36px;height:36px;border-radius:8px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.9rem;flex-shrink:0}
+.af-title{font-size:.84rem;font-weight:600;margin-bottom:2px}
+.af-text{font-size:.76rem;color:var(--muted);line-height:1.5}
+
+/* ── MEET & GREET ── */
+#meet-greet{background:linear-gradient(135deg,var(--bg2) 0%,rgba(212,175,55,0.05) 50%,var(--bg2) 100%);position:relative;overflow:hidden;text-align:center;padding:100px 32px}
+#meet-greet::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(212,175,55,0.06) 0%,transparent 70%);pointer-events:none}
+.mg-stars{position:absolute;inset:0;pointer-events:none}
+.mg-star{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;animation:twinkle 3s infinite}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+.mg-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5.5rem);letter-spacing:4px;margin-bottom:16px;position:relative;z-index:1}
+.mg-title span{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s ease-in-out infinite}
+@keyframes shimmer{0%,100%{filter:brightness(1)}50%{filter:brightness(1.3)}}
+.mg-sub{font-size:1.1rem;color:var(--muted);max-width:520px;margin:0 auto 36px;line-height:1.75;position:relative;z-index:1}
+.btn-mg{padding:20px 56px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;border:none;border-radius:4px;cursor:pointer;position:relative;z-index:1;transition:all .3s;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);animation:btnBlink 2.5s ease-in-out infinite}
+@keyframes btnBlink{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0)}50%{box-shadow:0 0 32px 8px rgba(212,175,55,0.3)}}
+.btn-mg:hover{transform:translateY(-3px) scale(1.02)}
+.mg-perks{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:48px;position:relative;z-index:1}
+.mg-perk{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:50px;padding:10px 20px;font-size:.82rem;color:var(--text)}
+.mg-perk i{color:var(--gold)}
+
+/* ── CONTACT ── */
+#contact{background:var(--bg3)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:start}
+.contact-info{display:flex;flex-direction:column;gap:20px}
+.ci-item{display:flex;align-items:flex-start;gap:14px;padding:16px;background:var(--bg4);border-radius:var(--r);border:1px solid var(--border)}
+.ci-ico{width:40px;height:40px;border-radius:9px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.95rem;flex-shrink:0}
+.ci-title{font-size:.82rem;font-weight:600;margin-bottom:2px}
+.ci-text{font-size:.78rem;color:var(--muted)}
+.contact-form{background:var(--bg4);border:1px solid var(--border);border-radius:var(--r2);padding:32px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-field{margin-bottom:14px}
+.form-field label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.form-field input,.form-field select,.form-field textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border .2s}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--gold)}
+.form-field textarea{resize:none;min-height:110px}
+.form-field select option{background:var(--bg3)}
+
+/* ── NEWSLETTER ── */
+#newsletter{background:var(--bg2);padding:70px 32px;text-align:center}
+.nl-inner{max-width:600px;margin:0 auto}
+.nl-row{display:flex;gap:10px;margin-top:28px}
+.nl-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:13px 18px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border .2s}
+.nl-input:focus{border-color:var(--gold)}
+.nl-btn{padding:13px 28px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700;font-size:.88rem;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'DM Sans',sans-serif}
+.nl-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(212,175,55,0.3)}
+
+/* ── FOOTER ── */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px 28px}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand p{font-size:.82rem;color:var(--muted);line-height:1.75;margin-top:12px;max-width:260px}
+.footer-social{display:flex;gap:10px;margin-top:20px}
+.fsoc{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.88rem;cursor:pointer;transition:all .2s;text-decoration:none}
+.fsoc:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
+.footer-col h4{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:16px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-col ul li a{color:var(--muted);font-size:.82rem;text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:6px}
+.footer-col ul li a::before{content:'›';color:var(--gold);font-size:1rem}
+.footer-col ul li a:hover{color:var(--gold)}
+.footer-bottom{max-width:1200px;margin:0 auto;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:.76rem;color:var(--dim)}
+
+/* ── AUTH MODAL ── */
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.modal-backdrop.open{display:flex}
+.modal{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);width:100%;max-width:440px;overflow:hidden;animation:modalIn .25s ease;position:relative;max-height:92vh;overflow-y:auto}
+@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(-12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-head{background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(168,85,247,0.1));padding:28px;text-align:center;border-bottom:1px solid var(--border)}
+.modal-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:4px;background:linear-gradient(135deg,var(--gold),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.07);border:none;color:var(--muted);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:var(--text);background:var(--surface2)}
+.modal-body{padding:24px}
+.modal-tabs{display:flex;background:var(--bg4);border-radius:10px;padding:3px;margin-bottom:20px;gap:3px}
+.modal-tab{flex:1;padding:.5rem;border-radius:8px;border:none;cursor:pointer;font-size:.84rem;color:var(--muted);background:transparent;font-family:'DM Sans',sans-serif;transition:all .2s}
+.modal-tab.active{background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700}
+.soc-btns{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.soc-btn{display:flex;align-items:center;gap:12px;width:100%;padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg4);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);transition:all .2s}
+.soc-btn:hover{border-color:var(--gold);background:rgba(212,175,55,0.06)}
+.divline{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--dim);font-size:.76rem}
+.divline::before,.divline::after{content:'';flex:1;height:1px;background:var(--border)}
+.mf{margin-bottom:14px}
+.mf label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.mf input{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border .2s}
+.mf input:focus{border-color:var(--gold)}
+.btn-auth{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700;border:none;border-radius:9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.92rem;margin-top:6px;transition:all .2s}
+.btn-auth:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(212,175,55,0.3)}
+.auth-hint{text-align:center;font-size:.76rem;color:var(--muted);margin-top:12px}
+.auth-hint a{color:var(--gold);cursor:pointer;text-decoration:none;font-weight:600}
+
+/* ── CELEBRITY PROFILE PAGE ── */
+#celeb-profile-page{display:none;position:fixed;inset:0;background:var(--bg);z-index:2000;overflow-y:auto;animation:pageIn .3s ease}
+@keyframes pageIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.profile-back{position:fixed;top:20px;left:20px;z-index:2001;background:var(--bg3);border:1px solid var(--border2);color:var(--gold);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:600;display:flex;align-items:center;gap:8px;transition:all .2s;font-family:'DM Sans',sans-serif}
+.profile-back:hover{background:rgba(212,175,55,0.1)}
+.profile-hero{height:380px;background-size:cover;background-position:center top;position:relative}
+.profile-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,0) 30%,rgba(10,10,15,1) 100%)}
+.profile-content{max-width:1200px;margin:0 auto;padding:0 32px 80px}
+.profile-grid{display:grid;grid-template-columns:340px 1fr;gap:40px;margin-top:-80px;position:relative;z-index:1}
+.profile-left{display:flex;flex-direction:column;gap:20px}
+.profile-card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden}
+.profile-img{height:380px;background-size:cover;background-position:center top}
+.profile-info{padding:20px}
+.profile-name{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.verified-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(212,175,55,0.15);border:1px solid var(--border2);border-radius:20px;padding:2px 10px;font-size:.68rem;color:var(--gold);font-weight:600}
+.profile-occ{color:var(--muted);font-size:.84rem;margin-bottom:16px}
+.profile-detail{display:flex;flex-direction:column;gap:9px}
+.pd-row{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;padding:7px 0;border-bottom:1px solid var(--border)}
+.pd-row:last-child{border:none}
+.pd-label{color:var(--muted)}
+.pd-value{font-weight:600;color:var(--text)}
+.profile-right{}
+.booking-form-card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);padding:28px}
+.booking-form-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:4px}
+.booking-form-sub{font-size:.82rem;color:var(--muted);margin-bottom:24px}
+.bf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bf-field{margin-bottom:14px}
+.bf-field label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px}
+.bf-field input,.bf-field select,.bf-field textarea{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.87rem;outline:none;transition:border .2s}
+.bf-field input:focus,.bf-field select:focus,.bf-field textarea:focus{border-color:var(--gold)}
+.bf-field select option{background:var(--bg3)}
+.bf-field textarea{resize:none;min-height:90px}
+.file-upload{border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .2s}
+.file-upload:hover{border-color:var(--gold);background:rgba(212,175,55,0.04)}
+.file-upload i{font-size:1.4rem;color:var(--gold);margin-bottom:6px;display:block}
+.file-upload p{font-size:.78rem;color:var(--muted)}
+.btn-submit-booking{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;border:none;border-radius:6px;cursor:pointer;margin-top:6px;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.btn-submit-booking:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,175,55,0.35)}
+
+/* ── FAN CARD SECTION ── */
+.fan-cards-section{margin-top:32px}
+.fan-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.fan-card{border-radius:var(--r);padding:20px;text-align:center;transition:all .25s;cursor:pointer;position:relative;overflow:hidden}
+.fan-card.silver{background:linear-gradient(135deg,#4a4a6a,#2a2a40);border:1px solid #8888aa}
+.fan-card.gold{background:linear-gradient(135deg,#5a4a00,#3a2a00);border:1px solid var(--gold)}
+.fan-card.vip{background:linear-gradient(135deg,#4a0a5a,#2a0535);border:1px solid var(--accent)}
+.fan-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.4)}
+.fan-card-tier{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;margin-bottom:6px}
+.fan-card.silver .fan-card-tier{color:#bbbbd0}
+.fan-card.gold .fan-card-tier{color:var(--gold)}
+.fan-card.vip .fan-card-tier{color:var(--accent)}
+.fan-card-price{font-size:1.3rem;font-weight:800;margin-bottom:8px}
+.fan-card-perks{font-size:.72rem;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.fan-card-btn{width:100%;padding:8px;border-radius:6px;border:none;cursor:pointer;font-size:.76rem;font-weight:700;font-family:'DM Sans',sans-serif;transition:all .2s}
+.fan-card.silver .fan-card-btn{background:#8888aa;color:#fff}
+.fan-card.gold .fan-card-btn{background:var(--gold);color:#000}
+.fan-card.vip .fan-card-btn{background:var(--accent);color:#fff}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:12px 24px;border-radius:50px;font-size:.84rem;font-weight:600;z-index:99999;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.4);font-family:'DM Sans',sans-serif;white-space:nowrap}
+
+/* ── UTILITIES ── */
+.btn{border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.text-gold{color:var(--gold)}
+.mt-2{margin-top:8px}.mt-3{margin-top:16px}.mt-4{margin-top:24px}
+.fade-in{animation:fadeUp .6s ease both}
+
+@media(max-width:1024px){
+  .celeb-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .profile-grid{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .celeb-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .profile-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:768px){
+  /* NAVBAR — stops zooming needed */
+  #navbar{padding:0 12px;height:58px}
+  .nav-center{display:none}
+  .nav-logo-text{font-size:1.1rem;letter-spacing:1px}
+  .nav-logo-icon{width:30px;height:30px;font-size:.85rem}
+  .nav-btn{padding:6px 10px;font-size:.75rem}
+  .nav-right{gap:6px}
+  .hamburger{width:34px;height:34px;font-size:.9rem}
+
+  /* HERO */
+  .hero-title{font-size:2.8rem}
+  .hero-sub{font-size:.88rem;padding:0 10px}
+  .hero-actions{flex-direction:column;align-items:center;gap:10px;padding:0 20px}
+  .btn-book-now{width:100%;text-align:center;padding:14px 24px;font-size:1.1rem}
+  .btn-explore{width:100%;text-align:center;padding:13px 24px}
+
+  /* SECTIONS */
+  .section{padding:50px 14px}
+  .section-inner{padding:0}
+
+  /* CELEBRITY GRID — VAL9JA STYLE 2-COL COMPACT CARDS */
+  .celeb-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .celeb-card{border-radius:10px}
+  .celeb-img-wrap{height:160px}
+  .celeb-body{padding:10px}
+  .celeb-name{font-size:.88rem}
+  .celeb-occ{font-size:.72rem;margin-bottom:6px}
+  .celeb-bio{font-size:.72rem;-webkit-line-clamp:2;margin-bottom:8px}
+  .celeb-actions{gap:5px}
+  .btn-view,.btn-book{padding:6px;font-size:.72rem}
+  .celeb-stats{gap:6px;margin-bottom:6px}
+  .celeb-stat{font-size:.68rem}
+
+  /* VIDEO GRID — VAL9JA STYLE 2-COL */
+  .video-track{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;overflow-x:visible;padding-bottom:0}
+  .video-card{width:100%;flex-shrink:unset;border-radius:10px}
+  .video-embed{padding-top:52%}
+  .video-body{padding:10px}
+  .video-title{font-size:.8rem}
+  .video-sub{font-size:.7rem}
+
+  /* MEET & GREET PERKS — HORIZONTAL 2 PER ROW */
+  .mg-perks{flex-direction:row;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center}
+  .mg-perk{padding:7px 12px;font-size:.74rem;flex:0 0 calc(50% - 8px)}
+
+  /* FORMS */
+  .form-row,.bf-row{grid-template-columns:1fr}
+  .fan-card-grid{grid-template-columns:1fr}
+  .about-features{grid-template-columns:1fr}
+
+  /* FOOTER */
+  .footer-grid{grid-template-columns:1fr}
+  .footer-grid > div{text-align:center}
+  .footer-social{justify-content:center}
+
+  /* MEGA MENU */
+  .mega-menu{width:100%;border-radius:0}
+
+  /* STATS */
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+
+  /* MEET & GREET BUTTON */
+  .btn-mg{padding:16px 32px;font-size:1.1rem}
+
+  /* NEWSLETTER */
+  .nl-row{flex-direction:column}
+  .nl-input,.nl-btn{width:100%}
+
+  /* ABOUT */
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+
+  /* PROFILE PAGE */
+  .profile-grid{grid-template-columns:1fr}
+  .bf-row{grid-template-columns:1fr}
+}
+
+@media(max-width:480px){
+  /* VERY SMALL PHONES */
+  #navbar{padding:0 10px;height:54px}
+  .nav-logo-text{font-size:1rem;letter-spacing:0}
+  .nav-logo-icon{width:28px;height:28px;font-size:.8rem}
+  .nav-btn{padding:5px 8px;font-size:.72rem}
+  .nav-right{gap:4px}
+  .hamburger{width:32px;height:32px;font-size:.85rem}
+
+  .hero-title{font-size:2.2rem;letter-spacing:2px}
+  .hero-badge{font-size:.68rem;padding:5px 12px}
+
+  .celeb-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .celeb-img-wrap{height:140px}
+  .celeb-name{font-size:.84rem}
+  .video-track{grid-template-columns:repeat(2,1fr);gap:8px}
+  .mg-perk{flex:0 0 calc(50% - 8px);font-size:.7rem;padding:6px 8px}
+  .fan-card-grid{grid-template-columns:1fr}
+
+  .section{padding:40px 12px}
+  .mg-title{font-size:2.2rem}
+  .about-features{grid-template-columns:1fr}
+  .profile-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:360px){
+  /* VERY TINY PHONES like older Androids */
+  #navbar{padding:0 8px}
+  .nav-btn{display:none}
+  .hamburger{width:30px;height:30px}
+  .nav-logo-text{font-size:.9rem}
+  .hero-title{font-size:1.9rem}
+}
+
+.ph{padding:112px 20px 68px;text-align:center;position:relative;overflow:hidden;background:var(--bg2)}
+.ph::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.09) 0%,transparent 70%)}
+.phz{position:relative;z-index:1}
+.phtag{display:inline-flex;align-items:center;gap:7px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.2);color:var(--gold);padding:5px 15px;border-radius:20px;font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
+.phtit{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,4.6rem);letter-spacing:2px;line-height:1.06;margin-bottom:14px}
+.phtit span{color:var(--gold)}
+.phsub{font-size:.95rem;color:var(--muted);max-width:540px;margin:0 auto 24px;line-height:1.72}
+.bc{display:flex;align-items:center;gap:5px;font-size:.75rem;color:var(--muted);margin-bottom:12px;justify-content:center}
+.bc a{color:var(--muted);text-decoration:none;transition:color .18s}.bc a:hover{color:var(--gold)}.bc span{color:var(--gold)}.bc i{font-size:.55rem}
+.ps{padding:66px 20px}.pi{max-width:1160px;margin:0 auto}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(256px,1fr));gap:20px}
+.cp{background:var(--bg3);border:1px solid var(--border);border-radius:15px;padding:24px 21px;transition:all .2s}
+.cp:hover{border-color:var(--border2);transform:translateY(-2px)}
+.cico{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:13px;font-size:1.08rem}
+.ctit{font-weight:700;font-size:.92rem;margin-bottom:7px}
+.ctxt{font-size:.81rem;color:var(--muted);line-height:1.65}
+.stag{display:inline-flex;align-items:center;gap:7px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.2);color:var(--gold);padding:4px 13px;border-radius:20px;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:13px}
+.sh2{font-family:'Playfair Display',serif;font-size:clamp(1.45rem,3.5vw,2.1rem);font-weight:700;margin-bottom:13px}
+.sh2 span{color:var(--gold)}
+.sp{font-size:.87rem;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.twoc{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.threc{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cta-band{background:var(--bg2);padding:56px 20px;text-align:center}
+.cta-band h2{font-family:'Bebas Neue',sans-serif;font-size:2.3rem;letter-spacing:2px;margin-bottom:12px}
+.cta-band h2 span{color:var(--gold)}
+.cta-band p{font-size:.88rem;color:var(--muted);margin-bottom:22px;max-width:450px;margin-left:auto;margin-right:auto}
+.btng{background:linear-gradient(135deg,var(--gold),var(--gold3));border:none;padding:12px 26px;border-radius:10px;font-family:'DM Sans';font-weight:700;font-size:.9rem;color:#000;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:all .2s}
+.btng:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(212,175,55,.3)}
+.btno{background:transparent;border:1px solid var(--border);color:var(--text);padding:11px 24px;border-radius:10px;font-family:'DM Sans';font-weight:600;font-size:.88rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:all .2s}
+.btno:hover{border-color:var(--gold);color:var(--gold)}
+.filter-cat{padding:7px 17px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'DM Sans';font-size:.8rem;font-weight:500;transition:all .18s}
+.filter-cat.act,.filter-cat:hover{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700}
+@media(max-width:900px){.twoc,.threc{grid-template-columns:1fr}}
+@media(max-width:600px){.cg{grid-template-columns:1fr 1fr}.phtit{font-size:2.2rem}}
+@media(max-width:380px){.cg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <a href="/" class="nav-logo">
+    <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain">
+    <span class="nav-logo-text">Springcompany</span>
+  </a>
+  <div class="nav-center">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/celebrities.html" class="nav-link">Celebrities</a>
+    <a href="/celebrities.html" class="nav-link">Featured Stars</a>
+    <a href="/about.html" class="nav-link">About Us</a>
+    <a href="/contact.html" class="nav-link">Contact Us</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn btn-ghost" onclick="openAuth('login')">Sign In</button>
+    <button class="nav-btn btn-gold" onclick="openAuth('register')">Join Free</button>
+    <button class="hamburger" onclick="toggleMenu()" id="hamBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+<div class="mega-menu" id="megaMenu">
+  <a href="/company.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-building"></i></div><div><div style="font-weight:600">Company</div><div style="font-size:.74rem;color:var(--muted)">About &amp; Team</div></div></a>
+  <a href="/celebrities.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-star"></i></div><div><div style="font-weight:600">Celebrity</div><div style="font-size:.74rem;color:var(--muted)">Browse all stars</div></div></a>
+  <a href="/announce.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-bullhorn"></i></div><div><div style="font-weight:600">Announce</div><div style="font-size:.74rem;color:var(--muted)">News &amp; Updates</div></div></a>
+  <a href="/content.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-photo-video"></i></div><div><div style="font-weight:600">Content</div><div style="font-size:.74rem;color:var(--muted)">Exclusive media</div></div></a>
+  <a href="/audition.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-microphone"></i></div><div><div style="font-weight:600">Audition</div><div style="font-size:.74rem;color:var(--muted)">Submit your talent</div></div></a>
+  <a href="/shop.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-shopping-bag"></i></div><div><div style="font-weight:600">Shop</div><div style="font-size:.74rem;color:var(--muted)">Merch &amp; collectibles</div></div></a>
+  <div class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIco"></i><span id="themeLabel">Switch to Dark Mode</span></div>
+</div>
+<div class="ph"><div class="phz">
+  <div class="phtag"><i class="fas fa-life-ring"></i> Help Centre</div>
+  <div class="bc"><a href="/">Home</a><i class="fas fa-chevron-right"></i><span>Help Centre</span></div>
+  <h1 class="phtit">Help<span> Centre</span></h1>
+  <p class="phsub">Find answers to the most common questions about bookings, payments, fan cards and more.</p>
+</div></div>
+<section class="ps"><div class="pi">
+<div class="twoc" style="gap:48px">
+<div>
+  <div class="stag" style="display:block;margin-bottom:14px">Frequently Asked Questions</div>
+  <h2 class="sh2" style="margin-bottom:22px">Common <span>Questions</span></h2>
+  <div id="faqList"><div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px"><button onclick="togFaq(this)" style="width:100%;text-align:left;background:var(--bg3);border:none;padding:16px 18px;color:var(--text);font-family:'DM Sans';font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center">How do I book a celebrity? <i class="fas fa-chevron-down" style="color:var(--muted);font-size:.78rem;transition:transform .2s;flex-shrink:0;margin-left:12px"></i></button><div class="faq-ans" style="display:none;padding:0 18px 16px;background:var(--bg3);font-size:.85rem;color:var(--muted);line-height:1.75">Browse our celebrity roster, click on your chosen celebrity and click Book Now. Fill in your event details and submit. Our team will review and confirm within 24 hours. Payment is only required upon confirmation.</div></div><div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px"><button onclick="togFaq(this)" style="width:100%;text-align:left;background:var(--bg3);border:none;padding:16px 18px;color:var(--text);font-family:'DM Sans';font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center">When do I pay for a booking? <i class="fas fa-chevron-down" style="color:var(--muted);font-size:.78rem;transition:transform .2s;flex-shrink:0;margin-left:12px"></i></button><div class="faq-ans" style="display:none;padding:0 18px 16px;background:var(--bg3);font-size:.85rem;color:var(--muted);line-height:1.75">Payment is only required after your booking has been officially confirmed by our team. We will send you a payment link with all available methods including Paystack, Flutterwave, Bitcoin, Western Union and online banking.</div></div><div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px"><button onclick="togFaq(this)" style="width:100%;text-align:left;background:var(--bg3);border:none;padding:16px 18px;color:var(--text);font-family:'DM Sans';font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center">How long does confirmation take? <i class="fas fa-chevron-down" style="color:var(--muted);font-size:.78rem;transition:transform .2s;flex-shrink:0;margin-left:12px"></i></button><div class="faq-ans" style="display:none;padding:0 18px 16px;background:var(--bg3);font-size:.85rem;color:var(--muted);line-height:1.75">We aim to confirm all booking requests within 24 hours on business days. For urgent requests, please contact our team directly via the Contact Us page.</div></div><div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px"><button onclick="togFaq(this)" style="width:100%;text-align:left;background:var(--bg3);border:none;padding:16px 18px;color:var(--text);font-family:'DM Sans';font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center">What is a Fan Card? <i class="fas fa-chevron-down" style="color:var(--muted);font-size:.78rem;transition:transform .2s;flex-shrink:0;margin-left:12px"></i></button><div class="faq-ans" style="display:none;padding:0 18px 16px;background:var(--bg3);font-size:.85rem;color:var(--muted);line-height:1.75">A Fan Card gives you exclusive access to celebrity content, priority booking and perks depending on your tier. Silver ($29/yr), Gold ($79/yr) and VIP ($199/yr) options are available.</div></div><div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px"><button onclick="togFaq(this)" style="width:100%;text-align:left;background:var(--bg3);border:none;padding:16px 18px;color:var(--text);font-family:'DM Sans';font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center">Can I get a refund? <i class="fas fa-chevron-down" style="color:var(--muted);font-size:.78rem;transition:transform .2s;flex-shrink:0;margin-left:12px"></i></button><div class="faq-ans" style="display:none;padding:0 18px 16px;background:var(--bg3);font-size:.85rem;color:var(--muted);line-height:1.75">Please see our Refund Policy for full details. Generally, cancellations made more than 30 days before the event may be eligible for a partial refund minus our administration fee.</div></div><div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px"><button onclick="togFaq(this)" style="width:100%;text-align:left;background:var(--bg3);border:none;padding:16px 18px;color:var(--text);font-family:'DM Sans';font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center">How do I become a celebrity on Springcompany? <i class="fas fa-chevron-down" style="color:var(--muted);font-size:.78rem;transition:transform .2s;flex-shrink:0;margin-left:12px"></i></button><div class="faq-ans" style="display:none;padding:0 18px 16px;background:var(--bg3);font-size:.85rem;color:var(--muted);line-height:1.75">If you are a celebrity or talent, visit our Celebrity Sign-Up page and submit your application. Our team reviews all applications within 3-5 business days.</div></div><div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px"><button onclick="togFaq(this)" style="width:100%;text-align:left;background:var(--bg3);border:none;padding:16px 18px;color:var(--text);font-family:'DM Sans';font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center">Is my payment information secure? <i class="fas fa-chevron-down" style="color:var(--muted);font-size:.78rem;transition:transform .2s;flex-shrink:0;margin-left:12px"></i></button><div class="faq-ans" style="display:none;padding:0 18px 16px;background:var(--bg3);font-size:.85rem;color:var(--muted);line-height:1.75">Yes. All payments are processed through PCI-DSS compliant payment gateways. We never store your card details on our servers.</div></div><div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px"><button onclick="togFaq(this)" style="width:100%;text-align:left;background:var(--bg3);border:none;padding:16px 18px;color:var(--text);font-family:'DM Sans';font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center">What event types can I book a celebrity for? <i class="fas fa-chevron-down" style="color:var(--muted);font-size:.78rem;transition:transform .2s;flex-shrink:0;margin-left:12px"></i></button><div class="faq-ans" style="display:none;padding:0 18px 16px;background:var(--bg3);font-size:.85rem;color:var(--muted);line-height:1.75">We support Corporate Events, Concerts, Brand Activations, Private Parties, Award Shows, Film & TV Appearances, Meet & Greets, Sports Events, Weddings and more.</div></div></div>
+</div>
+<div>
+  <div class="stag" style="display:block;margin-bottom:14px">Still Need Help?</div>
+  <h2 class="sh2" style="margin-bottom:18px">Contact <span>Our Team</span></h2>
+  <div style="display:flex;flex-direction:column;gap:12px"><a href="/contact.html" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--text);transition:all .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:40px;height:40px;background:rgba(212,175,55,.12);border-radius:9px;display:flex;align-items:center;justify-content:center;color:rgb(212,175,55);font-size:.9rem;flex-shrink:0"><i class="fas fa-envelope"></i></div><div><div style="font-weight:700;font-size:.88rem">Email Support</div><div style="font-size:.78rem;color:var(--muted)">support@springcompany.com</div></div></a><a href="/contact.html" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--text);transition:all .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:40px;height:40px;background:rgba(16,185,129,.12);border-radius:9px;display:flex;align-items:center;justify-content:center;color:rgb(16,185,129);font-size:.9rem;flex-shrink:0"><i class="fas fa-phone"></i></div><div><div style="font-weight:700;font-size:.88rem">Call Us</div><div style="font-size:.78rem;color:var(--muted)">Mon–Fri 9AM–6PM EST</div></div></a><a href="#" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--text);transition:all .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:40px;height:40px;background:rgba(59,130,246,.12);border-radius:9px;display:flex;align-items:center;justify-content:center;color:rgb(59,130,246);font-size:.9rem;flex-shrink:0"><i class="fas fa-comment"></i></div><div><div style="font-weight:700;font-size:.88rem">Live Chat</div><div style="font-size:.78rem;color:var(--muted)">Typically replies instantly</div></div></a><a href="/contact.html" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--text);transition:all .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:40px;height:40px;background:rgba(168,85,247,.12);border-radius:9px;display:flex;align-items:center;justify-content:center;color:rgb(168,85,247);font-size:.9rem;flex-shrink:0"><i class="fas fa-calendar"></i></div><div><div style="font-weight:700;font-size:.88rem">Book a Call</div><div style="font-size:.78rem;color:var(--muted)">Schedule a support call</div></div></a>
+  </div>
+</div>
+</div>
+</div></section>
+<div class="cta-band"><h2>Ready to <span>Book a Celebrity?</span></h2><p>Browse our full roster and submit a booking request today.</p><a href="/celebrities.html" class="btng"><i class="fas fa-star"></i> Browse Celebrities</a></div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="nav-logo" style="display:inline-flex">
+        <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain">
+        <span class="nav-logo-text">Springcompany</span>
+      </a>
+      <p>The world's most trusted celebrity booking platform. Connecting fans, brands and event organisers with iconic entertainers since 2020.</p>
+      <div class="footer-social">
+        <a class="fsoc" href="/"><i class="fab fa-instagram"></i></a>
+        <a class="fsoc" href="/"><i class="fab fa-twitter"></i></a>
+        <a class="fsoc" href="/"><i class="fab fa-facebook-f"></i></a>
+        <a class="fsoc" href="/"><i class="fab fa-tiktok"></i></a>
+        <a class="fsoc" href="/"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <ul>
+        <li><a href="/celebrities.html">Browse Celebrities</a></li>
+        <li><a href="/about.html">How It Works</a></li>
+        <li><a href="/">Pricing & Packages</a></li>
+        <li><a href="/fan-cards.html">Fan Cards</a></li>
+        <li><a href="/meet-greet.html">Meet & Greet</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/about.html">About Springcompany</a></li>
+        <li><a href="/careers.html">Careers</a></li>
+        <li><a href="/press.html">Press & Media</a></li>
+        <li><a href="/celebrity-signup.html">Celebrity Sign-Up</a></li>
+        <li><a href="/investors.html">Investors</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="/contact.html">Contact Us</a></li>
+        <li><a href="/help.html">Help Centre</a></li>
+        <li><a href="/privacy.html">Privacy Policy</a></li>
+        <li><a href="/terms.html">Terms of Service</a></li>
+        <li><a href="/refund.html">Refund Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Spring Company. All rights reserved.</p>
+    <p>Designed by Shin Young Jin for fans worldwide</p>
+  </div>
+</footer>
+<!-- ── AUTH MODAL ── -->
+<div class="modal-backdrop" id="authModal" onclick="if(event.target===this)closeAuth()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuth()">✕</button>
+    <div class="modal-head">
+      <div class="modal-logo">★ SPRINGCOMPANY</div>
+      <div style="font-size:.82rem;color:var(--muted)" id="authSubtitle">Join the world's premier celebrity platform</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <button class="modal-tab" id="tabRegister" onclick="switchAuthTab('register')">Create Account</button>
+        <button class="modal-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
+      </div>
+      <!-- Social -->
+      <div class="soc-btns">
+        <button class="soc-btn" onclick="window.location.href='/api/auth/google'">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </button>
+        <button class="soc-btn" onclick="socialAuth('Apple')">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          Continue with Apple
+        </button>
+        <button class="soc-btn" onclick="socialAuth('Facebook')">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Continue with Facebook
+        </button>
+      </div>
+      <div class="divline">or with email</div>
+      <!-- Register -->
+      <div id="registerFields" style="display:none">
+
+  <!-- Step 1 — Personal Info -->
+  <div id="regStep1">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="mf"><label>First Name *</label><input type="text" id="regFirst" placeholder="John"></div>
+      <div class="mf"><label>Last Name *</label><input type="text" id="regLast" placeholder="Doe"></div>
+    </div>
+    <div class="mf"><label>Username *</label><input type="text" id="regUsername" placeholder="johndoe123"></div>
+    <div class="mf"><label>Gender *</label>
+      <select id="regGender" style="width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none">
+        <option value="">Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+        <option value="prefer_not_to_say">Prefer not to say</option>
+      </select>
+    </div>
+    <div class="mf"><label>Date of Birth *</label><input type="date" id="regDob"></div>
+    <button class="btn-auth" onclick="regNextStep()">Next Step →</button>
+    <div class="auth-hint">Already registered? <a onclick="switchAuthTab('login')">Sign in</a></div>
+  </div>
+
+  <!-- Step 2 — Contact Info -->
+  <div id="regStep2" style="display:none">
+    <div class="mf"><label>Email Address *</label><input type="email" id="regEmail" placeholder="you@example.com"></div>
+    <div class="mf"><label>Phone Number *</label>
+      <div style="display:flex;gap:6px">
+        <select id="regPhoneCode" style="width:110px;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;flex-shrink:0">
+          <option value="+234">🇳🇬 +234</option>
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+27">🇿🇦 +27</option>
+          <option value="+971">🇦🇪 +971</option>
+          <option value="+233">🇬🇭 +233</option>
+          <option value="+254">🇰🇪 +254</option>
+          <option value="+49">🇩🇪 +49</option>
+          <option value="+33">🇫🇷 +33</option>
+          <option value="+91">🇮🇳 +91</option>
+        </select>
+        <input type="tel" id="regPhone" placeholder="08012345678" style="flex:1">
+      </div>
+    </div>
+    <div class="mf"><label>Country *</label>
+      <select id="regCountry" style="width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none" onchange="updateStates()">
+        <option value="">Select country</option>
+        <option value="Nigeria">Nigeria</option>
+        <option value="United States">United States</option>
+        <option value="United Kingdom">United Kingdom</option>
+        <option value="South Africa">South Africa</option>
+        <option value="Ghana">Ghana</option>
+        <option value="Kenya">Kenya</option>
+        <option value="UAE">United Arab Emirates</option>
+        <option value="Canada">Canada</option>
+        <option value="Australia">Australia</option>
+        <option value="Germany">Germany</option>
+        <option value="France">France</option>
+        <option value="India">India</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="mf"><label>State / Province *</label>
+      <select id="regState" style="width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none">
+        <option value="">Select country first</option>
+      </select>
+    </div>
+    <div class="mf"><label>LGA / City</label><input type="text" id="regLga" placeholder="Local Government Area or City"></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-auth" style="background:var(--bg4);color:var(--text);border:1px solid var(--border)" onclick="regPrevStep()">← Back</button>
+      <button class="btn-auth" style="flex:1" onclick="regNextStep2()">Next Step →</button>
+    </div>
+  </div>
+
+  <!-- Step 3 — Password + Captcha -->
+  <div id="regStep3" style="display:none">
+    <div class="mf">
+      <label style="display:block;font-size:.74rem;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Verify Account Using *</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <label style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg4);border:2px solid var(--gold);border-radius:10px;cursor:pointer;transition:all .2s" id="chooseEmailLabel">
+          <input type="radio" name="verifyMethod" value="email" id="verifyEmail" checked onchange="updateVerifyChoice()" style="accent-color:var(--gold);width:16px;height:16px;flex-shrink:0">
+          <div><div style="font-size:.84rem;font-weight:600">Email</div><div style="font-size:.72rem;color:var(--muted)">Code to email</div></div>
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg4);border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s" id="choosePhoneLabel">
+          <input type="radio" name="verifyMethod" value="phone" id="verifyPhone" onchange="updateVerifyChoice()" style="accent-color:var(--gold);width:16px;height:16px;flex-shrink:0">
+          <div><div style="font-size:.84rem;font-weight:600">Phone SMS</div><div style="font-size:.72rem;color:var(--muted)">Code via SMS</div></div>
+        </label>
+      </div>
+    </div>
+    <div class="mf"><label>Password *</label><input type="password" id="regPass" placeholder="Min 8 characters"></div>
+    <div class="mf"><label>Confirm Password *</label><input type="password" id="regPass2" placeholder="Repeat your password"></div>
+    <div class="mf">
+      <label>Verify You Are Human *</label>
+      <div style="background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:14px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <input type="checkbox" id="humanCheck" style="width:18px;height:18px;cursor:pointer;accent-color:var(--gold)">
+          <span style="font-size:.84rem;color:var(--text)">I am not a robot</span>
+        </div>
+        <div style="font-size:.7rem;color:var(--muted)">Secure</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-auth" style="background:var(--bg4);color:var(--text);border:1px solid var(--border)" onclick="regPrevStep2()">Back</button>
+      <button class="btn-auth" style="flex:1" onclick="doRegister()">Create My Account</button>
+    </div>
+    <div class="auth-hint">Already registered? <a onclick="switchAuthTab('login')">Sign in</a></div>
+  </div>
+
+  <div id="regStep4" style="display:none">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:2.2rem;margin-bottom:8px" id="otpIcon">Email</div>
+      <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Verify Your Account</div>
+      <div style="font-size:.8rem;color:var(--muted)" id="otpHint">We sent a 6-digit code</div>
+    </div>
+    <div class="mf">
+      <label>Verification Code *</label>
+      <input type="text" id="otpInput" placeholder="Enter 6-digit code" maxlength="6" style="text-align:center;font-size:1.4rem;letter-spacing:8px;font-weight:700">
+    </div>
+    <button class="btn-auth" onclick="verifyOTP()">Verify and Complete</button>
+    <div style="text-align:center;margin-top:10px">
+      <a onclick="resendOTP(regVerifyMethod)" style="font-size:.76rem;color:var(--gold);cursor:pointer">Resend code</a>
+    </div>
+  </div>
+
+</ddiv>
+      <!-- Login -->
+      <div id="loginFields">
+        <div class="mf"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com"></div>
+        <div class="mf"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+        <div style="text-align:right;margin-bottom:14px"><a style="font-size:.76rem;color:var(--gold);cursor:pointer">Forgot password?</a></div>
+        <button class="btn-auth" onclick="doLogin()">Sign In to Springcompany →</button>
+        <div class="auth-hint">New to Springcompany? <a onclick="switchAuthTab('register')">Create free account</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+
+<div class="toast" id="toast"></div>
+<script>
+var sc_token=localStorage.getItem('sc_token');
+var currentUser=null;
+try{var _u=localStorage.getItem('sc_current_user');if(_u)currentUser=JSON.parse(_u);}catch(e){}
+function updateNav(n){if(!n)return;n=n.charAt(0).toUpperCase()+n.slice(1);var s=document.querySelector('.nav-btn.btn-ghost');var j=document.querySelector('.nav-btn.btn-gold');if(s)s.style.display='none';if(j){j.textContent='Hi, '+n;j.onclick=function(){showToast('My account coming soon!');};}}
+function openAuth(t){var m=document.getElementById('authModal');if(m)m.classList.add('open');switchAuthTab(t||'register');}
+function closeAuth(){var m=document.getElementById('authModal');if(m)m.classList.remove('open');}
+function switchAuthTab(t){var rb=document.querySelector('.tab-btn[data-tab="register"]');var lb=document.querySelector('.tab-btn[data-tab="login"]');var rf=document.getElementById('registerFields');var lf=document.getElementById('loginFields');if(t==='login'){if(lb)lb.classList.add('active');if(rb)rb.classList.remove('active');if(lf)lf.style.display='block';if(rf)rf.style.display='none';}else{if(rb)rb.classList.add('active');if(lb)lb.classList.remove('active');if(rf)rf.style.display='block';if(lf)lf.style.display='none';}}
+function showToast(msg){var t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.style.display='block';clearTimeout(window._tt);window._tt=setTimeout(function(){t.style.display='none';},3400);}
+function toggleMenu(){var m=document.getElementById('megaMenu');if(m)m.classList.toggle('open');}
+function closeMenu(){var m=document.getElementById('megaMenu');if(m)m.classList.remove('open');}
+function toggleTheme(){var h=document.documentElement;var d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('sc_theme',d?'light':'dark');var l=document.getElementById('themeLabel');if(l)l.textContent=d?'Switch to Dark Mode':'Switch to Light Mode';}
+window.doLogin=function(){var email=(document.getElementById('loginEmail').value||'').trim();var pass=document.getElementById('loginPass').value||'';if(!email||!pass){showToast('Please enter email and password');return;}var btn=document.querySelector('#loginFields .btn-auth');if(btn){btn.textContent='Signing in...';btn.disabled=true;}fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pass})}).then(function(r){return r.json();}).then(function(d){if(btn){btn.textContent='Sign In to Springcompany →';btn.disabled=false;}if(d.success){localStorage.setItem('sc_token',d.token);localStorage.setItem('sc_current_user',JSON.stringify(d.user));closeAuth();updateNav(d.user.firstName);showToast('Welcome back, '+d.user.firstName+'!');if(d.user.role==='admin')setTimeout(function(){window.location.href='/admin.html';},1200);}else showToast(d.message||'Login failed');}).catch(function(){if(btn){btn.textContent='Sign In to Springcompany →';btn.disabled=false;}showToast('Connection error');});};
+window.addEventListener('DOMContentLoaded',function(){
+  var th=localStorage.getItem('sc_theme')||'light';document.documentElement.setAttribute('data-theme',th);
+  if(currentUser&&currentUser.firstName)updateNav(currentUser.firstName);
+  window.addEventListener('scroll',function(){var n=document.getElementById('navbar');if(n){if(window.scrollY>60)n.classList.add('scrolled');else n.classList.remove('scrolled');}});
+  document.addEventListener('click',function(e){var m=document.getElementById('megaMenu');if(m&&m.classList.contains('open')&&!m.contains(e.target)&&!e.target.closest('#hamBtn'))closeMenu();});
+});
+
+function togFaq(btn){
+  var ans=btn.nextElementSibling;
+  var ico=btn.querySelector('i');
+  var open=ans.style.display!=='none'&&ans.style.display!=='';
+  document.querySelectorAll('.faq-ans').forEach(function(a){a.style.display='none';});
+  document.querySelectorAll('#faqList button i').forEach(function(i){i.style.transform='';});
+  if(!open){ans.style.display='block';ico.style.transform='rotate(180deg)';}
+}
+</script>
+</body>
+</html>

@@ -480,16 +480,16 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 
 <!-- ── NAVBAR ── -->
 <nav id="navbar">
-  <a href="#" class="nav-logo" onclick="showHome()">
+  <a href="#" class="nav-logo">
     <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain">
     <span class="nav-logo-text">Springcompany</span>
   </a>
   <div class="nav-center">
-    <a href="#" class="nav-link" onclick="showHome()">Home</a>
-    <a href="#celebrities" class="nav-link">Celebrities</a>
-    <a href="#" class="nav-link">Featured Stars</a>
-    <a href="#about" class="nav-link">About Us</a>
-    <a href="#contact" class="nav-link">Contact Us</a>
+    <a href="/" class="nav-link">Home</a>
+    <a href="/celebrities.html" class="nav-link">Celebrities</a>
+    <a href="/celebrities.html" class="nav-link">Featured Stars</a>
+    <a href="/about.html" class="nav-link">About Us</a>
+    <a href="/contact.html" class="nav-link">Contact Us</a>
   </div>
   <div class="nav-right">
     <button class="nav-btn btn-ghost" onclick="openAuth('login')">Sign In</button>
@@ -502,12 +502,12 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 
 <!-- MEGA MENU -->
 <div class="mega-menu" id="megaMenu">
-  <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-building"></i></div><div><div style="font-weight:600">Company</div><div style="font-size:.74rem;color:var(--muted)">About & Team</div></div></a>
-  <a href="#celebrities" class="mega-menu-item" onclick="closeMenu()"><div class="mmi-ico"><i class="fas fa-star"></i></div><div><div style="font-weight:600">Celebrity</div><div style="font-size:.74rem;color:var(--muted)">Browse all stars</div></div></a>
-  <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-bullhorn"></i></div><div><div style="font-weight:600">Announce</div><div style="font-size:.74rem;color:var(--muted)">News & Updates</div></div></a>
-  <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-photo-video"></i></div><div><div style="font-weight:600">Content</div><div style="font-size:.74rem;color:var(--muted)">Exclusive media</div></div></a>
-  <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-microphone"></i></div><div><div style="font-weight:600">Audition</div><div style="font-size:.74rem;color:var(--muted)">Submit your talent</div></div></a>
-  <a href="#" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-shopping-bag"></i></div><div><div style="font-weight:600">Shop</div><div style="font-size:.74rem;color:var(--muted)">Merch & collectibles</div></div></a>
+  <a href="/company.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-building"></i></div><div><div style="font-weight:600">Company</div><div style="font-size:.74rem;color:var(--muted)">About & Team</div></div></a>
+  <a href="/celebrities.html" class="mega-menu-item" onclick="closeMenu()"><div class="mmi-ico"><i class="fas fa-star"></i></div><div><div style="font-weight:600">Celebrity</div><div style="font-size:.74rem;color:var(--muted)">Browse all stars</div></div></a>
+  <a href="/announce.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-bullhorn"></i></div><div><div style="font-weight:600">Announce</div><div style="font-size:.74rem;color:var(--muted)">News & Updates</div></div></a>
+  <a href="/content.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-photo-video"></i></div><div><div style="font-weight:600">Content</div><div style="font-size:.74rem;color:var(--muted)">Exclusive media</div></div></a>
+  <a href="/audition.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-microphone"></i></div><div><div style="font-weight:600">Audition</div><div style="font-size:.74rem;color:var(--muted)">Submit your talent</div></div></a>
+  <a href="/shop.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-shopping-bag"></i></div><div><div style="font-weight:600">Shop</div><div style="font-size:.74rem;color:var(--muted)">Merch & collectibles</div></div></a>
   <div class="theme-toggle" onclick="toggleTheme()">
     <i class="fas fa-moon" id="themeIco"></i>
     <span id="themeLabel">Switch to Dark Mode</span>
@@ -539,8 +539,8 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
     <h1 class="hero-title" style="text-shadow:0 2px 20px rgba(0,0,0,0.4)"><span>BOOK YOUR FAVORITE</span><br><span>CELEBRITIES</span></h1>
     <p class="hero-sub">Connect with the world's most iconic entertainers. Book celebrities for events, appearances, meet & greets, and exclusive experiences.</p>
     <div class="hero-actions">
-      <button class="btn-book-now" onclick="document.getElementById('celebrities').scrollIntoView({behavior:'smooth'})">BOOK NOW</button>
-      <button class="btn-explore" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Explore Platform</button>
+      <button class="btn-book-now" href="/book-now.html" onclick="document.getElementById('celebrities').scrollIntoView({behavior:'smooth'})">BOOK NOW</button>
+      <button class="btn-explore" href="/book-now.html" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Explore Platform</button>
     </div>
   </div>
   <div class="hero-dots" id="heroDots"></div>
@@ -587,7 +587,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
     </div>
     <div class="celeb-grid" id="celebGrid"></div>
     <div style="text-align:center;margin-top:36px">
-      <button class="btn-explore" style="padding:13px 36px;border-radius:8px;font-size:.9rem">Load More Celebrities</button>
+      <button class="btn-explore" href="/book-now.html" style="padding:13px 36px;border-radius:8px;font-size:.9rem">Load More Celebrities</button>
     </div>
   </div>
 </section>
@@ -740,7 +740,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="#" class="nav-logo" style="display:inline-flex" onclick="showHome()">
+      <a href="#" class="nav-logo" style="display:inline-flex">
         <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain">
         <span class="nav-logo-text">Springcompany</span>
       </a>
@@ -756,31 +756,31 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
     <div class="footer-col">
       <h4>Platform</h4>
       <ul>
-        <li><a href="#">Browse Celebrities</a></li>
-        <li><a href="#">How It Works</a></li>
+        <li><a href="/celebrities.html">Browse Celebrities</a></li>
+        <li><a href="/about.html">How It Works</a></li>
         <li><a href="#">Pricing & Packages</a></li>
-        <li><a href="#">Fan Cards</a></li>
-        <li><a href="#">Meet & Greet</a></li>
+        <li><a href="/fan-cards.html">Fan Cards</a></li>
+        <li><a href="/meet-greet.html">Meet & Greet</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Company</h4>
       <ul>
         <li><a href="#about">About Springcompany</a></li>
-        <li><a href="#">Careers</a></li>
-        <li><a href="#">Press & Media</a></li>
-        <li><a href="#">Celebrity Sign-Up</a></li>
-        <li><a href="#">Investors</a></li>
+        <li><a href="/careers.html">Careers</a></li>
+        <li><a href="/press.html">Press & Media</a></li>
+        <li><a href="/celebrity-signup.html">Celebrity Sign-Up</a></li>
+        <li><a href="/investors.html">Investors</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Support</h4>
       <ul>
         <li><a href="#contact">Contact Us</a></li>
-        <li><a href="#">Help Centre</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms of Service</a></li>
-        <li><a href="#">Refund Policy</a></li>
+        <li><a href="/help.html">Help Centre</a></li>
+        <li><a href="/privacy.html">Privacy Policy</a></li>
+        <li><a href="/terms.html">Terms of Service</a></li>
+        <li><a href="/refund.html">Refund Policy</a></li>
       </ul>
     </div>
   </div>
