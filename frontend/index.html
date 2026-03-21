@@ -676,7 +676,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
     </div>
     <div class="contact-grid">
       <div class="contact-info">
-        <div class="ci-item"><div class="ci-ico"><i class="fas fa-envelope"></i></div><div><div class="ci-title">Email Us</div><div class="ci-text">bookings@springcompany.com<br>support@springcompany.com</div></div></div>
+        <div class="ci-item"><div class="ci-ico"><i class="fas fa-envelope"></i></div><div><div class="ci-title">Email Us</div><div class="ci-text"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="02606d6d696b6c6571427172706b6c65616d6f72636c7b2c616d6f">[email&#160;protected]</a><br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e99a9c9999869b9da99a999b80878e8a868499888790c78a8684">[email&#160;protected]</a></div></div></div>
         <div class="ci-item"><div class="ci-ico"><i class="fas fa-phone"></i></div><div><div class="ci-title">Call Us</div><div class="ci-text">+1 (800) SPRINGCOMPANY<br>Mon–Fri 9AM–6PM EST</div></div></div>
         <div class="ci-item"><div class="ci-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="ci-title">Head Office</div><div class="ci-text">Beverly Hills, CA 90210<br>United States</div></div></div>
         <div class="ci-item"><div class="ci-ico"><i class="fas fa-clock"></i></div><div><div class="ci-title">Response Time</div><div class="ci-text">Bookings confirmed within 24 hours<br>Support replies within 2 hours</div></div></div>
@@ -1048,259 +1048,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   </div>
 
 </div>
-```
-
----
-
-## PART 6 — Add the JavaScript for the new registration flow
-
-Open `index.html`. Press **Ctrl + F** and search for:
-```
-function doRegister()
-Delete the entire existing doRegister function and replace it with all of this:
-javascript// ── REGISTRATION STATE ────────────────────────
-var regUserId = null;
-var regEmail  = null;
-var regPhone  = null;
-
-// ── STATES BY COUNTRY ─────────────────────────
-var statesByCountry = {
-  'Nigeria': ['Abia','Adamawa','Akwa Ibom','Anambra','Bauchi','Bayelsa','Benue','Borno','Cross River','Delta','Ebonyi','Edo','Ekiti','Enugu','FCT Abuja','Gombe','Imo','Jigawa','Kaduna','Kano','Katsina','Kebbi','Kogi','Kwara','Lagos','Nasarawa','Niger','Ogun','Ondo','Osun','Oyo','Plateau','Rivers','Sokoto','Taraba','Yobe','Zamfara'],
-  'United States': ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'],
-  'United Kingdom': ['England','Scotland','Wales','Northern Ireland'],
-  'South Africa': ['Eastern Cape','Free State','Gauteng','KwaZulu-Natal','Limpopo','Mpumalanga','Northern Cape','North West','Western Cape'],
-  'Ghana': ['Ashanti','Brong-Ahafo','Central','Eastern','Greater Accra','Northern','Upper East','Upper West','Volta','Western'],
-  'Kenya': ['Nairobi','Mombasa','Kisumu','Nakuru','Eldoret','Thika','Malindi','Kitale','Garissa','Kakamega'],
-  'UAE': ['Abu Dhabi','Dubai','Sharjah','Ajman','Umm Al Quwain','Ras Al Khaimah','Fujairah'],
-  'Canada': ['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland','Nova Scotia','Ontario','Prince Edward Island','Quebec','Saskatchewan'],
-  'Australia': ['New South Wales','Victoria','Queensland','Western Australia','South Australia','Tasmania','ACT','Northern Territory'],
-  'Germany': ['Bavaria','Berlin','Brandenburg','Bremen','Hamburg','Hesse','Mecklenburg','Lower Saxony','North Rhine-Westphalia','Rhineland-Palatinate','Saarland','Saxony','Saxony-Anhalt','Schleswig-Holstein','Thuringia'],
-  'France': ['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Brittany','Centre-Val de Loire','Corsica','Grand Est','Hauts-de-France','Île-de-France','Normandy','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d\'Azur'],
-  'India': ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal'],
-  'Other': ['Please type your state in the LGA field below']
-};
-
-function updateStates() {
-  var country = document.getElementById('regCountry').value;
-  var stateSelect = document.getElementById('regState');
-  var states = statesByCountry[country] || ['Please type your state below'];
-  stateSelect.innerHTML = '<option value="">Select state</option>' +
-    states.map(function(s){ return '<option value="'+s+'">'+s+'</option>'; }).join('');
-}
-
-// ── STEP NAVIGATION ───────────────────────────
-function regNextStep() {
-  var first = (document.getElementById('regFirst').value || '').trim();
-  var last  = (document.getElementById('regLast').value || '').trim();
-  var uname = (document.getElementById('regUsername').value || '').trim();
-  var gender = document.getElementById('regGender').value;
-  var dob   = document.getElementById('regDob').value;
-
-  if (!first) { showAuthError('Please enter your first name'); return; }
-  if (!last)  { showAuthError('Please enter your last name'); return; }
-  if (!uname || uname.length < 3) { showAuthError('Username must be at least 3 characters'); return; }
-  if (!gender) { showAuthError('Please select your gender'); return; }
-  if (!dob)   { showAuthError('Please enter your date of birth'); return; }
-
-  document.getElementById('regStep1').style.display = 'none';
-  document.getElementById('regStep2').style.display = 'block';
-  hideAuthError();
-}
-
-function regPrevStep() {
-  document.getElementById('regStep2').style.display = 'none';
-  document.getElementById('regStep1').style.display = 'block';
-  hideAuthError();
-}
-
-function regNextStep2() {
-  var email   = (document.getElementById('regEmail').value || '').trim();
-  var phone   = (document.getElementById('regPhone').value || '').trim();
-  var country = document.getElementById('regCountry').value;
-  var state   = document.getElementById('regState').value;
-
-  if (!email || !email.includes('@')) { showAuthError('Please enter a valid email address'); return; }
-  if (!phone) { showAuthError('Please enter your phone number'); return; }
-  if (!country) { showAuthError('Please select your country'); return; }
-  if (!state)   { showAuthError('Please select your state'); return; }
-
-  document.getElementById('regStep2').style.display = 'none';
-  document.getElementById('regStep3').style.display = 'block';
-  hideAuthError();
-}
-
-function regPrevStep2() {
-  document.getElementById('regStep3').style.display = 'none';
-  document.getElementById('regStep2').style.display = 'block';
-  hideAuthError();
-}
-
-// ── MAIN REGISTER FUNCTION ────────────────────
-function doRegister() {
-  var pass  = document.getElementById('regPass').value || '';
-  var pass2 = document.getElementById('regPass2').value || '';
-  var human = document.getElementById('humanCheck').checked;
-
-  if (pass.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
-  if (pass !== pass2)  { showAuthError('Passwords do not match'); return; }
-  if (!human)          { showAuthError('Please confirm you are human'); return; }
-
-  var phoneCode = document.getElementById('regPhoneCode').value;
-  var phoneNum  = document.getElementById('regPhone').value.trim();
-  var fullPhone  = phoneCode + phoneNum.replace(/^0/, '');
-
-  var btn = document.querySelector('#regStep3 .btn-auth:last-of-type');
-  var original = btn.textContent;
-  btn.textContent = 'Creating account...';
-  btn.disabled = true;
-
-  fetch('/api/auth/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      firstName:   document.getElementById('regFirst').value.trim(),
-      lastName:    document.getElementById('regLast').value.trim(),
-      username:    document.getElementById('regUsername').value.trim(),
-      gender:      document.getElementById('regGender').value,
-      dateOfBirth: document.getElementById('regDob').value,
-      email:       document.getElementById('regEmail').value.trim(),
-      phone:       fullPhone,
-      country:     document.getElementById('regCountry').value,
-      state:       document.getElementById('regState').value,
-      lga:         document.getElementById('regLga').value.trim(),
-      password:    pass
-    })
-  })
-  .then(function(res) { return res.json(); })
-  .then(function(data) {
-    btn.textContent = original;
-    btn.disabled = false;
-
-    if (data.success) {
-      regUserId = data.userId;
-      regEmail  = data.email;
-      regPhone  = data.phone;
-
-      // Show email verification step
-      document.getElementById('regStep3').style.display = 'none';
-      document.getElementById('regStep4').style.display = 'block';
-      document.getElementById('otpEmailHint').textContent =
-        'We sent a 6-digit code to ' + regEmail;
-      hideAuthError();
-      showToast('📧 Check your email for the verification code!');
-    } else {
-      showAuthError(data.message || 'Registration failed. Please try again.');
-    }
-  })
-  .catch(function() {
-    btn.textContent = original;
-    btn.disabled = false;
-    showAuthError('Connection error. Please check your internet and try again.');
-  });
-}
-
-// ── VERIFY EMAIL OTP ──────────────────────────
-function verifyEmailOTP() {
-  var otp = (document.getElementById('emailOtpInput').value || '').trim();
-  if (otp.length !== 6) { showAuthError('Please enter the 6-digit code'); return; }
-
-  var btn = document.querySelector('#regStep4 .btn-auth');
-  btn.textContent = 'Verifying...';
-  btn.disabled = true;
-
-  fetch('/api/auth/verify-email', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId: regUserId, otp: otp })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    btn.textContent = 'Verify Email →';
-    btn.disabled = false;
-
-    if (data.success) {
-      // Show phone verification step
-      document.getElementById('regStep4').style.display = 'none';
-      document.getElementById('regStep5').style.display = 'block';
-      document.getElementById('otpPhoneHint').textContent =
-        'We sent a 6-digit code to ' + regPhone;
-      hideAuthError();
-      showToast('✅ Email verified! Now verify your phone.');
-    } else {
-      showAuthError(data.message || 'Invalid code. Please try again.');
-    }
-  })
-  .catch(function() {
-    btn.textContent = 'Verify Email →';
-    btn.disabled = false;
-    showAuthError('Connection error. Please try again.');
-  });
-}
-
-// ── VERIFY PHONE OTP ──────────────────────────
-function verifyPhoneOTP() {
-  var otp = (document.getElementById('phoneOtpInput').value || '').trim();
-  if (otp.length !== 6) { showAuthError('Please enter the 6-digit code'); return; }
-
-  var btn = document.querySelector('#regStep5 .btn-auth');
-  btn.textContent = 'Verifying...';
-  btn.disabled = true;
-
-  fetch('/api/auth/verify-phone', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId: regUserId, otp: otp })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    btn.textContent = 'Verify Phone & Complete →';
-    btn.disabled = false;
-
-    if (data.success && data.bothVerified) {
-      // Save token and log in
-      localStorage.setItem('sc_token', data.token);
-      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
-      closeAuth();
-      updateNavForLoggedInUser(data.user.firstName);
-      showToast('🎉 Welcome to Springcompany, ' + data.user.firstName + '! Your account is verified.');
-    } else if (data.success) {
-      showAuthError('Phone verified but email is still pending.');
-    } else {
-      showAuthError(data.message || 'Invalid code. Please try again.');
-    }
-  })
-  .catch(function() {
-    btn.textContent = 'Verify Phone & Complete →';
-    btn.disabled = false;
-    showAuthError('Connection error. Please try again.');
-  });
-}
-
-// ── RESEND OTP ────────────────────────────────
-function resendOTP(type) {
-  if (!regUserId) return;
-  fetch('/api/auth/resend-otp', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId: regUserId, type: type })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    if (data.success) {
-      showToast(type === 'email'
-        ? '📧 New code sent to your email!'
-        : '📱 New code sent to your phone!');
-    } else {
-      showAuthError(data.message);
-    }
-  });
-}
-
-// ── HIDE AUTH ERROR ───────────────────────────
-function hideAuthError() {
-  var err = document.getElementById('authError');
-  if (err) err.style.display = 'none';
-}
       <!-- Login -->
       <div id="loginFields">
         <div class="mf"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com"></div>
@@ -1316,7 +1063,7 @@ function hideAuthError() {
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ══════════════════════════════════════════════
 // SPRINGCOMPANY — COMPLETE JAVASCRIPT
 // ══════════════════════════════════════════════
@@ -1545,57 +1292,220 @@ function socialAuth(provider) {
   showToast('✅ Signed in with ' + provider + '! Welcome to Springcompany.');
 }
 function doRegister() {
-  var first = (document.getElementById('regFirst').value || '').trim();
-  var last  = (document.getElementById('regLast').value || '').trim();
-  var email = (document.getElementById('regEmail').value || '').trim();
   var pass  = document.getElementById('regPass').value || '';
+  var pass2 = document.getElementById('regPass2') ? document.getElementById('regPass2').value || '' : pass;
+  var human = document.getElementById('humanCheck') ? document.getElementById('humanCheck').checked : true;
 
-  // Validation
-  if (!first) { showAuthError('Please enter your first name'); return; }
-  if (!email || !email.includes('@')) { showAuthError('Please enter a valid email'); return; }
   if (pass.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
+  if (pass !== pass2)  { showAuthError('Passwords do not match'); return; }
+  if (!human)          { showAuthError('Please confirm you are human'); return; }
 
-  // Show loading state
-  var btn = document.querySelector('#registerFields .btn-auth');
-  var original = btn.textContent;
-  btn.textContent = 'Creating account...';
-  btn.disabled = true;
+  var phoneCode = document.getElementById('regPhoneCode') ? document.getElementById('regPhoneCode').value : '+1';
+  var phoneNum  = (document.getElementById('regPhone') ? document.getElementById('regPhone').value : '').trim();
+  var fullPhone = phoneCode + phoneNum.replace(/^0/, '');
 
-  // Send to your real backend
+  var btn = document.querySelector('#regStep3 .btn-auth') || document.querySelector('#registerFields .btn-auth');
+  var original = btn ? btn.textContent : 'Create My Account';
+  if (btn) { btn.textContent = 'Creating account...'; btn.disabled = true; }
+
   fetch('/api/auth/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      firstName: first,
-      lastName: last,
-      email: email,
-      password: pass
+      firstName:   (document.getElementById('regFirst').value || '').trim(),
+      lastName:    (document.getElementById('regLast').value || '').trim(),
+      username:    document.getElementById('regUsername') ? (document.getElementById('regUsername').value || '').trim() : (document.getElementById('regFirst').value || '').trim().toLowerCase(),
+      gender:      document.getElementById('regGender') ? document.getElementById('regGender').value : 'prefer_not_to_say',
+      dateOfBirth: document.getElementById('regDob') ? document.getElementById('regDob').value : '2000-01-01',
+      email:       (document.getElementById('regEmail').value || '').trim(),
+      phone:       fullPhone || phoneNum,
+      country:     document.getElementById('regCountry') ? document.getElementById('regCountry').value : 'Other',
+      state:       document.getElementById('regState') ? document.getElementById('regState').value : 'Other',
+      lga:         document.getElementById('regLga') ? (document.getElementById('regLga').value || '').trim() : '',
+      password:    pass
     })
   })
   .then(function(res) { return res.json(); })
   .then(function(data) {
-    btn.textContent = original;
-    btn.disabled = false;
-
+    if (btn) { btn.textContent = original; btn.disabled = false; }
     if (data.success) {
-  localStorage.setItem('sc_token', data.token);
-  localStorage.setItem('sc_current_user', JSON.stringify(data.user));
-  closeAuth();
-  updateNavForLoggedInUser(data.user.firstName);
-  showToast('🎉 Welcome to Springcompany, ' + data.user.firstName + '!');
-
+      regUserId = data.userId;
+      regEmail  = data.email;
+      regPhone  = data.phone;
+      // Show email OTP step
+      var step3 = document.getElementById('regStep3');
+      var step4 = document.getElementById('regStep4');
+      if (step3) step3.style.display = 'none';
+      if (step4) {
+        step4.style.display = 'block';
+        var hint = document.getElementById('otpEmailHint');
+        if (hint) hint.textContent = 'We sent a 6-digit code to ' + regEmail;
+      }
+      hideAuthError();
+      showToast('\uD83D\uDCE7 Check your email for the verification code!');
     } else {
       showAuthError(data.message || 'Registration failed. Please try again.');
     }
   })
   .catch(function() {
-    btn.textContent = original;
-    btn.disabled = false;
+    if (btn) { btn.textContent = original; btn.disabled = false; }
     showAuthError('Connection error. Please check your internet and try again.');
   });
 }
 
-// ── NAV ───────────────────────────────────────
+// ── REGISTRATION STATE ────────────────────────
+var regUserId = null;
+var regEmail  = null;
+var regPhone  = null;
+
+// ── STATES BY COUNTRY ─────────────────────────
+var statesByCountry = {
+  'Nigeria': ['Abia','Adamawa','Akwa Ibom','Anambra','Bauchi','Bayelsa','Benue','Borno','Cross River','Delta','Ebonyi','Edo','Ekiti','Enugu','FCT Abuja','Gombe','Imo','Jigawa','Kaduna','Kano','Katsina','Kebbi','Kogi','Kwara','Lagos','Nasarawa','Niger','Ogun','Ondo','Osun','Oyo','Plateau','Rivers','Sokoto','Taraba','Yobe','Zamfara'],
+  'United States': ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'],
+  'United Kingdom': ['England','Scotland','Wales','Northern Ireland'],
+  'South Africa': ['Eastern Cape','Free State','Gauteng','KwaZulu-Natal','Limpopo','Mpumalanga','Northern Cape','North West','Western Cape'],
+  'Ghana': ['Ashanti','Brong-Ahafo','Central','Eastern','Greater Accra','Northern','Upper East','Upper West','Volta','Western'],
+  'Kenya': ['Nairobi','Mombasa','Kisumu','Nakuru','Eldoret','Thika','Malindi','Kitale','Garissa','Kakamega'],
+  'UAE': ['Abu Dhabi','Dubai','Sharjah','Ajman','Umm Al Quwain','Ras Al Khaimah','Fujairah'],
+  'Canada': ['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland','Nova Scotia','Ontario','Prince Edward Island','Quebec','Saskatchewan'],
+  'Australia': ['New South Wales','Victoria','Queensland','Western Australia','South Australia','Tasmania','ACT','Northern Territory'],
+  'Germany': ['Bavaria','Berlin','Brandenburg','Bremen','Hamburg','Hesse','Mecklenburg','Lower Saxony','North Rhine-Westphalia','Rhineland-Palatinate','Saarland','Saxony','Saxony-Anhalt','Schleswig-Holstein','Thuringia'],
+  'France': ['Auvergne-Rhones-Alpes','Bourgogne-Franche-Comte','Brittany','Centre-Val de Loire','Corsica','Grand Est','Hauts-de-France','Ile-de-France','Normandy','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Cote d Azur'],
+  'India': ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal'],
+  'Other': ['Other / Not Listed']
+};
+
+function updateStates() {
+  var country = document.getElementById('regCountry') ? document.getElementById('regCountry').value : '';
+  var stateSelect = document.getElementById('regState');
+  if (!stateSelect) return;
+  var states = statesByCountry[country] || ['Other'];
+  stateSelect.innerHTML = '<option value="">Select state</option>' +
+    states.map(function(s){ return '<option value="'+s+'">'+s+'</option>'; }).join('');
+}
+
+function regNextStep() {
+  var first  = (document.getElementById('regFirst').value || '').trim();
+  var last   = (document.getElementById('regLast').value || '').trim();
+  var uname  = (document.getElementById('regUsername').value || '').trim();
+  var gender = document.getElementById('regGender') ? document.getElementById('regGender').value : '';
+  var dob    = document.getElementById('regDob') ? document.getElementById('regDob').value : '';
+  if (!first)  { showAuthError('Please enter your first name'); return; }
+  if (!last)   { showAuthError('Please enter your last name'); return; }
+  if (!uname || uname.length < 3) { showAuthError('Username must be at least 3 characters'); return; }
+  if (!gender) { showAuthError('Please select your gender'); return; }
+  if (!dob)    { showAuthError('Please enter your date of birth'); return; }
+  document.getElementById('regStep1').style.display = 'none';
+  document.getElementById('regStep2').style.display = 'block';
+  hideAuthError();
+}
+
+function regPrevStep() {
+  document.getElementById('regStep2').style.display = 'none';
+  document.getElementById('regStep1').style.display = 'block';
+  hideAuthError();
+}
+
+function regNextStep2() {
+  var email   = (document.getElementById('regEmail').value || '').trim();
+  var phone   = (document.getElementById('regPhone').value || '').trim();
+  var country = document.getElementById('regCountry') ? document.getElementById('regCountry').value : '';
+  var state   = document.getElementById('regState') ? document.getElementById('regState').value : '';
+  if (!email || !email.includes('@')) { showAuthError('Please enter a valid email address'); return; }
+  if (!phone)   { showAuthError('Please enter your phone number'); return; }
+  if (!country) { showAuthError('Please select your country'); return; }
+  if (!state)   { showAuthError('Please select your state'); return; }
+  document.getElementById('regStep2').style.display = 'none';
+  document.getElementById('regStep3').style.display = 'block';
+  hideAuthError();
+}
+
+function regPrevStep2() {
+  document.getElementById('regStep3').style.display = 'none';
+  document.getElementById('regStep2').style.display = 'block';
+  hideAuthError();
+}
+
+function verifyEmailOTP() {
+  var otp = (document.getElementById('emailOtpInput').value || '').trim();
+  if (otp.length !== 6) { showAuthError('Please enter the 6-digit code'); return; }
+  var btn = document.querySelector('#regStep4 .btn-auth');
+  if (btn) { btn.textContent = 'Verifying...'; btn.disabled = true; }
+  fetch('/api/auth/verify-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: regUserId, otp: otp })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (btn) { btn.textContent = 'Verify Email'; btn.disabled = false; }
+    if (data.success) {
+      document.getElementById('regStep4').style.display = 'none';
+      document.getElementById('regStep5').style.display = 'block';
+      var hint = document.getElementById('otpPhoneHint');
+      if (hint) hint.textContent = 'We sent a 6-digit code to ' + regPhone;
+      hideAuthError();
+      showToast('Email verified! Now verify your phone.');
+    } else {
+      showAuthError(data.message || 'Invalid code. Please try again.');
+    }
+  })
+  .catch(function() {
+    if (btn) { btn.textContent = 'Verify Email'; btn.disabled = false; }
+    showAuthError('Connection error. Please try again.');
+  });
+}
+
+function verifyPhoneOTP() {
+  var otp = (document.getElementById('phoneOtpInput').value || '').trim();
+  if (otp.length !== 6) { showAuthError('Please enter the 6-digit code'); return; }
+  var btn = document.querySelector('#regStep5 .btn-auth');
+  if (btn) { btn.textContent = 'Verifying...'; btn.disabled = true; }
+  fetch('/api/auth/verify-phone', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: regUserId, otp: otp })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (btn) { btn.textContent = 'Verify Phone'; btn.disabled = false; }
+    if (data.success && data.bothVerified) {
+      localStorage.setItem('sc_token', data.token);
+      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+      closeAuth();
+      updateNavForLoggedInUser(data.user.firstName);
+      showToast('Welcome to Springcompany, ' + data.user.firstName + '! Your account is verified.');
+    } else {
+      showAuthError(data.message || 'Invalid code. Please try again.');
+    }
+  })
+  .catch(function() {
+    if (btn) { btn.textContent = 'Verify Phone'; btn.disabled = false; }
+    showAuthError('Connection error. Please try again.');
+  });
+}
+
+function resendOTP(type) {
+  if (!regUserId) return;
+  fetch('/api/auth/resend-otp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: regUserId, type: type })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    showToast(data.success
+      ? (type === 'email' ? 'New code sent to your email!' : 'New code sent to your phone!')
+      : (data.message || 'Error resending code'));
+  });
+}
+
+function hideAuthError() {
+  var err = document.getElementById('authError');
+  if (err) err.style.display = 'none';
+}
+
+
 function doLogin() {
   var email = (document.getElementById('loginEmail').value || '').trim();
   var pass  = document.getElementById('loginPass').value || '';
@@ -2037,23 +1947,4 @@ function sbSend() {
   inp.style.height = 'auto';
   document.getElementById('sbChips').style.display = 'none';
   sbShowTyping();
-  var delay = 800 + Math.random() * 700;
-  setTimeout(function() {
-    sbRemoveTyping();
-    sbAddMsg(sbGetReply(val), 'bot');
-  }, delay);
-}
-
-function sbChip(text) {
-  sbAddMsg(text, 'user');
-  document.getElementById('sbChips').style.display = 'none';
-  sbShowTyping();
-  setTimeout(function() {
-    sbRemoveTyping();
-    sbAddMsg(sbGetReply(text), 'bot');
-  }, 900);
-}
-</script>
-
-</body>
-</html>
+  var delay = 800 + Math.random() 
