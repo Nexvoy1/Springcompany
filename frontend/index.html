@@ -915,15 +915,392 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
       <div class="divline">or with email</div>
       <!-- Register -->
       <div id="registerFields" style="display:none">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="mf"><label>First Name</label><input type="text" id="regFirst" placeholder="John"></div>
-          <div class="mf"><label>Last Name</label><input type="text" id="regLast" placeholder="Doe"></div>
-        </div>
-        <div class="mf"><label>Email</label><input type="email" id="regEmail" placeholder="you@example.com"></div>
-        <div class="mf"><label>Password</label><input type="password" id="regPass" placeholder="Min 8 characters"></div>
-        <button class="btn-auth" onclick="doRegister()">Create My Account →</button>
-        <div class="auth-hint">Already registered? <a onclick="switchAuthTab('login')">Sign in</a></div>
+
+  <!-- Step 1 — Personal Info -->
+  <div id="regStep1">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="mf"><label>First Name *</label><input type="text" id="regFirst" placeholder="John"></div>
+      <div class="mf"><label>Last Name *</label><input type="text" id="regLast" placeholder="Doe"></div>
+    </div>
+    <div class="mf"><label>Username *</label><input type="text" id="regUsername" placeholder="johndoe123"></div>
+    <div class="mf"><label>Gender *</label>
+      <select id="regGender" style="width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none">
+        <option value="">Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+        <option value="prefer_not_to_say">Prefer not to say</option>
+      </select>
+    </div>
+    <div class="mf"><label>Date of Birth *</label><input type="date" id="regDob"></div>
+    <button class="btn-auth" onclick="regNextStep()">Next Step →</button>
+    <div class="auth-hint">Already registered? <a onclick="switchAuthTab('login')">Sign in</a></div>
+  </div>
+
+  <!-- Step 2 — Contact Info -->
+  <div id="regStep2" style="display:none">
+    <div class="mf"><label>Email Address *</label><input type="email" id="regEmail" placeholder="you@example.com"></div>
+    <div class="mf"><label>Phone Number *</label>
+      <div style="display:flex;gap:6px">
+        <select id="regPhoneCode" style="width:110px;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;flex-shrink:0">
+          <option value="+234">🇳🇬 +234</option>
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+27">🇿🇦 +27</option>
+          <option value="+971">🇦🇪 +971</option>
+          <option value="+233">🇬🇭 +233</option>
+          <option value="+254">🇰🇪 +254</option>
+          <option value="+49">🇩🇪 +49</option>
+          <option value="+33">🇫🇷 +33</option>
+          <option value="+91">🇮🇳 +91</option>
+        </select>
+        <input type="tel" id="regPhone" placeholder="08012345678" style="flex:1">
       </div>
+    </div>
+    <div class="mf"><label>Country *</label>
+      <select id="regCountry" style="width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none" onchange="updateStates()">
+        <option value="">Select country</option>
+        <option value="Nigeria">Nigeria</option>
+        <option value="United States">United States</option>
+        <option value="United Kingdom">United Kingdom</option>
+        <option value="South Africa">South Africa</option>
+        <option value="Ghana">Ghana</option>
+        <option value="Kenya">Kenya</option>
+        <option value="UAE">United Arab Emirates</option>
+        <option value="Canada">Canada</option>
+        <option value="Australia">Australia</option>
+        <option value="Germany">Germany</option>
+        <option value="France">France</option>
+        <option value="India">India</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="mf"><label>State / Province *</label>
+      <select id="regState" style="width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none">
+        <option value="">Select country first</option>
+      </select>
+    </div>
+    <div class="mf"><label>LGA / City</label><input type="text" id="regLga" placeholder="Local Government Area or City"></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-auth" style="background:var(--bg4);color:var(--text);border:1px solid var(--border)" onclick="regPrevStep()">← Back</button>
+      <button class="btn-auth" style="flex:1" onclick="regNextStep2()">Next Step →</button>
+    </div>
+  </div>
+
+  <!-- Step 3 — Password + Captcha -->
+  <div id="regStep3" style="display:none">
+    <div class="mf"><label>Password *</label><input type="password" id="regPass" placeholder="Min 8 characters"></div>
+    <div class="mf"><label>Confirm Password *</label><input type="password" id="regPass2" placeholder="Repeat your password"></div>
+
+    <!-- Simple human check -->
+    <div class="mf">
+      <label>Verify You Are Human *</label>
+      <div style="background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:14px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <input type="checkbox" id="humanCheck" style="width:18px;height:18px;cursor:pointer;accent-color:var(--gold)">
+          <span style="font-size:.84rem;color:var(--text)">I am not a robot</span>
+        </div>
+        <div style="font-size:.7rem;color:var(--muted)">🔒 Secure</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px">
+      <button class="btn-auth" style="background:var(--bg4);color:var(--text);border:1px solid var(--border)" onclick="regPrevStep2()">← Back</button>
+      <button class="btn-auth" style="flex:1" onclick="doRegister()">Create My Account →</button>
+    </div>
+    <div class="auth-hint">Already registered? <a onclick="switchAuthTab('login')">Sign in</a></div>
+  </div>
+
+  <!-- Step 4 — OTP Verification -->
+  <div id="regStep4" style="display:none">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:2rem;margin-bottom:8px">📧</div>
+      <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Verify Your Email</div>
+      <div style="font-size:.8rem;color:var(--muted)" id="otpEmailHint">We sent a 6-digit code to your email</div>
+    </div>
+    <div class="mf">
+      <label>Email Verification Code *</label>
+      <input type="text" id="emailOtpInput" placeholder="Enter 6-digit code" maxlength="6"
+        style="text-align:center;font-size:1.4rem;letter-spacing:8px;font-weight:700">
+    </div>
+    <button class="btn-auth" onclick="verifyEmailOTP()">Verify Email →</button>
+    <div style="text-align:center;margin-top:10px">
+      <a onclick="resendOTP('email')" style="font-size:.76rem;color:var(--gold);cursor:pointer">Resend email code</a>
+    </div>
+  </div>
+
+  <!-- Step 5 — Phone OTP -->
+  <div id="regStep5" style="display:none">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:2rem;margin-bottom:8px">📱</div>
+      <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Verify Your Phone</div>
+      <div style="font-size:.8rem;color:var(--muted)" id="otpPhoneHint">We sent a 6-digit code to your phone</div>
+    </div>
+    <div class="mf">
+      <label>Phone Verification Code *</label>
+      <input type="text" id="phoneOtpInput" placeholder="Enter 6-digit code" maxlength="6"
+        style="text-align:center;font-size:1.4rem;letter-spacing:8px;font-weight:700">
+    </div>
+    <button class="btn-auth" onclick="verifyPhoneOTP()">Verify Phone & Complete →</button>
+    <div style="text-align:center;margin-top:10px">
+      <a onclick="resendOTP('phone')" style="font-size:.76rem;color:var(--gold);cursor:pointer">Resend SMS code</a>
+    </div>
+  </div>
+
+</div>
+```
+
+---
+
+## PART 6 — Add the JavaScript for the new registration flow
+
+Open `index.html`. Press **Ctrl + F** and search for:
+```
+function doRegister()
+Delete the entire existing doRegister function and replace it with all of this:
+javascript// ── REGISTRATION STATE ────────────────────────
+var regUserId = null;
+var regEmail  = null;
+var regPhone  = null;
+
+// ── STATES BY COUNTRY ─────────────────────────
+var statesByCountry = {
+  'Nigeria': ['Abia','Adamawa','Akwa Ibom','Anambra','Bauchi','Bayelsa','Benue','Borno','Cross River','Delta','Ebonyi','Edo','Ekiti','Enugu','FCT Abuja','Gombe','Imo','Jigawa','Kaduna','Kano','Katsina','Kebbi','Kogi','Kwara','Lagos','Nasarawa','Niger','Ogun','Ondo','Osun','Oyo','Plateau','Rivers','Sokoto','Taraba','Yobe','Zamfara'],
+  'United States': ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'],
+  'United Kingdom': ['England','Scotland','Wales','Northern Ireland'],
+  'South Africa': ['Eastern Cape','Free State','Gauteng','KwaZulu-Natal','Limpopo','Mpumalanga','Northern Cape','North West','Western Cape'],
+  'Ghana': ['Ashanti','Brong-Ahafo','Central','Eastern','Greater Accra','Northern','Upper East','Upper West','Volta','Western'],
+  'Kenya': ['Nairobi','Mombasa','Kisumu','Nakuru','Eldoret','Thika','Malindi','Kitale','Garissa','Kakamega'],
+  'UAE': ['Abu Dhabi','Dubai','Sharjah','Ajman','Umm Al Quwain','Ras Al Khaimah','Fujairah'],
+  'Canada': ['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland','Nova Scotia','Ontario','Prince Edward Island','Quebec','Saskatchewan'],
+  'Australia': ['New South Wales','Victoria','Queensland','Western Australia','South Australia','Tasmania','ACT','Northern Territory'],
+  'Germany': ['Bavaria','Berlin','Brandenburg','Bremen','Hamburg','Hesse','Mecklenburg','Lower Saxony','North Rhine-Westphalia','Rhineland-Palatinate','Saarland','Saxony','Saxony-Anhalt','Schleswig-Holstein','Thuringia'],
+  'France': ['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Brittany','Centre-Val de Loire','Corsica','Grand Est','Hauts-de-France','Île-de-France','Normandy','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d\'Azur'],
+  'India': ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal'],
+  'Other': ['Please type your state in the LGA field below']
+};
+
+function updateStates() {
+  var country = document.getElementById('regCountry').value;
+  var stateSelect = document.getElementById('regState');
+  var states = statesByCountry[country] || ['Please type your state below'];
+  stateSelect.innerHTML = '<option value="">Select state</option>' +
+    states.map(function(s){ return '<option value="'+s+'">'+s+'</option>'; }).join('');
+}
+
+// ── STEP NAVIGATION ───────────────────────────
+function regNextStep() {
+  var first = (document.getElementById('regFirst').value || '').trim();
+  var last  = (document.getElementById('regLast').value || '').trim();
+  var uname = (document.getElementById('regUsername').value || '').trim();
+  var gender = document.getElementById('regGender').value;
+  var dob   = document.getElementById('regDob').value;
+
+  if (!first) { showAuthError('Please enter your first name'); return; }
+  if (!last)  { showAuthError('Please enter your last name'); return; }
+  if (!uname || uname.length < 3) { showAuthError('Username must be at least 3 characters'); return; }
+  if (!gender) { showAuthError('Please select your gender'); return; }
+  if (!dob)   { showAuthError('Please enter your date of birth'); return; }
+
+  document.getElementById('regStep1').style.display = 'none';
+  document.getElementById('regStep2').style.display = 'block';
+  hideAuthError();
+}
+
+function regPrevStep() {
+  document.getElementById('regStep2').style.display = 'none';
+  document.getElementById('regStep1').style.display = 'block';
+  hideAuthError();
+}
+
+function regNextStep2() {
+  var email   = (document.getElementById('regEmail').value || '').trim();
+  var phone   = (document.getElementById('regPhone').value || '').trim();
+  var country = document.getElementById('regCountry').value;
+  var state   = document.getElementById('regState').value;
+
+  if (!email || !email.includes('@')) { showAuthError('Please enter a valid email address'); return; }
+  if (!phone) { showAuthError('Please enter your phone number'); return; }
+  if (!country) { showAuthError('Please select your country'); return; }
+  if (!state)   { showAuthError('Please select your state'); return; }
+
+  document.getElementById('regStep2').style.display = 'none';
+  document.getElementById('regStep3').style.display = 'block';
+  hideAuthError();
+}
+
+function regPrevStep2() {
+  document.getElementById('regStep3').style.display = 'none';
+  document.getElementById('regStep2').style.display = 'block';
+  hideAuthError();
+}
+
+// ── MAIN REGISTER FUNCTION ────────────────────
+function doRegister() {
+  var pass  = document.getElementById('regPass').value || '';
+  var pass2 = document.getElementById('regPass2').value || '';
+  var human = document.getElementById('humanCheck').checked;
+
+  if (pass.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
+  if (pass !== pass2)  { showAuthError('Passwords do not match'); return; }
+  if (!human)          { showAuthError('Please confirm you are human'); return; }
+
+  var phoneCode = document.getElementById('regPhoneCode').value;
+  var phoneNum  = document.getElementById('regPhone').value.trim();
+  var fullPhone  = phoneCode + phoneNum.replace(/^0/, '');
+
+  var btn = document.querySelector('#regStep3 .btn-auth:last-of-type');
+  var original = btn.textContent;
+  btn.textContent = 'Creating account...';
+  btn.disabled = true;
+
+  fetch('/api/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstName:   document.getElementById('regFirst').value.trim(),
+      lastName:    document.getElementById('regLast').value.trim(),
+      username:    document.getElementById('regUsername').value.trim(),
+      gender:      document.getElementById('regGender').value,
+      dateOfBirth: document.getElementById('regDob').value,
+      email:       document.getElementById('regEmail').value.trim(),
+      phone:       fullPhone,
+      country:     document.getElementById('regCountry').value,
+      state:       document.getElementById('regState').value,
+      lga:         document.getElementById('regLga').value.trim(),
+      password:    pass
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    btn.textContent = original;
+    btn.disabled = false;
+
+    if (data.success) {
+      regUserId = data.userId;
+      regEmail  = data.email;
+      regPhone  = data.phone;
+
+      // Show email verification step
+      document.getElementById('regStep3').style.display = 'none';
+      document.getElementById('regStep4').style.display = 'block';
+      document.getElementById('otpEmailHint').textContent =
+        'We sent a 6-digit code to ' + regEmail;
+      hideAuthError();
+      showToast('📧 Check your email for the verification code!');
+    } else {
+      showAuthError(data.message || 'Registration failed. Please try again.');
+    }
+  })
+  .catch(function() {
+    btn.textContent = original;
+    btn.disabled = false;
+    showAuthError('Connection error. Please check your internet and try again.');
+  });
+}
+
+// ── VERIFY EMAIL OTP ──────────────────────────
+function verifyEmailOTP() {
+  var otp = (document.getElementById('emailOtpInput').value || '').trim();
+  if (otp.length !== 6) { showAuthError('Please enter the 6-digit code'); return; }
+
+  var btn = document.querySelector('#regStep4 .btn-auth');
+  btn.textContent = 'Verifying...';
+  btn.disabled = true;
+
+  fetch('/api/auth/verify-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: regUserId, otp: otp })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    btn.textContent = 'Verify Email →';
+    btn.disabled = false;
+
+    if (data.success) {
+      // Show phone verification step
+      document.getElementById('regStep4').style.display = 'none';
+      document.getElementById('regStep5').style.display = 'block';
+      document.getElementById('otpPhoneHint').textContent =
+        'We sent a 6-digit code to ' + regPhone;
+      hideAuthError();
+      showToast('✅ Email verified! Now verify your phone.');
+    } else {
+      showAuthError(data.message || 'Invalid code. Please try again.');
+    }
+  })
+  .catch(function() {
+    btn.textContent = 'Verify Email →';
+    btn.disabled = false;
+    showAuthError('Connection error. Please try again.');
+  });
+}
+
+// ── VERIFY PHONE OTP ──────────────────────────
+function verifyPhoneOTP() {
+  var otp = (document.getElementById('phoneOtpInput').value || '').trim();
+  if (otp.length !== 6) { showAuthError('Please enter the 6-digit code'); return; }
+
+  var btn = document.querySelector('#regStep5 .btn-auth');
+  btn.textContent = 'Verifying...';
+  btn.disabled = true;
+
+  fetch('/api/auth/verify-phone', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: regUserId, otp: otp })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    btn.textContent = 'Verify Phone & Complete →';
+    btn.disabled = false;
+
+    if (data.success && data.bothVerified) {
+      // Save token and log in
+      localStorage.setItem('sc_token', data.token);
+      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+      closeAuth();
+      updateNavForLoggedInUser(data.user.firstName);
+      showToast('🎉 Welcome to Springcompany, ' + data.user.firstName + '! Your account is verified.');
+    } else if (data.success) {
+      showAuthError('Phone verified but email is still pending.');
+    } else {
+      showAuthError(data.message || 'Invalid code. Please try again.');
+    }
+  })
+  .catch(function() {
+    btn.textContent = 'Verify Phone & Complete →';
+    btn.disabled = false;
+    showAuthError('Connection error. Please try again.');
+  });
+}
+
+// ── RESEND OTP ────────────────────────────────
+function resendOTP(type) {
+  if (!regUserId) return;
+  fetch('/api/auth/resend-otp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: regUserId, type: type })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success) {
+      showToast(type === 'email'
+        ? '📧 New code sent to your email!'
+        : '📱 New code sent to your phone!');
+    } else {
+      showAuthError(data.message);
+    }
+  });
+}
+
+// ── HIDE AUTH ERROR ───────────────────────────
+function hideAuthError() {
+  var err = document.getElementById('authError');
+  if (err) err.style.display = 'none';
+}
       <!-- Login -->
       <div id="loginFields">
         <div class="mf"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com"></div>

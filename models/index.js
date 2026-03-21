@@ -7,27 +7,27 @@ const bcrypt   = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   firstName:    { type: String, required: true, trim: true },
   lastName:     { type: String, required: true, trim: true },
+  username:     { type: String, required: true, unique: true, trim: true, lowercase: true },
+  gender:       { type: String, enum: ['male','female','other','prefer_not_to_say'], required: true },
   email:        { type: String, required: true, unique: true, lowercase: true },
+  phone:        { type: String, required: true },
+  country:      { type: String, required: true },
+  state:        { type: String, required: true },
+  lga:          { type: String },
+  dateOfBirth:  { type: Date, required: true },
   password:     { type: String, required: true, minlength: 8, select: false },
   avatar:       String,
-  phone:        String,
   role:         { type: String, enum: ['user','admin','celebrity'], default: 'user' },
   isVerified:   { type: Boolean, default: false },
+  emailVerified:{ type: Boolean, default: false },
+  phoneVerified:{ type: Boolean, default: false },
+  emailOTP:     { type: String, select: false },
+  phoneOTP:     { type: String, select: false },
+  otpExpires:   { type: Date, select: false },
   fanCards:     [{ type: mongoose.Schema.Types.ObjectId, ref: 'FanCard' }],
   bookings:     [{ type: mongoose.Schema.Types.ObjectId, ref: 'Booking' }],
   lastLogin:    Date,
 }, { timestamps: true });
-
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
-});
-userSchema.methods.comparePassword = function(p) { return bcrypt.compare(p, this.password); };
-userSchema.methods.toPublic = function() {
-  const o = this.toObject(); delete o.password; return o;
-};
-const User = mongoose.model('User', userSchema);
 
 // ══════════════════════════════════════════════
 // CELEBRITY MODEL
