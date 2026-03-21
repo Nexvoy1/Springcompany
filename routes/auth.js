@@ -29,7 +29,7 @@ async function sendEmailOTP(email, otp, firstName) {
   await transporter.sendMail({
     from: process.env.EMAIL_FROM || 'Springcompany <noreply@springcompany.com>',
     to: email,
-    subject: 'Springcompany — Verify Your Email Address',
+    subject: 'Springcompany — Your Verification Code',
     html: `
       <div style="font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:32px;background:#0A0A0F;color:#F0EEF8;border-radius:12px">
         <div style="text-align:center;margin-bottom:24px">
@@ -37,7 +37,7 @@ async function sendEmailOTP(email, otp, firstName) {
           <p style="color:#8A87A0;font-size:13px;margin-top:4px">The World's Premier Celebrity Booking Platform</p>
         </div>
         <h2 style="color:#F0EEF8;font-size:18px">Hi ${firstName}! 👋</h2>
-        <p style="color:#8A87A0;line-height:1.7">Welcome to Springcompany! Please verify your email address using the code below:</p>
+        <p style="color:#8A87A0;line-height:1.7">Welcome to Springcompany! Use the code below to verify your account:</p>
         <div style="text-align:center;margin:28px 0">
           <div style="background:#18181F;border:2px solid #D4AF37;border-radius:12px;padding:20px 40px;display:inline-block">
             <span style="font-size:36px;font-weight:900;letter-spacing:10px;color:#D4AF37">${otp}</span>
@@ -65,12 +65,13 @@ async function sendSMSOTP(phone, otp) {
     });
   } catch(e) {
     console.log('SMS error:', e.message);
-    // Do not throw — email OTP is the primary method
+    throw new Error('Could not send SMS. Please choose email verification instead.');
   }
 }
 
 // ══════════════════════════════════════════════
-// STEP 1 — REGISTER (saves user, sends OTPs)
+// REGISTER — saves user, sends ONE OTP
+// The user chooses: verifyMethod = 'email' or 'phone'
 // POST /api/auth/register
 // ══════════════════════════════════════════════
 router.post('/register', [
@@ -84,6 +85,7 @@ router.post('/register', [
   body('state').notEmpty().withMessage('State is required'),
   body('dateOfBirth').notEmpty().withMessage('Date of birth is required'),
   body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
+  body('verifyMethod').isIn(['email','phone']).withMessage('Please choose email or phone verification'),
 ], async (req, res) => {
   const errs = validationResult(req);
   if (!errs.isEmpty()) return res.status(400).json({
@@ -95,7 +97,7 @@ router.post('/register', [
     const {
       firstName, lastName, username, gender,
       email, phone, country, state, lga,
-      dateOfBirth, password
+      dateOfBirth, password, verifyMethod
     } = req.body;
 
     // Check if email already registered
@@ -114,35 +116,45 @@ router.post('/register', [
       });
     }
 
-    // Generate OTPs
-    const emailOTP = generateOTP();
-    const phoneOTP = generateOTP();
+    // Generate ONE OTP
+    const otp = generateOTP();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-    // Create user (not yet verified)
+    // Create user — mark as NOT yet verified
     const user = await User.create({
       firstName, lastName, username: username.toLowerCase(),
       gender, email, phone, country, state, lga,
       dateOfBirth, password,
-      emailOTP, phoneOTP, otpExpires,
+      // Store OTP in whichever field matches the chosen method
+      emailOTP:     verifyMethod === 'email' ? otp : undefined,
+      phoneOTP:     verifyMethod === 'phone' ? otp : undefined,
+      otpExpires,
       emailVerified: false,
       phoneVerified: false,
-      isVerified: false
+      isVerified:    false,
+      verifyMethod   // save chosen method on user
     });
 
-    // Send email OTP
-    await sendEmailOTP(email, emailOTP, firstName);
-
-    // Send SMS OTP
-    await sendSMSOTP(phone, phoneOTP);
-
-    res.status(201).json({
-      success: true,
-      message: 'Account created! Please check your email and phone for verification codes.',
-      userId: user._id,
-      email: email,
-      phone: phone
-    });
+    // Send OTP via chosen method only
+    if (verifyMethod === 'email') {
+      await sendEmailOTP(email, otp, firstName);
+      return res.status(201).json({
+        success: true,
+        message: 'Account created! Check your email for the 6-digit verification code.',
+        userId: user._id,
+        verifyMethod: 'email',
+        hint: email
+      });
+    } else {
+      await sendSMSOTP(phone, otp);
+      return res.status(201).json({
+        success: true,
+        message: 'Account created! Check your phone for the 6-digit verification code.',
+        userId: user._id,
+        verifyMethod: 'phone',
+        hint: phone
+      });
+    }
 
   } catch(e) {
     console.error('Register error:', e.message);
@@ -151,89 +163,72 @@ router.post('/register', [
 });
 
 // ══════════════════════════════════════════════
-// STEP 2 — VERIFY EMAIL OTP
-// POST /api/auth/verify-email
+// VERIFY OTP — works for BOTH email and phone
+// The frontend sends: userId, otp, verifyMethod
+// POST /api/auth/verify-otp
 // ══════════════════════════════════════════════
-router.post('/verify-email', async (req, res) => {
+router.post('/verify-otp', async (req, res) => {
   try {
-    const { userId, otp } = req.body;
+    const { userId, otp, verifyMethod } = req.body;
 
-    const user = await User.findById(userId).select('+emailOTP +otpExpires');
-    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
-
-    if (new Date() > user.otpExpires) {
-      return res.status(400).json({ success: false, message: 'Code has expired. Please request a new one.' });
-    }
-
-    if (user.emailOTP !== otp) {
-      return res.status(400).json({ success: false, message: 'Incorrect code. Please try again.' });
-    }
-
-    user.emailVerified = true;
-    user.emailOTP = undefined;
-    await user.save({ validateBeforeSave: false });
-
-    // Check if both verified
-    if (user.emailVerified && user.phoneVerified) {
-      user.isVerified = true;
-      await user.save({ validateBeforeSave: false });
-    }
-
-    res.json({
-      success: true,
-      message: 'Email verified successfully!',
-      bothVerified: user.emailVerified && user.phoneVerified
-    });
-
-  } catch(e) {
-    res.status(500).json({ success: false, message: e.message });
-  }
-});
-
-// ══════════════════════════════════════════════
-// STEP 3 — VERIFY PHONE OTP
-// POST /api/auth/verify-phone
-// ══════════════════════════════════════════════
-router.post('/verify-phone', async (req, res) => {
-  try {
-    const { userId, otp } = req.body;
-
-    const user = await User.findById(userId).select('+phoneOTP +otpExpires');
-    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
-
-    if (new Date() > user.otpExpires) {
-      return res.status(400).json({ success: false, message: 'Code has expired. Please request a new one.' });
-    }
-
-    if (user.phoneOTP !== otp) {
-      return res.status(400).json({ success: false, message: 'Incorrect code. Please try again.' });
-    }
-
-    user.phoneVerified = true;
-    user.phoneOTP = undefined;
-    await user.save({ validateBeforeSave: false });
-
-    // If both verified — log them in
-    if (user.emailVerified && user.phoneVerified) {
-      user.isVerified = true;
-      await user.save({ validateBeforeSave: false });
-
-      return res.json({
-        success: true,
-        message: 'Phone verified! Your account is now active.',
-        bothVerified: true,
-        token: sign(user._id),
-        user: user.toPublic()
+    if (!userId || !otp || !verifyMethod) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required fields'
       });
     }
 
+    // Load user with the right OTP field
+    const selectFields = verifyMethod === 'email'
+      ? '+emailOTP +otpExpires'
+      : '+phoneOTP +otpExpires';
+
+    const user = await User.findById(userId).select(selectFields);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Check expiry
+    if (!user.otpExpires || new Date() > user.otpExpires) {
+      return res.status(400).json({
+        success: false,
+        message: 'This code has expired. Please request a new one.'
+      });
+    }
+
+    // Check OTP matches
+    const storedOTP = verifyMethod === 'email' ? user.emailOTP : user.phoneOTP;
+    if (storedOTP !== otp) {
+      return res.status(400).json({
+        success: false,
+        message: 'Incorrect code. Please check and try again.'
+      });
+    }
+
+    // Mark as verified
+    if (verifyMethod === 'email') {
+      user.emailVerified = true;
+      user.emailOTP = undefined;
+    } else {
+      user.phoneVerified = true;
+      user.phoneOTP = undefined;
+    }
+
+    // Account is now fully verified — log them in
+    user.isVerified   = true;
+    user.otpExpires   = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    // Return token so they are logged in immediately
     res.json({
       success: true,
-      message: 'Phone verified successfully!',
-      bothVerified: false
+      message: 'Account verified successfully! Welcome to Springcompany.',
+      token: sign(user._id),
+      user: user.toPublic()
     });
 
   } catch(e) {
+    console.error('Verify OTP error:', e.message);
     res.status(500).json({ success: false, message: e.message });
   }
 });
@@ -244,26 +239,37 @@ router.post('/verify-phone', async (req, res) => {
 // ══════════════════════════════════════════════
 router.post('/resend-otp', async (req, res) => {
   try {
-    const { userId, type } = req.body; // type = 'email' or 'phone'
+    const { userId, verifyMethod } = req.body;
+
+    if (!userId || !verifyMethod) {
+      return res.status(400).json({ success: false, message: 'Missing required fields' });
+    }
 
     const user = await User.findById(userId).select('+emailOTP +phoneOTP +otpExpires');
-    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
 
-    const newOTP = generateOTP();
+    // Don't resend if already verified
+    if (user.isVerified) {
+      return res.status(400).json({ success: false, message: 'Account is already verified.' });
+    }
+
+    const newOTP     = generateOTP();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
 
-    if (type === 'email') {
-      user.emailOTP = newOTP;
+    if (verifyMethod === 'email') {
+      user.emailOTP  = newOTP;
       user.otpExpires = otpExpires;
       await user.save({ validateBeforeSave: false });
       await sendEmailOTP(user.email, newOTP, user.firstName);
-      res.json({ success: true, message: 'New verification code sent to your email.' });
+      res.json({ success: true, message: 'New code sent to your email.' });
     } else {
-      user.phoneOTP = newOTP;
+      user.phoneOTP  = newOTP;
       user.otpExpires = otpExpires;
       await user.save({ validateBeforeSave: false });
       await sendSMSOTP(user.phone, newOTP);
-      res.json({ success: true, message: 'New verification code sent to your phone.' });
+      res.json({ success: true, message: 'New code sent to your phone.' });
     }
 
   } catch(e) {
@@ -299,9 +305,10 @@ router.post('/login', [
     if (!user.isVerified) {
       return res.status(403).json({
         success: false,
-        message: 'Please verify your email and phone number first.',
+        message: 'Please verify your account first.',
         needsVerification: true,
-        userId: user._id
+        userId: user._id,
+        verifyMethod: user.verifyMethod || 'email'
       });
     }
 

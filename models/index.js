@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
   emailOTP:     { type: String, select: false },
   phoneOTP:     { type: String, select: false },
   otpExpires:   { type: Date, select: false },
+  verifyMethod: { type: String, enum: ['email','phone'], default: 'email' },
   fanCards:     [{ type: mongoose.Schema.Types.ObjectId, ref: 'FanCard' }],
   bookings:     [{ type: mongoose.Schema.Types.ObjectId, ref: 'Booking' }],
   lastLogin:    Date,
