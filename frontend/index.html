@@ -139,7 +139,7 @@ h2.section-title span{color:var(--gold)}
 .filter-btn{padding:7px 18px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.82rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
 .filter-btn.active,.filter-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
 .celeb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.celeb-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:all .3s;position:relative;group:true}
+.celeb-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:all .3s;position:relative;group:true;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .celeb-card:hover{border-color:var(--border2);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.4),var(--glow)}
 .celeb-img-wrap{position:relative;height:260px;overflow:hidden}
 .celeb-img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
@@ -382,8 +382,30 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   .section{padding:50px 14px}
   .section-inner{padding:0}
 
-  /* CELEBRITY GRID */
-  .celeb-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  /* CELEBRITY GRID — VAL9JA STYLE 2-COL COMPACT CARDS */
+  .celeb-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .celeb-card{border-radius:10px}
+  .celeb-img-wrap{height:160px}
+  .celeb-body{padding:10px}
+  .celeb-name{font-size:.88rem}
+  .celeb-occ{font-size:.72rem;margin-bottom:6px}
+  .celeb-bio{font-size:.72rem;-webkit-line-clamp:2;margin-bottom:8px}
+  .celeb-actions{gap:5px}
+  .btn-view,.btn-book{padding:6px;font-size:.72rem}
+  .celeb-stats{gap:6px;margin-bottom:6px}
+  .celeb-stat{font-size:.68rem}
+
+  /* VIDEO GRID — VAL9JA STYLE 2-COL */
+  .video-track{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;overflow-x:visible;padding-bottom:0}
+  .video-card{width:100%;flex-shrink:unset;border-radius:10px}
+  .video-embed{padding-top:52%}
+  .video-body{padding:10px}
+  .video-title{font-size:.8rem}
+  .video-sub{font-size:.7rem}
+
+  /* MEET & GREET PERKS — HORIZONTAL 2 PER ROW */
+  .mg-perks{flex-direction:row;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center}
+  .mg-perk{padding:7px 12px;font-size:.74rem;flex:0 0 calc(50% - 8px)}
 
   /* FORMS */
   .form-row,.bf-row{grid-template-columns:1fr}
@@ -401,8 +423,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   /* STATS */
   .stats-row{grid-template-columns:repeat(2,1fr)}
 
-  /* MEET & GREET PERKS */
-  .mg-perks{flex-direction:column;align-items:center;gap:12px}
+  /* MEET & GREET BUTTON */
   .btn-mg{padding:16px 32px;font-size:1.1rem}
 
   /* NEWSLETTER */
@@ -430,7 +451,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   .hero-title{font-size:2.2rem;letter-spacing:2px}
   .hero-badge{font-size:.68rem;padding:5px 12px}
 
-  .celeb-grid{grid-template-columns:1fr}
+  .celeb-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .celeb-img-wrap{height:140px}
+  .celeb-name{font-size:.84rem}
+  .video-track{grid-template-columns:repeat(2,1fr);gap:8px}
+  .mg-perk{flex:0 0 calc(50% - 8px);font-size:.7rem;padding:6px 8px}
   .fan-card-grid{grid-template-columns:1fr}
 
   .section{padding:40px 12px}
