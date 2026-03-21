@@ -28,6 +28,17 @@ const userSchema = new mongoose.Schema({
   bookings:     [{ type: mongoose.Schema.Types.ObjectId, ref: 'Booking' }],
   lastLogin:    Date,
 }, { timestamps: true });
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+userSchema.methods.comparePassword = function(p) { return bcrypt.compare(p, this.password); };
+userSchema.methods.toPublic = function() {
+  const o = this.toObject(); delete o.password; return o;
+};
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
 
 // ══════════════════════════════════════════════
 // CELEBRITY MODEL
@@ -61,7 +72,7 @@ celebSchema.pre('save', function(next) {
   }
   next();
 });
-const Celebrity = mongoose.model('Celebrity', celebSchema);
+const Celebrity = mongoose.models.Celebrity || mongoose.model('Celebrity', celebSchema);
 
 // ══════════════════════════════════════════════
 // BOOKING MODEL
@@ -96,7 +107,7 @@ const bookingSchema = new mongoose.Schema({
   adminNotes:   String,
   confirmedAt:  Date,
 }, { timestamps: true });
-const Booking = mongoose.model('Booking', bookingSchema);
+const Booking = mongoose.models.Booking || mongoose.model('Booking', bookingSchema);
 
 // ══════════════════════════════════════════════
 // PAYMENT MODEL
@@ -115,7 +126,7 @@ const paymentSchema = new mongoose.Schema({
   metadata:   mongoose.Schema.Types.Mixed,
   completedAt: Date,
 }, { timestamps: true });
-const Payment = mongoose.model('Payment', paymentSchema);
+const Payment = mongoose.models.Payment || mongoose.model('Payment', paymentSchema);
 
 // ══════════════════════════════════════════════
 // FAN CARD MODEL
@@ -131,7 +142,7 @@ const fanCardSchema = new mongoose.Schema({
   benefits:   [String],
   cardNumber: String,
 }, { timestamps: true });
-const FanCard = mongoose.model('FanCard', fanCardSchema);
+const FanCard = mongoose.models.FanCard || mongoose.model('FanCard', fanCardSchema);
 
 // ══════════════════════════════════════════════
 // POST MODEL
@@ -149,7 +160,7 @@ const postSchema = new mongoose.Schema({
   views:      { type: Number, default: 0 },
   tags:       [String],
 }, { timestamps: true });
-const Post = mongoose.model('Post', postSchema);
+const Post = mongoose.models.Post || mongoose.model('Post', postSchema);
 
 // ══════════════════════════════════════════════
 // MESSAGE MODEL
@@ -162,7 +173,7 @@ const messageSchema = new mongoose.Schema({
   read:     { type: Boolean, default: false },
   replied:  { type: Boolean, default: false },
 }, { timestamps: true });
-const Message = mongoose.model('Message', messageSchema);
+const Message = mongoose.models.Message || mongoose.model('Message', messageSchema);
 
 // ══════════════════════════════════════════════
 // SUBSCRIBER MODEL
@@ -171,7 +182,7 @@ const subscriberSchema = new mongoose.Schema({
   email:    { type: String, required: true, unique: true },
   active:   { type: Boolean, default: true },
 }, { timestamps: true });
-const Subscriber = mongoose.model('Subscriber', subscriberSchema);
+const Subscriber = mongoose.models.Subscriber || mongoose.model('Subscriber', subscriberSchema);
 
 // ══════════════════════════════════════════════
 // CALENDAR AVAILABILITY MODEL
@@ -183,6 +194,6 @@ const calendarSchema = new mongoose.Schema({
   booking:    { type: mongoose.Schema.Types.ObjectId, ref: 'Booking' },
   note:       String,
 }, { timestamps: true });
-const Calendar = mongoose.model('Calendar', calendarSchema);
+const Calendar = mongoose.models.Calendar || mongoose.model('Calendar', calendarSchema);
 
 module.exports = { User, Celebrity, Booking, Payment, FanCard, Post, Message, Subscriber, Calendar };
