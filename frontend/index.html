@@ -1737,61 +1737,47 @@ function doLogout() {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
-  // ── CATCH GOOGLE LOGIN REDIRECT ──────────────
-  var urlParams = new URLSearchParams(window.location.search);
+  // ── HANDLE OAUTH REDIRECT (Google login callback) ──
+  var urlParams  = new URLSearchParams(window.location.search);
   var oauthToken = urlParams.get('token');
   var oauthUser  = urlParams.get('user');
   if (oauthToken && oauthUser) {
     try {
-      var user = JSON.parse(decodeURIComponent(oauthUser));
+      var oUser = JSON.parse(decodeURIComponent(oauthUser));
       localStorage.setItem('sc_token', oauthToken);
-      localStorage.setItem('sc_current_user', JSON.stringify(user));
-      updateNavForLoggedInUser(user.firstName);
-      showToast('✅ Welcome, ' + user.firstName + '! You are signed in with Google.');
+      localStorage.setItem('sc_current_user', JSON.stringify(oUser));
+      updateNavForLoggedInUser(oUser.firstName);
+      showToast('✅ Welcome, ' + oUser.firstName + '! You are signed in with Google.');
       window.history.replaceState({}, document.title, '/');
     } catch(e) {}
   }
 
-  // ── CHECK FOR LOGIN ERROR ─────────────────────
+  // ── HANDLE GOOGLE ERROR ─────────────────────────────
   if (urlParams.get('error') === 'google') {
     showToast('❌ Google sign in failed. Please try again.');
     window.history.replaceState({}, document.title, '/');
   }
+
+  // ── RESTORE SESSION IF ALREADY LOGGED IN ────────────
+  var savedToken = localStorage.getItem('sc_token');
   var savedUser  = localStorage.getItem('sc_current_user');
-var savedToken = localStorage.getItem('sc_token');
-if (savedUser && savedToken) {
-  try {
-    var user = JSON.parse(savedUser);
-    updateNavForLoggedInUser(user.firstName || user.name || 'User');
-
-    // Silently refresh user data from server to get latest role
-    fetch('/api/auth/me', {
-      headers: { 'Authorization': 'Bearer ' + savedToken }
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(me) {
-      if (me.success && me.user) {
-        localStorage.setItem('sc_current_user', JSON.stringify(me.user));
-      }
-    })
-    .catch(function() {});
-  } catch(e) {}
-}
-
-// Handle OAuth redirect
-var urlParams = new URLSearchParams(window.location.search);
-var oauthToken = urlParams.get('token');
-var oauthUser  = urlParams.get('user');
-if (oauthToken && oauthUser) {
-  try {
-    var user = JSON.parse(decodeURIComponent(oauthUser));
-    localStorage.setItem('sc_token', oauthToken);
-    localStorage.setItem('sc_current_user', JSON.stringify(user));
-    updateNavForLoggedInUser(user.firstName);
-    showToast('✅ Welcome, ' + user.firstName + '!');
-    window.history.replaceState({}, document.title, '/');
-  } catch(e) {}
-}
+  if (savedToken && savedUser) {
+    try {
+      var sUser = JSON.parse(savedUser);
+      updateNavForLoggedInUser(sUser.firstName || sUser.name || 'User');
+      // Silently refresh user data from server
+      fetch('/api/auth/me', {
+        headers: { 'Authorization': 'Bearer ' + savedToken }
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(me) {
+        if (me.success && me.user) {
+          localStorage.setItem('sc_current_user', JSON.stringify(me.user));
+        }
+      })
+      .catch(function() {});
+    } catch(e) {}
+  }
 });
 
 function showHome() {
