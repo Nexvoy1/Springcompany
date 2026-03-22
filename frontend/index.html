@@ -2194,51 +2194,49 @@ function sbHandleResponse(msg) {
 
 // Comprehensive South Korean Celebrity Videos Dataset
 const koreanCelebrityReels = [
-  // Cha Eun-woo (True Beauty Actor)
-  {id:1,creatorId:1,creator:'Cha Eun-woo',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/dQw4w9WgXcQ',title:'Cha Eun-woo Behind The Scenes',description:'Behind the scenes from True Beauty set',category:'Film',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
-  {id:2,creatorId:1,creator:'Cha Eun-woo',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/9bZkp7q19f0',title:'Cha Eun-woo Interview Highlights',description:'Exclusive interview with Cha Eun-woo',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
-  {id:3,creatorId:1,creator:'Cha Eun-woo',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/kffacxfA7g4',title:'Cha Eun-woo Fan Greetings',description:'Special greetings from Cha Eun-woo',category:'Film',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
-  
-  // Ji Chang-wook (Actor)
-  {id:4,creatorId:2,creator:'Ji Chang-wook',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/JGwWNGJdvx8',title:'Ji Chang-wook Action Scene',description:'Epic action scene from latest drama',category:'Film',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
-  {id:5,creatorId:2,creator:'Ji Chang-wook',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/OPf0YbXqDm0',title:'Ji Chang-wook Red Carpet',description:'Red carpet appearance highlights',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
-  {id:6,creatorId:2,creator:'Ji Chang-wook',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/xo1VInw-SKc',title:'Ji Chang-wook Drama Scenes',description:'Best moments from dramas',category:'Film',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
-  
-  // RM/Nam Joon (BTS Member)
-  {id:7,creatorId:3,creator:'RM (BTS)',avatar:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/MBdVXkSdhwU',title:'RM Mixtape Release',description:'New mixtape announcement',category:'Music',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
-  {id:8,creatorId:3,creator:'RM (BTS)',avatar:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/kfJmLdlOvg4',title:'RM Live Performance',description:'Live stage performance',category:'Music',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
-  {id:9,creatorId:3,creator:'RM (BTS)',avatar:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/UzwaMEu3l_4',title:'RM Interview BTS Comeback',description:'BTS comeback interview',category:'Music',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
-  
-  // Seo Kang-joon (Actor, Model)
-  {id:10,creatorId:4,creator:'Seo Kang-joon',avatar:'https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=400&q=80',videoUrl:'https://www.youtube.com/embed/X8ZtVHsTyxQ',title:'Seo Kang-joon Fashion Show',description:'High fashion runway appearance',category:'Fashion',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
-  {id:11,creatorId:4,creator:'Seo Kang-joon',avatar:'https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=400&q=80',videoUrl:'https://www.youtube.com/embed/H5mwvdcdaVE',title:'Seo Kang-joon Drama Scene',description:'Romantic drama scene',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
-  {id:12,creatorId:4,creator:'Seo Kang-joon',avatar:'https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=400&q=80',videoUrl:'https://www.youtube.com/embed/2qAK46z-S9E',title:'Seo Kang-joon CF Commercial',description:'Brand commercial appearance',category:'Fashion',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
-  
-  // Park Shin-hye (Actress)
-  {id:13,creatorId:5,creator:'Park Shin-hye',avatar:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',videoUrl:'https://www.youtube.com/embed/a2lZVkWsyrI',title:'Park Shin-hye Latest Drama',description:'Scenes from newest K-drama',category:'Film',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
-  {id:14,creatorId:5,creator:'Park Shin-hye',avatar:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',videoUrl:'https://www.youtube.com/embed/wY6wChHVMo8',title:'Park Shin-hye Awards Speech',description:'Award ceremony speech',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
-  {id:15,creatorId:5,creator:'Park Shin-hye',avatar:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',videoUrl:'https://www.youtube.com/embed/CnX8Zro_8v8',title:'Park Shin-hye Fan Meeting',description:'Fan meeting highlights',category:'Film',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
-  
-  // Suzy (Actress, Singer)
-  {id:16,creatorId:6,creator:'Suzy',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/MH4qI8YL0Qs',title:'Suzy New Music Video',description:'Latest K-pop music video',category:'Music',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
-  {id:17,creatorId:6,creator:'Suzy',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/L7x3bHZbw5Q',title:'Suzy Movie Premiere',description:'Movie premiere red carpet',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
-  {id:18,creatorId:6,creator:'Suzy',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/35Z8H75_wNw',title:'Suzy Concert Performance',description:'Live concert performance',category:'Music',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
-  
-  // Lee Min-ho (Actor)
-  {id:19,creatorId:7,creator:'Lee Min-ho',avatar:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',videoUrl:'https://www.youtube.com/embed/GV4qJJ4pWcQ',title:'Lee Min-ho Boys Over Flowers',description:'Iconic Boys Over Flowers scene',category:'Film',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
-  {id:20,creatorId:7,creator:'Lee Min-ho',avatar:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',videoUrl:'https://www.youtube.com/embed/BcmDrXVFJmA',title:'Lee Min-ho International Tour',description:'World tour announcement',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  // Ji Chang-wook (Actor) - FIRST
+  {id:1,creatorId:2,creator:'Ji Chang-wook',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/JGwWNGJdvx8',title:'Ji Chang-wook The K2 Trailer',description:'Official trailer from The K2 K-drama',category:'Film',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
+  {id:2,creatorId:2,creator:'Ji Chang-wook',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/tQzqyG69kkE',title:'Ji Chang-wook Best Scenes',description:'Compilation of iconic scenes',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:3,creatorId:2,creator:'Ji Chang-wook',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/hKl99rAe1Gg',title:'Ji Chang-wook Behind The Scenes',description:'Making of scenes compilation',category:'Film',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
   
   // IU (Singer, Actress)
-  {id:21,creatorId:8,creator:'IU (아이유)',avatar:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/ZBvU1j3V5zQ',title:'IU Lilac Concert',description:'Legendary concert performance',category:'Music',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
-  {id:22,creatorId:8,creator:'IU (아이유)',avatar:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/VU3v_W0bwdo',title:'IU New Album Release',description:'Album release special',category:'Music',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:4,creatorId:8,creator:'IU (아이유)',avatar:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/oJ0c7l_K8s0',title:'IU Through the Night Performance',description:'Live concert performance',category:'Music',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
+  {id:5,creatorId:8,creator:'IU (아이유)',avatar:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/Z8WdNRCgHVY',title:'IU Twenty Three MV',description:'Official music video',category:'Music',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:6,creatorId:8,creator:'IU (아이유)',avatar:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/tG80tSTSbaU',title:'IU Concert Highlight',description:'Festival performance',category:'Music',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
+  
+  // Lee Min-ho (Actor)
+  {id:7,creatorId:7,creator:'Lee Min-ho',avatar:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',videoUrl:'https://www.youtube.com/embed/zG-D5S_K76I',title:'Lee Min-ho Boys Over Flowers Preview',description:'Classic K-drama scene',category:'Film',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
+  {id:8,creatorId:7,creator:'Lee Min-ho',avatar:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',videoUrl:'https://www.youtube.com/embed/LZ5dLbfHKrU',title:'Lee Min-ho Heirs Trailer',description:'Drama series trailer',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:9,creatorId:7,creator:'Lee Min-ho',avatar:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',videoUrl:'https://www.youtube.com/embed/0jGPvFw0Pqo',title:'Lee Min-ho Award Show',description:'Red carpet appearance',category:'Film',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
+  
+  // RM / BTS
+  {id:10,creatorId:3,creator:'RM (BTS)',avatar:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/tnVr2mJ1Jp0',title:'BTS Dynamite MV',description:'Official music video',category:'Music',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
+  {id:11,creatorId:3,creator:'RM (BTS)',avatar:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/l0g0N1pRRYo',title:'BTS Idol MV',description:'High energy performance',category:'Music',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:12,creatorId:3,creator:'RM (BTS)',avatar:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/jRhqCdQaGnk',title:'BTS Spring Day Live',description:'Live concert performance',category:'Music',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
+  
+  // Park Shin-hye (Actress)
+  {id:13,creatorId:5,creator:'Park Shin-hye',avatar:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',videoUrl:'https://www.youtube.com/embed/FPH_CtNNKi8',title:'Park Shin-hye Pinocchio Drama',description:'Popular K-drama scene',category:'Film',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
+  {id:14,creatorId:5,creator:'Park Shin-hye',avatar:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',videoUrl:'https://www.youtube.com/embed/9_jCBE8V6SI',title:'Park Shin-hye Interview',description:'Celebrity interview feature',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:15,creatorId:5,creator:'Park Shin-hye',avatar:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',videoUrl:'https://www.youtube.com/embed/N8Nh8dkKS1E',title:'Park Shin-hye Memories of Alhambra',description:'Romantic K-drama clip',category:'Film',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
   
   // Jisoo (BLACKPINK)
-  {id:23,creatorId:9,creator:'Jisoo (BLACKPINK)',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/rbluvDGB7y0',title:'BLACKPINK Jisoo Solo',description:'Jisoo solo album preview',category:'Music',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
-  {id:24,creatorId:9,creator:'Jisoo (BLACKPINK)',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/qWRhqo6OqbQ',title:'BLACKPINK Performance Seoul',description:'Concert performance highlights',category:'Music',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:16,creatorId:9,creator:'Jisoo (BLACKPINK)',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/ogzdiP7b_4M',title:'BLACKPINK DDU-DU DDU-DU Performance',description:'High energy stage performance',category:'Music',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
+  {id:17,creatorId:9,creator:'Jisoo (BLACKPINK)',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/MzxyyNyWsf0',title:'BLACKPINK Kill This Love',description:'Official music video',category:'Music',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:18,creatorId:9,creator:'Jisoo (BLACKPINK)',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/bK3FqsCUIhE',title:'BLACKPINK Seoul Concert',description:'Live concert highlights',category:'Music',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
   
-  // V (BTS, Taehyung)
-  {id:25,creatorId:10,creator:'V (BTS)',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/wpV-gGA7wgI',title:'V Singularity Performance',description:'Famous Singularity stage',category:'Music',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
-  {id:26,creatorId:10,creator:'V (BTS)',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/bWHKT4-V_JI',title:'V Solo Album Release',description:'Solo music project launch',category:'Music',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  // V (BTS)
+  {id:19,creatorId:10,creator:'V (BTS)',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/zGp1AI-lXyg',title:'V Singularity Performance',description:'Famous stage performance',category:'Music',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
+  {id:20,creatorId:10,creator:'V (BTS)',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/tG84DfI-GHE',title:'V Love Me Again',description:'Solo music video',category:'Music',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:21,creatorId:10,creator:'V (BTS)',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/nZYPqLHSGdU',title:'V Hwarang Clip',description:'K-drama appearance',category:'Film',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
+  
+  // Suzy (Actress, Singer)
+  {id:22,creatorId:6,creator:'Suzy',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/6wZgcRk2f1Q',title:'Suzy Vagabond Trailer',description:'K-drama series preview',category:'Film',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
+  {id:23,creatorId:6,creator:'Suzy',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/n1p9EiWTBzk',title:'Suzy While You Were Sleeping',description:'Popular drama scene',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:24,creatorId:6,creator:'Suzy',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',videoUrl:'https://www.youtube.com/embed/c2DhJBqCeA0',title:'Suzy Interview Special',description:'Celebrity interview',category:'Film',timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
+  
+  // Cha Eun-woo (Actor)
+  {id:25,creatorId:1,creator:'Cha Eun-woo',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/SFU9tI82xfk',title:'Cha Eun-woo True Beauty Trailer',description:'Popular K-drama preview',category:'Film',timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
+  {id:26,creatorId:1,creator:'Cha Eun-woo',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/n4uy6pYHZ34',title:'Cha Eun-woo My ID is Gangnam Beauty',description:'K-drama scene',category:'Film',timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
 ];
 
 let currentReelIndex = 0;
