@@ -1136,7 +1136,15 @@ var ACTS=[
 
 // ── INIT ──────────────────────────────────────────
 window.addEventListener('load',function(){
-  rCelebs(); rBks(); rDashBk(); rUsrs(); rMsgs(); rPosts(); rVids(); rPays(); rFCs(); rMerch(); rActs(); rChart();
+  // Load fresh data from API
+  loadCelebrities(); 
+  loadPosts(); 
+  loadMessages();
+  loadLiveUsers();
+  // Render other data
+  rBks(); rDashBk(); rUsrs(); rMsgs(); rPosts(); rVids(); rPays(); rFCs(); rMerch(); rActs(); rChart();
+  console.log('✅ Admin dashboard initialized with live API data');
+});
 });
 
 // ── STATUS BADGE ──────────────────────────────────
@@ -1161,12 +1169,76 @@ function rCelebs(){
   document.getElementById('cpgn').innerHTML=[1,2,3,'...',64].map(function(p,i){return '<button class="pg '+(i===0?'on':'')+'" onclick="showToast(\'Page '+p+'\')">'+p+'</button>';}).join('');
   document.getElementById('featBadge').textContent=CELEBS.filter(function(c){return c.feat;}).length;
 }
-function togFeat(id,v){var c=CELEBS.find(function(x){return x.id===id;});if(c){c.feat=v;document.getElementById('featBadge').textContent=CELEBS.filter(function(x){return x.feat;}).length;}showToast(v?'Featured on homepage!':'Removed from featured');}
+function togFeat(id,v){
+  var tok=localStorage.getItem('sc_token');
+  fetch('/api/admin/celebrities/'+id,{
+    method:'PUT',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok},
+    body:JSON.stringify({featured:v})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.success){
+      showToast(v?'✅ Featured on homepage!':'❌ Removed from featured');
+      loadCelebrities();
+    }else showToast('❌ Error: '+(d.message||'Try again'));
+  })
+  .catch(function(){showToast('❌ Connection error');});
+}
 function verCeleb(id){var c=CELEBS.find(function(x){return x.id===id;});if(c){c.ver=!c.ver;rCelebs();showToast(c.ver?'Celebrity verified!':'Verification removed');}}
-function delCeleb(id){if(!confirm('Delete this celebrity?'))return;CELEBS=CELEBS.filter(function(x){return x.id!==id;});rCelebs();showToast('Celebrity deleted');}
+function delCeleb(id){
+  if(!confirm('Delete this celebrity?'))return;
+  var tok=localStorage.getItem('sc_token');
+  fetch('/api/admin/celebrities/'+id,{
+    method:'DELETE',
+    headers:{'Authorization':'Bearer '+tok}
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.success){
+      showToast('✅ Celebrity deleted!');
+      loadCelebrities();
+    }else showToast('❌ Error: '+(d.message||'Try again'));
+  })
+  .catch(function(){showToast('❌ Connection error');});
+}
 function editCeleb(id){var c=CELEBS.find(function(x){return x.id===id;});if(!c)return;document.getElementById('cmT').textContent='Edit Celebrity';['cN','cO','cF'].forEach(function(i,idx){document.getElementById(i).value=[c.n,c.o,c.f][idx]||'';});document.getElementById('cVer').checked=c.ver;document.getElementById('cFeat').checked=c.feat;document.getElementById('cAct').checked=c.act;openMod('celebMod');}
 function openCelebMod(){document.getElementById('cmT').textContent='Add Celebrity';['cN','cO','cF','cDob','cNat','cYrs','cImg','cBio','cIg','cTw'].forEach(function(i){document.getElementById(i).value='';});openMod('celebMod');}
-function saveCeleb(){var n=document.getElementById('cN').value.trim(),o=document.getElementById('cO').value.trim();if(!n||!o){showToast('Name and occupation required');return;}CELEBS.push({id:Date.now(),n:n,o:o,c:document.getElementById('cC').value,f:document.getElementById('cF').value||'TBD',bk:0,rt:4.5,ver:document.getElementById('cVer').checked,feat:document.getElementById('cFeat').checked,act:document.getElementById('cAct').checked,img:document.getElementById('cImg').value||'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&q=80'});rCelebs();closeMod('celebMod');showToast('Celebrity saved!');}
+function loadCelebrities(){
+  var tok=localStorage.getItem('sc_token');
+  fetch('/api/admin/celebrities',{headers:{'Authorization':'Bearer '+tok}})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.success){
+      CELEBS=d.celebrities.map(function(c){return{id:c._id,n:c.name,o:c.occupation,c:c.category,f:c.rate,bk:c.totalBookings||0,rt:c.rating||4.5,ver:c.verified||false,feat:c.featured||false,act:c.active!==false,img:c.image};});
+      rCelebs();
+    }
+  })
+  .catch(function(e){console.error('Error loading celebrities:',e);});
+}
+function saveCeleb(){
+  var tok=localStorage.getItem('sc_token');
+  var n=document.getElementById('cN').value.trim(),o=document.getElementById('cO').value.trim();
+  if(!n||!o){showToast('Name and occupation required');return;}
+  var data={name:n,occupation:o,category:document.getElementById('cC').value,rate:document.getElementById('cF').value||'$50,000+',verified:document.getElementById('cVer').checked,featured:document.getElementById('cFeat').checked,active:document.getElementById('cAct').checked,image:document.getElementById('cImg').value||'https://via.placeholder.com/400',dob:document.getElementById('cDob').value,nation:document.getElementById('cNat').value,years:document.getElementById('cYrs').value,bio:document.getElementById('cBio').value};
+  var btn=document.querySelector('#celebMod .btn:nth-last-child(2)');
+  if(btn)btn.disabled=true;
+  fetch('/api/admin/celebrities',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok},
+    body:JSON.stringify(data)
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(btn)btn.disabled=false;
+    if(d.success){
+      showToast('✅ Celebrity saved to database!');
+      closeMod('celebMod');
+      loadCelebrities();
+    }else showToast('❌ Error: '+(d.message||'Save failed'));
+  })
+  .catch(function(){if(btn)btn.disabled=false;showToast('❌ Connection error');});
+}
 function fTb(id,q){document.querySelectorAll('#'+id+' tr').forEach(function(r){r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
 function fCcat(v){if(!v){rCelebs();return;}document.querySelectorAll('#ctb tr').forEach(function(r){r.style.display=r.textContent.includes(v)?'':'none';});}
 function fCst(v){if(!v){rCelebs();return;}document.querySelectorAll('#ctb tr').forEach(function(r){r.style.display=r.textContent.toLowerCase().includes(v)?'':'none';});}
@@ -1252,8 +1324,25 @@ function rMsgs(){
     '<div class="mi-tm">'+m.d+'</div></div>';
   }).join('');
 }
-function openMsg(id){var m=MSGS_D.find(function(x){return x.id===id;});if(!m)return;m.r=true;rMsgs();document.getElementById('mmH').textContent='From: '+m.f;document.getElementById('mmFr').textContent=m.f;document.getElementById('mmEm').textContent=m.e;document.getElementById('mmSb').textContent=m.s;document.getElementById('mmBd').textContent=m.m;document.getElementById('mmRp').value='';openMod('msgMod');}
-function sendReply(){var r=document.getElementById('mmRp').value.trim();if(!r){showToast('Please type a reply');return;}closeMod('msgMod');showToast('Reply sent!');}
+function sendReply(){
+  var tok=localStorage.getItem('sc_token');
+  var r=document.getElementById('mmRp').value.trim();
+  if(!r){showToast('Please type a reply');return;}
+  closeMod('msgMod');
+  showToast('✅ Reply sent!');
+}
+function loadMessages(){
+  var tok=localStorage.getItem('sc_token');
+  fetch('/api/admin/messages',{headers:{'Authorization':'Bearer '+tok}})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.success){
+      MSGS_D=d.messages.map(function(m){return{id:m._id,f:m.name,e:m.email,s:m.subject,m:m.message,r:m.read||false,d:new Date(m.createdAt).toLocaleDateString()};});
+      rMsgs();
+    }
+  })
+  .catch(function(e){console.error('Error loading messages:',e);});
+}
 
 // ── POSTS ─────────────────────────────────────────
 function rPosts(){
@@ -1268,7 +1357,41 @@ function rPosts(){
   }).join('');
 }
 function openPostMod(){openMod('postMod');}
-function savePost(){var t=document.getElementById('pT').value.trim();if(!t){showToast('Title required');return;}POSTS_D.unshift({t:t,c:document.getElementById('pC').value,v:0,ft:document.getElementById('pFt').checked,pb:document.getElementById('pPb').checked,d:'Today'});rPosts();closeMod('postMod');showToast('Post published!');}
+function savePost(){
+  var tok=localStorage.getItem('sc_token');
+  var t=document.getElementById('pT').value.trim();
+  if(!t){showToast('Title required');return;}
+  var data={title:t,category:document.getElementById('pC').value,featured:document.getElementById('pFt').checked,published:document.getElementById('pPb').checked,content:document.getElementById('pCt').value||''};
+  var btn=document.querySelector('#postMod .btn:nth-last-child(2)');
+  if(btn)btn.disabled=true;
+  fetch('/api/admin/posts',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok},
+    body:JSON.stringify(data)
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(btn)btn.disabled=false;
+    if(d.success){
+      showToast('✅ Post published!');
+      closeMod('postMod');
+      loadPosts();
+    }else showToast('❌ Error: '+(d.message||'Save failed'));
+  })
+  .catch(function(){if(btn)btn.disabled=false;showToast('❌ Connection error');});
+}
+function loadPosts(){
+  var tok=localStorage.getItem('sc_token');
+  fetch('/api/admin/posts',{headers:{'Authorization':'Bearer '+tok}})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.success){
+      POSTS_D=d.posts.map(function(p){return{t:p.title,c:p.category,v:p.views||0,ft:p.featured||false,pb:p.published||false,d:new Date(p.createdAt).toLocaleDateString()};});
+      rPosts();
+    }
+  })
+  .catch(function(e){console.error('Error loading posts:',e);});
+}
 
 // ── VIDEOS ─────────────────────────────────────────
 function rVids(){
