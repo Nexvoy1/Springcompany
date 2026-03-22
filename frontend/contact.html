@@ -548,7 +548,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 <section class="ps"><div class="pi">
 <div class="contact-grid">
 <div class="contact-info">
-  <div class="ci-item"><div class="ci-ico"><i class="fas fa-envelope"></i></div><div><div class="ci-title">Email Us</div><div class="ci-text">bookings@springcompany.com<br>support@springcompany.com</div></div></div>
+  <div class="ci-item"><div class="ci-ico"><i class="fas fa-envelope"></i></div><div><div class="ci-title">Email Us</div><div class="ci-text"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="187a77777371767f6b586b686a71767f7b777568797661367b7775">[email&#160;protected]</a><br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8efdfbfefee1fcfacefdfefce7e0e9ede1e3feefe0f7a0ede1e3">[email&#160;protected]</a></div></div></div>
   <div class="ci-item"><div class="ci-ico"><i class="fas fa-phone"></i></div><div><div class="ci-title">Call Us</div><div class="ci-text">+1 (800) SPRINGCOMPANY<br>Mon–Fri 9AM–6PM EST</div></div></div>
   <div class="ci-item"><div class="ci-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="ci-title">Head Office</div><div class="ci-text">Beverly Hills, CA 90210<br>United States</div></div></div>
   <div class="ci-item"><div class="ci-ico"><i class="fas fa-clock"></i></div><div><div class="ci-title">Response Time</div><div class="ci-text">Bookings confirmed within 24 hours<br>Support replies within 2 hours</div></div></div>
@@ -786,7 +786,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 <!-- TOAST -->
 
 <div class="toast" id="toast"></div>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var sc_token=localStorage.getItem('sc_token');
 var currentUser=null;
 try{var _u=localStorage.getItem('sc_current_user');if(_u)currentUser=JSON.parse(_u);}catch(e){}
@@ -806,7 +806,43 @@ window.addEventListener('DOMContentLoaded',function(){
   document.addEventListener('click',function(e){var m=document.getElementById('megaMenu');if(m&&m.classList.contains('open')&&!m.contains(e.target)&&!e.target.closest('#hamBtn'))closeMenu();});
 });
 
-function sendMsg(){var n=document.getElementById('cf-n').value.trim(),e=document.getElementById('cf-e').value.trim(),m=document.getElementById('cf-m').value.trim();if(!n||!e||!m){showToast('Please fill in all fields');return;}var btn=document.querySelector('.contact-form .btn-auth');if(btn){btn.textContent='Sending...';btn.disabled=true;}setTimeout(function(){if(btn){btn.textContent='Send Message';btn.disabled=false;}document.getElementById('cf-n').value='';document.getElementById('cf-e').value='';document.getElementById('cf-m').value='';showToast('Message sent! We will respond within 2 hours.');},1100);}
+function sendMsg() {
+  var n = document.getElementById('cf-n').value.trim();
+  var e = document.getElementById('cf-e').value.trim();
+  var s = document.getElementById('cf-s') ? document.getElementById('cf-s').value.trim() : '';
+  var m = document.getElementById('cf-m').value.trim();
+
+  if (!n || !e || !m) { showToast('Please fill in your name, email and message.'); return; }
+  if (!e.includes('@')) { showToast('Please enter a valid email address.'); return; }
+
+  var btn = document.querySelector('.contact-form .btn-auth') ||
+            document.querySelector('[onclick="sendMsg()"]');
+  if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
+
+  fetch('/api/messages/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: n, email: e, subject: s || 'Contact Form Enquiry', message: m })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (btn) { btn.textContent = 'Send Message'; btn.disabled = false; }
+    if (d.success) {
+      // Clear the form
+      document.getElementById('cf-n').value = '';
+      document.getElementById('cf-e').value = '';
+      if (document.getElementById('cf-s')) document.getElementById('cf-s').value = '';
+      document.getElementById('cf-m').value = '';
+      showToast('Message sent! We will respond within 2 hours.');
+    } else {
+      showToast('Error: ' + (d.message || 'Could not send message. Please try again.'));
+    }
+  })
+  .catch(function() {
+    if (btn) { btn.textContent = 'Send Message'; btn.disabled = false; }
+    showToast('Connection error. Please check your internet and try again.');
+  });
+}
 </script>
 </body>
 </html>
