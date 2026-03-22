@@ -630,6 +630,122 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   </div>
 </section>
 
+<!-- ── VIDEO REELS SECTION ── -->
+<section id="reels" class="reels-section">
+  <div class="reels-container">
+    <!-- REELS CAROUSEL -->
+    <div class="reels-carousel" id="reelsCarousel">
+      <!-- Reels will be loaded here dynamically -->
+      <div class="reels-loader">
+        <div class="loader-spinner"></div>
+        <p>Loading reels...</p>
+      </div>
+    </div>
+
+    <!-- REELS SIDEBAR CONTROLS -->
+    <div class="reels-sidebar">
+      <!-- Like Button -->
+      <div class="reel-action-btn" id="reelLikeBtn" onclick="toggleLikeReel()">
+        <i class="far fa-heart"></i>
+        <span class="action-count" id="reelLikeCount">0</span>
+      </div>
+
+      <!-- Follow Button -->
+      <div class="reel-action-btn" id="reelFollowBtn" onclick="toggleFollowCreator()">
+        <i class="fas fa-user-plus"></i>
+        <span class="action-label">Follow</span>
+      </div>
+
+      <!-- Share Button -->
+      <div class="reel-action-btn" onclick="shareReel()">
+        <i class="fas fa-share"></i>
+      </div>
+
+      <!-- Copy Link Button -->
+      <div class="reel-action-btn" onclick="copyReelLink()">
+        <i class="fas fa-link"></i>
+      </div>
+
+      <!-- Upload Reel Button (logged-in users only) -->
+      <div class="reel-action-btn" id="uploadReelBtn" onclick="openUploadReelModal()" style="display:none;border-top:1px solid rgba(212,175,55,0.15);padding-top:16px;margin-top:16px">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <span class="action-label">Upload</span>
+      </div>
+    </div>
+
+    <!-- REEL INFO AT BOTTOM -->
+    <div class="reel-bottom-info">
+      <div>
+        <div class="reel-creator-name" id="reelCreatorName">Creator Name</div>
+        <div class="reel-description" id="reelDescription">Reel description</div>
+      </div>
+    </div>
+
+    <!-- NAVIGATION DOTS -->
+    <div class="reels-dots" id="reelsDots"></div>
+  </div>
+</section>
+
+<!-- UPLOAD REEL MODAL -->
+<div class="modal-backdrop" id="uploadReelModal" onclick="if(event.target===this)closeUploadReelModal()">
+  <div class="modal" style="max-width:600px;max-height:90vh;overflow-y:auto">
+    <div class="modal-header">
+      <h3>Upload Your Reel</h3>
+      <button class="modal-close" onclick="closeUploadReelModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="upload-reel-form">
+        <div class="form-group">
+          <label>Select Video File *</label>
+          <div class="file-upload-area" id="fileUploadArea">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Click to upload or drag & drop</p>
+            <small>MP4, WebM up to 100MB</small>
+            <input type="file" id="reelFileInput" accept="video/*" hidden onchange="handleReelFileSelect()">
+          </div>
+          <div id="uploadProgress" style="display:none;margin-top:12px">
+            <div class="progress-bar"><div id="uploadProgressBar" style="width:0%"></div></div>
+            <small id="uploadStatus">Uploading...</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Video Title *</label>
+          <input type="text" id="reelTitle" placeholder="Give your reel a catchy title" maxlength="100">
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="reelDescription" placeholder="Tell viewers about your reel..." maxlength="500" rows="4"></textarea>
+          <small id="charCount">0/500</small>
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select id="reelCategory">
+            <option value="Music">Music</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Dance">Dance</option>
+            <option value="Lifestyle">Lifestyle</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="reelPrivate"> Make it Private
+          </label>
+          <small>Only followers can see this reel</small>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeUploadReelModal()">Cancel</button>
+      <button class="btn-primary" onclick="submitReelUpload()">Publish Reel</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── ABOUT ── -->
 <section id="about" class="section">
   <div class="section-inner">
@@ -1851,6 +1967,71 @@ function showToast(msg) {
 .sb-chat-send{background:linear-gradient(135deg,#D4AF37,#8B7322);border:none;width:36px;height:36px;border-radius:9px;cursor:pointer;color:#000;font-size:.9rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;align-self:flex-end}
 .sb-chat-send:hover{transform:scale(1.05)}
 
+/* ══════════════════════════════════════════════
+   VIDEO REELS
+══════════════════════════════════════════════ */
+.reels-section{position:relative;width:100%;height:100vh;background:var(--bg);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.reels-container{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.reels-carousel{position:relative;width:100%;height:100%;max-width:500px;overflow:hidden;border-radius:20px;background:var(--bg2)}
+.reel-item{position:absolute;width:100%;height:100%;top:0;left:0;opacity:0;transition:opacity .4s ease;background:var(--bg2);display:flex;align-items:center;justify-content:center}
+.reel-item.active{opacity:1;z-index:10}
+.reel-video{width:100%;height:100%;object-fit:cover}
+.reel-video-placeholder{width:100%;height:100%;background:linear-gradient(135deg,rgba(212,175,55,0.1),rgba(168,85,247,0.1));display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--muted);text-align:center;padding:20px}
+
+.reels-loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:5}
+.loader-spinner{width:40px;height:40px;border:3px solid rgba(212,175,55,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── REEL SIDEBAR ── */
+.reels-sidebar{position:absolute;right:16px;bottom:100px;display:flex;flex-direction:column;gap:12px;z-index:20}
+.reel-action-btn{width:50px;height:50px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(168,85,247,0.1));border:1.5px solid rgba(212,175,55,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;color:var(--text);font-size:.85rem;transition:all .3s;position:relative}
+.reel-action-btn:hover{background:linear-gradient(135deg,rgba(212,175,55,0.25),rgba(168,85,247,0.15));border-color:var(--gold);transform:scale(1.1)}
+.reel-action-btn i{font-size:1.1rem;color:var(--gold)}
+.action-count{position:absolute;bottom:-18px;font-size:.7rem;white-space:nowrap;color:var(--text);font-weight:600}
+.action-label{position:absolute;bottom:-22px;font-size:.65rem;white-space:nowrap;color:var(--muted)}
+.reel-action-btn.liked{background:linear-gradient(135deg,rgba(244,63,94,0.2),rgba(244,63,94,0.1));border-color:var(--red)}
+.reel-action-btn.liked i{color:var(--red)}
+.reel-action-btn.following{background:linear-gradient(135deg,rgba(212,175,55,0.25),rgba(168,85,247,0.15));border-color:var(--gold)}
+
+/* ── REEL BOTTOM INFO ── */
+.reel-bottom-info{position:absolute;bottom:0;left:0;width:100%;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.8));padding:40px 16px 16px;z-index:15}
+.reel-creator-name{color:var(--text);font-weight:700;font-size:.95rem;margin-bottom:4px}
+.reel-description{color:var(--muted);font-size:.8rem;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ── NAVIGATION DOTS ── */
+.reels-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:15}
+.reel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);border:1.5px solid transparent;cursor:pointer;transition:all .3s}
+.reel-dot.active{background:var(--gold);border-color:var(--gold);width:20px;border-radius:4px}
+.reel-dot:hover{background:rgba(255,255,255,0.5)}
+
+/* ── NAVIGATION ARROWS ── */
+.reel-nav-btn{position:absolute;width:44px;height:44px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(168,85,247,0.1));border:1.5px solid rgba(212,175,55,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20;transition:all .3s;color:var(--gold);font-size:1.1rem}
+.reel-nav-btn:hover{background:linear-gradient(135deg,rgba(212,175,55,0.25),rgba(168,85,247,0.15));border-color:var(--gold);transform:scale(1.1)}
+.reel-nav-prev{left:16px;top:50%;transform:translateY(-50%)}
+.reel-nav-next{right:16px;top:50%;transform:translateY(-50%)}
+
+/* ── UPLOAD FORM ── */
+.upload-reel-form{display:flex;flex-direction:column;gap:18px}
+.file-upload-area{border:2px dashed rgba(212,175,55,0.3);border-radius:var(--r);padding:32px 20px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(212,175,55,0.02);display:flex;flex-direction:column;align-items:center;gap:10px}
+.file-upload-area:hover{border-color:var(--gold);background:rgba(212,175,55,0.05)}
+.file-upload-area i{font-size:2.5rem;color:var(--gold);opacity:.7}
+.file-upload-area p{color:var(--text);font-weight:500}
+.file-upload-area small{color:var(--muted)}
+
+.progress-bar{width:100%;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden}
+#uploadProgressBar{height:100%;background:linear-gradient(90deg,var(--gold),#F5CC5A);transition:width .2s;border-radius:3px}
+
+/* ── RESPONSIVE REELS ── */
+@media(max-width:768px){
+  .reels-section{height:80vh}
+  .reels-carousel{max-width:100%;border-radius:0}
+  .reels-sidebar{right:12px;bottom:80px;gap:10px}
+  .reel-action-btn{width:46px;height:46px;font-size:.75rem}
+  .action-count{bottom:-16px;font-size:.65rem}
+  .action-label{bottom:-20px;font-size:.6rem}
+  .reel-nav-btn{width:40px;height:40px}
+}
+
 /* ── CHAT FOOTER ── */
 .sb-chat-footer{text-align:center;padding:7px;font-size:.64rem;color:#4A4860;font-family:'DM Sans',sans-serif;border-top:1px solid rgba(255,255,255,0.04);flex-shrink:0}
 .sb-chat-footer a{color:#D4AF37;text-decoration:none}
@@ -2038,6 +2219,311 @@ function sbHandleResponse(msg) {
   if (m.includes('human') || m.includes('agent') || m.includes('support') || m.includes('contact')) return "Email support@springcompany.com or use our Contact page. We respond within 2 hours!";
   return sbPick(sbKnowledge.default);
 }
+
+// ══════════════════════════════════════════════
+// VIDEO REELS FUNCTIONALITY
+// ══════════════════════════════════════════════
+
+// Sample reels data - in production, fetch from API
+const sampleReels = [
+  {id:1,creatorId:1,creator:'Aria Sinclair',avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',videoUrl:'https://www.youtube.com/embed/OPf0YbXqDm0',title:'Behind the Scenes at My Latest Concert',description:'Getting ready for the most incredible concert of my life! 🎤✨',category:'Music',likes:1240,comments:156,shares:89,timestamp:new Date(Date.now()-2*24*60*60*1000),isVerified:true},
+  {id:2,creatorId:2,creator:'Marcus Williams',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',videoUrl:'https://www.youtube.com/embed/JGwWNGJdvx8',title:'Movie Premiere Night with the Cast',description:'Walked the red carpet with amazing actors today! #Hollywood',category:'Film',likes:2100,comments:234,shares:145,timestamp:new Date(Date.now()-1*24*60*60*1000),isVerified:true},
+  {id:3,creatorId:3,creator:'Sofia Reyes',avatar:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80',videoUrl:'',title:'New Song Release Coming Soon!',description:'Excited to share my new single with you all! Drop your predictions 🎵',category:'Music',likes:3450,comments:567,shares:234,timestamp:new Date(Date.now()-3*24*60*60*1000),isVerified:true},
+  {id:4,creatorId:4,creator:'Jordan Blake',avatar:'https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=400&q=80',videoUrl:'',title:'Championship Game Highlights',description:'What an incredible game! Thanks for all the support 💪🏆',category:'Sports',likes:4560,comments:678,shares:345,timestamp:new Date(Date.now()-5*24*60*60*1000),isVerified:true},
+];
+
+let currentReelIndex = 0;
+let userLikedReels = new Set();
+let userFollowingCreators = new Set();
+let allReels = [...sampleReels];
+
+function initReels() {
+  loadReels();
+  setupReelNavigation();
+  checkLoggedInStatus();
+}
+
+function loadReels() {
+  const carousel = document.getElementById('reelsCarousel');
+  carousel.innerHTML = '';
+  
+  if (allReels.length === 0) {
+    carousel.innerHTML = '<div class="reel-item active"><div class="reel-video-placeholder"><i class="fas fa-video"></i><p>No reels yet</p></div></div>';
+    return;
+  }
+
+  allReels.forEach((reel, idx) => {
+    const reelEl = document.createElement('div');
+    reelEl.className = `reel-item ${idx === 0 ? 'active' : ''}`;
+    
+    if (reel.videoUrl) {
+      reelEl.innerHTML = `<iframe width="100%" height="100%" src="${reel.videoUrl}" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
+    } else {
+      reelEl.innerHTML = `<div class="reel-video-placeholder"><i class="fas fa-image"></i><p>Video not available</p></div>`;
+    }
+    
+    carousel.appendChild(reelEl);
+  });
+
+  updateReelInfo();
+  createDots();
+  setAutoplay();
+}
+
+function updateReelInfo() {
+  const reel = allReels[currentReelIndex];
+  document.getElementById('reelCreatorName').textContent = reel.creator;
+  document.getElementById('reelDescription').textContent = reel.description;
+  
+  const likeBtn = document.getElementById('reelLikeBtn');
+  const likeCount = document.getElementById('reelLikeCount');
+  likeCount.textContent = reel.likes + (userLikedReels.has(reel.id) ? 1 : 0);
+  
+  if (userLikedReels.has(reel.id)) {
+    likeBtn.classList.add('liked');
+  } else {
+    likeBtn.classList.remove('liked');
+  }
+
+  const followBtn = document.getElementById('reelFollowBtn');
+  if (userFollowingCreators.has(reel.creatorId)) {
+    followBtn.classList.add('following');
+    followBtn.innerHTML = '<i class="fas fa-check"></i><span class="action-label">Following</span>';
+  } else {
+    followBtn.classList.remove('following');
+    followBtn.innerHTML = '<i class="fas fa-user-plus"></i><span class="action-label">Follow</span>';
+  }
+}
+
+function toggleLikeReel() {
+  const reel = allReels[currentReelIndex];
+  const btn = document.getElementById('reelLikeBtn');
+  
+  if (userLikedReels.has(reel.id)) {
+    userLikedReels.delete(reel.id);
+    reel.likes--;
+  } else {
+    userLikedReels.add(reel.id);
+    reel.likes++;
+    showToast('❤️ You loved this reel!');
+  }
+  
+  updateReelInfo();
+}
+
+function toggleFollowCreator() {
+  const reel = allReels[currentReelIndex];
+  
+  if (userFollowingCreators.has(reel.creatorId)) {
+    userFollowingCreators.delete(reel.creatorId);
+    showToast(`Unfollowed ${reel.creator}`);
+  } else {
+    userFollowingCreators.add(reel.creatorId);
+    showToast(`Now following ${reel.creator}! 🎉`);
+  }
+  
+  updateReelInfo();
+}
+
+function shareReel() {
+  const reel = allReels[currentReelIndex];
+  const shareText = `Check out "${reel.title}" by ${reel.creator} on Springcompany! 🎬`;
+  
+  if (navigator.share) {
+    navigator.share({
+      title: reel.title,
+      text: shareText,
+      url: window.location.href + '#reels'
+    });
+  } else {
+    showToast('Share link copied! 📋');
+  }
+}
+
+function copyReelLink() {
+  const reel = allReels[currentReelIndex];
+  const link = window.location.href.split('#')[0] + '#reels?reel=' + reel.id;
+  
+  navigator.clipboard.writeText(link).then(() => {
+    showToast('Reel link copied to clipboard! 📋');
+  });
+}
+
+function createDots() {
+  const dotsContainer = document.getElementById('reelsDots');
+  dotsContainer.innerHTML = '';
+  
+  allReels.forEach((_, idx) => {
+    const dot = document.createElement('div');
+    dot.className = `reel-dot ${idx === currentReelIndex ? 'active' : ''}`;
+    dot.onclick = () => goToReel(idx);
+    dotsContainer.appendChild(dot);
+  });
+}
+
+function goToReel(idx) {
+  const items = document.querySelectorAll('.reel-item');
+  items.forEach(item => item.classList.remove('active'));
+  items[idx].classList.add('active');
+  currentReelIndex = idx;
+  updateReelInfo();
+  createDots();
+  clearAutoplayTimeout();
+  setAutoplay();
+}
+
+function nextReel() {
+  goToReel((currentReelIndex + 1) % allReels.length);
+}
+
+function prevReel() {
+  goToReel((currentReelIndex - 1 + allReels.length) % allReels.length);
+}
+
+let autoplayTimeout;
+function setAutoplay() {
+  clearAutoplayTimeout();
+  autoplayTimeout = setTimeout(() => nextReel(), 5000);
+}
+
+function clearAutoplayTimeout() {
+  if (autoplayTimeout) clearTimeout(autoplayTimeout);
+}
+
+function setupReelNavigation() {
+  const carousel = document.getElementById('reelsCarousel');
+  
+  // Add arrow buttons if they don't exist
+  if (!carousel.querySelector('.reel-nav-prev')) {
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'reel-nav-btn reel-nav-prev';
+    prevBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+    prevBtn.onclick = prevReel;
+    carousel.parentElement.appendChild(prevBtn);
+    
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'reel-nav-btn reel-nav-next';
+    nextBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
+    nextBtn.onclick = nextReel;
+    carousel.parentElement.appendChild(nextBtn);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (document.location.hash === '#reels') {
+      if (e.key === 'ArrowUp') { e.preventDefault(); prevReel(); }
+      if (e.key === 'ArrowDown') { e.preventDefault(); nextReel(); }
+    }
+  });
+}
+
+function checkLoggedInStatus() {
+  const user = localStorage.getItem('sc_current_user');
+  const uploadBtn = document.getElementById('uploadReelBtn');
+  
+  if (user) {
+    uploadBtn.style.display = 'flex';
+  } else {
+    uploadBtn.style.display = 'none';
+  }
+}
+
+function openUploadReelModal() {
+  const user = localStorage.getItem('sc_current_user');
+  if (!user) {
+    openAuth('register');
+    return;
+  }
+  document.getElementById('uploadReelModal').style.display = 'flex';
+}
+
+function closeUploadReelModal() {
+  document.getElementById('uploadReelModal').style.display = 'none';
+  document.getElementById('reelFileInput').value = '';
+  document.getElementById('reelTitle').value = '';
+  document.getElementById('reelDescription').value = '';
+  document.getElementById('uploadProgress').style.display = 'none';
+}
+
+function handleReelFileSelect() {
+  const file = document.getElementById('reelFileInput').files[0];
+  if (file) {
+    showToast(`File selected: ${file.name}`);
+  }
+}
+
+document.getElementById('reelDescription')?.addEventListener('input', function() {
+  const count = this.value.length;
+  document.getElementById('charCount').textContent = count + '/500';
+});
+
+function submitReelUpload() {
+  const fileInput = document.getElementById('reelFileInput');
+  const title = document.getElementById('reelTitle').value.trim();
+  const desc = document.getElementById('reelDescription').value.trim();
+  const category = document.getElementById('reelCategory').value;
+
+  if (!fileInput.files[0]) {
+    showToast('Please select a video file');
+    return;
+  }
+  if (!title) {
+    showToast('Please enter a title');
+    return;
+  }
+
+  const user = JSON.parse(localStorage.getItem('sc_current_user'));
+  const formData = new FormData();
+  formData.append('video', fileInput.files[0]);
+  formData.append('title', title);
+  formData.append('description', desc);
+  formData.append('category', category);
+
+  document.getElementById('uploadProgress').style.display = 'block';
+  
+  fetch('/api/reels/upload', {
+    method: 'POST',
+    headers: {'Authorization': 'Bearer ' + localStorage.getItem('sc_token')},
+    body: formData
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      showToast('🎉 Reel uploaded successfully!');
+      allReels.unshift({
+        id: data.reelId,
+        creatorId: user.id,
+        creator: user.firstName + ' ' + user.lastName,
+        avatar: user.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',
+        videoUrl: data.videoUrl,
+        title: title,
+        description: desc,
+        category: category,
+        likes: 0,
+        comments: 0,
+        shares: 0,
+        timestamp: new Date(),
+        isVerified: user.role === 'celebrity'
+      });
+      currentReelIndex = 0;
+      loadReels();
+      closeUploadReelModal();
+    } else {
+      showToast('Upload failed: ' + (data.message || 'Unknown error'));
+    }
+  })
+  .catch(err => {
+    showToast('Upload error: ' + err.message);
+  });
+}
+
+// Initialize reels on page load
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('reelsCarousel')) {
+    initReels();
+  }
+});
+
 </script>
 </body>
 </html>
