@@ -862,6 +862,7 @@ function fetchCelebrities(){
   var params=new URLSearchParams();
   params.append('page',currentPage);
   params.append('limit',limit);
+  params.append('featured','true');
   if(curCat)params.append('cat',curCat);
   if(curQ)params.append('search',curQ);
   

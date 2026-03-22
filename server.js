@@ -36,7 +36,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: '/api/auth/google/callback'
+  callbackURL: (process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL : 'http://localhost:5000') + '/api/auth/google/callback'
 }, async function(accessToken, refreshToken, profile, done) {
   try {
     const { User } = require('./models/index');
