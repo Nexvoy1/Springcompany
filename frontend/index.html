@@ -1048,17 +1048,21 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 
   <div id="regStep4" style="display:none">
     <div style="text-align:center;margin-bottom:20px">
-      <div style="font-size:2.2rem;margin-bottom:8px" id="otpIcon">Email</div>
+      <div style="font-size:2.2rem;margin-bottom:8px" id="otpIcon">📧</div>
       <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Verify Your Account</div>
-      <div style="font-size:.8rem;color:var(--muted)" id="otpHint">We sent a 6-digit code</div>
+      <div style="font-size:.8rem;color:var(--muted)" id="otpHint">We sent a 6-digit code to your email</div>
     </div>
     <div class="mf">
       <label>Verification Code *</label>
       <input type="text" id="otpInput" placeholder="Enter 6-digit code" maxlength="6" style="text-align:center;font-size:1.4rem;letter-spacing:8px;font-weight:700">
     </div>
     <button class="btn-auth" onclick="verifyOTP()">Verify and Complete</button>
-    <div style="text-align:center;margin-top:10px">
-      <a onclick="resendOTP(regVerifyMethod)" style="font-size:.76rem;color:var(--gold);cursor:pointer">Resend code</a>
+    <div style="text-align:center;margin-top:14px;font-size:.8rem;color:var(--muted)">
+      <div>Didn't receive the code?</div>
+      <div style="margin-top:8px">
+        <a onclick="resendOTP('email')" style="color:var(--gold);cursor:pointer;margin-right:12px;font-weight:600">Resend Email</a>
+        <a onclick="resendOTP('phone')" style="color:var(--gold);cursor:pointer;font-weight:600">Send SMS</a>
+      </div>
     </div>
   </div>
 
@@ -1347,17 +1351,21 @@ function doRegister() {
       regUserId = data.userId;
       regEmail  = data.email;
       regPhone  = data.phone;
+      regVerifyMethod = data.verifyMethod || 'email';
+      
       // Show email OTP step
       var step3 = document.getElementById('regStep3');
       var step4 = document.getElementById('regStep4');
       if (step3) step3.style.display = 'none';
       if (step4) {
         step4.style.display = 'block';
-        var hint = document.getElementById('otpEmailHint');
-        if (hint) hint.textContent = 'We sent a 6-digit code to ' + regEmail;
+        var hint = document.getElementById('otpHint');
+        var icon = document.getElementById('otpIcon');
+        if (hint) hint.textContent = 'We sent a 6-digit code to ' + data.hint;
+        if (icon) icon.textContent = '📧';
       }
       hideAuthError();
-      showToast('\uD83D\uDCE7 Check your email for the verification code!');
+      showToast('📧 Check your email for the verification code!');
     } else {
       showAuthError(data.message || 'Registration failed. Please try again.');
     }
