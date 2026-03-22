@@ -93,9 +93,11 @@ app.get('/api/auth/google/callback',
 
 // ── Rate limiting ──────────────────────────────
 app.use('/api/', rateLimit({ windowMs: 15*60*1000, max: 200 }));
-app.use('/api/auth/', rateLimit({ windowMs: 15*60*1000, max: 15,
-  message: { success: false, message: 'Too many attempts. Try again in 15 minutes.' }
-}));
+// Strict limiter only on sensitive auth actions — NOT on /me session check
+app.use('/api/auth/login',      rateLimit({ windowMs: 15*60*1000, max: 15, message: { success: false, message: 'Too many attempts. Try again in 15 minutes.' } }));
+app.use('/api/auth/register',   rateLimit({ windowMs: 15*60*1000, max: 10, message: { success: false, message: 'Too many attempts. Try again in 15 minutes.' } }));
+app.use('/api/auth/verify-otp', rateLimit({ windowMs: 15*60*1000, max: 10, message: { success: false, message: 'Too many attempts. Try again in 15 minutes.' } }));
+app.use('/api/auth/resend-otp', rateLimit({ windowMs: 15*60*1000, max: 5,  message: { success: false, message: 'Too many attempts. Try again in 15 minutes.' } }));
 
 // ── Static uploads ─────────────────────────────
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

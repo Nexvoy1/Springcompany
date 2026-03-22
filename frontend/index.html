@@ -1745,6 +1745,11 @@ window.addEventListener('DOMContentLoaded', function() {
     showToast('❌ Google sign in failed. Please try again.');
     window.history.replaceState({}, document.title, '/');
   }
+  if (urlParams.get('sessionExpired') === '1') {
+    openAuth('login');
+    showToast('Your session has expired. Please sign in again.');
+    window.history.replaceState({}, document.title, '/');
+  }
   var savedUser  = localStorage.getItem('sc_current_user');
 var savedToken = localStorage.getItem('sc_token');
 if (savedUser && savedToken) {
