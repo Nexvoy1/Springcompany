@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Springcompany — Featured Celebrities and Booking Platform">
+  <meta name="keywords" content="celebrity booking, featured celebrities, book celebrities">
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <link rel="apple-touch-icon" href="img/logo.png">
+  <title>Featured Celebrities — Springcompany</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --gold:#D4AF37;--gold2:#F5CC5A;--gold3:#8B7322;
+      --bg:#0A0A0F;--bg2:#111118;--bg3:#18181F;--bg4:#1E1E28;
+      --surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+      --text:#F0EEF8;--muted:#8A87A0;--dim:#4A4860;
+      --accent:#C084FC;--accent2:#A855F7;--red:#F43F5E;--green:#10B981;
+      --border:rgba(255,255,255,0.08);--border2:rgba(212,175,55,0.25);
+      --glow:0 0 40px rgba(212,175,55,0.15);
+      --r:12px;--r2:20px;
+    }
+    [data-theme="light"]{
+      --bg:#F8F7FF;--bg2:#F0EEF8;--bg3:#E8E5F5;--bg4:#DDD9F0;
+      --text:#0A0A1F;--muted:#5A5780;--dim:#9A97B0;
+      --surface:rgba(0,0,0,0.03);--surface2:rgba(0,0,0,0.06);
+      --border:rgba(0,0,0,0.08);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:default}
+    ::-webkit-scrollbar{width:4px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:2px}
+    .display{font-family:'Bebas Neue',sans-serif;letter-spacing:2px}
+    .serif{font-family:'Playfair Display',serif}
+    
+    /* NAVBAR */
+    #navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;transition:all .3s;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,175,55,0.15);box-shadow:0 2px 20px rgba(0,0,0,0.06)}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--gold3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-family:'Bebas Neue',sans-serif;color:#000;letter-spacing:0}
+    .nav-logo-text{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;background:linear-gradient(135deg,#8B7322,#D4AF37);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .nav-link{color:#3a3760;font-size:.84rem;font-weight:600;text-decoration:none;padding:8px 14px;border-radius:8px;transition:all .2s;letter-spacing:.3px}
+    .nav-link:hover{color:var(--gold);background:rgba(212,175,55,0.08)}
+    
+    main{margin-top:72px;padding:40px 32px}
+    .page-header{text-align:center;margin-bottom:40px}
+    .page-title{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;color:var(--text)}
+    .page-title span{color:var(--gold)}
+    .page-sub{font-size:1.1rem;color:var(--muted);max-width:600px;margin:0 auto}
+    
+    .controls{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:32px;flex-wrap:wrap}
+    .search-box{position:relative;flex:1;min-width:200px}
+    .search-box input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px 10px 36px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border .2s}
+    .search-box input:focus{border-color:var(--gold)}
+    .search-box i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+    
+    .filters{display:flex;gap:8px;flex-wrap:wrap}
+    .filter-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;font-size:.85rem;font-weight:600}
+    .filter-btn:hover,.filter-btn.active{background:var(--gold);border-color:var(--gold);color:#000}
+    
+    .celeb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+    .celeb-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .3s}
+    .celeb-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 8px 24px rgba(212,175,55,0.15)}
+    .celeb-img-wrap{position:relative;width:100%;height:280px;overflow:hidden;background:var(--bg3)}
+    .celeb-img-placeholder{width:100%;height:100%;background-size:cover;background-position:center;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23333%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E')}
+    .celeb-badge{position:absolute;top:12px;right:12px;background:var(--gold);color:#000;padding:4px 10px;border-radius:20px;font-size:.7rem;font-weight:700;display:flex;align-items:center;gap:4px}
+    .celeb-overlay{position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(0,0,0,0.6));opacity:0}
+    .celeb-card:hover .celeb-overlay{opacity:1}
+    .celeb-quick-book{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;border:none;padding:10px 24px;border-radius:6px;cursor:pointer;font-weight:700;opacity:0;transition:all .3s}
+    .celeb-card:hover .celeb-quick-book{opacity:1;transform:translateX(-50%) translateY(0)}
+    
+    .celeb-body{padding:16px}
+    .celeb-stats{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+    .celeb-stat{font-size:.75rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+    .celeb-name{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:4px}
+    .celeb-occ{font-size:.85rem;color:var(--gold);font-weight:600;margin-bottom:8px}
+    .celeb-bio{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .celeb-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .btn-view,.btn-book{padding:8px 12px;border:none;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:600;transition:all .2s}
+    .btn-view{background:var(--surface2);color:var(--text)}
+    .btn-view:hover{background:var(--border2);color:var(--gold)}
+    .btn-book{background:var(--gold);color:#000;font-weight:700}
+    .btn-book:hover{background:var(--gold2)}
+    
+    .back-btn{display:inline-flex;align-items:center;gap:8px;color:var(--gold);text-decoration:none;font-weight:600;margin-bottom:32px;transition:all .3s}
+    .back-btn:hover{gap:12px}
+    
+    footer{background:var(--bg2);padding:32px;text-align:center;color:var(--muted);font-size:.85rem;margin-top:60px}
+    
+    @media(max-width:768px){
+      main{padding:20px 16px;margin-top:72px}
+      .page-title{font-size:2rem}
+      .controls{flex-direction:column;align-items:stretch}
+      .search-box{width:100%}
+      .filters{justify-content:center}
+      .celeb-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">S</div>
+      <span class="nav-logo-text">SPRINGCOMPANY</span>
+    </a>
+    <div style="display:flex;gap:16px">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="trending-posts.html" class="nav-link">Posts</a>
+      <a href="featured-videos.html" class="nav-link">Videos</a>
+    </div>
+  </nav>
+
+  <main>
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    
+    <div class="page-header">
+      <h1 class="page-title">Featured <span>Celebrities</span></h1>
+      <p class="page-sub">Browse and book your favorite celebrities for events, appearances, and exclusive experiences.</p>
+    </div>
+
+    <div class="controls">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search celebrities by name, category..." oninput="filterCelebrities()">
+      </div>
+      <div class="filters" id="filterButtons"></div>
+    </div>
+
+    <div class="celeb-grid" id="celebGrid"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Springcompany. All rights reserved. | <a href="#" style="color:var(--gold);text-decoration:none">Privacy Policy</a> | <a href="#" style="color:var(--gold);text-decoration:none">Terms of Service</a></p>
+  </footer>
+
+  <script>
+    var CELEBRITIES = [
+      {id:1,name:'Aria Sinclair',occ:'Pop Artist & Performer',cat:'Music',img:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',verified:true,dob:'March 15, 1990',age:35,nation:'American',years:'2010–Present',fee:'$50,000+',bio:'Multi-platinum pop artist with 12 Grammy nominations and worldwide tours.',rating:4.9,bookings:247},
+      {id:2,name:'Marcus Williams',occ:'Film Actor & Director',cat:'Film',img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',verified:true,dob:'June 22, 1985',age:39,nation:'British',years:'2005–Present',fee:'$75,000+',bio:'Award-winning actor known for blockbuster franchises and independent films.',rating:4.8,bookings:189},
+      {id:3,name:'Sofia Reyes',occ:'Latin Pop Singer',cat:'Music',img:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80',verified:true,dob:'July 4, 1995',age:29,nation:'Mexican',years:'2015–Present',fee:'$35,000+',bio:'Latin pop sensation with over 2 billion streams and international chart-toppers.',rating:4.9,bookings:312},
+      {id:4,name:'Jordan Blake',occ:'Professional Athlete',cat:'Sports',img:'https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=400&q=80',verified:true,dob:'September 10, 1992',age:32,nation:'American',years:'2012–Present',fee:'$100,000+',bio:'NBA champion and Olympic gold medalist. Brand ambassador for 15+ global brands.',rating:4.7,bookings:156},
+      {id:5,name:'Luna Chase',occ:'Fashion Model & Actress',cat:'Fashion',img:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',verified:false,dob:'January 28, 1998',age:27,nation:'French',years:'2018–Present',fee:'$25,000+',bio:'Rising fashion icon featured in Vogue, Elle, and 30+ international campaigns.',rating:4.6,bookings:98},
+      {id:6,name:'Kevin Stone',occ:'Stand-Up Comedian',cat:'Comedy',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',verified:true,dob:'April 5, 1983',age:41,nation:'British',years:'2006–Present',fee:'$30,000+',bio:'Chart-topping comedian with 3 Netflix specials and sold-out world tours.',rating:4.8,bookings:203},
+      {id:7,name:'Isabella Voss',occ:'R&B Singer & Songwriter',cat:'Music',img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',verified:true,dob:'November 12, 1993',age:31,nation:'Brazilian',years:'2013–Present',fee:'$45,000+',bio:'Soul and R&B powerhouse with a voice that has moved millions worldwide.',rating:4.9,bookings:278},
+      {id:8,name:'Theo Anderson',occ:'Actor & Producer',cat:'Film',img:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',verified:false,dob:'February 18, 1988',age:37,nation:'Australian',years:'2008–Present',fee:'$60,000+',bio:'Critically acclaimed actor turned producer with projects across Hollywood.',rating:4.7,bookings:134},
+    ];
+
+    var filteredCelebs = [...CELEBRITIES];
+    var currentFilter = 'All';
+
+    window.addEventListener('load', function() {
+      initFilterButtons();
+      renderCelebrities();
+    });
+
+    function initFilterButtons() {
+      var categories = ['All', ...new Set(CELEBRITIES.map(c => c.cat))];
+      var container = document.getElementById('filterButtons');
+      container.innerHTML = categories.map(cat => 
+        '<button class="filter-btn' + (cat === 'All' ? ' active' : '') + '" onclick="filterByCategory(\''+cat+'\',this)">'+cat+'</button>'
+      ).join('');
+    }
+
+    function filterByCategory(cat, btn) {
+      currentFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterCelebrities();
+    }
+
+    function filterCelebrities() {
+      var searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      var list = currentFilter === 'All' ? CELEBRITIES : CELEBRITIES.filter(c => c.cat === currentFilter);
+      
+      if (searchTerm) {
+        list = list.filter(c => 
+          c.name.toLowerCase().includes(searchTerm) || 
+          c.occ.toLowerCase().includes(searchTerm) ||
+          c.cat.toLowerCase().includes(searchTerm)
+        );
+      }
+      
+      filteredCelebs = list;
+      renderCelebrities();
+    }
+
+    function renderCelebrities() {
+      var grid = document.getElementById('celebGrid');
+      if (!filteredCelebs.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px">No celebrities found matching your search.</div>';
+        return;
+      }
+      
+      grid.innerHTML = filteredCelebs.map(c => 
+        '<div class="celeb-card">'+
+          '<div class="celeb-img-wrap">'+
+            '<div class="celeb-img-placeholder" style="background-image:url(\''+c.img+'\')"></div>'+
+            (c.verified ? '<div class="celeb-badge"><i class="fas fa-check-circle"></i> Verified</div>' : '')+
+            '<div class="celeb-overlay"></div>'+
+            '<button class="celeb-quick-book" onclick="alert(\'Book '+c.name+' - Feature coming soon!\')">Quick Book</button>'+
+          '</div>'+
+          '<div class="celeb-body">'+
+            '<div class="celeb-stats"><span class="celeb-stat"><i class="fas fa-star"></i>'+c.rating+'</span><span class="celeb-stat"><i class="fas fa-calendar-check"></i>'+c.bookings+' bookings</span><span class="celeb-stat" style="color:var(--gold);font-size:.72rem;font-weight:600">'+c.cat+'</span></div>'+
+            '<div class="celeb-name">'+c.name+'</div>'+
+            '<div class="celeb-occ">'+c.occ+'</div>'+
+            '<div class="celeb-bio">'+c.bio+'</div>'+
+            '<div class="celeb-actions">'+
+              '<button class="btn-view" onclick="alert(\'View profile for '+c.name+' - Feature coming soon!\')">View Profile</button>'+
+              '<button class="btn-book" onclick="alert(\'Book '+c.name+' - Feature coming soon!\')">Book Now</button>'+
+            '</div>'+
+          '</div>'+
+        '</div>'
+      ).join('');
+    }
+  </script>
+</body>
+</html>
