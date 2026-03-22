@@ -2267,7 +2267,7 @@ function loadReels() {
   allReels.forEach((reel, idx) => {
     const reelEl = document.createElement('div');
     reelEl.className = `reel-item ${idx === 0 ? 'active' : ''}`;
-    reelEl.innerHTML = `<iframe width="100%" height="100%" src="${reel.videoUrl}?autoplay=0" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
+    reelEl.innerHTML = `<iframe width="100%" height="100%" src="${reel.videoUrl}?autoplay=0" frameborder="0" allow="autoplay" allowfullscreen style="display:${idx === 0 ? 'block' : 'none'};"></iframe>`;
     carousel.appendChild(reelEl);
   });
 
@@ -2383,10 +2383,28 @@ function createDots() {
   });
 }
 
+// Stop all videos from playing
+function stopAllVideos() {
+  const iframes = document.querySelectorAll('.reel-item iframe');
+  iframes.forEach(iframe => {
+    iframe.style.display = 'none';
+    iframe.src = iframe.src; // Reset iframe to stop playback
+  });
+}
+
 function goToReel(idx) {
+  stopAllVideos(); // Stop all videos first
+  
   const items = document.querySelectorAll('.reel-item');
   items.forEach(item => item.classList.remove('active'));
-  if (items[idx]) items[idx].classList.add('active');
+  if (items[idx]) {
+    items[idx].classList.add('active');
+    // Restore only the active video
+    const activeIframe = items[idx].querySelector('iframe');
+    if (activeIframe) {
+      activeIframe.style.display = 'block';
+    }
+  }
   currentReelIndex = idx;
   updateReelInfo();
   createDots();
