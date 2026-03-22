@@ -124,8 +124,20 @@ app.get('/api/health', (req, res) => res.json({
 // ── Serve frontend in production ───────────────
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'frontend')));
-  app.get('*', (req, res) =>
-    res.sendFile(path.join(__dirname, 'frontend/index.html')));
+  // Serve specific HTML pages directly
+  app.get('/user-profile.html', (req, res) =>
+    res.sendFile(path.join(__dirname, 'frontend/user-profile.html')));
+  app.get('/my-zone.html', (req, res) =>
+    res.sendFile(path.join(__dirname, 'frontend/my-zone.html')));
+  // Catch-all for SPA routes - only match requests without file extensions
+  app.get('*', (req, res) => {
+    // If request has a file extension, don't serve index.html
+    if (req.path.includes('.')) {
+      res.status(404).send('Not found');
+    } else {
+      res.sendFile(path.join(__dirname, 'frontend/index.html'));
+    }
+  });
 }
 
 // ── Error handler ──────────────────────────────

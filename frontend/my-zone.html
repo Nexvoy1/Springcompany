@@ -784,16 +784,40 @@
       try {
         currentUser = JSON.parse(userStr);
         loadData();
+        
+        // Check URL parameters for which tab to open
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+        if (tabParam) {
+          setTimeout(() => switchTab(tabParam), 500);
+        }
       } catch (e) {
         window.location.href = '/';
       }
     });
 
     function switchTab(tab) {
+      const tabContent = document.getElementById(tab);
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      
+      if (!tabContent) return;
+      
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      document.getElementById(tab).classList.add('active');
-      event.target.closest('.tab-btn').classList.add('active');
+      tabBtns.forEach(el => el.classList.remove('active'));
+      
+      tabContent.classList.add('active');
+      
+      // Find and activate the corresponding button
+      tabBtns.forEach(btn => {
+        if (btn.textContent.toLowerCase().includes(
+          tab === 'fancards' ? 'fan cards' : 
+          tab === 'history' ? 'history' : 
+          tab === 'wallet' ? 'wallet' : 
+          tab === 'ranks' ? 'ranks' : tab
+        )) {
+          btn.classList.add('active');
+        }
+      });
     }
 
     function loadData() {
