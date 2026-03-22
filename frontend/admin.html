@@ -986,7 +986,7 @@ Signed merch pack</textarea></div>
     setTimeout(function(){ document.getElementById('ls').style.display='none'; },500);
   }
   if(u&&u.role==='admin'){ show(u); return; }
-  fetch('/api/auth/me',{headers:{'Authorization':'Bearer '+tok}})
+  fetch('/api/profile/me',{headers:{'Authorization':'Bearer '+tok}})
     .then(function(r){return r.json();})
     .then(function(d){ if(d.success&&d.user&&d.user.role==='admin'){localStorage.setItem('sc_current_user',JSON.stringify(d.user));show(d.user);} else window.location.href='/'; })
     .catch(function(){ if(u&&u.role==='admin') show(u); else window.location.href='/'; });
