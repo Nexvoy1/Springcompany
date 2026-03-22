@@ -87,7 +87,7 @@ router.post('/register', [
   body('phone').notEmpty().withMessage('Phone number is required'),
   body('country').notEmpty().withMessage('Country is required'),
   body('state').notEmpty().withMessage('State is required'),
-  body('dateOfBirth').notEmpty().withMessage('Date of birth is required'),
+  body('dateOfBirth').notEmpty().isISO8601().withMessage('Valid date of birth is required'),
   body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
 ], async (req, res) => {
   const errs = validationResult(req);

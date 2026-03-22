@@ -47,7 +47,15 @@ passport.use(new GoogleStrategy({
         lastName:  profile.name.familyName || '',
         email:     profile.emails[0].value,
         password:  'google-' + profile.id,
-        role:      'user'
+        role:      'user',
+        username:  profile.emails[0].value.split('@')[0],
+        phone:     '+1-not-provided',
+        country:   'Other',
+        state:     'Other',
+        dateOfBirth: new Date('2000-01-01'),
+        isVerified:  true,
+        emailVerified: true,
+        phoneVerified: false
       });
     }
     return done(null, user);
