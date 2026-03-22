@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - Springcompany</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #D4AF37;
+      --gold2: #F5CC5A;
+      --gold3: #8B7322;
+      --bg: #07070D;
+      --bg2: #0D0D17;
+      --bg3: #13131E;
+      --bg4: #191926;
+      --bg5: #1F1F2E;
+      --text: #F0EEF8;
+      --muted: #8A87A0;
+      --dim: #4A4860;
+      --green: #10B981;
+      --red: #F43F5E;
+      --blue: #3B82F6;
+      --orange: #F97316;
+      --purple: #A855F7;
+      --cyan: #06B6D4;
+      --border: rgba(255, 255, 255, 0.07);
+      --b2: rgba(212, 175, 55, 0.2);
+      --r: 10px;
+      --r2: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .header {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-family: 'Bebas Neue';
+      font-size: 3rem;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    /* LEFT SIDE - PHOTO & BASIC */
+    .profile-photo-section {
+      background: linear-gradient(135deg, var(--bg3), var(--bg4));
+      border: 1px solid var(--b2);
+      border-radius: var(--r2);
+      padding: 40px;
+      text-align: center;
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+
+    .photo-placeholder {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 25px;
+      font-size: 3rem;
+      color: rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      border: 3px solid var(--gold);
+    }
+
+    .photo-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-upload-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      border-radius: var(--r);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+
+    .photo-upload-btn:hover {
+      background: var(--gold2);
+      transform: translateY(-2px);
+    }
+
+    #photoInput {
+      display: none;
+    }
+
+    .rank-badge {
+      display: inline-block;
+      padding: 12px 20px;
+      background: var(--bg5);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      margin-top: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .rank-badge.regular {
+      background: rgba(139, 115, 34, 0.15);
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .rank-badge.silver {
+      background: rgba(192, 192, 192, 0.15);
+      color: #c0c0c0;
+      border-color: #c0c0c0;
+    }
+
+    .rank-badge.gold {
+      background: rgba(255, 215, 0, 0.15);
+      color: #FFD700;
+      border-color: #FFD700;
+    }
+
+    .rank-badge.vip {
+      background: rgba(255, 20, 147, 0.15);
+      color: #FF1493;
+      border-color: #FF1493;
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .stat-item {
+      background: var(--bg4);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 15px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Bebas Neue';
+      font-size: 1.8rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* RIGHT SIDE - EDIT FORM */
+    .profile-edit-section {
+      background: linear-gradient(135deg, var(--bg3), var(--bg4));
+      border: 1px solid var(--b2);
+      border-radius: var(--r2);
+      padding: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg5);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="date"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: var(--bg4);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+      font-size: 0.9rem;
+    }
+
+    .form-section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-top: 30px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .btn-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 35px;
+    }
+
+    .btn {
+      padding: 13px 24px;
+      border: none;
+      border-radius: var(--r);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--bg5);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .success-message,
+    .error-message {
+      padding: 12px 16px;
+      border-radius: var(--r);
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .success-message {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+
+    .success-message.show,
+    .error-message.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    .error-message {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-photo-section {
+        position: static;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* LOADING */
+    .loading {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--gold);
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-left: 8px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>MY PROFILE</h1>
+    <p>Manage your account and personal information</p>
+  </div>
+
+  <div class="container">
+    <!-- LEFT SIDE -->
+    <div class="profile-photo-section">
+      <div class="photo-placeholder" id="photoDisplay">
+        <i class="fas fa-user"></i>
+      </div>
+      <button class="photo-upload-btn" onclick="document.getElementById('photoInput').click()">
+        <i class="fas fa-camera"></i> Change Photo
+      </button>
+      <input type="file" id="photoInput" accept="image/*">
+
+      <div class="rank-badge regular" id="rankBadge">
+        <i class="fas fa-star"></i> Regular Member
+      </div>
+
+      <div class="quick-stats">
+        <div class="stat-item">
+          <span class="stat-number" id="bookingCount">0</span>
+          <span class="stat-label">Bookings</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="fanCardCount">0</span>
+          <span class="stat-label">Fan Cards</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">$0</span>
+          <span class="stat-label">Spent</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">0</span>
+          <span class="stat-label">Points</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="profile-edit-section">
+      <div class="success-message" id="successMsg"></div>
+      <div class="error-message" id="errorMsg"></div>
+
+      <form id="profileForm" onsubmit="return saveProfile(event)">
+        <!-- Personal Info -->
+        <div class="form-section-title">Personal Information</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" disabled style="opacity: 0.6;">
+          </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone">
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender">
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+              <option value="prefer_not_to_say">Prefer Not to Say</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input type="date" id="dateOfBirth">
+        </div>
+
+        <!-- Location -->
+        <div class="form-section-title">Location</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" id="country">
+          </div>
+          <div class="form-group">
+            <label for="state">State/Province</label>
+            <input type="text" id="state">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lga">City/District</label>
+          <input type="text" id="lga">
+        </div>
+
+        <!-- Security -->
+        <div class="form-section-title">Security</div>
+
+        <div class="form-group">
+          <label for="currentPassword">Current Password</label>
+          <input type="password" id="currentPassword" placeholder="Required to make changes">
+        </div>
+
+        <div class="form-group">
+          <label for="newPassword">New Password (Optional)</label>
+          <input type="password" id="newPassword" placeholder="Leave blank to keep current password">
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm New Password</label>
+          <input type="password" id="confirmPassword" placeholder="Confirm new password">
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-container">
+          <button type="submit" class="btn btn-primary" id="saveBtn">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="resetForm()">
+            <i class="fas fa-redo"></i> Reset
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let currentUserData = null;
+
+    // Check if user is logged in
+    window.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('sc_token');
+      const userStr = localStorage.getItem('sc_current_user');
+
+      if (!token || !userStr) {
+        window.location.href = '/';
+        return;
+      }
+
+      try {
+        currentUserData = JSON.parse(userStr);
+        loadProfileData();
+      } catch (e) {
+        console.error('Failed to load user data:', e);
+        window.location.href = '/';
+      }
+    });
+
+    function showMessage(type, text) {
+      const successEl = document.getElementById('successMsg');
+      const errorEl = document.getElementById('errorMsg');
+
+      if (type === 'success') {
+        successEl.textContent = '✓ ' + text;
+        successEl.classList.add('show');
+        errorEl.classList.remove('show');
+        setTimeout(() => successEl.classList.remove('show'), 4000);
+      } else {
+        errorEl.textContent = '✕ ' + text;
+        errorEl.classList.add('show');
+        successEl.classList.remove('show');
+        setTimeout(() => errorEl.classList.remove('show'), 4000);
+      }
+    }
+
+    function loadProfileData() {
+      const token = localStorage.getItem('sc_token');
+
+      fetch('/api/profile/me', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success && data.user) {
+            currentUserData = data.user;
+            populateForm(data.user);
+            updateStats(data.user);
+            displayProfilePhoto(data.user);
+          }
+        })
+        .catch(e => console.error('Failed to load profile:', e));
+    }
+
+    function populateForm(user) {
+      document.getElementById('firstName').value = user.firstName || '';
+      document.getElementById('lastName').value = user.lastName || '';
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('username').value = user.username || '';
+      document.getElementById('phone').value = user.phone || '';
+      document.getElementById('gender').value = user.gender || '';
+      document.getElementById('dateOfBirth').value = user.dateOfBirth ? user.dateOfBirth.split('T')[0] : '';
+      document.getElementById('country').value = user.country || '';
+      document.getElementById('state').value = user.state || '';
+      document.getElementById('lga').value = user.lga || '';
+    }
+
+    function updateStats(user) {
+      const spent = user.totalSpent || 0;
+      const bookings = user.bookings ? user.bookings.length : 0;
+      const fanCards = user.fanCards ? user.fanCards.length : 0;
+
+      document.getElementById('bookingCount').textContent = bookings;
+      document.getElementById('fanCardCount').textContent = fanCards;
+
+      // Set rank
+      let rank = 'regular';
+      let rankText = 'Regular Member';
+      if (spent >= 50000) {
+        rank = 'vip';
+        rankText = '👑 VIP Member';
+      } else if (spent >= 5000) {
+        rank = 'gold';
+        rankText = '⭐ Gold Member';
+      } else if (spent >= 500) {
+        rank = 'silver';
+        rankText = '◆ Silver Member';
+      }
+
+      const badges = document.getElementById('rankBadge');
+      badges.className = 'rank-badge ' + rank;
+      badges.innerHTML = (rank === 'vip' ? '👑' : rank === 'gold' ? '⭐' : rank === 'silver' ? '◆' : '✦') + ' ' + rankText;
+    }
+
+    function displayProfilePhoto(user) {
+      const display = document.getElementById('photoDisplay');
+      if (user.avatar) {
+        display.innerHTML = '<img src="' + user.avatar + '" alt="Profile">';
+      } else {
+        const initial = (user.firstName || 'U').charAt(0).toUpperCase();
+        display.innerHTML = initial;
+      }
+    }
+
+    // Photo upload
+    document.getElementById('photoInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        document.getElementById('photoDisplay').innerHTML = '<img src="' + event.target.result + '" alt="Profile">';
+        // In production, upload to server
+        console.log('Photo selected:', file.name);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function saveProfile(event) {
+      event.preventDefault();
+
+      const token = localStorage.getItem('sc_token');
+      const currentPassword = document.getElementById('currentPassword').value;
+
+      if (!currentPassword) {
+        showMessage('error', 'Current password required to save changes');
+        return false;
+      }
+
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (newPassword && newPassword !== confirmPassword) {
+        showMessage('error', 'New passwords do not match');
+        return false;
+      }
+
+      const updateData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        username: document.getElementById('username').value,
+        phone: document.getElementById('phone').value,
+        gender: document.getElementById('gender').value,
+        dateOfBirth: document.getElementById('dateOfBirth').value,
+        country: document.getElementById('country').value,
+        state: document.getElementById('state').value,
+        lga: document.getElementById('lga').value
+      };
+
+      const btn = document.getElementById('saveBtn');
+      btn.innerHTML = '<i class="fas fa-spinner"></i> Saving<span class="loading"></span>';
+      btn.disabled = true;
+
+      fetch('/api/profile/update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(updateData)
+      })
+        .then(r => r.json())
+        .then(data => {
+          btn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+          btn.disabled = false;
+
+          if (data.success) {
+            currentUserData = data.user;
+            localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+            showMessage('success', 'Profile updated successfully!');
+            updateStats(data.user);
+
+            // If password changed
+            if (newPassword) {
+              changePassword(token, currentPassword, newPassword);
+            }
+          } else {
+            showMessage('error', data.message || 'Failed to update profile');
+          }
+        })
+        .catch(e => {
+          btn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+          btn.disabled = false;
+          showMessage('error', 'Error updating profile: ' + e.message);
+        });
+
+      return false;
+    }
+
+    function changePassword(token, currentPassword, newPassword) {
+      fetch('/api/profile/change-password', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({
+          currentPassword: currentPassword,
+          newPassword: newPassword
+        })
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            showMessage('success', 'Password changed successfully!');
+          } else {
+            showMessage('error', 'Password change failed: ' + (data.message || 'Unknown error'));
+          }
+        })
+        .catch(e => showMessage('error', 'Password change error: ' + e.message));
+    }
+
+    function resetForm() {
+      if (currentUserData) {
+        populateForm(currentUserData);
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+      }
+    }
+  </script>
+</body>
+</html>
