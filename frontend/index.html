@@ -1958,7 +1958,7 @@ function sbGetReply(msg) {
   if (m.includes('sport') || m.includes('athlete') || m.includes('basketball') || m.includes('football')) return sbPick(sbKnowledge.sports);
   if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! 👋 Welcome to Springcompany — the world's premier celebrity booking platform. How can I help you today?";
   if (m.includes('thank')) return "You're very welcome! Is there anything else I can help you with? ⭐";
-  if (m.includes('human') || m.includes('agent') || m.includes('person') || m.includes('support')) return "To speak with a human agent, email us at support@springcompany.com or use the Contact form on our homepage. Our team typically responds within 2 hours! 😊";
+  if (m.includes('human') || m.includes('agent') || m.includes('person') || m.includes('support')) return "To speak with a human agent, email support@springcompany.com or use the Contact form. We respond within 2 hours!";
   return sbPick(sbKnowledge.default);
 }
 
@@ -2012,15 +2012,16 @@ function sbHandleResponse(msg) {
   var m = msg.toLowerCase();
   if (m.includes('book') || m.includes('hire') || m.includes('reserve')) return sbPick(sbKnowledge.booking);
   if (m.includes('price') || m.includes('cost') || m.includes('fee') || m.includes('how much')) return sbPick(sbKnowledge.pricing);
+  if (m.includes('fan card') || m.includes('fancard') || m.includes('membership') || m.includes('subscribe')) return sbPick(sbKnowledge.fancard);
+  if (m.includes('meet') || m.includes('greet')) return sbPick(sbKnowledge.meetgreet);
   if (m.includes('music') || m.includes('singer') || m.includes('artist') || m.includes('concert')) return sbPick(sbKnowledge.music);
   if (m.includes('film') || m.includes('movie') || m.includes('actor') || m.includes('tv')) return sbPick(sbKnowledge.film);
   if (m.includes('sport') || m.includes('athlete') || m.includes('football') || m.includes('basketball')) return sbPick(sbKnowledge.sports);
-  if (m.includes('fan card') || m.includes('membership') || m.includes('subscribe')) return sbPick(sbKnowledge.fancard);
   if (m.includes('pay') || m.includes('payment') || m.includes('paystack') || m.includes('bitcoin')) return sbPick(sbKnowledge.payment);
-  if (m.includes('refund') || m.includes('cancel')) return sbPick(sbKnowledge.refund);
-  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return 'Hello! Welcome to Springcompany - the world's premier celebrity booking platform. How can I help?';
-  if (m.includes('thank')) return 'You're very welcome! Anything else I can help with?';
-  if (m.includes('human') || m.includes('agent') || m.includes('support') || m.includes('contact')) return 'Email support@springcompany.com or use our Contact page. We respond within 2 hours!';
+  if (m.includes('refund') || m.includes('cancel')) return "Cancellations and refunds are handled case by case. Please email support@springcompany.com with your booking reference and we will assist you within 2 hours.";
+  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! Welcome to Springcompany - the world's premier celebrity booking platform. How can I help you today?";
+  if (m.includes('thank')) return "You're very welcome! Anything else I can help with?";
+  if (m.includes('human') || m.includes('agent') || m.includes('support') || m.includes('contact')) return "Email support@springcompany.com or use our Contact page. We respond within 2 hours!";
   return sbPick(sbKnowledge.default);
 }
 </script>
