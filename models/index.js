@@ -197,4 +197,14 @@ const calendarSchema = new mongoose.Schema({
 }, { timestamps: true });
 const Calendar = mongoose.models.Calendar || mongoose.model('Calendar', calendarSchema);
 
-module.exports = { User, Celebrity, Booking, Payment, FanCard, Post, Message, Subscriber, Calendar };
+
+// ══════════════════════════════════════════════
+// SITE SETTINGS MODEL
+// ══════════════════════════════════════════════
+const siteSettingsSchema = new mongoose.Schema({
+  section: { type: String, required: true, unique: true },
+  data:    { type: mongoose.Schema.Types.Mixed, default: {} }
+}, { timestamps: true });
+const SiteSettings = mongoose.models.SiteSettings || mongoose.model('SiteSettings', siteSettingsSchema);
+
+module.exports = { User, Celebrity, Booking, Payment, FanCard, Post, Message, Subscriber, Calendar, SiteSettings };
