@@ -1659,7 +1659,7 @@ function updateNavForLoggedInUser(name) {
     nm.textContent = name;
     var arr = document.createElement('span');
     arr.style.cssText = 'font-size:10px;color:#8A87A0';
-    arr.textContent = '';
+    arr.textContent = '▼';
     pill.appendChild(av);
     pill.appendChild(nm);
     pill.appendChild(arr);
@@ -1678,35 +1678,39 @@ function showUserMenu() {
   var existing = document.getElementById('userDropdown');
   if (existing) { existing.remove(); return; }
   var currentUser = JSON.parse(localStorage.getItem('sc_current_user') || 'null');
-  var dropdown = document.createElement('div');
-  dropdown.id = 'userDropdown';
-  dropdown.style.cssText = 'position:fixed;top:68px;right:16px;background:var(--bg3,#18181F);border:1px solid rgba(212,175,55,0.3);border-radius:14px;padding:8px;min-width:200px;z-index:9999;box-shadow:0 16px 40px rgba(0,0,0,0.5);font-family:DM Sans,sans-serif';
   var userName  = currentUser ? (currentUser.firstName || currentUser.name || 'User') : 'User';
   var userEmail = currentUser ? (currentUser.email || '') : '';
   var isAdmin   = currentUser && currentUser.role === 'admin';
   var initial   = userName.charAt(0).toUpperCase();
-  function menuItem(ico, label, action, color) {
-    color = color || '#D0CDE8';
-    return '<div onclick="' + action + '" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;cursor:pointer;font-size:.83rem;color:' + color + '" onmouseover="this.style.background='rgba(212,175,55,0.08)'" onmouseout="this.style.background='transparent'">' +
-      '<i class="fas fa-' + ico + '" style="color:' + (color==='#F43F5E'?'#F43F5E':'#D4AF37') + ';width:16px;text-align:center"></i> ' + label + '</div>';
+  var dropdown = document.createElement('div');
+  dropdown.id = 'userDropdown';
+  dropdown.style.cssText = 'position:fixed;top:68px;right:16px;background:var(--bg3,#18181F);border:1px solid rgba(212,175,55,0.3);border-radius:14px;padding:8px;min-width:200px;z-index:9999;box-shadow:0 16px 40px rgba(0,0,0,0.5);font-family:DM Sans,sans-serif';
+
+  function mi(ico, label, url, col) {
+    col = col || '#D0CDE8';
+    var icoCol = col === '#F43F5E' ? '#F43F5E' : '#D4AF37';
+    return '<a href="' + url + '" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;cursor:pointer;font-size:.83rem;color:' + col + ';text-decoration:none" onmouseover="this.style.background='rgba(212,175,55,0.08)'" onmouseout="this.style.background='transparent'">' +
+      '<i class="fas fa-' + ico + '" style="color:' + icoCol + ';width:16px;text-align:center"></i> ' + label + '</a>';
   }
+
   dropdown.innerHTML =
-    '<div style="padding:11px 13px;border-bottom:1px solid rgba(212,175,55,0.12);margin-bottom:6px;display:flex;align-items:center;gap:10px">' +
+    '<div style="padding:11px 13px;border-bottom:1px solid rgba(212,175,55,0.15);margin-bottom:6px;display:flex;align-items:center;gap:10px">' +
       '<div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#8B7322);display:flex;align-items:center;justify-content:center;color:#000;font-size:13px;font-weight:800;flex-shrink:0">' + initial + '</div>' +
-      '<div>' +
-        '<div style="font-size:.84rem;font-weight:700;color:var(--text,#F0EEF8)">' + userName + '</div>' +
-        '<div style="font-size:.7rem;color:#8A87A0;margin-top:1px">' + userEmail + '</div>' +
-      '</div>' +
+      '<div><div style="font-size:.84rem;font-weight:700;color:var(--text,#F0EEF8)">' + userName + '</div>' +
+      '<div style="font-size:.7rem;color:#8A87A0;margin-top:1px">' + userEmail + '</div></div>' +
     '</div>' +
-    menuItem('th-large',    'MY ARENA Dashboard', 'window.location.href='/dashboard.html'') +
-    menuItem('user-edit',   'Edit Profile',        'window.location.href='/profile.html'') +
-    menuItem('calendar-check','My Bookings',       'window.location.href='/dashboard.html'') +
-    menuItem('id-card',     'My Fan Cards',        'window.location.href='/fan-cards.html'') +
-    menuItem('shopping-bag','Shop',                'window.location.href='/shop.html'') +
-    (isAdmin ? menuItem('shield-alt', 'Admin Panel', 'window.location.href='/admin.html'', '#C084FC') : '') +
+    mi('th-large',     'MY ARENA Dashboard', '/dashboard.html') +
+    mi('user-edit',    'Edit Profile',        '/profile.html') +
+    mi('calendar-check','My Bookings',        '/dashboard.html') +
+    mi('id-card',      'My Fan Cards',        '/fan-cards.html') +
+    mi('shopping-bag', 'Shop',                '/shop.html') +
+    (isAdmin ? mi('shield-alt', 'Admin Panel', '/admin.html', '#C084FC') : '') +
     '<div style="border-top:1px solid rgba(212,175,55,0.1);margin-top:6px;padding-top:6px">' +
-      menuItem('sign-out-alt', 'Sign Out', 'doLogout()', '#F43F5E') +
+      '<div onclick="doLogout()" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;cursor:pointer;font-size:.83rem;color:#F43F5E" onmouseover="this.style.background='rgba(244,63,94,0.08)'" onmouseout="this.style.background='transparent'">' +
+        '<i class="fas fa-sign-out-alt" style="color:#F43F5E;width:16px;text-align:center"></i> Sign Out' +
+      '</div>' +
     '</div>';
+
   document.body.appendChild(dropdown);
   setTimeout(function() {
     document.addEventListener('click', function closeDD(e) {
@@ -2018,4 +2022,25 @@ function sbSend() {
   inp.style.height = 'auto';
   document.getElementById('sbChips').style.display = 'none';
   sbShowTyping();
-  var delay = 800 + Math.random() 
+  var delay = 800 + Math.random() * 700;
+  setTimeout(function() {
+    sbRemoveTyping();
+    var reply = sbHandleResponse(val);
+    sbAddMsg(reply, 'bot');
+  }, delay);
+}
+
+function sbHandleResponse(msg) {
+  var m = msg.toLowerCase();
+  if (m.includes('book') || m.includes('booking') || m.includes('hire')) return sbPick(sbKnowledge.booking);
+  if (m.includes('price') || m.includes('cost') || m.includes('fee') || m.includes('how much')) return sbPick(sbKnowledge.pricing);
+  if (m.includes('music') || m.includes('singer') || m.includes('artist')) return sbPick(sbKnowledge.music);
+  if (m.includes('sport') || m.includes('athlete') || m.includes('basketball')) return sbPick(sbKnowledge.sports);
+  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! 👋 Welcome to Springcompany. How can I help you today?";
+  if (m.includes('thank')) return "You're very welcome! Is there anything else I can help you with? ⭐";
+  if (m.includes('human') || m.includes('agent') || m.includes('support')) return "To speak with a human agent, email support@springcompany.com or use our Contact page. We respond within 2 hours! 😊";
+  return sbPick(sbKnowledge.default);
+}
+</script>
+</body>
+</html>
