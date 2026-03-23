@@ -1021,16 +1021,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   <!-- Step 3 — Password + Captcha -->
   <div id="regStep3" style="display:none">
     <div class="mf">
-      <label style="display:block;font-size:.74rem;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Verify Account Using *</label>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <label style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg4);border:2px solid var(--gold);border-radius:10px;cursor:pointer;transition:all .2s" id="chooseEmailLabel">
-          <input type="radio" name="verifyMethod" value="email" id="verifyEmail" checked onchange="updateVerifyChoice()" style="accent-color:var(--gold);width:16px;height:16px;flex-shrink:0">
-          <div><div style="font-size:.84rem;font-weight:600">Email</div><div style="font-size:.72rem;color:var(--muted)">Code to email</div></div>
-        </label>
-        <label style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg4);border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s" id="choosePhoneLabel">
-          <input type="radio" name="verifyMethod" value="phone" id="verifyPhone" onchange="updateVerifyChoice()" style="accent-color:var(--gold);width:16px;height:16px;flex-shrink:0">
-          <div><div style="font-size:.84rem;font-weight:600">Phone SMS</div><div style="font-size:.72rem;color:var(--muted)">Code via SMS</div></div>
-        </label>
+      <label style="display:block;font-size:.74rem;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Account Verification</label>
+      <div style="background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:14px;display:flex;align-items:center;gap:12px">
+        <div style="font-size:1.2rem">📧</div>
+        <div>
+          <div style="font-size:.84rem;font-weight:600;color:var(--text)">Email Verification</div>
+          <div style="font-size:.72rem;color:var(--muted)">We'll send a verification code to your email</div>
+        </div>
       </div>
     </div>
     <div class="mf"><label>Password *</label><input type="password" id="regPass" placeholder="Min 8 characters"></div>
@@ -1413,11 +1410,7 @@ function updateStates() {
 }
 
 function updateVerifyChoice() {
-  var isEmail = document.getElementById('verifyEmail') && document.getElementById('verifyEmail').checked;
-  var eLabel  = document.getElementById('chooseEmailLabel');
-  var pLabel  = document.getElementById('choosePhoneLabel');
-  if (eLabel) eLabel.style.borderColor = isEmail ? 'var(--gold)' : 'var(--border)';
-  if (pLabel) pLabel.style.borderColor = isEmail ? 'var(--border)' : 'var(--gold)';
+  // No longer needed - only email verification
 }
 
 function regNextStep() {
@@ -1466,16 +1459,10 @@ function doRegister() {
   var pass   = document.getElementById('regPass').value || '';
   var pass2  = document.getElementById('regPass2').value || '';
   var human  = document.getElementById('humanCheck') ? document.getElementById('humanCheck').checked : true;
-  var method = document.querySelector('input[name="verifyMethod"]:checked');
-  var verifyMethod = method ? method.value : 'email';
 
   if (pass.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
   if (pass !== pass2)  { showAuthError('Passwords do not match'); return; }
   if (!human)          { showAuthError('Please confirm you are not a robot'); return; }
-
-  var phoneCode = document.getElementById('regPhoneCode') ? document.getElementById('regPhoneCode').value : '+234';
-  var phoneNum  = (document.getElementById('regPhone') ? document.getElementById('regPhone').value : '').trim();
-  var fullPhone = phoneCode + phoneNum.replace(/^0/, '');
 
   var btn = document.querySelector('#regStep3 .btn-auth:last-of-type');
   var original = btn ? btn.textContent : 'Create My Account';
@@ -1491,12 +1478,12 @@ function doRegister() {
       gender:       document.getElementById('regGender') ? document.getElementById('regGender').value : 'prefer_not_to_say',
       dateOfBirth:  document.getElementById('regDob') ? document.getElementById('regDob').value : '',
       email:        (document.getElementById('regEmail').value || '').trim(),
-      phone:        fullPhone,
+      phone:        '+1234567890', // Dummy phone number - not used for verification
       country:      document.getElementById('regCountry') ? document.getElementById('regCountry').value : '',
       state:        document.getElementById('regState') ? document.getElementById('regState').value : '',
       lga:          document.getElementById('regLga') ? (document.getElementById('regLga').value || '').trim() : '',
       password:     pass,
-      verifyMethod: verifyMethod
+      verifyMethod: 'email'
     })
   })
   .then(function(r){ return r.json(); })
@@ -1504,20 +1491,18 @@ function doRegister() {
     if (btn) { btn.textContent = original; btn.disabled = false; }
     if (data.success) {
       regUserId       = data.userId;
-      regVerifyMethod = data.verifyMethod || verifyMethod;
+      regVerifyMethod = 'email';
 
       document.getElementById('regStep3').style.display = 'none';
       document.getElementById('regStep4').style.display = 'block';
 
       var icon = document.getElementById('otpIcon');
       var hint = document.getElementById('otpHint');
-      if (icon) icon.textContent = regVerifyMethod === 'email' ? 'Email Code' : 'SMS Code';
+      if (icon) icon.textContent = '📧';
       if (hint) hint.textContent = 'We sent a 6-digit code to: ' + data.hint;
 
       hideAuthError();
-      showToast(regVerifyMethod === 'email'
-        ? 'Check your email for the verification code!'
-        : 'Check your phone for the verification code!');
+      showToast('Check your email for the verification code!');
     } else {
       showAuthError(data.message || 'Registration failed. Please try again.');
     }
