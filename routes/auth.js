@@ -75,7 +75,7 @@ async function sendSMSOTP(phone, otp) {
 }
 
 // ══════════════════════════════════════════════
-// STEP 1 — REGISTER (saves user, sends OTPs)
+// STEP 1 — REGISTER (saves user, sends OTP)
 // POST /api/auth/register
 // ══════════════════════════════════════════════
 router.post('/register', [
@@ -100,7 +100,7 @@ router.post('/register', [
     const {
       firstName, lastName, username, gender,
       email, phone, country, state, lga,
-      dateOfBirth, password
+      dateOfBirth, password, verifyMethod
     } = req.body;
 
     // Check if email already registered
@@ -119,35 +119,56 @@ router.post('/register', [
       });
     }
 
-    // Generate OTPs
-    const emailOTP = generateOTP();
-    const phoneOTP = generateOTP();
+    // Determine verification method (default: email)
+    const chosenMethod = (verifyMethod === 'phone' ? 'phone' : 'email');
+    
+    // Generate OTP only for selected method
+    const otp = generateOTP();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-    // Create user (not yet verified)
-    const user = await User.create({
+    // Create user object with conditional OTP fields
+    const userData = {
       firstName, lastName, username: username.toLowerCase(),
       gender, email, phone, country, state, lga,
       dateOfBirth, password,
-      emailOTP, phoneOTP, otpExpires,
+      otpExpires,
+      verifyMethod: chosenMethod,
       emailVerified: false,
       phoneVerified: false,
       isVerified: false
-    });
+    };
 
-    // Send email OTP in background (primary verification method)
-    sendEmailOTP(email, emailOTP, firstName).catch(err => 
-      console.error('Failed to send email OTP after registration:', err.message)
-    );
+    // Only set OTP for the chosen method
+    if (chosenMethod === 'email') {
+      userData.emailOTP = otp;
+    } else {
+      userData.phoneOTP = otp;
+    }
+
+    const user = await User.create(userData);
+
+    // Send OTP only for the chosen method
+    if (chosenMethod === 'email') {
+      sendEmailOTP(email, otp, firstName).catch(err => 
+        console.error('Failed to send email OTP after registration:', err.message)
+      );
+    } else {
+      sendSMSOTP(phone, otp).catch(err =>
+        console.error('Failed to send SMS OTP after registration:', err.message)
+      );
+    }
+
+    // Prepare hint (masked for security)
+    const hint = chosenMethod === 'email' 
+      ? email 
+      : phone.slice(-4).padStart(phone.length, '*');
 
     res.status(201).json({
       success: true,
-      message: 'Account created! Please verify your email to complete registration.',
+      message: `Account created! Please verify using your ${chosenMethod}.`,
       userId: user._id,
-      email: email,
-      phone: phone,
-      verifyMethod: 'email',
-      hint: email
+      verifyMethod: chosenMethod,
+      hint: hint
     });
 
   } catch(e) {
@@ -162,17 +183,19 @@ router.post('/register', [
 // ══════════════════════════════════════════════
 router.post('/verify-otp', async (req, res) => {
   try {
-    const { userId, otp, verifyMethod } = req.body;
-    const method = verifyMethod || 'email';
+    const { userId, otp } = req.body;
 
-    const user = await User.findById(userId).select('+emailOTP +phoneOTP +otpExpires');
+    const user = await User.findById(userId).select('+emailOTP +phoneOTP +otpExpires +verifyMethod');
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     if (new Date() > user.otpExpires) {
       return res.status(400).json({ success: false, message: 'Code has expired. Please request a new one.' });
     }
 
-    // Check OTP based on method
+    // Get the method the user chose during registration
+    const method = user.verifyMethod || 'email';
+    
+    // Check OTP based on the chosen method
     const otpField = method === 'email' ? 'emailOTP' : 'phoneOTP';
     const verifiedField = method === 'email' ? 'emailVerified' : 'phoneVerified';
     
@@ -180,16 +203,14 @@ router.post('/verify-otp', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Incorrect code. Please try again.' });
     }
 
-    // Mark as verified
+    // Mark the chosen method as verified
     user[verifiedField] = true;
     user[otpField] = undefined;
+    
+    // Mark account as fully verified once the chosen method is verified
+    user.isVerified = true;
+    
     await user.save({ validateBeforeSave: false });
-
-    // Set isVerified if email is verified (email is primary)
-    if (user.emailVerified) {
-      user.isVerified = true;
-      await user.save({ validateBeforeSave: false });
-    }
 
     // Generate token
     const token = sign(user._id);
@@ -215,7 +236,7 @@ router.post('/verify-email', async (req, res) => {
   try {
     const { userId, otp } = req.body;
 
-    const user = await User.findById(userId).select('+emailOTP +otpExpires');
+    const user = await User.findById(userId).select('+emailOTP +otpExpires +verifyMethod');
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     if (new Date() > user.otpExpires) {
@@ -228,18 +249,18 @@ router.post('/verify-email', async (req, res) => {
 
     user.emailVerified = true;
     user.emailOTP = undefined;
-    await user.save({ validateBeforeSave: false });
-
-    // Check if both verified
-    if (user.emailVerified && user.phoneVerified) {
+    
+    // Only set isVerified if email was the chosen verification method
+    if (user.verifyMethod === 'email') {
       user.isVerified = true;
-      await user.save({ validateBeforeSave: false });
     }
+    
+    await user.save({ validateBeforeSave: false });
 
     res.json({
       success: true,
       message: 'Email verified successfully!',
-      bothVerified: user.emailVerified && user.phoneVerified
+      isVerified: user.isVerified
     });
 
   } catch(e) {
@@ -255,7 +276,7 @@ router.post('/verify-phone', async (req, res) => {
   try {
     const { userId, otp } = req.body;
 
-    const user = await User.findById(userId).select('+phoneOTP +otpExpires');
+    const user = await User.findById(userId).select('+phoneOTP +otpExpires +verifyMethod');
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     if (new Date() > user.otpExpires) {
@@ -268,26 +289,26 @@ router.post('/verify-phone', async (req, res) => {
 
     user.phoneVerified = true;
     user.phoneOTP = undefined;
-    await user.save({ validateBeforeSave: false });
-
-    // If both verified — log them in
-    if (user.emailVerified && user.phoneVerified) {
+    
+    // Only set isVerified if phone was the chosen verification method
+    if (user.verifyMethod === 'phone') {
       user.isVerified = true;
       await user.save({ validateBeforeSave: false });
 
       return res.json({
         success: true,
         message: 'Phone verified! Your account is now active.',
-        bothVerified: true,
         token: sign(user._id),
         user: user.toPublic()
       });
     }
+    
+    await user.save({ validateBeforeSave: false });
 
     res.json({
       success: true,
       message: 'Phone verified successfully!',
-      bothVerified: false
+      isVerified: user.isVerified
     });
 
   } catch(e) {
@@ -301,11 +322,13 @@ router.post('/verify-phone', async (req, res) => {
 // ══════════════════════════════════════════════
 router.post('/resend-otp', async (req, res) => {
   try {
-    const { userId, verifyMethod } = req.body; // verifyMethod = 'email' or 'phone'
-    const method = verifyMethod || 'email';
+    const { userId } = req.body;
 
-    const user = await User.findById(userId).select('+emailOTP +phoneOTP +otpExpires');
+    const user = await User.findById(userId).select('+verifyMethod +otpExpires');
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+
+    // Use the verification method the user chose during registration
+    const method = user.verifyMethod || 'email';
 
     const newOTP = generateOTP();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
@@ -317,7 +340,11 @@ router.post('/resend-otp', async (req, res) => {
       sendEmailOTP(user.email, newOTP, user.firstName).catch(err =>
         console.error('Failed to resend email OTP:', err.message)
       );
-      res.json({ success: true, message: 'New verification code sent to your email.', hint: user.email });
+      res.json({ 
+        success: true, 
+        message: 'New verification code sent to your email.', 
+        hint: user.email 
+      });
     } else {
       user.phoneOTP = newOTP;
       user.otpExpires = otpExpires;
@@ -325,7 +352,11 @@ router.post('/resend-otp', async (req, res) => {
       sendSMSOTP(user.phone, newOTP).catch(err =>
         console.error('Failed to resend SMS OTP:', err.message)
       );
-      res.json({ success: true, message: 'New verification code sent to your phone.', hint: user.phone });
+      res.json({ 
+        success: true, 
+        message: 'New verification code sent to your phone.', 
+        hint: user.phone.slice(-4).padStart(user.phone.length, '*')
+      });
     }
 
   } catch(e) {
@@ -349,7 +380,7 @@ router.post('/login', [
 
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select('+password +verifyMethod');
 
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({
@@ -359,11 +390,15 @@ router.post('/login', [
     }
 
     if (!user.isVerified) {
+      const method = user.verifyMethod || 'email';
+      const methodText = method === 'email' ? 'email address' : 'phone number';
+      
       return res.status(403).json({
         success: false,
-        message: 'Please verify your email and phone number first.',
+        message: `Please verify your ${methodText} first.`,
         needsVerification: true,
-        userId: user._id
+        userId: user._id,
+        verifyMethod: method
       });
     }
 

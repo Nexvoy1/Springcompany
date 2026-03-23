@@ -1066,8 +1066,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
     <div style="text-align:center;margin-top:14px;font-size:.8rem;color:var(--muted)">
       <div>Didn't receive the code?</div>
       <div style="margin-top:8px">
-        <a onclick="resendOTP('email')" style="color:var(--gold);cursor:pointer;margin-right:12px;font-weight:600">Resend Email</a>
-        <a onclick="resendOTP('phone')" style="color:var(--gold);cursor:pointer;font-weight:600">Send SMS</a>
+        <a id="resendLink" onclick="resendOTP()" style="color:var(--gold);cursor:pointer;font-weight:600">Resend Code</a>
       </div>
     </div>
   </div>
@@ -1539,7 +1538,7 @@ function verifyOTP() {
   fetch('/api/auth/verify-otp', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId: regUserId, otp: otp, verifyMethod: regVerifyMethod })
+    body: JSON.stringify({ userId: regUserId, otp: otp })
   })
   .then(function(r){ return r.json(); })
   .then(function(data){
@@ -1560,18 +1559,17 @@ function verifyOTP() {
   });
 }
 
-function resendOTP(method) {
+function resendOTP() {
   if (!regUserId) return;
-  var m = method || regVerifyMethod || 'email';
   fetch('/api/auth/resend-otp', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId: regUserId, verifyMethod: m })
+    body: JSON.stringify({ userId: regUserId })
   })
   .then(function(r){ return r.json(); })
   .then(function(data){
     showToast(data.success
-      ? (m === 'email' ? 'New code sent to your email!' : 'New code sent to your phone!')
+      ? data.message
       : (data.message || 'Error resending code'));
   })
   .catch(function(){ showToast('Connection error. Please try again.'); });
