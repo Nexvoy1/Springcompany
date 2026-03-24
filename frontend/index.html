@@ -1021,12 +1021,12 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   <!-- Step 3 — Password + Captcha -->
   <div id="regStep3" style="display:none">
     <div class="mf">
-      <label style="display:block;font-size:.74rem;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Account Verification</label>
+      <label style="display:block;font-size:.74rem;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Finalize Account</label>
       <div style="background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:14px;display:flex;align-items:center;gap:12px">
         <div style="font-size:1.2rem">�</div>
         <div>
-          <div style="font-size:.84rem;font-weight:600;color:var(--text)">Phone Verification</div>
-          <div style="font-size:.72rem;color:var(--muted)">We'll send a verification code to your phone</div>
+          <div style="font-size:.84rem;font-weight:600;color:var(--text)">Complete Registration</div>
+          <div style="font-size:.72rem;color:var(--muted)">Click below to create your account</div>
         </div>
       </div>
     </div>
@@ -1490,19 +1490,11 @@ function doRegister() {
   .then(function(data){
     if (btn) { btn.textContent = original; btn.disabled = false; }
     if (data.success) {
-      regUserId       = data.userId;
-      regVerifyMethod = 'phone';
-
-      document.getElementById('regStep3').style.display = 'none';
-      document.getElementById('regStep4').style.display = 'block';
-
-      var icon = document.getElementById('otpIcon');
-      var hint = document.getElementById('otpHint');
-      if (icon) icon.textContent = '📱';
-      if (hint) hint.textContent = 'We sent a 6-digit code to: ' + data.hint;
-
-      hideAuthError();
-      showToast('Check your phone for the verification code!');
+      localStorage.setItem('sc_token', data.token);
+      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
+      closeAuth();
+      updateNavForLoggedInUser(data.user.firstName);
+      showToast('Welcome to Springcompany, ' + data.user.firstName + '!');
     } else {
       showAuthError(data.message || 'Registration failed. Please try again.');
     }

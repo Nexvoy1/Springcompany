@@ -75,7 +75,7 @@ async function sendSMSOTP(phone, otp, firstName) {
 }
 
 // ══════════════════════════════════════════════
-// STEP 1 — REGISTER (saves user, sends SMS OTP only)
+// STEP 1 — REGISTER (saves user, no verification required)
 // POST /api/auth/register
 // ══════════════════════════════════════════════
 router.post('/register', [
@@ -119,35 +119,32 @@ router.post('/register', [
       });
     }
 
-    // Generate phone OTP only
-    const phoneOTP = generateOTP();
-    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
-
-    // Create user (not yet verified)
+    // Create user (verified immediately)
     const user = await User.create({
       firstName, lastName, username: username.toLowerCase(),
       gender, email, phone, country, state, lga,
       dateOfBirth, password,
-      phoneOTP, otpExpires,
       emailVerified: false,
       phoneVerified: false,
-      isVerified: false,
-      verifyMethod: 'phone'
+      isVerified: true,
+      verifyMethod: 'none'
     });
 
-    // Send SMS OTP only
-    sendSMSOTP(phone, phoneOTP, firstName).catch(err =>
-      console.error('Failed to send SMS OTP after registration:', err.message)
-    );
+    // No OTP sent - registration complete
+
+    // Generate token
+    const token = sign(user._id);
 
     res.status(201).json({
       success: true,
-      message: 'Account created! Please verify your phone to complete registration.',
+      message: 'Account created successfully! Welcome to Springcompany.',
+      token: token,
+      user: user.toPublic(),
       userId: user._id,
       email: email,
       phone: phone,
-      verifyMethod: 'phone',
-      hint: phone
+      verifyMethod: 'none',
+      hint: email
     });
 
   } catch(e) {
