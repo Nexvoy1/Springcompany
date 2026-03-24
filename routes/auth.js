@@ -1,6 +1,7 @@
 const express    = require('express');
 const jwt        = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const twilio     = require('twilio');
 const { body, validationResult } = require('express-validator');
 const { User }   = require('../models');
 const { protect } = require('../middleware/auth');
@@ -18,7 +19,8 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS
   }
 });
-
+// ── TWILIO CLIENT ─────────────────────────────
+const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 // ── GENERATE 6 DIGIT OTP ──────────────────────
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -58,8 +60,22 @@ async function sendEmailOTP(email, otp, firstName) {
   }
 }
 
+// ── SEND SMS OTP ─────────────────────────────
+async function sendSMSOTP(phone, otp, firstName) {
+  try {
+    await twilioClient.messages.create({
+      body: `Springcompany — Hi ${firstName}! Your verification code is: ${otp}. This code expires in 10 minutes.`,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: phone
+    });
+  } catch (err) {
+    console.error('SMS send error:', err.message);
+    // Don't throw - SMS is optional for registration
+  }
+}
+
 // ══════════════════════════════════════════════
-// STEP 1 — REGISTER (saves user, sends email OTP only)
+// STEP 1 — REGISTER (saves user, sends SMS OTP only)
 // POST /api/auth/register
 // ══════════════════════════════════════════════
 router.post('/register', [
@@ -103,8 +119,8 @@ router.post('/register', [
       });
     }
 
-    // Generate email OTP only
-    const emailOTP = generateOTP();
+    // Generate phone OTP only
+    const phoneOTP = generateOTP();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
     // Create user (not yet verified)
@@ -112,26 +128,26 @@ router.post('/register', [
       firstName, lastName, username: username.toLowerCase(),
       gender, email, phone, country, state, lga,
       dateOfBirth, password,
-      emailOTP, otpExpires,
+      phoneOTP, otpExpires,
       emailVerified: false,
       phoneVerified: false,
       isVerified: false,
-      verifyMethod: 'email'
+      verifyMethod: 'phone'
     });
 
-    // Send email OTP only
-    sendEmailOTP(email, emailOTP, firstName).catch(err =>
-      console.error('Failed to send email OTP after registration:', err.message)
+    // Send SMS OTP only
+    sendSMSOTP(phone, phoneOTP, firstName).catch(err =>
+      console.error('Failed to send SMS OTP after registration:', err.message)
     );
 
     res.status(201).json({
       success: true,
-      message: 'Account created! Please verify your email to complete registration.',
+      message: 'Account created! Please verify your phone to complete registration.',
       userId: user._id,
       email: email,
       phone: phone,
-      verifyMethod: 'email',
-      hint: email
+      verifyMethod: 'phone',
+      hint: phone
     });
 
   } catch(e) {
@@ -141,29 +157,29 @@ router.post('/register', [
 });
 
 // ══════════════════════════════════════════════
-// STEP 2 — VERIFY EMAIL OTP (only email verification now)
+// STEP 2 — VERIFY PHONE OTP (only phone verification now)
 // POST /api/auth/verify-otp
 // ══════════════════════════════════════════════
 router.post('/verify-otp', async (req, res) => {
   try {
     const { userId, otp } = req.body;
 
-    const user = await User.findById(userId).select('+emailOTP +otpExpires');
+    const user = await User.findById(userId).select('+phoneOTP +otpExpires');
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     if (new Date() > user.otpExpires) {
       return res.status(400).json({ success: false, message: 'Code has expired. Please request a new one.' });
     }
 
-    // Only check email OTP
-    if (user.emailOTP !== otp) {
+    // Only check phone OTP
+    if (user.phoneOTP !== otp) {
       return res.status(400).json({ success: false, message: 'Incorrect code. Please try again.' });
     }
 
-    // Mark email as verified and set account as fully verified
-    user.emailVerified = true;
+    // Mark phone as verified and set account as fully verified
+    user.phoneVerified = true;
     user.isVerified = true;
-    user.emailOTP = undefined;
+    user.phoneOTP = undefined;
     await user.save({ validateBeforeSave: false });
 
     // Generate token
@@ -183,32 +199,32 @@ router.post('/verify-otp', async (req, res) => {
 });
 
 // ══════════════════════════════════════════════
-// STEP 2B — VERIFY EMAIL OTP (legacy)
+// STEP 2B — VERIFY PHONE OTP (legacy alias)
 // POST /api/auth/verify-email
 // ══════════════════════════════════════════════
 router.post('/verify-email', async (req, res) => {
   try {
     const { userId, otp } = req.body;
 
-    const user = await User.findById(userId).select('+emailOTP +otpExpires +verifyMethod');
+    const user = await User.findById(userId).select('+phoneOTP +otpExpires +verifyMethod');
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     if (new Date() > user.otpExpires) {
       return res.status(400).json({ success: false, message: 'Code has expired. Please request a new one.' });
     }
 
-    if (user.emailOTP !== otp) {
+    if (user.phoneOTP !== otp) {
       return res.status(400).json({ success: false, message: 'Incorrect code. Please try again.' });
     }
 
-    user.emailVerified = true;
+    user.phoneVerified = true;
     user.isVerified = true;
-    user.emailOTP = undefined;
+    user.phoneOTP = undefined;
     await user.save({ validateBeforeSave: false });
 
     res.json({
       success: true,
-      message: 'Email verified successfully!',
+      message: 'Phone verified successfully!',
       token: sign(user._id),
       user: user.toPublic()
     });
@@ -219,7 +235,7 @@ router.post('/verify-email', async (req, res) => {
 });
 
 // ══════════════════════════════════════════════
-// RESEND EMAIL OTP
+// RESEND PHONE OTP
 // POST /api/auth/resend-otp
 // ══════════════════════════════════════════════
 router.post('/resend-otp', async (req, res) => {
@@ -232,18 +248,18 @@ router.post('/resend-otp', async (req, res) => {
     const newOTP = generateOTP();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
 
-    user.emailOTP = newOTP;
+    user.phoneOTP = newOTP;
     user.otpExpires = otpExpires;
     await user.save({ validateBeforeSave: false });
 
-    sendEmailOTP(user.email, newOTP, user.firstName).catch(err =>
-      console.error('Failed to resend email OTP:', err.message)
+    sendSMSOTP(user.phone, newOTP, user.firstName).catch(err =>
+      console.error('Failed to resend SMS OTP:', err.message)
     );
 
     res.json({
       success: true,
-      message: 'New verification code sent to your email.',
-      hint: user.email
+      message: 'New verification code sent to your phone.',
+      hint: user.phone
     });
 
   } catch(e) {

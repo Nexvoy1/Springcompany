@@ -1023,10 +1023,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
     <div class="mf">
       <label style="display:block;font-size:.74rem;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Account Verification</label>
       <div style="background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:14px;display:flex;align-items:center;gap:12px">
-        <div style="font-size:1.2rem">📧</div>
+        <div style="font-size:1.2rem">�</div>
         <div>
-          <div style="font-size:.84rem;font-weight:600;color:var(--text)">Email Verification</div>
-          <div style="font-size:.72rem;color:var(--muted)">We'll send a verification code to your email</div>
+          <div style="font-size:.84rem;font-weight:600;color:var(--text)">Phone Verification</div>
+          <div style="font-size:.72rem;color:var(--muted)">We'll send a verification code to your phone</div>
         </div>
       </div>
     </div>
@@ -1053,7 +1053,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
     <div style="text-align:center;margin-bottom:20px">
       <div style="font-size:2.2rem;margin-bottom:8px" id="otpIcon">📧</div>
       <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Verify Your Account</div>
-      <div style="font-size:.8rem;color:var(--muted)" id="otpHint">We sent a 6-digit code to your email</div>
+      <div style="font-size:.8rem;color:var(--muted)" id="otpHint">We sent a 6-digit code to your phone</div>
     </div>
     <div class="mf">
       <label>Verification Code *</label>
@@ -1382,7 +1382,7 @@ function doRegister() {
 var regUserId       = null;
 var regEmail        = null;
 var regPhone        = null;
-var regVerifyMethod = 'email';
+var regVerifyMethod = 'phone';
 
 var statesByCountry = {
   'Nigeria': ['Abia','Adamawa','Akwa Ibom','Anambra','Bauchi','Bayelsa','Benue','Borno','Cross River','Delta','Ebonyi','Edo','Ekiti','Enugu','FCT Abuja','Gombe','Imo','Jigawa','Kaduna','Kano','Katsina','Kebbi','Kogi','Kwara','Lagos','Nasarawa','Niger','Ogun','Ondo','Osun','Oyo','Plateau','Rivers','Sokoto','Taraba','Yobe','Zamfara'],
@@ -1478,12 +1478,12 @@ function doRegister() {
       gender:       document.getElementById('regGender') ? document.getElementById('regGender').value : 'prefer_not_to_say',
       dateOfBirth:  document.getElementById('regDob') ? document.getElementById('regDob').value : '',
       email:        (document.getElementById('regEmail').value || '').trim(),
-      phone:        '+1234567890', // Dummy phone number - not used for verification
+      phone:        (document.getElementById('regPhone').value || '').trim(),
       country:      document.getElementById('regCountry') ? document.getElementById('regCountry').value : '',
       state:        document.getElementById('regState') ? document.getElementById('regState').value : '',
       lga:          document.getElementById('regLga') ? (document.getElementById('regLga').value || '').trim() : '',
       password:     pass,
-      verifyMethod: 'email'
+      verifyMethod: 'phone'
     })
   })
   .then(function(r){ return r.json(); })
@@ -1491,18 +1491,18 @@ function doRegister() {
     if (btn) { btn.textContent = original; btn.disabled = false; }
     if (data.success) {
       regUserId       = data.userId;
-      regVerifyMethod = 'email';
+      regVerifyMethod = 'phone';
 
       document.getElementById('regStep3').style.display = 'none';
       document.getElementById('regStep4').style.display = 'block';
 
       var icon = document.getElementById('otpIcon');
       var hint = document.getElementById('otpHint');
-      if (icon) icon.textContent = '📧';
+      if (icon) icon.textContent = '📱';
       if (hint) hint.textContent = 'We sent a 6-digit code to: ' + data.hint;
 
       hideAuthError();
-      showToast('Check your email for the verification code!');
+      showToast('Check your phone for the verification code!');
     } else {
       showAuthError(data.message || 'Registration failed. Please try again.');
     }
