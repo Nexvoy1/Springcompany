@@ -75,7 +75,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
 .mega-menu-item:hover{background:var(--surface2);color:var(--gold)}
 .mega-menu-item .mmi-ico{width:36px;height:36px;border-radius:9px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
 .mega-menu-item:hover .mmi-ico{background:rgba(212,175,55,0.15);color:var(--gold)}
-.theme-toggle{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;cursor:pointer;margin-top:12px;border-top:1px solid var(--border);padding-top:16px;color:var(--text);font-size:.84rem;font-weight:600}
+.theme-toggle{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;cursor:pointer;color:var(--text);font-size:.8rem;font-weight:600;background:var(--surface);border:1px solid var(--border);transition:all .2s}
+.theme-toggle:hover{background:var(--surface2);border-color:var(--gold);color:var(--gold)}
 
 /* ── HERO SECTION ── */
 #hero{position:relative;height:100vh;min-height:700px;overflow:hidden;display:flex;align-items:center;justify-content:center}
@@ -370,6 +371,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   .nav-btn{padding:6px 10px;font-size:.75rem}
   .nav-right{gap:6px}
   .hamburger{width:34px;height:34px;font-size:.9rem}
+  .theme-toggle{margin-right:8px;padding:6px 8px;font-size:.7rem}
 
   /* HERO */
   .hero-title{font-size:2.8rem}
@@ -480,6 +482,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 
 <!-- ── NAVBAR ── -->
 <nav id="navbar">
+  <div class="theme-toggle" onclick="toggleTheme()" style="margin-right:16px">
+    <i class="fas fa-moon" id="themeIco"></i>
+    <span id="themeLabel">Switch to Dark Mode</span>
+  </div>
   <a href="#" class="nav-logo">
     <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain">
     <span class="nav-logo-text">Springcompany</span>
@@ -508,10 +514,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   <a href="/content.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-photo-video"></i></div><div><div style="font-weight:600">Content</div><div style="font-size:.74rem;color:var(--muted)">Exclusive media</div></div></a>
   <a href="/audition.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-microphone"></i></div><div><div style="font-weight:600">Audition</div><div style="font-size:.74rem;color:var(--muted)">Submit your talent</div></div></a>
   <a href="/shop.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-shopping-bag"></i></div><div><div style="font-weight:600">Shop</div><div style="font-size:.74rem;color:var(--muted)">Merch & collectibles</div></div></a>
-  <div class="theme-toggle" onclick="toggleTheme()">
-    <i class="fas fa-moon" id="themeIco"></i>
-    <span id="themeLabel">Switch to Dark Mode</span>
-  </div>
 </div>
 
 <!-- FLOATING SOCIAL -->
