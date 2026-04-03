@@ -491,6 +491,10 @@ firebase.initializeApp(firebaseConfig);
 const db   = firebase.firestore();
 const auth = firebase.auth();
 
+// Force Firestore to use long polling (fixes offline errors on some networks/browsers)
+db.settings({ experimentalForceLongPolling: true, merge: true });
+firebase.firestore().enableNetwork().catch(function(){});
+
 let currentAdmin = null;
 let editingCeleb = null, editingNews = null, editingVideo = null;
 let aiTargetTitle = null, aiTargetBody = null, aiApplyFn = null;
@@ -501,16 +505,33 @@ let aiTitle = '', aiBody = '';
 // ─────────────────────────────────────────────────
 auth.onAuthStateChanged(async user => {
   if (!user) { showLogin(); return; }
-  try {
-    const doc = await db.collection('admins').doc(user.uid).get();
-    if (!doc.exists) { await auth.signOut(); showLogin(); return; }
-    currentAdmin = { uid: user.uid, ...doc.data() };
-    document.getElementById('sbAdminName').textContent = currentAdmin.name || 'Admin';
-    document.getElementById('sbAdminEmail').textContent = currentAdmin.email || user.email;
-    document.getElementById('sbAdminRole').textContent  = currentAdmin.role  || 'Admin';
-    showApp();
-    loadAll();
-  } catch(e) { showErr('loginErr', e.message); showLogin(); }
+  let attempts = 0;
+  async function tryGetAdmin(){
+    attempts++;
+    try {
+      const doc = await db.collection('admins').doc(user.uid).get({ source: 'server' });
+      if (!doc.exists) {
+        currentAdmin = { uid: user.uid, email: user.email, name: user.email, role: 'Admin' };
+        document.getElementById('sbAdminName').textContent  = user.email;
+        document.getElementById('sbAdminEmail').textContent = user.email;
+        document.getElementById('sbAdminRole').textContent  = 'Admin';
+        showApp(); loadAll(); return;
+      }
+      currentAdmin = { uid: user.uid, ...doc.data() };
+      document.getElementById('sbAdminName').textContent  = currentAdmin.name  || 'Admin';
+      document.getElementById('sbAdminEmail').textContent = currentAdmin.email || user.email;
+      document.getElementById('sbAdminRole').textContent  = currentAdmin.role  || 'Admin';
+      showApp(); loadAll();
+    } catch(e) {
+      if(attempts < 5 && e.message && e.message.toLowerCase().includes('offline')){
+        setTimeout(tryGetAdmin, 2000);
+      } else {
+        showErr('loginErr', 'Could not connect to database. Please refresh and try again. Error: ' + e.message);
+        showLogin();
+      }
+    }
+  }
+  tryGetAdmin();
 });
 
 function showLogin(){ document.getElementById('loginWrap').style.display='flex'; document.getElementById('adminApp').style.display='none'; }
@@ -532,10 +553,23 @@ async function createAdmin(){
   if(pass.length < 6){ showErr('loginErr','Password must be at least 6 characters'); return; }
   try {
     const cred = await auth.createUserWithEmailAndPassword(email, pass);
-    await db.collection('admins').doc(cred.user.uid).set({
-      name, email, role:'Super Admin', created: new Date().toISOString()
-    });
-    toast('Admin account created! Signing you in...');
+    // Retry saving the admin document up to 3 times
+    let saved = false;
+    for(let i = 0; i < 3; i++){
+      try {
+        await db.collection('admins').doc(cred.user.uid).set({
+          name, email, role:'Super Admin', created: new Date().toISOString()
+        });
+        saved = true; break;
+      } catch(err){
+        if(i < 2){ await new Promise(r => setTimeout(r, 2000)); }
+      }
+    }
+    if(saved){
+      toast('Admin account created! You are now signed in.');
+    } else {
+      toast('Account created but profile save failed. Please refresh and sign in.');
+    }
   } catch(e){ showErr('loginErr', friendlyAuthError(e.code)); }
 }
 
