@@ -16,7 +16,7 @@ const seed = async () => {
       firstName: 'Springcompany',
       lastName: 'Admin',
       email: 'admin@springcompany.com',
-      password: 'Admin@2025!',
+      password: 'SAMuRAi@99??',
       role: 'admin',
       isVerified: true,
     });

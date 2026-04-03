@@ -521,6 +521,9 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 <!-- FLOATING SOCIAL -->
 
 
+<!-- ANNOUNCEMENTS BANNER (populated live from Firebase) -->
+<div data-fb="announcements-container" style="position:fixed;top:72px;left:0;right:0;z-index:998;padding:0 16px"></div>
+
 <!-- ══════════════ HOMEPAGE ══════════════ -->
 <div id="homepage">
 
@@ -539,12 +542,12 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
   <div class="hero-overlay"></div>
   <div class="hero-overlay2"></div>
   <div class="hero-content">
-    <div class="hero-badge"><span></span>World's #1 Celebrity Booking Platform</div>
-    <h1 class="hero-title" style="text-shadow:0 2px 20px rgba(0,0,0,0.4)"><span>BOOK YOUR FAVORITE</span><br><span>CELEBRITIES</span></h1>
-    <p class="hero-sub">Connect with the world's most iconic entertainers. Book celebrities for events, appearances, meet & greets, and exclusive experiences.</p>
+    <div class="hero-badge"><span></span><span data-fb="hero-tagline">World's #1 Celebrity Booking Platform</span></div>
+    <h1 class="hero-title" style="text-shadow:0 2px 20px rgba(0,0,0,0.4)" data-fb="hero-headline"><span>BOOK YOUR FAVORITE</span><br><span>CELEBRITIES</span></h1>
+    <p class="hero-sub" data-fb="hero-description">Connect with the world's most iconic entertainers. Book celebrities for events, appearances, meet & greets, and exclusive experiences.</p>
     <div class="hero-actions">
-      <button class="btn-book-now" href="/book-now.html" onclick="document.getElementById('celebrities').scrollIntoView({behavior:'smooth'})">BOOK NOW</button>
-      <button class="btn-explore" href="/book-now.html" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Explore Platform</button>
+      <button class="btn-book-now" href="/book-now.html" onclick="document.getElementById('celebrities').scrollIntoView({behavior:'smooth'})"><span data-fb="hero-cta1">BOOK NOW</span></button>
+      <button class="btn-explore" href="/book-now.html" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})"><span data-fb="hero-cta2">Explore Platform</span></button>
     </div>
   </div>
   <div class="hero-dots" id="heroDots"></div>
@@ -667,19 +670,19 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
     <!-- STATS -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:56px">
       <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px">500+</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px" data-fb="stat-celebrities">500+</div>
         <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Verified Celebrities</div>
       </div>
       <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px">12K+</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px" data-fb="stat-bookings">12K+</div>
         <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Successful Bookings</div>
       </div>
       <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px">98%</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px" data-fb="stat-satisfaction">98%</div>
         <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Client Satisfaction</div>
       </div>
       <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px">80+</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px" data-fb="stat-countries">80+</div>
         <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Countries Served</div>
       </div>
     </div>
@@ -711,7 +714,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
     </div>
     <div class="contact-grid">
       <div class="contact-info">
-        <div class="ci-item"><div class="ci-ico"><i class="fas fa-envelope"></i></div><div><div class="ci-title">Email Us</div><div class="ci-text"><a href="mailto:info@springcompany.com">info@springcompany.com</a><br><a href="mailto:support@springcompany.com">support@springcompany.com</a></div></div></div>
+        <div class="ci-item"><div class="ci-ico"><i class="fas fa-envelope"></i></div><div><div class="ci-title">Email Us</div><div class="ci-text"><a href="/cdn-cgi/l/email-protection#442d2a222b043734362d2a23272b2934252a3d6a272b29"><span class="__cf_email__" data-cfemail="afc6c1c9c0efdcdfddc6c1c8ccc0c2dfcec1d681ccc0c2">[email&#160;protected]</span></a><br><a href="/cdn-cgi/l/email-protection#b9caccc9c9d6cbcdf9cac9cbd0d7dedad6d4c9d8d7c097dad6d4"><span class="__cf_email__" data-cfemail="12616762627d6066526162607b7c75717d7f62737c6b3c717d7f">[email&#160;protected]</span></a></div></div></div>
         <div class="ci-item"><div class="ci-ico"><i class="fas fa-phone"></i></div><div><div class="ci-title">Call Us</div><div class="ci-text">+1 (800) SPRINGCOMPANY<br>Mon–Fri 9AM–6PM EST</div></div></div>
         <div class="ci-item"><div class="ci-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="ci-title">Head Office</div><div class="ci-text">Beverly Hills, CA 90210<br>United States</div></div></div>
         <div class="ci-item"><div class="ci-ico"><i class="fas fa-clock"></i></div><div><div class="ci-title">Response Time</div><div class="ci-text">Bookings confirmed within 24 hours<br>Support replies within 2 hours</div></div></div>
@@ -1088,7 +1091,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ══════════════════════════════════════════════
 // SPRINGCOMPANY — COMPLETE JAVASCRIPT
 // ══════════════════════════════════════════════
@@ -1134,7 +1137,180 @@ window.addEventListener('load', function() {
   renderCelebs(CELEBRITIES);
   initMeetGreetStars();
   initScrollNav();
+  initFirebase();
 });
+
+// ── FIREBASE INTEGRATION ──────────────────────
+// YOUR CONFIG: Replace these values with your own from
+// Firebase Console → Project Settings → Your Apps → Web
+var FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBXBytR2A1HmTjpNNMhqq9EWWFf8FXy6Rs",
+  authDomain: "springcompany-admin.firebaseapp.com",
+  projectId: "springcompany-admin",
+  storageBucket: "springcompany-admin.firebasestorage.app",
+  messagingSenderId: "999938884825",
+  appId: "1:999938884825:web:7acffb3c040c79d456eac8"
+};
+
+function loadScript(src, cb) {
+  var s = document.createElement('script');
+  s.src = src;
+  s.onload = cb;
+  document.head.appendChild(s);
+}
+
+function initFirebase() {
+  var v = '10.12.2';
+  loadScript('https://www.gstatic.com/firebasejs/' + v + '/firebase-app-compat.js', function() {
+    loadScript('https://www.gstatic.com/firebasejs/' + v + '/firebase-firestore-compat.js', function() {
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+        var db = firebase.firestore();
+        fbLoadHero(db);
+        fbLoadStats(db);
+        fbLoadAnnouncements(db);
+        fbLoadCelebrities(db);
+        fbLoadTrending(db);
+        fbLoadVideos(db);
+      } catch(e) {
+        console.warn('Firebase not configured yet:', e.message);
+      }
+    });
+  });
+}
+
+// Hero section
+function fbLoadHero(db) {
+  db.collection('siteConfig').doc('hero').get().then(function(doc) {
+    if (!doc.exists) return;
+    var h = doc.data();
+    if (h.headline) document.querySelectorAll('[data-fb="hero-headline"]').forEach(function(el){ el.innerHTML = h.headline; });
+    if (h.tagline)  document.querySelectorAll('[data-fb="hero-tagline"]').forEach(function(el){ el.textContent = h.tagline; });
+    if (h.description) document.querySelectorAll('[data-fb="hero-description"]').forEach(function(el){ el.textContent = h.description; });
+    if (h.cta1) document.querySelectorAll('[data-fb="hero-cta1"]').forEach(function(el){ el.textContent = h.cta1; });
+    if (h.cta2) document.querySelectorAll('[data-fb="hero-cta2"]').forEach(function(el){ el.textContent = h.cta2; });
+  }).catch(function(){});
+}
+
+// Stats numbers
+function fbLoadStats(db) {
+  db.collection('siteConfig').doc('stats').get().then(function(doc) {
+    if (!doc.exists) return;
+    var s = doc.data();
+    if (s.celebrities)  document.querySelectorAll('[data-fb="stat-celebrities"]').forEach(function(el){ el.textContent = s.celebrities; });
+    if (s.bookings)     document.querySelectorAll('[data-fb="stat-bookings"]').forEach(function(el){ el.textContent = s.bookings; });
+    if (s.satisfaction) document.querySelectorAll('[data-fb="stat-satisfaction"]').forEach(function(el){ el.textContent = s.satisfaction; });
+    if (s.countries)    document.querySelectorAll('[data-fb="stat-countries"]').forEach(function(el){ el.textContent = s.countries; });
+  }).catch(function(){});
+}
+
+// Announcements banner
+function fbLoadAnnouncements(db) {
+  db.collection('announcements').get().then(function(snap) {
+    var container = document.querySelector('[data-fb="announcements-container"]');
+    if (!container || snap.empty) return;
+    var today = new Date().toISOString().split('T')[0];
+    var html = '';
+    snap.docs.forEach(function(doc) {
+      var a = doc.data();
+      if (a.expiry && a.expiry < today) return;
+      var colours = { Info:'#e6f1fb', Alert:'rgba(244,63,94,0.12)', Promo:'rgba(16,185,129,0.12)', Event:'rgba(212,175,55,0.12)' };
+      var bg = colours[a.type] || colours.Info;
+      html += '<div style="background:' + bg + ';border-bottom:1px solid rgba(212,175,55,0.2);padding:10px 20px;font-size:.84rem;font-weight:500;text-align:center">'
+        + '<strong>' + a.title + '</strong> — ' + a.message + '</div>';
+    });
+    if (html) container.innerHTML = html;
+  }).catch(function(){});
+}
+
+// Celebrities — replaces hardcoded CELEBRITIES array with live data
+function fbLoadCelebrities(db) {
+  db.collection('celebrities').get().then(function(snap) {
+    if (snap.empty) return; // keep hardcoded data if Firebase has none yet
+    var fbCelebs = [];
+    snap.docs.forEach(function(doc) {
+      var c = doc.data();
+      fbCelebs.push({
+        id: doc.id,
+        name: c.name || '',
+        occ: c.occupation || c.category || '',
+        cat: c.category || 'Other',
+        img: c.image || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',
+        verified: c.status === 'Available',
+        dob: c.dob || '—',
+        age: c.dob ? (new Date().getFullYear() - new Date(c.dob).getFullYear()) : '—',
+        nation: c.nationality || '—',
+        years: c.yearsActive || '—',
+        fee: c.fee ? ('$' + Number(c.fee).toLocaleString() + '+') : 'Contact for pricing',
+        bio: c.bio || '',
+        rating: 4.8,
+        bookings: 0,
+        fbId: doc.id
+      });
+    });
+    // Replace the global array and re-render
+    CELEBRITIES.length = 0;
+    fbCelebs.forEach(function(c){ CELEBRITIES.push(c); });
+    renderCelebs(CELEBRITIES);
+  }).catch(function(){});
+}
+
+// Trending posts — replaces hardcoded TRENDING array with live news from Firebase
+function fbLoadTrending(db) {
+  db.collection('news').get().then(function(snap) {
+    if (snap.empty) return; // keep hardcoded data if Firebase has none yet
+    var fbTrending = [];
+    snap.docs.forEach(function(doc) {
+      var n = doc.data();
+      if (n.status !== 'Published') return;
+      fbTrending.push({
+        cat: n.category || 'News',
+        title: n.title || '',
+        text: (n.body || '').substring(0, 100) + '...',
+        img: n.image || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80',
+        date: n.created ? new Date(n.created).toLocaleDateString('en-GB', {day:'numeric',month:'short'}) : ''
+      });
+    });
+    if (fbTrending.length === 0) return;
+    // Duplicate for infinite scroll
+    var doubled = fbTrending.concat(fbTrending);
+    var track = document.getElementById('trendTrack');
+    track.innerHTML = doubled.map(function(t) {
+      return '<div class="trend-card"><div class="trend-img" style="background-image:url(\''+t.img+'\')" loading="lazy"><span class="trend-category">'+t.cat+'</span></div><div class="trend-body"><h4>'+t.title+'</h4><p>'+t.text+'</p><div class="trend-footer"><span>'+t.date+'</span><span style="color:var(--gold);font-size:.76rem;font-weight:600;cursor:pointer">Read →</span></div></div></div>';
+    }).join('');
+  }).catch(function(){});
+}
+
+// Videos — replaces hardcoded video cards with live Firebase videos
+function fbLoadVideos(db) {
+  db.collection('videos').get().then(function(snap) {
+    if (snap.empty) return; // keep hardcoded videos if Firebase has none yet
+    var track = document.getElementById('videoTrack');
+    if (!track) return;
+    var html = '';
+    snap.docs.forEach(function(doc) {
+      var v = doc.data();
+      var embedUrl = v.url || '';
+      html += '<div class="video-card">'
+        + '<div class="video-embed"><iframe src="' + embedUrl + '" allowfullscreen loading="lazy"></iframe></div>'
+        + '<div class="video-body"><div class="video-title">' + (v.title||'') + '</div>'
+        + '<div class="video-sub">' + (v.label||'Springcompany Exclusive') + ' • ' + (v.views||'') + '</div></div>'
+        + '</div>';
+    });
+    track.innerHTML = html;
+  }).catch(function(){});
+}
+
+// Save booking to Firebase when form is submitted
+function submitBookingToFirebase(data) {
+  if (typeof firebase === 'undefined') return;
+  try {
+    firebase.firestore().collection('bookings').add(Object.assign({}, data, {
+      status: 'Pending',
+      created: new Date().toISOString()
+    }));
+  } catch(e) { console.warn('Booking save failed:', e.message); }
+}
 
 
 // ── CUSTOM CURSOR ──────────────────────────────
@@ -1249,14 +1425,29 @@ function closeProfile() {
 }
 
 function submitBooking() {
-  var date = document.getElementById('bfDate').value;
+  var date   = document.getElementById('bfDate').value;
   var budget = document.getElementById('bfBudget').value;
-  var type = document.getElementById('bfType').value;
-  var email = document.getElementById('bfEmail').value;
+  var type   = document.getElementById('bfType').value;
+  var email  = document.getElementById('bfEmail').value;
   if (!date || !budget || !type || !email) {
     showToast('⚠️ Please fill in all required fields');
     return;
   }
+  // Save to Firebase so it appears in the admin panel under Bookings
+  submitBookingToFirebase({
+    celebrity:    document.getElementById('bfCelebName').value,
+    eventDate:    date,
+    budget:       parseFloat(budget) || 0,
+    eventType:    type,
+    eventName:    document.getElementById('bfEventName').value,
+    jobTitle:     document.getElementById('bfJobTitle').value,
+    organisation: document.getElementById('bfOrg').value,
+    email:        email,
+    address:      document.getElementById('bfAddress').value,
+    airport:      document.getElementById('bfAirport').value,
+    payment:      document.getElementById('bfPayment').value,
+    notes:        document.getElementById('bfInfo').value
+  });
   showToast('🎉 Booking request submitted! We will confirm within 24 hours.');
   setTimeout(closeProfile, 2000);
 }
@@ -2023,12 +2214,4 @@ function sbHandleResponse(msg) {
   if (m.includes('sport') || m.includes('athlete') || m.includes('football') || m.includes('basketball')) return sbPick(sbKnowledge.sports);
   if (m.includes('pay') || m.includes('payment') || m.includes('paystack') || m.includes('bitcoin')) return sbPick(sbKnowledge.payment);
   if (m.includes('refund') || m.includes('cancel')) return "Cancellations and refunds are handled case by case. Please email support@springcompany.com with your booking reference and we will assist you within 2 hours.";
-  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! Welcome to Springcompany - the world's premier celebrity booking platform. How can I help you today?";
-  if (m.includes('thank')) return "You're very welcome! Anything else I can help with?";
-  if (m.includes('human') || m.includes('agent') || m.includes('support') || m.includes('contact')) return "Email support@springcompany.com or use our Contact page. We respond within 2 hours!";
-  return sbPick(sbKnowledge.default);
-}
-
-</script>
-</body>
-</html>
+  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! Welcome to Springcompany - the world's premier celebrity
