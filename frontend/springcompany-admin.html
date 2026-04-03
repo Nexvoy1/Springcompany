@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Springcompany Admin Panel</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;font-size:14px;color:#1a1a1a;background:#f5f5f2;min-height:100vh}
+a{color:inherit;text-decoration:none}
+
+/* ── LAYOUT ── */
+.app{display:flex;min-height:100vh}
+.sidebar{width:230px;background:#fff;border-right:1px solid rgba(0,0,0,0.08);display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100}
+.main{flex:1;margin-left:230px;padding:28px;overflow-y:auto;min-height:100vh}
+.page{display:none}.page.active{display:block}
+
+/* ── SIDEBAR ── */
+.sb-logo{padding:20px 18px 16px;border-bottom:1px solid rgba(0,0,0,0.06)}
+.sb-logo h2{font-size:15px;font-weight:600;color:#1a1a1a}
+.sb-logo span{font-size:11px;color:#888;display:block;margin-top:2px}
+.sb-section{font-size:10px;font-weight:600;color:#bbb;padding:14px 18px 4px;text-transform:uppercase;letter-spacing:.07em}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 18px;cursor:pointer;font-size:13px;color:#666;transition:all .15s;border-left:2px solid transparent}
+.nav-item:hover{background:#f5f5f2;color:#1a1a1a}
+.nav-item.active{background:#f0eeff;color:#5a3af7;border-left-color:#5a3af7;font-weight:500}
+.nav-item.danger{color:#e24b4a}.nav-item.danger:hover{background:#fff5f5}
+.nav-ico{font-size:15px;width:20px;text-align:center}
+.sb-admin{padding:14px 18px;border-top:1px solid rgba(0,0,0,0.06);margin-top:auto}
+.sb-admin p{font-size:12px;font-weight:500;color:#1a1a1a}
+.sb-admin span{font-size:11px;color:#888}
+
+/* ── PAGE HEADER ── */
+.page-header{margin-bottom:24px}
+.page-header h1{font-size:22px;font-weight:600}
+.page-header p{font-size:13px;color:#888;margin-top:3px}
+
+/* ── CARDS ── */
+.card{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:20px;margin-bottom:16px}
+.card-title{font-size:14px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+
+/* ── STATS ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-box{background:#f5f5f2;border-radius:8px;padding:16px}
+.stat-box .lbl{font-size:11px;color:#888;margin-bottom:6px}
+.stat-box .val{font-size:24px;font-weight:600}
+
+/* ── FORMS ── */
+label{display:block;font-size:11px;font-weight:600;color:#888;margin:12px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+label:first-child{margin-top:0}
+input,select,textarea{width:100%;padding:8px 11px;font-size:13px;border:1px solid rgba(0,0,0,0.12);border-radius:6px;background:#fff;color:#1a1a1a;font-family:inherit;transition:border .15s}
+textarea{min-height:88px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#5a3af7}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* ── BUTTONS ── */
+.btn{padding:8px 16px;font-size:13px;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:500;border:1px solid rgba(0,0,0,0.15);background:#fff;color:#1a1a1a;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:#f5f5f2}
+.btn-primary{background:#5a3af7;color:#fff;border-color:#5a3af7}
+.btn-primary:hover{background:#4a2de0}
+.btn-danger{background:#e24b4a;color:#fff;border-color:#e24b4a}
+.btn-danger:hover{background:#c03938}
+.btn-sm{padding:5px 11px;font-size:12px}
+.btn-ai{background:#eeedfe;color:#534ab7;border-color:#afa9ec}
+.btn-ai:hover{background:#dddcfc}
+.btn-group{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:9px 12px;border-bottom:1px solid rgba(0,0,0,0.08);font-weight:600;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em}
+td{padding:9px 12px;border-bottom:1px solid rgba(0,0,0,0.05)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafafa}
+.actions{display:flex;gap:6px}
+
+/* ── BADGES ── */
+.badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500}
+.b-green{background:#eaf3de;color:#3b6d11}
+.b-amber{background:#faeeda;color:#854f0b}
+.b-blue{background:#e6f1fb;color:#185fa5}
+.b-red{background:#fcebeb;color:#a32d2d}
+.b-purple{background:#eeedfe;color:#534ab7}
+
+/* ── ALERTS ── */
+.alert{padding:10px 14px;border-radius:6px;font-size:13px;margin-bottom:12px;display:none}
+.alert-green{background:#eaf3de;color:#3b6d11;border:1px solid #c0dd97}
+.alert-red{background:#fcebeb;color:#a32d2d;border:1px solid #f09595}
+.alert-blue{background:#e6f1fb;color:#185fa5;border:1px solid #b5d4f4}
+.empty-state{text-align:center;color:#aaa;padding:32px;font-size:13px}
+
+/* ── LOGIN ── */
+#loginWrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f5f2}
+.login-box{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:32px;width:380px;box-shadow:0 4px 24px rgba(0,0,0,0.06)}
+.login-box h2{font-size:20px;font-weight:600;margin-bottom:4px}
+.login-box .sub{font-size:13px;color:#888;margin-bottom:24px}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.login-logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#D4AF37,#8B7322);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#000}
+.login-logo-text{font-size:18px;font-weight:700;background:linear-gradient(135deg,#8B7322,#D4AF37);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.setup-link{font-size:12px;color:#5a3af7;cursor:pointer;text-align:center;margin-top:12px}
+.setup-link:hover{text-decoration:underline}
+.divider{text-align:center;color:#ccc;font-size:12px;margin:16px 0;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:#eee}
+.divider::before{left:0}.divider::after{right:0}
+
+/* ── AI MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:none;align-items:center;justify-content:center;z-index:1000}
+.modal-bg.open{display:flex}
+.modal-box{background:#fff;border-radius:14px;padding:24px;width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,0.15)}
+.modal-box h3{font-size:16px;font-weight:600;margin-bottom:14px}
+
+/* ── SPINNER ── */
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:500;z-index:9999;display:none;white-space:nowrap}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .sidebar{width:200px}
+  .main{margin-left:200px;padding:16px}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .grid2,.grid3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ LOGIN SCREEN ══════════════ -->
+<div id="loginWrap">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon">SC</div>
+      <span class="login-logo-text">Springcompany</span>
+    </div>
+    <h2>Admin Panel</h2>
+    <div class="sub">Sign in to manage your site</div>
+    <div class="alert alert-red" id="loginErr"></div>
+    <label>Email Address</label>
+    <input type="email" id="loginEmail" placeholder="admin@springcompany.com" onkeydown="if(event.key==='Enter')doLogin()">
+    <label>Password</label>
+    <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="btn-group">
+      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="doLogin()" id="loginBtn">Sign In</button>
+    </div>
+    <div class="setup-link" onclick="toggleSetup()">First time? Create admin account ↓</div>
+
+    <div id="setupBox" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid #eee">
+      <div class="alert alert-blue" id="setupInfo" style="display:block">Fill in your details to create the first admin account. You only need to do this once.</div>
+      <label>Your Name</label>
+      <input type="text" id="setupName" placeholder="e.g. John Doe">
+      <label>Email</label>
+      <input type="email" id="setupEmail" placeholder="admin@springcompany.com">
+      <label>Password (min 6 characters)</label>
+      <input type="password" id="setupPass" placeholder="Choose a strong password">
+      <div class="btn-group">
+        <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="createAdmin()">Create Admin Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ ADMIN APP ══════════════ -->
+<div class="app" id="adminApp" style="display:none">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-logo">
+      <h2>Springcompany</h2>
+      <span id="sbAdminName">Admin Panel</span>
+    </div>
+
+    <div class="sb-section">Overview</div>
+    <div class="nav-item active" onclick="goPage('dashboard',this)"><span class="nav-ico">⬛</span> Dashboard</div>
+
+    <div class="sb-section">Content</div>
+    <div class="nav-item" onclick="goPage('celebrities',this)"><span class="nav-ico">★</span> Celebrities</div>
+    <div class="nav-item" onclick="goPage('news',this)"><span class="nav-ico">◉</span> News & Posts</div>
+    <div class="nav-item" onclick="goPage('videos',this)"><span class="nav-ico">▶</span> Videos</div>
+    <div class="nav-item" onclick="goPage('announcements',this)"><span class="nav-ico">◈</span> Announcements</div>
+
+    <div class="sb-section">Site Config</div>
+    <div class="nav-item" onclick="goPage('hero',this)"><span class="nav-ico">◆</span> Hero Section</div>
+    <div class="nav-item" onclick="goPage('siteStats',this)"><span class="nav-ico">▤</span> Site Stats</div>
+    <div class="nav-item" onclick="goPage('contactInfo',this)"><span class="nav-ico">✉</span> Contact Info</div>
+
+    <div class="sb-section">People</div>
+    <div class="nav-item" onclick="goPage('bookings',this)"><span class="nav-ico">◎</span> Bookings</div>
+    <div class="nav-item" onclick="goPage('users',this)"><span class="nav-ico">◯</span> Users</div>
+
+    <div class="sb-section">Admin</div>
+    <div class="nav-item" onclick="goPage('admins',this)"><span class="nav-ico">◐</span> Admin Users</div>
+    <div class="nav-item danger" onclick="doLogout()"><span class="nav-ico">←</span> Sign Out</div>
+
+    <div class="sb-admin">
+      <p id="sbAdminEmail">—</p>
+      <span id="sbAdminRole">Admin</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header"><h1>Dashboard</h1><p>Welcome back — here's your site at a glance</p></div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="lbl">Celebrities</div><div class="val" id="ds-celebs">—</div></div>
+        <div class="stat-box"><div class="lbl">News Posts</div><div class="val" id="ds-news">—</div></div>
+        <div class="stat-box"><div class="lbl">Bookings</div><div class="val" id="ds-bookings">—</div></div>
+        <div class="stat-box"><div class="lbl">Videos</div><div class="val" id="ds-videos">—</div></div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">Quick Post News <button class="btn btn-ai btn-sm" onclick="aiWrite('qTitle','qBody','news post for a celebrity booking platform')">✦ AI Write</button></div>
+          <label>Headline</label><input id="qTitle" placeholder="Breaking news headline...">
+          <label>Content</label><textarea id="qBody" placeholder="Write your post..." style="min-height:70px"></textarea>
+          <div class="btn-group"><button class="btn btn-primary btn-sm" onclick="quickNews()">Publish Now</button></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Quick Add Celebrity</div>
+          <label>Full Name</label><input id="qCelebName" placeholder="Celebrity name">
+          <label>Category</label>
+          <select id="qCelebCat"><option>Music</option><option>Film & TV</option><option>Sports</option><option>Comedy</option><option>Fashion</option></select>
+          <label>Base Fee (USD)</label><input id="qCelebFee" type="number" placeholder="50000">
+          <div class="btn-group"><button class="btn btn-primary btn-sm" onclick="quickCeleb()">Add Celebrity</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Recent Bookings <span class="badge b-blue" id="ds-bcount">0</span></div>
+        <div id="ds-bookingList" class="empty-state">Loading...</div>
+      </div>
+    </div>
+
+    <!-- ── CELEBRITIES ── -->
+    <div class="page" id="page-celebrities">
+      <div class="page-header"><h1>Celebrities</h1><p>Add, edit or remove celebrity profiles shown on the site</p></div>
+      <div class="card">
+        <div class="card-title" id="celebFormTitle">Add New Celebrity
+          <button class="btn btn-ai btn-sm" onclick="aiCeleb()">✦ AI Fill Profile</button>
+        </div>
+        <div class="grid2">
+          <div>
+            <label>Full Name *</label><input id="cName" placeholder="e.g. Davido">
+            <label>Occupation</label><input id="cOcc" placeholder="e.g. Afrobeats Artist">
+            <label>Category *</label>
+            <select id="cCat"><option>Music</option><option>Film & TV</option><option>Sports</option><option>Comedy</option><option>Fashion</option></select>
+            <label>Nationality</label><input id="cNation" placeholder="e.g. Nigerian">
+          </div>
+          <div>
+            <label>Base Fee (USD)</label><input id="cFee" type="number" placeholder="50000">
+            <label>Years Active</label><input id="cYears" placeholder="e.g. 2011–present">
+            <label>Date of Birth</label><input id="cDob" type="date">
+            <label>Status</label>
+            <select id="cStatus"><option>Available</option><option>Booked</option><option>Unavailable</option></select>
+          </div>
+        </div>
+        <label>Bio / Description</label>
+        <textarea id="cBio" placeholder="Celebrity biography..."></textarea>
+        <label>Profile Image URL</label>
+        <input id="cImg" placeholder="https://...">
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="saveCeleb()" id="cSaveBtn">Add Celebrity</button>
+          <button class="btn" onclick="clearCeleb()" id="cCancelBtn" style="display:none">Cancel Edit</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">All Celebrities <span class="badge b-blue" id="celebCount">0</span></div>
+        <div class="tbl-wrap">
+          <table><thead><tr><th>Name</th><th>Category</th><th>Fee</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="celebTable"><tr><td colspan="5" class="empty-state">Loading...</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NEWS & POSTS ── -->
+    <div class="page" id="page-news">
+      <div class="page-header"><h1>News & Posts</h1><p>Write and manage trending posts shown on the homepage and announce page</p></div>
+      <div class="card">
+        <div class="card-title" id="newsFormTitle">Write New Post
+          <button class="btn btn-ai btn-sm" onclick="aiWrite('nTitle','nBody','news article for a celebrity booking platform')">✦ AI Write</button>
+        </div>
+        <label>Headline *</label><input id="nTitle" placeholder="Post headline">
+        <div class="grid2">
+          <div><label>Category</label>
+          <select id="nCat"><option>News</option><option>Announcement</option><option>Blog</option><option>Celebrity Update</option><option>Event</option></select></div>
+          <div><label>Status</label>
+          <select id="nStatus"><option>Published</option><option>Draft</option></select></div>
+        </div>
+        <label>Content</label><textarea id="nBody" style="min-height:130px" placeholder="Write your post..."></textarea>
+        <label>Featured Image URL</label><input id="nImg" placeholder="https://...">
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="saveNews()" id="nSaveBtn">Publish Post</button>
+          <button class="btn" onclick="clearNews()" id="nCancelBtn" style="display:none">Cancel Edit</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">All Posts <span class="badge b-blue" id="newsCount">0</span></div>
+        <div class="tbl-wrap">
+          <table><thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody id="newsTable"><tr><td colspan="5" class="empty-state">Loading...</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── VIDEOS ── -->
+    <div class="page" id="page-videos">
+      <div class="page-header"><h1>Featured Videos</h1><p>Manage the videos shown in the Featured Videos section</p></div>
+      <div class="card">
+        <div class="card-title" id="vidFormTitle">Add Video</div>
+        <label>Video Title *</label><input id="vTitle" placeholder="e.g. Celebrity Event Highlights 2025">
+        <label>YouTube Embed URL</label>
+        <input id="vUrl" placeholder="https://www.youtube.com/embed/VIDEO_ID">
+        <div class="grid2">
+          <div><label>Views (display text)</label><input id="vViews" placeholder="e.g. 2.4M views"></div>
+          <div><label>Label</label><input id="vLabel" placeholder="e.g. Springcompany Exclusive"></div>
+        </div>
+        <label>Thumbnail Image URL (optional)</label><input id="vThumb" placeholder="https://...">
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="saveVideo()" id="vSaveBtn">Add Video</button>
+          <button class="btn" onclick="clearVideo()" id="vCancelBtn" style="display:none">Cancel Edit</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">All Videos <span class="badge b-blue" id="vidCount">0</span></div>
+        <div class="tbl-wrap">
+          <table><thead><tr><th>Title</th><th>Views</th><th>Label</th><th>Actions</th></tr></thead>
+          <tbody id="vidTable"><tr><td colspan="4" class="empty-state">Loading...</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ANNOUNCEMENTS ── -->
+    <div class="page" id="page-announcements">
+      <div class="page-header"><h1>Announcements</h1><p>Post banners that appear at the top of the site for all visitors</p></div>
+      <div class="card">
+        <div class="card-title">New Announcement</div>
+        <label>Title *</label><input id="aTitle" placeholder="Announcement title">
+        <label>Message</label><textarea id="aMsg" placeholder="Announcement text..."></textarea>
+        <div class="grid2">
+          <div><label>Type</label>
+          <select id="aType"><option>Info</option><option>Promo</option><option>Alert</option><option>Event</option></select></div>
+          <div><label>Expires On (optional)</label><input id="aExpiry" type="date"></div>
+        </div>
+        <div class="btn-group"><button class="btn btn-primary" onclick="saveAnnouncement()">Post Announcement</button></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Active Announcements</div>
+        <div id="annoList" class="empty-state">Loading...</div>
+      </div>
+    </div>
+
+    <!-- ── HERO SECTION ── -->
+    <div class="page" id="page-hero">
+      <div class="page-header"><h1>Hero Section</h1><p>Change the homepage headline, description and button text</p></div>
+      <div class="card">
+        <div class="card-title">Hero Content <button class="btn btn-ai btn-sm" onclick="aiHero()">✦ AI Suggest</button></div>
+        <div class="alert alert-green" id="heroAlert"></div>
+        <label>Main Headline (e.g. BOOK YOUR FAVORITE CELEBRITIES)</label>
+        <input id="hHeadline" placeholder="Main headline text">
+        <label>Tagline (the small text above headline)</label>
+        <input id="hTagline" placeholder="e.g. World's #1 Celebrity Booking Platform">
+        <label>Description Paragraph</label>
+        <textarea id="hDesc" placeholder="The paragraph below the headline..."></textarea>
+        <div class="grid2">
+          <div><label>Primary Button Text</label><input id="hCta1" placeholder="e.g. BOOK NOW"></div>
+          <div><label>Secondary Button Text</label><input id="hCta2" placeholder="e.g. Explore Platform"></div>
+        </div>
+        <div class="btn-group"><button class="btn btn-primary" onclick="saveHero()">Save Hero Content</button></div>
+      </div>
+    </div>
+
+    <!-- ── SITE STATS ── -->
+    <div class="page" id="page-siteStats">
+      <div class="page-header"><h1>Site Stats</h1><p>Update the numbers displayed publicly on the homepage</p></div>
+      <div class="card">
+        <div class="card-title">Public Numbers</div>
+        <div class="alert alert-green" id="statsAlert"></div>
+        <div class="grid2">
+          <div>
+            <label>Verified Celebrities</label><input id="stCelebs" placeholder="500+">
+            <label>Successful Bookings</label><input id="stBookings" placeholder="12K+">
+          </div>
+          <div>
+            <label>Client Satisfaction</label><input id="stSat" placeholder="98%">
+            <label>Countries Served</label><input id="stCountries" placeholder="80+">
+          </div>
+        </div>
+        <div class="btn-group"><button class="btn btn-primary" onclick="saveStats()">Update Stats</button></div>
+      </div>
+    </div>
+
+    <!-- ── CONTACT INFO ── -->
+    <div class="page" id="page-contactInfo">
+      <div class="page-header"><h1>Contact Information</h1><p>Update the email, phone and address shown on the site</p></div>
+      <div class="card">
+        <div class="alert alert-green" id="contactAlert"></div>
+        <div class="grid2">
+          <div><label>Support Email</label><input id="ctEmail" placeholder="support@springcompany.com"></div>
+          <div><label>Bookings Email</label><input id="ctEmail2" placeholder="info@springcompany.com"></div>
+        </div>
+        <label>Phone Number</label><input id="ctPhone" placeholder="+1 (800) SPRING...">
+        <label>Office Address</label><input id="ctAddr" placeholder="Beverly Hills, CA 90210">
+        <label>Response Time Message</label><input id="ctResp" placeholder="Bookings confirmed within 24 hours">
+        <div class="btn-group"><button class="btn btn-primary" onclick="saveContact()">Save Contact Info</button></div>
+      </div>
+    </div>
+
+    <!-- ── BOOKINGS ── -->
+    <div class="page" id="page-bookings">
+      <div class="page-header"><h1>Booking Requests</h1><p>All booking form submissions from your website</p></div>
+      <div class="card">
+        <div class="card-title">All Bookings <span class="badge b-blue" id="bookingsCount">0</span></div>
+        <div class="tbl-wrap">
+          <table><thead><tr><th>Celebrity</th><th>Organiser</th><th>Event Type</th><th>Date</th><th>Budget</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody id="bookingsTable"><tr><td colspan="7" class="empty-state">Loading...</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── USERS ── -->
+    <div class="page" id="page-users">
+      <div class="page-header"><h1>Registered Users</h1><p>Everyone who signed up on Springcompany</p></div>
+      <div class="card">
+        <div class="card-title">All Users <span class="badge b-blue" id="usersCount">0</span></div>
+        <div class="tbl-wrap">
+          <table><thead><tr><th>Name</th><th>Email</th><th>Country</th><th>Joined</th><th>Action</th></tr></thead>
+          <tbody id="usersTable"><tr><td colspan="5" class="empty-state">Loading users...</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ADMIN USERS ── -->
+    <div class="page" id="page-admins">
+      <div class="page-header"><h1>Admin Users</h1><p>Manage who has access to this panel</p></div>
+      <div class="card">
+        <div class="card-title">Add New Admin</div>
+        <div class="grid2">
+          <div><label>Email Address</label><input id="adEmail" placeholder="newadmin@springcompany.com"></div>
+          <div><label>Display Name</label><input id="adName" placeholder="Admin Name"></div>
+        </div>
+        <label>Role</label>
+        <select id="adRole"><option>Super Admin</option><option>Content Manager</option><option>Moderator</option></select>
+        <div class="btn-group"><button class="btn btn-primary" onclick="addAdmin()">Add Admin</button></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Admin Roster</div>
+        <div id="adminList" class="empty-state">Loading...</div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- AI MODAL -->
+<div class="modal-bg" id="aiModal">
+  <div class="modal-box">
+    <h3>✦ AI Writing Assistant</h3>
+    <div id="aiResult" style="font-size:13px;line-height:1.7;color:#555;min-height:60px">Generating...</div>
+    <div class="btn-group" style="margin-top:16px">
+      <button class="btn btn-primary btn-sm" onclick="applyAi()">Use This Content</button>
+      <button class="btn btn-sm" onclick="closeAi()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────────
+//  FIREBASE CONFIG — Real credentials for Springcompany
+// ─────────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyBXBytR2A1HmTjpNNMhqq9EWWFf8FXy6Rs",
+  authDomain: "springcompany-admin.firebaseapp.com",
+  projectId: "springcompany-admin",
+  storageBucket: "springcompany-admin.firebasestorage.app",
+  messagingSenderId: "999938884825",
+  appId: "1:999938884825:web:7acffb3c040c79d456eac8"
+};
+
+// ─────────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────────
+firebase.initializeApp(firebaseConfig);
+const db   = firebase.firestore();
+const auth = firebase.auth();
+
+let currentAdmin = null;
+let editingCeleb = null, editingNews = null, editingVideo = null;
+let aiTargetTitle = null, aiTargetBody = null, aiApplyFn = null;
+let aiTitle = '', aiBody = '';
+
+// ─────────────────────────────────────────────────
+//  AUTH
+// ─────────────────────────────────────────────────
+auth.onAuthStateChanged(async user => {
+  if (!user) { showLogin(); return; }
+  try {
+    const doc = await db.collection('admins').doc(user.uid).get();
+    if (!doc.exists) { await auth.signOut(); showLogin(); return; }
+    currentAdmin = { uid: user.uid, ...doc.data() };
+    document.getElementById('sbAdminName').textContent = currentAdmin.name || 'Admin';
+    document.getElementById('sbAdminEmail').textContent = currentAdmin.email || user.email;
+    document.getElementById('sbAdminRole').textContent  = currentAdmin.role  || 'Admin';
+    showApp();
+    loadAll();
+  } catch(e) { showErr('loginErr', e.message); showLogin(); }
+});
+
+function showLogin(){ document.getElementById('loginWrap').style.display='flex'; document.getElementById('adminApp').style.display='none'; }
+function showApp(){ document.getElementById('loginWrap').style.display='none'; document.getElementById('adminApp').style.display='flex'; }
+
+async function doLogin(){
+  const email = v('loginEmail'), pass = v('loginPass');
+  if(!email||!pass){ showErr('loginErr','Enter your email and password'); return; }
+  setBtnLoading('loginBtn', true);
+  try { await auth.signInWithEmailAndPassword(email, pass); }
+  catch(e){ showErr('loginErr', friendlyAuthError(e.code)); setBtnLoading('loginBtn', false); }
+}
+
+async function createAdmin(){
+  const name  = v('setupName');
+  const email = v('setupEmail');
+  const pass  = v('setupPass');
+  if(!name||!email||!pass){ showErr('loginErr','Fill in all fields'); return; }
+  if(pass.length < 6){ showErr('loginErr','Password must be at least 6 characters'); return; }
+  try {
+    const cred = await auth.createUserWithEmailAndPassword(email, pass);
+    await db.collection('admins').doc(cred.user.uid).set({
+      name, email, role:'Super Admin', created: new Date().toISOString()
+    });
+    toast('Admin account created! Signing you in...');
+  } catch(e){ showErr('loginErr', friendlyAuthError(e.code)); }
+}
+
+async function doLogout(){
+  await auth.signOut();
+  showLogin();
+}
+
+function friendlyAuthError(code){
+  const map = {
+    'auth/user-not-found':'No account found with that email',
+    'auth/wrong-password':'Incorrect password',
+    'auth/invalid-email':'Invalid email address',
+    'auth/email-already-in-use':'That email already has an account',
+    'auth/weak-password':'Password is too weak (min 6 characters)',
+    'auth/too-many-requests':'Too many attempts. Try again in a few minutes',
+    'auth/invalid-credential':'Incorrect email or password'
+  };
+  return map[code] || 'Something went wrong. Please try again.';
+}
+
+function toggleSetup(){
+  const box = document.getElementById('setupBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+
+// ─────────────────────────────────────────────────
+//  NAVIGATION
+// ─────────────────────────────────────────────────
+function goPage(name, el){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+// ─────────────────────────────────────────────────
+//  LOAD ALL DATA
+// ─────────────────────────────────────────────────
+function loadAll(){
+  loadDashboard(); loadCelebrities(); loadNews(); loadVideos();
+  loadAnnouncements(); loadBookings(); loadUsers(); loadAdmins();
+  loadHero(); loadStats(); loadContact();
+}
+
+// ─────────────────────────────────────────────────
+//  DASHBOARD
+// ─────────────────────────────────────────────────
+async function loadDashboard(){
+  const [c,n,b,v] = await Promise.all([
+    db.collection('celebrities').get(),
+    db.collection('news').get(),
+    db.collection('bookings').get(),
+    db.collection('videos').get()
+  ]);
+  set('ds-celebs', c.size);
+  set('ds-news', n.size);
+  set('ds-bookings', b.size);
+  set('ds-videos', v.size);
+  set('ds-bcount', b.size);
+
+  const recent = b.docs
+    .sort((a,b) => new Date(b.data().created||0) - new Date(a.data().created||0))
+    .slice(0,5);
+
+  if(recent.length === 0){
+    set('ds-bookingList','<div class="empty-state">No bookings yet. When visitors submit the booking form, they appear here.</div>');
+    return;
+  }
+  const rows = recent.map(d => {
+    const b = d.data();
+    return `<tr><td>${b.celebrity||'—'}</td><td>${b.organisation||b.name||'—'}</td><td>${b.eventType||'—'}</td><td>${(b.eventDate||'').substring(0,10)}</td><td>$${Number(b.budget||0).toLocaleString()}</td><td>${statusBadge(b.status)}</td></tr>`;
+  }).join('');
+  set('ds-bookingList',`<div class="tbl-wrap"><table><thead><tr><th>Celebrity</th><th>Organiser</th><th>Event</th><th>Date</th><th>Budget</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>`);
+}
+
+// ─────────────────────────────────────────────────
+//  CELEBRITIES
+// ─────────────────────────────────────────────────
+async function saveCeleb(){
+  const name = v('cName');
+  if(!name){ toast('Enter a celebrity name'); return; }
+  const data = {
+    name, occupation:v('cOcc'), category:v('cCat'), nationality:v('cNation'),
+    fee:parseFloat(v('cFee'))||0, yearsActive:v('cYears'), dob:v('cDob'),
+    status:v('cStatus'), bio:v('cBio'), image:v('cImg'),
+    updated: new Date().toISOString()
+  };
+  if(editingCeleb){
+    await db.collection('celebrities').doc(editingCeleb).update(data);
+    toast('Celebrity updated!');
+    editingCeleb = null;
+    document.getElementById('cSaveBtn').textContent = 'Add Celebrity';
+    document.getElementById('cCancelBtn').style.display = 'none';
+    document.getElementById('celebFormTitle').firstChild.textContent = 'Add New Celebrity';
+  } else {
+    data.created = new Date().toISOString();
+    await db.collection('celebrities').add(data);
+    toast('Celebrity added!');
+  }
+  clearCeleb(); loadCelebrities(); loadDashboard();
+}
+
+function clearCeleb(){
+  ['cName','cOcc','cNation','cFee','cYears','cDob','cBio','cImg'].forEach(id => set(id,'','val'));
+  document.getElementById('cCat').value = 'Music';
+  document.getElementById('cStatus').value = 'Available';
+  editingCeleb = null;
+  document.getElementById('cSaveBtn').textContent = 'Add Celebrity';
+  document.getElementById('cCancelBtn').style.display = 'none';
+}
+
+async function loadCelebrities(){
+  const snap = await db.collection('celebrities').get();
+  set('celebCount', snap.size);
+  if(snap.empty){ set('celebTable','<tr><td colspan="5" class="empty-state">No celebrities yet — add one above</td></tr>'); return; }
+  const rows = snap.docs.map(d => {
+    const c = d.data();
+    const statusCls = c.status==='Available'?'b-green':c.status==='Booked'?'b-amber':'b-red';
+    return `<tr>
+      <td><strong>${c.name}</strong><br><small style="color:#888">${c.occupation||''}</small></td>
+      <td>${c.category}</td>
+      <td>$${Number(c.fee||0).toLocaleString()}</td>
+      <td><span class="badge ${statusCls}">${c.status||'Available'}</span></td>
+      <td class="actions">
+        <button class="btn btn-sm" onclick="editCeleb('${d.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCeleb('${d.id}','${c.name}')">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+  set('celebTable', rows);
+}
+
+async function editCeleb(id){
+  const doc = await db.collection('celebrities').doc(id).get();
+  const c = doc.data();
+  setVal('cName',c.name); setVal('cOcc',c.occupation); setVal('cNation',c.nationality);
+  setVal('cFee',c.fee); setVal('cYears',c.yearsActive); setVal('cDob',c.dob);
+  setVal('cBio',c.bio); setVal('cImg',c.image);
+  document.getElementById('cCat').value    = c.category || 'Music';
+  document.getElementById('cStatus').value = c.status   || 'Available';
+  editingCeleb = id;
+  document.getElementById('cSaveBtn').textContent = 'Update Celebrity';
+  document.getElementById('cCancelBtn').style.display = 'inline-flex';
+  document.getElementById('celebFormTitle').firstChild.textContent = 'Editing: ' + c.name + ' ';
+  goPage('celebrities', document.querySelector('.nav-item:nth-of-type(2)'));
+  document.getElementById('page-celebrities').scrollIntoView({behavior:'smooth'});
+}
+
+async function deleteCeleb(id, name){
+  if(!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+  await db.collection('celebrities').doc(id).delete();
+  toast('Celebrity deleted');
+  loadCelebrities(); loadDashboard();
+}
+
+// ─────────────────────────────────────────────────
+//  NEWS
+// ─────────────────────────────────────────────────
+async function saveNews(){
+  const title = v('nTitle');
+  if(!title){ toast('Enter a headline'); return; }
+  const data = {
+    title, category:v('nCat'), status:v('nStatus'),
+    body:v('nBody'), image:v('nImg'), updated: new Date().toISOString()
+  };
+  if(editingNews){
+    await db.collection('news').doc(editingNews).update(data);
+    toast('Post updated!'); editingNews = null;
+    document.getElementById('nSaveBtn').textContent = 'Publish Post';
+    document.getElementById('nCancelBtn').style.display = 'none';
+  } else {
+    data.created = new Date().toISOString();
+    await db.collection('news').add(data);
+    toast('Post published!');
+  }
+  clearNews(); loadNews(); loadDashboard();
+}
+
+function clearNews(){
+  ['nTitle','nBody','nImg'].forEach(id => setVal(id,''));
+  document.getElementById('nCat').value    = 'News';
+  document.getElementById('nStatus').value = 'Published';
+  editingNews = null;
+  document.getElementById('nSaveBtn').textContent = 'Publish Post';
+  document.getElementById('nCancelBtn').style.display = 'none';
+}
+
+async function loadNews(){
+  const snap = await db.collection('news').get();
+  set('newsCount', snap.size);
+  if(snap.empty){ set('newsTable','<tr><td colspan="5" class="empty-state">No posts yet</td></tr>'); return; }
+  const sorted = snap.docs.sort((a,b)=>new Date(b.data().created||0)-new Date(a.data().created||0));
+  const rows = sorted.map(d => {
+    const n = d.data();
+    return `<tr>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${n.title}</td>
+      <td>${n.category}</td>
+      <td><span class="badge ${n.status==='Published'?'b-green':'b-amber'}">${n.status}</span></td>
+      <td style="font-size:12px">${(n.created||'').substring(0,10)}</td>
+      <td class="actions">
+        <button class="btn btn-sm" onclick="editNews('${d.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteNews('${d.id}')">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+  set('newsTable', rows);
+}
+
+async function editNews(id){
+  const doc = await db.collection('news').doc(id).get();
+  const n = doc.data();
+  setVal('nTitle',n.title); setVal('nBody',n.body); setVal('nImg',n.image);
+  document.getElementById('nCat').value    = n.category || 'News';
+  document.getElementById('nStatus').value = n.status   || 'Published';
+  editingNews = id;
+  document.getElementById('nSaveBtn').textContent = 'Update Post';
+  document.getElementById('nCancelBtn').style.display = 'inline-flex';
+}
+
+async function deleteNews(id){
+  if(!confirm('Delete this post?')) return;
+  await db.collection('news').doc(id).delete();
+  toast('Post deleted'); loadNews(); loadDashboard();
+}
+
+// Quick post from dashboard
+async function quickNews(){
+  const title = v('qTitle');
+  if(!title){ toast('Enter a headline'); return; }
+  await db.collection('news').add({
+    title, body:v('qBody'), category:'News', status:'Published',
+    created: new Date().toISOString()
+  });
+  setVal('qTitle',''); setVal('qBody','');
+  toast('Post published!'); loadNews(); loadDashboard();
+}
+
+// Quick celebrity from dashboard
+async function quickCeleb(){
+  const name = v('qCelebName');
+  if(!name){ toast('Enter a name'); return; }
+  await db.collection('celebrities').add({
+    name, category:v('qCelebCat'),
+    fee: parseFloat(v('qCelebFee'))||0,
+    status:'Available', created: new Date().toISOString()
+  });
+  setVal('qCelebName',''); setVal('qCelebFee','');
+  toast('Celebrity added!'); loadCelebrities(); loadDashboard();
+}
+
+// ─────────────────────────────────────────────────
+//  VIDEOS
+// ─────────────────────────────────────────────────
+async function saveVideo(){
+  const title = v('vTitle');
+  if(!title){ toast('Enter a video title'); return; }
+  const data = {
+    title, url:v('vUrl'), views:v('vViews'), label:v('vLabel'),
+    thumbnail:v('vThumb'), updated: new Date().toISOString()
+  };
+  if(editingVideo){
+    await db.collection('videos').doc(editingVideo).update(data);
+    toast('Video updated!'); editingVideo = null;
+    document.getElementById('vSaveBtn').textContent = 'Add Video';
+    document.getElementById('vCancelBtn').style.display = 'none';
+  } else {
+    data.created = new Date().toISOString();
+    await db.collection('videos').add(data);
+    toast('Video added!');
+  }
+  clearVideo(); loadVideos(); loadDashboard();
+}
+
+function clearVideo(){
+  ['vTitle','vUrl','vViews','vLabel','vThumb'].forEach(id => setVal(id,''));
+  editingVideo = null;
+  document.getElementById('vSaveBtn').textContent = 'Add Video';
+  document.getElementById('vCancelBtn').style.display = 'none';
+}
+
+async function loadVideos(){
+  const snap = await db.collection('videos').get();
+  set('vidCount', snap.size);
+  if(snap.empty){ set('vidTable','<tr><td colspan="4" class="empty-state">No videos yet</td></tr>'); return; }
+  const rows = snap.docs.map(d => {
+    const v = d.data();
+    return `<tr>
+      <td>${v.title}</td><td>${v.views||'—'}</td><td>${v.label||'—'}</td>
+      <td class="actions">
+        <button class="btn btn-sm" onclick="editVideo('${d.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteVideo('${d.id}')">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+  set('vidTable', rows);
+}
+
+async function editVideo(id){
+  const doc = await db.collection('videos').doc(id).get();
+  const v = doc.data();
+  setVal('vTitle',v.title); setVal('vUrl',v.url); setVal('vViews',v.views);
+  setVal('vLabel',v.label); setVal('vThumb',v.thumbnail);
+  editingVideo = id;
+  document.getElementById('vSaveBtn').textContent = 'Update Video';
+  document.getElementById('vCancelBtn').style.display = 'inline-flex';
+}
+
+async function deleteVideo(id){
+  if(!confirm('Delete this video?')) return;
+  await db.collection('videos').doc(id).delete();
+  toast('Video deleted'); loadVideos(); loadDashboard();
+}
+
+// ─────────────────────────────────────────────────
+//  ANNOUNCEMENTS
+// ─────────────────────────────────────────────────
+async function saveAnnouncement(){
+  const title = v('aTitle');
+  if(!title){ toast('Enter a title'); return; }
+  await db.collection('announcements').add({
+    title, message:v('aMsg'), type:v('aType'), expiry:v('aExpiry'),
+    active:true, created: new Date().toISOString()
+  });
+  setVal('aTitle',''); setVal('aMsg',''); setVal('aExpiry','');
+  toast('Announcement posted!'); loadAnnouncements();
+}
+
+async function loadAnnouncements(){
+  const snap = await db.collection('announcements').get();
+  if(snap.empty){ set('annoList','<div class="empty-state">No announcements yet</div>'); return; }
+  const html = snap.docs.map(d => {
+    const a = d.data();
+    const colours = {Info:'#e6f1fb',Alert:'#fcebeb',Promo:'#eaf3de',Event:'#faeeda'};
+    const bg = colours[a.type]||'#e6f1fb';
+    return `<div style="display:flex;justify-content:space-between;align-items:start;padding:12px 0;border-bottom:1px solid rgba(0,0,0,0.06)">
+      <div style="background:${bg};padding:8px 12px;border-radius:6px;flex:1;margin-right:12px">
+        <strong>${a.title}</strong>
+        <p style="font-size:12px;color:#555;margin-top:3px">${a.message||''}</p>
+        <span class="badge b-blue" style="margin-top:6px">${a.type}</span>
+        ${a.expiry?`<span style="font-size:11px;color:#888;margin-left:8px">Expires ${a.expiry}</span>`:''}
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="deleteAnnouncement('${d.id}')">Delete</button>
+    </div>`;
+  }).join('');
+  set('annoList', html||'<div class="empty-state">No announcements</div>');
+}
+
+async function deleteAnnouncement(id){
+  await db.collection('announcements').doc(id).delete();
+  toast('Announcement removed'); loadAnnouncements();
+}
+
+// ─────────────────────────────────────────────────
+//  HERO / STATS / CONTACT
+// ─────────────────────────────────────────────────
+async function saveHero(){
+  await db.collection('siteConfig').doc('hero').set({
+    headline:v('hHeadline'), tagline:v('hTagline'),
+    description:v('hDesc'), cta1:v('hCta1'), cta2:v('hCta2'),
+    updated: new Date().toISOString()
+  });
+  showInlineAlert('heroAlert','✓ Hero section saved! Your homepage will show the new text.','alert-green');
+}
+async function loadHero(){
+  const doc = await db.collection('siteConfig').doc('hero').get();
+  if(!doc.exists) return;
+  const h = doc.data();
+  setVal('hHeadline',h.headline); setVal('hTagline',h.tagline);
+  setVal('hDesc',h.description); setVal('hCta1',h.cta1); setVal('hCta2',h.cta2);
+}
+
+async function saveStats(){
+  await db.collection('siteConfig').doc('stats').set({
+    celebrities:v('stCelebs'), bookings:v('stBookings'),
+    satisfaction:v('stSat'), countries:v('stCountries'),
+    updated: new Date().toISOString()
+  });
+  showInlineAlert('statsAlert','✓ Stats updated! Your site now shows the new numbers.','alert-green');
+}
+async function loadStats(){
+  const doc = await db.collection('siteConfig').doc('stats').get();
+  if(!doc.exists) return;
+  const s = doc.data();
+  setVal('stCelebs',s.celebrities); setVal('stBookings',s.bookings);
+  setVal('stSat',s.satisfaction); setVal('stCountries',s.countries);
+}
+
+async function saveContact(){
+  await db.collection('siteConfig').doc('contact').set({
+    email:v('ctEmail'), email2:v('ctEmail2'), phone:v('ctPhone'),
+    address:v('ctAddr'), responseTime:v('ctResp'),
+    updated: new Date().toISOString()
+  });
+  showInlineAlert('contactAlert','✓ Contact info saved!','alert-green');
+}
+async function loadContact(){
+  const doc = await db.collection('siteConfig').doc('contact').get();
+  if(!doc.exists) return;
+  const c = doc.data();
+  setVal('ctEmail',c.email); setVal('ctEmail2',c.email2); setVal('ctPhone',c.phone);
+  setVal('ctAddr',c.address); setVal('ctResp',c.responseTime);
+}
+
+// ─────────────────────────────────────────────────
+//  BOOKINGS
+// ─────────────────────────────────────────────────
+async function loadBookings(){
+  const snap = await db.collection('bookings').get();
+  set('bookingsCount', snap.size);
+  if(snap.empty){ set('bookingsTable','<tr><td colspan="7" class="empty-state">No bookings yet. They appear here when visitors submit the booking form on your site.</td></tr>'); return; }
+  const sorted = snap.docs.sort((a,b)=>new Date(b.data().created||0)-new Date(a.data().created||0));
+  const rows = sorted.map(d => {
+    const b = d.data();
+    return `<tr>
+      <td>${b.celebrity||'—'}</td>
+      <td>${b.organisation||b.name||'—'}</td>
+      <td>${b.eventType||'—'}</td>
+      <td style="font-size:12px">${(b.eventDate||'').substring(0,10)}</td>
+      <td>$${Number(b.budget||0).toLocaleString()}</td>
+      <td>${statusBadge(b.status)}</td>
+      <td class="actions">
+        <button class="btn btn-sm" style="color:#3b6d11" onclick="updateBooking('${d.id}','Confirmed')">✓ Confirm</button>
+        <button class="btn btn-danger btn-sm" onclick="updateBooking('${d.id}','Cancelled')">✗ Cancel</button>
+      </td>
+    </tr>`;
+  }).join('');
+  set('bookingsTable', rows);
+}
+
+async function updateBooking(id, status){
+  await db.collection('bookings').doc(id).update({status, updated:new Date().toISOString()});
+  toast('Booking ' + status.toLowerCase());
+  loadBookings(); loadDashboard();
+}
+
+// ─────────────────────────────────────────────────
+//  USERS
+// ─────────────────────────────────────────────────
+async function loadUsers(){
+  const snap = await db.collection('users').get();
+  set('usersCount', snap.size);
+  if(snap.empty){ set('usersTable','<tr><td colspan="5" class="empty-state">No registered users yet</td></tr>'); return; }
+  const rows = snap.docs.map(d => {
+    const u = d.data();
+    return `<tr>
+      <td>${(u.firstName||'')+' '+(u.lastName||'')}</td>
+      <td>${u.email||'—'}</td>
+      <td>${u.country||'—'}</td>
+      <td style="font-size:12px">${(u.created||'').substring(0,10)}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="suspendUser('${d.id}')">Suspend</button></td>
+    </tr>`;
+  }).join('');
+  set('usersTable', rows);
+}
+
+async function suspendUser(id){
+  if(!confirm('Suspend this user?')) return;
+  await db.collection('users').doc(id).update({suspended:true, suspendedAt:new Date().toISOString()});
+  toast('User suspended'); loadUsers();
+}
+
+// ─────────────────────────────────────────────────
+//  ADMINS
+// ─────────────────────────────────────────────────
+async function addAdmin(){
+  const email = v('adEmail'), name = v('adName'), role = v('adRole');
+  if(!email||!name){ toast('Fill in email and name'); return; }
+  await db.collection('adminInvites').add({email,name,role,invitedBy:currentAdmin?.uid,created:new Date().toISOString()});
+  setVal('adEmail',''); setVal('adName','');
+  toast('Admin invite saved. They must use "Create admin account" to register then they\'ll have access.');
+  loadAdmins();
+}
+
+async function loadAdmins(){
+  const snap = await db.collection('admins').get();
+  if(snap.empty){ set('adminList','<div class="empty-state">No admins found</div>'); return; }
+  const html = snap.docs.map(d => {
+    const a = d.data();
+    const isYou = d.id === currentAdmin?.uid;
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06)">
+      <div>
+        <strong>${a.name||'—'}</strong>
+        <div style="font-size:12px;color:#888;margin-top:2px">${a.email} · <span class="badge b-purple">${a.role||'Admin'}</span></div>
+      </div>
+      ${isYou ? '<span class="badge b-green">You</span>' : `<button class="btn btn-danger btn-sm" onclick="removeAdmin('${d.id}')">Remove</button>`}
+    </div>`;
+  }).join('');
+  set('adminList', html);
+}
+
+async function removeAdmin(id){
+  if(!confirm('Remove this admin? They will no longer be able to log in.')) return;
+  await db.collection('admins').doc(id).delete();
+  toast('Admin removed'); loadAdmins();
+}
+
+// ─────────────────────────────────────────────────
+//  AI WRITING ASSISTANT
+// ─────────────────────────────────────────────────
+async function aiWrite(titleId, bodyId, context){
+  aiTargetTitle = titleId; aiTargetBody = bodyId; aiApplyFn = null;
+  document.getElementById('aiModal').classList.add('open');
+  document.getElementById('aiResult').textContent = 'Generating content...';
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:1000,
+        messages:[{role:'user',content:`Write a compelling ${context} for Springcompany, the world's premier celebrity booking platform. Return valid JSON only with no markdown: {"title":"...","body":"..."}`}]
+      })
+    });
+    const data = await resp.json();
+    const text = (data.content||[]).map(c=>c.text||'').join('');
+    const parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
+    aiTitle = parsed.title; aiBody = parsed.body;
+    document.getElementById('aiResult').innerHTML = `<strong>${parsed.title}</strong><br><br>${parsed.body}`;
+  } catch(e){
+    document.getElementById('aiResult').textContent = 'Could not generate content. Make sure you have internet access.';
+  }
+}
+
+async function aiCeleb(){
+  aiTargetTitle = null; aiTargetBody = null;
+  document.getElementById('aiModal').classList.add('open');
+  document.getElementById('aiResult').textContent = 'Generating celebrity profile...';
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:800,
+        messages:[{role:'user',content:'Generate a realistic celebrity profile for a booking platform. Return valid JSON only with no markdown: {"name":"...","category":"Music","nationality":"...","occupation":"...","yearsActive":"...","fee":50000,"bio":"..."}'
+        }]
+      })
+    });
+    const data = await resp.json();
+    const parsed = JSON.parse((data.content[0].text||'').replace(/```json|```/g,'').trim());
+    aiTitle = ''; aiBody = '';
+    document.getElementById('aiResult').innerHTML = `<strong>${parsed.name}</strong> · ${parsed.category}<br><br>${parsed.bio}`;
+    aiApplyFn = () => {
+      setVal('cName',parsed.name); setVal('cBio',parsed.bio);
+      setVal('cOcc',parsed.occupation); setVal('cNation',parsed.nationality);
+      setVal('cYears',parsed.yearsActive); setVal('cFee',parsed.fee);
+      document.getElementById('cCat').value = parsed.category||'Music';
+    };
+  } catch(e){
+    document.getElementById('aiResult').textContent = 'Could not generate profile.';
+  }
+}
+
+async function aiHero(){
+  aiTargetTitle = null; aiTargetBody = null;
+  document.getElementById('aiModal').classList.add('open');
+  document.getElementById('aiResult').textContent = 'Writing hero copy...';
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:600,
+        messages:[{role:'user',content:'Write hero section copy for Springcompany, a celebrity booking platform. Return valid JSON only with no markdown: {"headline":"...","tagline":"...","description":"...","cta1":"...","cta2":"..."}'
+        }]
+      })
+    });
+    const data = await resp.json();
+    const parsed = JSON.parse((data.content[0].text||'').replace(/```json|```/g,'').trim());
+    document.getElementById('aiResult').innerHTML = `<strong>${parsed.headline}</strong><br>${parsed.tagline}<br><br>${parsed.description}`;
+    aiApplyFn = () => {
+      setVal('hHeadline',parsed.headline); setVal('hTagline',parsed.tagline);
+      setVal('hDesc',parsed.description); setVal('hCta1',parsed.cta1); setVal('hCta2',parsed.cta2);
+    };
+  } catch(e){
+    document.getElementById('aiResult').textContent = 'Could not generate hero copy.';
+  }
+}
+
+function applyAi(){
+  if(aiApplyFn){ aiApplyFn(); }
+  else {
+    if(aiTargetTitle && aiTitle) setVal(aiTargetTitle, aiTitle);
+    if(aiTargetBody  && aiBody)  setVal(aiTargetBody,  aiBody);
+  }
+  closeAi();
+}
+function closeAi(){ document.getElementById('aiModal').classList.remove('open'); aiApplyFn=null; }
+
+// ─────────────────────────────────────────────────
+//  HELPERS
+// ─────────────────────────────────────────────────
+function v(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
+function set(id, html, mode){
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(mode==='val') el.value = html;
+  else el.innerHTML = (typeof html === 'number') ? html : html;
+}
+function setVal(id, val){ const el=document.getElementById(id); if(el) el.value=val||''; }
+
+function statusBadge(s){
+  const cls = s==='Confirmed'?'b-green':s==='Cancelled'?'b-red':'b-amber';
+  return `<span class="badge ${cls}">${s||'Pending'}</span>`;
+}
+
+function showInlineAlert(id, msg, cls){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.className = 'alert ' + cls;
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display='none'; }, 5000);
+}
+
+function showErr(id, msg){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.className = 'alert alert-red';
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => { t.style.display='none'; }, 3000);
+}
+
+function setBtnLoading(id, loading){
+  const btn = document.getElementById(id);
+  if(!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading ? '<span class="spin"></span> Signing in...' : 'Sign In';
+}
+</script>
+</body>
+</html>
