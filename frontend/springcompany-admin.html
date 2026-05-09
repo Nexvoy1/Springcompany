@@ -426,10 +426,30 @@ tr:hover td{background:#fafafa}
     <div class="page" id="page-users">
       <div class="page-header"><h1>Registered Users</h1><p>Everyone who signed up on Springcompany</p></div>
       <div class="card">
+        <div class="card-title" id="userFormTitle">Add New User</div>
+        <div class="grid2">
+          <div><label>First Name *</label><input id="uFirstName" placeholder="John"></div>
+          <div><label>Last Name *</label><input id="uLastName" placeholder="Doe"></div>
+        </div>
+        <div class="grid2">
+          <div><label>Email Address *</label><input type="email" id="uEmail" placeholder="john@example.com"></div>
+          <div><label>Country</label><input id="uCountry" placeholder="USA"></div>
+        </div>
+        <label>Phone Number</label><input id="uPhone" placeholder="+1 (555) 123-4567">
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="saveUser()" id="uSaveBtn">Add User</button>
+          <button class="btn" onclick="clearUser()" id="uCancelBtn" style="display:none">Cancel Edit</button>
+        </div>
+      </div>
+      <div class="card">
         <div class="card-title">All Users <span class="badge b-blue" id="usersCount">0</span></div>
+        <div style="margin-bottom:16px;display:flex;gap:12px;flex-wrap:wrap">
+          <div><label>Search</label><input id="userSearch" placeholder="Name or email..." oninput="filterUsers()"></div>
+          <div><label>Country</label><input id="userCountryFilter" placeholder="Filter by country..." oninput="filterUsers()"></div>
+        </div>
         <div class="tbl-wrap">
-          <table><thead><tr><th>Name</th><th>Email</th><th>Country</th><th>Joined</th><th>Action</th></tr></thead>
-          <tbody id="usersTable"><tr><td colspan="5" class="empty-state">Loading users...</td></tr></tbody></table>
+          <table><thead><tr><th>Name</th><th>Email</th><th>Country</th><th>Phone</th><th>Joined</th><th>Actions</th></tr></thead>
+          <tbody id="usersTable"><tr><td colspan="6" class="empty-state">Loading users...</td></tr></tbody></table>
         </div>
       </div>
     </div>
@@ -1009,27 +1029,103 @@ async function updateBooking(id, status){
 // ─────────────────────────────────────────────────
 //  USERS
 // ─────────────────────────────────────────────────
+let allUsers = [];
+let editingUser = null;
+
 async function loadUsers(){
   const snap = await db.collection('users').get();
-  set('usersCount', snap.size);
-  if(snap.empty){ set('usersTable','<tr><td colspan="5" class="empty-state">No registered users yet</td></tr>'); return; }
-  const rows = snap.docs.map(d => {
-    const u = d.data();
+  allUsers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  set('usersCount', allUsers.length);
+  filterUsers();
+}
+
+function filterUsers(){
+  const search = v('userSearch').toLowerCase();
+  const countryFilter = v('userCountryFilter').toLowerCase();
+  const filtered = allUsers.filter(u => {
+    const name = ((u.firstName || '') + ' ' + (u.lastName || '')).toLowerCase();
+    const email = (u.email || '').toLowerCase();
+    const country = (u.country || '').toLowerCase();
+    const matchesSearch = !search || name.includes(search) || email.includes(search);
+    const matchesCountry = !countryFilter || country.includes(countryFilter);
+    return matchesSearch && matchesCountry;
+  });
+  if(filtered.length === 0){
+    set('usersTable','<tr><td colspan="6" class="empty-state">No users match the filters</td></tr>');
+    return;
+  }
+  const rows = filtered.map(u => {
+    const name = (u.firstName || '') + ' ' + (u.lastName || '');
     return `<tr>
-      <td>${(u.firstName||'')+' '+(u.lastName||'')}</td>
-      <td>${u.email||'—'}</td>
-      <td>${u.country||'—'}</td>
-      <td style="font-size:12px">${(u.created||'').substring(0,10)}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="suspendUser('${d.id}')">Suspend</button></td>
+      <td>${name || '—'}</td>
+      <td>${u.email || '—'}</td>
+      <td>${u.country || '—'}</td>
+      <td>${u.phone || '—'}</td>
+      <td style="font-size:12px">${(u.created || '').substring(0,10)}</td>
+      <td class="actions">
+        <button class="btn btn-sm" onclick="editUser('${u.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteUser('${u.id}', '${name || u.email}')">Delete</button>
+      </td>
     </tr>`;
   }).join('');
   set('usersTable', rows);
 }
 
-async function suspendUser(id){
-  if(!confirm('Suspend this user?')) return;
-  await db.collection('users').doc(id).update({suspended:true, suspendedAt:new Date().toISOString()});
-  toast('User suspended'); loadUsers();
+async function saveUser(){
+  if(currentAdmin.role !== 'Super Admin' && currentAdmin.role !== 'Content Manager'){ toast('You do not have permission to manage users'); return; }
+  const firstName = v('uFirstName');
+  const lastName = v('uLastName');
+  const email = v('uEmail');
+  if(!firstName || !lastName || !email){ toast('Fill in first name, last name, and email'); return; }
+  const data = {
+    firstName, lastName, email, country: v('uCountry'), phone: v('uPhone'),
+    updated: new Date().toISOString()
+  };
+  if(editingUser){
+    await db.collection('users').doc(editingUser).update(data);
+    toast('User updated!');
+    editingUser = null;
+    document.getElementById('uSaveBtn').textContent = 'Add User';
+    document.getElementById('uCancelBtn').style.display = 'none';
+    document.getElementById('userFormTitle').textContent = 'Add New User';
+  } else {
+    data.created = new Date().toISOString();
+    await db.collection('users').add(data);
+    toast('User added!');
+  }
+  clearUser(); loadUsers();
+}
+
+function clearUser(){
+  ['uFirstName','uLastName','uEmail','uCountry','uPhone'].forEach(id => setVal(id,''));
+  editingUser = null;
+  document.getElementById('uSaveBtn').textContent = 'Add User';
+  document.getElementById('uCancelBtn').style.display = 'none';
+  document.getElementById('userFormTitle').textContent = 'Add New User';
+}
+
+async function editUser(id){
+  const user = allUsers.find(u => u.id === id);
+  if(!user) return;
+  setVal('uFirstName', user.firstName || '');
+  setVal('uLastName', user.lastName || '');
+  setVal('uEmail', user.email || '');
+  setVal('uCountry', user.country || '');
+  setVal('uPhone', user.phone || '');
+  editingUser = id;
+  document.getElementById('uSaveBtn').textContent = 'Update User';
+  document.getElementById('uCancelBtn').style.display = 'inline-flex';
+  document.getElementById('userFormTitle').textContent = 'Editing: ' + (user.firstName + ' ' + user.lastName);
+  goPage('users', document.querySelector('.nav-item[onclick*="users"]'));
+  document.getElementById('page-users').scrollIntoView({behavior:'smooth'});
+}
+
+async function deleteUser(id, name){
+  if(currentAdmin.role !== 'Super Admin'){ toast('Only Super Admin can delete users'); return; }
+  if(!confirm(`Delete user "${name}"? This cannot be undone.`)) return;
+  await db.collection('users').doc(id).delete();
+  toast('User deleted');
+  loadUsers();
 }
 
 // ─────────────────────────────────────────────────
