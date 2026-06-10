@@ -2214,4 +2214,11 @@ function sbHandleResponse(msg) {
   if (m.includes('sport') || m.includes('athlete') || m.includes('football') || m.includes('basketball')) return sbPick(sbKnowledge.sports);
   if (m.includes('pay') || m.includes('payment') || m.includes('paystack') || m.includes('bitcoin')) return sbPick(sbKnowledge.payment);
   if (m.includes('refund') || m.includes('cancel')) return "Cancellations and refunds are handled case by case. Please email support@springcompany.com with your booking reference and we will assist you within 2 hours.";
-  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! Welcome to Springcompany - the world's premier celebrity
+  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! Welcome to Springcompany - the world's premier celebrity booking platform. How can I help you today?";
+  return sbPick(sbKnowledge.default);
+}
+
+</script>
+
+</body>
+</html>
