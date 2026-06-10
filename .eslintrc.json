@@ -1,0 +1,23 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module"
+  },
+  "plugins": ["html"],
+  "overrides": [
+    {
+      "files": ["**/*.html"],
+      "processor": "html/html"
+    }
+  ],
+  "rules": {
+    "no-unused-vars": ["warn", { "vars": "local", "args": "none" }],
+    "no-console": "off",
+    "eqeqeq": ["warn", "always"]
+  }
+}
