@@ -1500,7 +1500,7 @@ input:checked+.tog-sl::before { transform:translateX(20px); background:#fff; }
     </div>
   </div>
 
-</ddiv>
+</div>
       <!-- Login -->
       <div id="loginFields">
         <div class="mf"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com"></div>
@@ -1552,7 +1552,12 @@ var SC_TOKEN = localStorage.getItem('sc_token');
 var SC_USER  = null;
 try { SC_USER = JSON.parse(localStorage.getItem('sc_current_user')||'null'); } catch(e){}
 if (!SC_TOKEN || !SC_USER) {
-  window.location.href = '/?requireLogin=1';
+  // Development preview bypass: append ?preview=1 to the URL to skip auth redirect
+  if (typeof location !== 'undefined' && (location.search||'').indexOf('preview=1') === -1) {
+    window.location.href = '/?requireLogin=1';
+  } else {
+    console.warn('Dashboard preview mode enabled: skipping auth redirect');
+  }
 }
 
 // ── DATA STORE ────────────────────────────────────
@@ -1792,7 +1797,7 @@ function renderBkTable() {
         var payCls = b.payment&&b.payment.status==='paid' ? 'badge-green' : 'badge-gold';
         return '<tr>' +
           '<td><div style="display:flex;align-items:center;gap:8px">' +
-          (celeb.image ? '<div class="d-avatar" style="background-image:url(''+celeb.image+'')"></div>' : '<div class="d-avatar">'+(celeb.name||'?')[0]+'</div>') +
+          (celeb.image ? '<div class="d-avatar" style="background-image:url(\''+celeb.image+'\')"></div>' : '<div class="d-avatar">'+(celeb.name||'?')[0]+'</div>') +
           '<div><div style="font-weight:600;font-size:.81rem">'+(celeb.name||'Unknown')+'</div><div style="font-size:.7rem;color:var(--muted)">'+(celeb.category||'')+'</div></div></div></td>' +
           '<td style="font-size:.8rem">'+b.eventName+'</td>' +
           '<td style="font-size:.76rem;color:var(--muted)">'+(b.eventDate ? new Date(b.eventDate).toLocaleDateString() : '—')+'</td>' +
@@ -1825,7 +1830,7 @@ function renderFanCards(cards) {
     var tierCls = {Silver:'silver-tier', Gold:'gold-tier', VIP:'vip-tier'}[c.tier]||'';
     var tierIco = {Silver:'🥈', Gold:'🥇', VIP:'👑'}[c.tier]||'⭐';
     return '<div class="fc-card '+tierCls+'">' +
-      (celeb.image ? '<div style="width:52px;height:52px;border-radius:50%;background-image:url(''+celeb.image+'');background-size:cover;background-position:center;border:2px solid var(--border2);flex-shrink:0"></div>' :
+      (celeb.image ? '<div style="width:52px;height:52px;border-radius:50%;background-image:url(\''+celeb.image+'\');background-size:cover;background-position:center;border:2px solid var(--border2);flex-shrink:0"></div>' :
        '<div style="width:52px;height:52px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">'+tierIco+'</div>') +
       '<div style="flex:1;min-width:0">' +
       '<div style="font-weight:700;font-size:.87rem">'+(celeb.name||'Celebrity')+'</div>' +
@@ -1881,7 +1886,7 @@ function renderFavCeleb(fav) {
   if (!fav) return;
   if (aEl) aEl.textContent = fav.name || '—';
   el.innerHTML = '<div style="display:flex;align-items:center;gap:16px">' +
-    (fav.image ? '<div style="width:62px;height:62px;border-radius:50%;background-image:url(''+fav.image+'');background-size:cover;background-position:center;border:2px solid var(--gold);flex-shrink:0"></div>' :
+  (fav.image ? '<div style="width:62px;height:62px;border-radius:50%;background-image:url(\''+fav.image+'\');background-size:cover;background-position:center;border:2px solid var(--gold);flex-shrink:0"></div>' :
      '<div style="width:62px;height:62px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;border:2px solid var(--border)">⭐</div>') +
     '<div><div style="font-weight:700;font-size:.94rem">'+(fav.name||'Unknown')+'</div><div style="font-size:.77rem;color:var(--muted);margin-top:3px">'+(fav.category||'')+'</div>' +
     '<a href="/celebrities.html" style="display:inline-flex;align-items:center;gap:5px;margin-top:9px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;padding:7px 15px;border-radius:8px;font-weight:700;font-size:.78rem;text-decoration:none"><i class="fas fa-bolt"></i> Book Again</a>' +
