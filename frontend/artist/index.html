@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Artist — Springcompany</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root{--bg:#0A0A0F;--text:#F0EEF8;--muted:#8A87A0;--gold:#D4AF37}
+    body{margin:0;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
+    header{height:72px;display:flex;align-items:center;gap:16px;padding:0 24px;background:rgba(0,0,0,0.6);position:sticky;top:0}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+    .logo img{height:38px;border-radius:8px}
+    main{max-width:1100px;margin:28px auto;padding:0 20px}
+    .profile-hero{height:420px;background-size:cover;background-position:center;border-radius:12px;position:relative}
+    .profile-card{display:grid;grid-template-columns:320px 1fr;gap:28px;margin-top:-80px}
+    .profile-left{background:rgba(255,255,255,0.03);padding:18px;border-radius:12px}
+    .profile-img{height:320px;background-size:cover;background-position:center;border-radius:8px}
+    .btn-book{display:inline-block;padding:12px 18px;background:var(--gold);color:#000;border-radius:8px;text-decoration:none;font-weight:700}
+    footer{padding:28px;text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="/">
+      <img src="/img/logo.png" alt="logo">
+      <strong>Springcompany</strong>
+    </a>
+  </header>
+  <main>
+    <div id="hero" class="profile-hero"></div>
+    <div id="profile" class="profile-card">
+      <div class="profile-left">
+        <div id="pimg" class="profile-img"></div>
+        <div id="pinfo"></div>
+      </div>
+      <div class="profile-right">
+        <h1 id="pname"></h1>
+        <div id="pmeta" style="color:var(--muted);margin-bottom:12px"></div>
+        <p id="pbio" style="line-height:1.6;color:var(--muted)"></p>
+        <div style="margin-top:18px">
+          <a id="bookBtn" class="btn-book" href="#">Book This Artist</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    © SPRING COMPANY
+  </footer>
+
+  <script>
+  // Try to obtain CELEBRITIES data from global or by fetching index
+  function qs(name){return new URL(location.href).searchParams.get(name)}
+  function slugFromName(name){return String(name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
+  function fetchCelebs(){
+    return new Promise(function(resolve){
+      if (window.CELEBRITIES) return resolve(window.CELEBRITIES);
+      fetch('/frontend/index.html').then(function(r){return r.text()}).then(function(t){
+        var m = t.match(/var CELEBRITIES = (\[.*?\]);/s);
+        if (m) {
+          try { resolve(JSON.parse(m[1])); return; } catch(e){}
+        }
+        resolve([]);
+      }).catch(function(){resolve([])});
+    });
+  }
+  function renderCeleb(c){
+    if(!c){document.getElementById('profile').innerHTML='<p style="color:var(--muted)">Artist not found.</p>';return}
+    document.getElementById('hero').style.backgroundImage = "url('"+c.img+"')";
+    document.getElementById('pimg').style.backgroundImage = "url('"+c.img+"')";
+    document.getElementById('pname').textContent = c.name;
+    document.getElementById('pmeta').textContent = (c.occ||'') + ' • ' + (c.nation||'') + ' • ' + (c.years||'');
+    document.getElementById('pbio').textContent = c.bio||'';
+    document.getElementById('bookBtn').href = '/book-now.html?artist_id=' + c.id;
+  }
+  (function(){
+    var path = location.pathname.split('/').filter(Boolean);
+    var slug = path.length >= 2 && path[0].toLowerCase() === 'artist' ? path[1] : null;
+    var id = qs('id')||qs('artist_id')||null;
+    fetchCelebs().then(function(list){
+      var celeb = null;
+      if (slug) celeb = list.find(function(x){ return slugFromName(x.name) === slug });
+      if (!celeb && id) celeb = list.find(function(x){ return String(x.id) === String(id) });
+      renderCeleb(celeb);
+    });
+  })();
+  </script>
+</body>
+</html>

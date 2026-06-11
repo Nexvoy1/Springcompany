@@ -1399,7 +1399,10 @@ function filterCelebs(query) {
 function openProfile(id, pushHistory) {
   // navigate to full artist page for consistent header/footer and proper URL
   try {
-    window.location.href = '/frontend/artist.html?id=' + id;
+    var c_tmp = CELEBRITIES.find(function(x) { return x.id === id; });
+    var slug = c_tmp ? c_tmp.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') : id;
+    // navigate to pretty URL under /artist/<slug>/
+    window.location.href = '/artist/' + slug + '/?id=' + id;
     return;
   } catch (e) {}
   var c = CELEBRITIES.find(function(x) { return x.id === id; });
