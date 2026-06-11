@@ -525,6 +525,10 @@ let aiTitle = '', aiBody = '';
 // ─────────────────────────────────────────────────
 auth.onAuthStateChanged(async user => {
   if (!user) { showLogin(); return; }
+  await initAdmin(user);
+});
+
+async function initAdmin(user){
   let attempts = 0;
   async function tryGetAdmin(){
     attempts++;
@@ -552,17 +556,32 @@ auth.onAuthStateChanged(async user => {
     }
   }
   tryGetAdmin();
-});
+}
 
-function showLogin(){ document.getElementById('loginWrap').style.display='flex'; document.getElementById('adminApp').style.display='none'; }
+function showLogin(){
+  document.getElementById('loginWrap').style.display='flex';
+  document.getElementById('adminApp').style.display='none';
+  document.getElementById('loginErr').style.display = 'none';
+  setBtnLoading('loginBtn', false);
+}
 function showApp(){ document.getElementById('loginWrap').style.display='none'; document.getElementById('adminApp').style.display='flex'; }
 
 async function doLogin(){
   const email = v('loginEmail'), pass = v('loginPass');
   if(!email||!pass){ showErr('loginErr','Enter your email and password'); return; }
   setBtnLoading('loginBtn', true);
-  try { await auth.signInWithEmailAndPassword(email, pass); }
-  catch(e){ showErr('loginErr', friendlyAuthError(e.code)); setBtnLoading('loginBtn', false); }
+  try {
+    const result = await auth.signInWithEmailAndPassword(email, pass);
+    if(result && result.user){
+      await initAdmin(result.user);
+    }
+  } catch(e){
+    const msg = friendlyAuthError(e.code) || e.message || 'Unable to sign in. Please check your credentials and network.';
+    showErr('loginErr', msg);
+    console.error('Login error:', e);
+  } finally {
+    setBtnLoading('loginBtn', false);
+  }
 }
 
 async function createAdmin(){

@@ -1894,7 +1894,7 @@ function renderFavCeleb(fav) {
 }
 
 // ── PANEL NAV ─────────────────────────────────────
-function showPanel(id, btn) {
+window.showPanel = function(id, btn) {
   document.querySelectorAll('.ap').forEach(function(p){p.classList.remove('active');});
   var el = document.getElementById('ap-'+id);
   if (el) el.classList.add('active');

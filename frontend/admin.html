@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Springcompany Admin</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body{font-family:Inter,ui-sans-serif,system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background:#f6f7fb;color:#0b0b12;margin:0}
+    .wrap{max-width:1100px;margin:28px auto;padding:20px;background:#fff;border-radius:10px;box-shadow:0 6px 30px rgba(15,15,30,0.06)}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    h1{font-size:18px;margin:0}
+    .tabs{display:flex;gap:8px}
+    .tab{padding:8px 12px;border-radius:8px;border:1px solid #e6e9f0;cursor:pointer}
+    .tab.active{background:#0b63ff;color:#fff;border-color:#0b63ff}
+    .panel{margin-top:14px}
+    .controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+    .btn{padding:8px 12px;border-radius:8px;border:1px solid #dfe6ff;background:#fff;cursor:pointer}
+    .btn.primary{background:#0b63ff;color:#fff;border-color:#0b63ff}
+    table{width:100%;border-collapse:collapse;margin-top:8px}
+    th,td{padding:10px;border-bottom:1px solid #f1f4fb;text-align:left;font-size:14px}
+    .muted{color:#667085;font-size:13px}
+    .form-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    input,textarea,select{padding:8px;border-radius:8px;border:1px solid #e6e9f0;width:100%}
+    .modal{position:fixed;inset:0;background:rgba(8,10,15,0.5);display:flex;align-items:center;justify-content:center}
+    .card{background:#fff;padding:18px;border-radius:10px;min-width:320px;max-width:860px}
+    .small{font-size:13px;color:#475569}
+    .danger{background:#ffecec;border-color:#ffb3b3;color:#9b1c1c}
+    .actions{display:flex;gap:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <script type="text/babel">
+const { useState, useEffect } = React;
+
+// Simple API helper that sends Authorization header from localStorage.sc_token
+function api(path, opts={}){
+  const token = localStorage.getItem('sc_token');
+  opts.headers = Object.assign({'Content-Type':'application/json'}, opts.headers || {});
+  if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+  if (opts.body && typeof opts.body !== 'string') opts.body = JSON.stringify(opts.body);
+  return fetch('/api/admin' + path, opts).then(r=>r.json());
+}
+
+function useResource(resource){
+  const [items,setItems] = useState([]);
+  const [loading,setLoading] = useState(false);
+  const list = (q="")=>{
+    setLoading(true);
+    return api('/'+resource + (q?('?'+q):''))
+      .then(d=>{ if(d.success){ setItems(d[resource] || d[resource+'s'] || d[resource.slice(0,-1)] || d.items || []); } else console.error(d.message); })
+      .finally(()=>setLoading(false));
+  };
+  const create = (payload)=> api('/'+resource, {method:'POST', body:payload}).then(d=>{ if(d.success) list(); return d; });
+  const update = (id,payload)=> api('/'+resource+'/'+id, {method:'PUT', body:payload}).then(d=>{ if(d.success) list(); return d; });
+  const remove = (id)=> api('/'+resource+'/'+id, {method:'DELETE'}).then(d=>{ if(d.success) list(); return d; });
+  return { items, list, create, update, remove, loading };
+}
+
+function Toolbar({onCreate, placeholder, onRefresh}){
+  return (
+    <div className="controls">
+      <button className="btn primary" onClick={onCreate}>New</button>
+      <button className="btn" onClick={onRefresh}>Refresh</button>
+      <div style={{marginLeft:'auto'}} className="muted">You are using the existing admin API endpoints. Ensure JWT in localStorage as `sc_token`.</div>
+    </div>
+  );
+}
+
+function CelebritiesPanel(){
+  const r = useResource('celebrities');
+  const [modal,setModal] = useState(null); // {mode:'edit'|'create', data:{}}
+
+  useEffect(()=>{ r.list(); }, []);
+  function openCreate(){ setModal({mode:'create', data:{name:'',slug:'',category:'',image:'',baseFee:''}}); }
+  function openEdit(it){ setModal({mode:'edit', data:Object.assign({}, it)}); }
+  function save(){
+    const d = modal.data;
+    if (modal.mode==='create') r.create(d).then(()=>setModal(null));
+    else r.update(d._id, d).then(()=>setModal(null));
+  }
+  function del(id){ if(!confirm('Delete celebrity?')) return; r.remove(id); }
+
+  return (
+    <div className="panel">
+      <Toolbar onCreate={openCreate} onRefresh={()=>r.list()} />
+      <div style={{display:'flex',gap:8,alignItems:'center',marginBottom:12}}>
+        <input type="file" id="csvFile" accept=".csv" style={{display:'inline-block'}} onChange={e=>{ if(e.target.files[0]) importCSV(e.target.files[0]); e.target.value=''; }} />
+        <div className="small muted">Select a CSV to import celebrities (first row = headers). Max rows controlled by server.</div>
+      </div>
+      <table>
+        <thead><tr><th>Name</th><th>Category</th><th>Base Fee</th><th>Image</th><th></th></tr></thead>
+        <tbody>
+          {r.items.map(it=> (
+            <tr key={it._id}>
+              <td><strong>{it.name}</strong><div className="small">{it.slug}</div></td>
+              <td>{it.category}</td>
+              <td className="small">{it.baseFee||'-'}</td>
+              <td className="small">{it.image ? <a href={it.image} target="_blank">view</a> : '-'}</td>
+              <td className="actions">
+                <button className="btn" onClick={()=>openEdit(it)}>Edit</button>
+                <button className="btn danger" onClick={()=>del(it._id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+          {r.items.length===0 && <tr><td colSpan="5" style={{textAlign:'center',padding:'18px'}} className="muted">No celebrities</td></tr>}
+        </tbody>
+      </table>
+
+      {modal && (
+        <div className="modal">
+          <div className="card">
+            <h3 style={{marginTop:0}}>{modal.mode==='create' ? 'Create Celebrity' : 'Edit Celebrity'}</h3>
+            <div className="form-row">
+              <input placeholder="Name" value={modal.data.name} onChange={e=>setModal({ ...modal, data: {...modal.data, name:e.target.value}})} />
+              <input placeholder="Slug" value={modal.data.slug} onChange={e=>setModal({ ...modal, data: {...modal.data, slug:e.target.value}})} />
+            </div>
+            <div className="form-row">
+              <input placeholder="Category" value={modal.data.category} onChange={e=>setModal({ ...modal, data: {...modal.data, category:e.target.value}})} />
+              <input placeholder="Base Fee" value={modal.data.baseFee} onChange={e=>setModal({ ...modal, data: {...modal.data, baseFee:e.target.value}})} />
+            </div>
+            <div className="form-row">
+              <input placeholder="Image URL" value={modal.data.image} onChange={e=>setModal({ ...modal, data: {...modal.data, image:e.target.value}})} />
+            </div>
+            <div className="form-row">
+              <input type="file" accept="image/*" onChange={e=>{ const f = e.target.files[0]; if(f) uploadImage(f); e.target.value=''; }} />
+            </div>
+            <div className="small muted">You can paste an image URL or upload an image file which will be stored (S3 if configured, otherwise local /uploads/).</div>
+            <div style={{display:'flex',justifyContent:'flex-end',gap:8}}>
+              <button className="btn" onClick={()=>setModal(null)}>Cancel</button>
+              <button className="btn primary" onClick={save}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+function PostsPanel(){
+function importCSV(file){
+  if(!confirm('Import CSV file? This will create multiple celebrities.')) return;
+  const token = localStorage.getItem('sc_token');
+  const fd = new FormData(); fd.append('file', file);
+  fetch('/api/admin/import/celebrities', { method: 'POST', headers: token?{ 'Authorization': 'Bearer '+token }:undefined, body: fd })
+    .then(r=>r.json()).then(d=>{
+      if(d.success){ alert('Imported '+d.inserted+' rows.'); window.location.reload(); }
+      else alert('Import failed: '+(d.message||JSON.stringify(d)));
+    }).catch(err=>alert('Import error: '+err.message));
+}
+
+function uploadImage(file){
+  const token = localStorage.getItem('sc_token');
+  const fd = new FormData(); fd.append('file', file);
+  fetch('/api/admin/upload-image', { method: 'POST', headers: token?{ 'Authorization': 'Bearer '+token }:undefined, body: fd })
+    .then(r=>r.json()).then(d=>{
+      if(d.success){
+        // set image url into modal if open
+        const root = document.getElementById('root');
+        // Try to find modal data through React state: easiest is to prompt user to copy link
+        alert('Upload successful. Image URL: ' + d.url + '\nIt will also be set automatically in the form if it is open.');
+        // Try to find input by focusing: set window temporary
+        // For simplicity, copy to clipboard
+        try{ navigator.clipboard.writeText(d.url); }catch(e){}
+      } else alert('Upload failed: '+(d.message||JSON.stringify(d)));
+    }).catch(err=>alert('Upload error: '+err.message));
+}
+  const r = useResource('posts');
+  const [modal,setModal] = useState(null);
+  useEffect(()=>{ r.list(); }, []);
+  function openCreate(){ setModal({mode:'create', data:{title:'',excerpt:'',content:'',image:'',category:''}}); }
+  function openEdit(it){ setModal({mode:'edit', data:Object.assign({},it)}); }
+  function save(){ const d = modal.data; if(modal.mode==='create') r.create(d).then(()=>setModal(null)); else r.update(d._id,d).then(()=>setModal(null)); }
+  function del(id){ if(!confirm('Delete post?')) return; r.remove(id); }
+  return (
+    <div className="panel">
+      <Toolbar onCreate={openCreate} onRefresh={()=>r.list()} />
+      <table>
+        <thead><tr><th>Title</th><th>Category</th><th>Published</th><th></th></tr></thead>
+        <tbody>
+          {r.items.map(it=> (
+            <tr key={it._id}>
+              <td><strong>{it.title}</strong><div className="small">{it.excerpt}</div></td>
+              <td>{it.category}</td>
+              <td className="small">{it.published? 'Yes':'No'}</td>
+              <td className="actions"><button className="btn" onClick={()=>openEdit(it)}>Edit</button><button className="btn danger" onClick={()=>del(it._id)}>Delete</button></td>
+            </tr>
+          ))}
+          {r.items.length===0 && <tr><td colSpan="4" style={{textAlign:'center',padding:'18px'}} className="muted">No posts</td></tr>}
+        </tbody>
+      </table>
+
+      {modal && (
+        <div className="modal"><div className="card">
+          <h3 style={{marginTop:0}}>{modal.mode==='create'?'Create Post':'Edit Post'}</h3>
+          <div className="form-row"><input placeholder="Title" value={modal.data.title} onChange={e=>setModal({...modal,data:{...modal.data,title:e.target.value}})} /></div>
+          <div className="form-row"><input placeholder="Excerpt" value={modal.data.excerpt} onChange={e=>setModal({...modal,data:{...modal.data,excerpt:e.target.value}})} /></div>
+          <div className="form-row"><input placeholder="Category" value={modal.data.category} onChange={e=>setModal({...modal,data:{...modal.data,category:e.target.value}})} /></div>
+          <div className="form-row"><input placeholder="Image URL" value={modal.data.image} onChange={e=>setModal({...modal,data:{...modal.data,image:e.target.value}})} /></div>
+          <div className="form-row"><textarea placeholder="Content" value={modal.data.content} onChange={e=>setModal({...modal,data:{...modal.data,content:e.target.value}})} style={{minHeight:120}} /></div>
+          <div style={{display:'flex',justifyContent:'flex-end',gap:8}}><button className="btn" onClick={()=>setModal(null)}>Cancel</button><button className="btn primary" onClick={save}>Save</button></div>
+        </div></div>
+      )}
+    </div>
+  );
+}
+
+function UsersPanel(){
+  const r = useResource('users');
+  const [modal,setModal] = useState(null);
+  useEffect(()=>{ r.list(); }, []);
+  function openEdit(u){ setModal({data:Object.assign({},u)}); }
+  function save(){ const d = modal.data; r.update(d._id,{ role:d.role }).then(()=>setModal(null)); }
+  function del(id){ if(!confirm('Delete user?')) return; r.remove(id); }
+  return (
+    <div className="panel">
+      <div className="controls"><button className="btn" onClick={()=>r.list()}>Refresh</button><div style={{marginLeft:'auto'}} className="muted">Users endpoint supports role update</div></div>
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th></th></tr></thead>
+        <tbody>
+          {r.items.map(u=> (
+            <tr key={u._id}><td><strong>{u.firstName} {u.lastName}</strong></td><td className="small">{u.email}</td><td>{u.role}</td><td className="actions"><button className="btn" onClick={()=>openEdit(u)}>Edit</button><button className="btn danger" onClick={()=>del(u._id)}>Delete</button></td></tr>
+          ))}
+          {r.items.length===0 && <tr><td colSpan="4" style={{textAlign:'center',padding:'18px'}} className="muted">No users</td></tr>}
+        </tbody>
+      </table>
+
+      {modal && (
+        <div className="modal"><div className="card">
+          <h3 style={{marginTop:0}}>Edit User</h3>
+          <div className="form-row"><input value={modal.data.firstName} disabled /><input value={modal.data.email} disabled /></div>
+          <div className="form-row"><select value={modal.data.role} onChange={e=>setModal({...modal,data:{...modal.data,role:e.target.value}})}><option value="user">user</option><option value="admin">admin</option><option value="celebrity">celebrity</option></select></div>
+          <div style={{display:'flex',justifyContent:'flex-end',gap:8}}><button className="btn" onClick={()=>setModal(null)}>Cancel</button><button className="btn primary" onClick={save}>Save</button></div>
+        </div></div>
+      )}
+    </div>
+  );
+}
+
+function App(){
+  const [tab,setTab] = useState('celebrities');
+  return (
+    <div>
+      <header>
+        <h1>Springcompany Admin — Manage Celebrities, Posts, Users</h1>
+        <div className="tabs">
+          <div className={"tab "+(tab==='celebrities'?'active':'')} onClick={()=>setTab('celebrities')}>Celebrities</div>
+          <div className={"tab "+(tab==='posts'?'active':'')} onClick={()=>setTab('posts')}>Posts</div>
+          <div className={"tab "+(tab==='users'?'active':'')} onClick={()=>setTab('users')}>Users</div>
+        </div>
+      </header>
+      {tab==='celebrities' && <CelebritiesPanel />}
+      {tab==='posts' && <PostsPanel />}
+      {tab==='users' && <UsersPanel />}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

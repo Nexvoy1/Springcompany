@@ -1,0 +1,1 @@
+page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/dashboard.html\n\nRecent console/page messages:\n- ReferenceError: showPanel is not defined (onclick handler at /dashboard.html:930)\n\nIf you want the actual screenshot image, re-run the headless capture after starting the static server; then I'll save the PNG.
