@@ -1401,8 +1401,8 @@ function openProfile(id, pushHistory) {
   try {
     var c_tmp = CELEBRITIES.find(function(x) { return x.id === id; });
     var slug = c_tmp ? c_tmp.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') : id;
-    // navigate to pretty URL under /artist/<slug>/
-    window.location.href = '/artist/' + slug + '/?id=' + id;
+    // navigate to pretty URL under artist/<slug>/ (use relative path so local files resolve)
+    window.location.href = 'artist/' + slug + '/?id=' + id;
     return;
   } catch (e) {}
   var c = CELEBRITIES.find(function(x) { return x.id === id; });
@@ -1430,7 +1430,8 @@ function openProfile(id, pushHistory) {
   try {
     if (pushHistory !== false) {
       var slug = c.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-      history.pushState({celeb:id}, c.name, '/artist/' + slug + '?id=' + id);
+      // push a relative URL to match local file layout (e.g. /frontend/artist/<slug>/ when served from /frontend)
+      history.pushState({celeb:id}, c.name, 'artist/' + slug + '?id=' + id);
     }
   } catch (e) { console.warn('pushState failed', e); }
 }
