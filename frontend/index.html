@@ -283,7 +283,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px
 .auth-hint a{color:var(--gold);cursor:pointer;text-decoration:none;font-weight:600}
 
 /* ── CELEBRITY PROFILE PAGE ── */
-#celeb-profile-page{display:none;position:fixed;inset:0;background:var(--bg);z-index:2000;overflow-y:auto;animation:pageIn .3s ease}
+#celeb-profile-page{display:none;position:fixed;left:0;right:0;top:72px;/* leave header visible */height:calc(100% - 72px);background:var(--bg);z-index:1500;overflow-y:auto;animation:pageIn .3s ease}
 @keyframes pageIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .profile-back{position:fixed;top:20px;left:20px;z-index:2001;background:var(--bg3);border:1px solid var(--border2);color:var(--gold);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:600;display:flex;align-items:center;gap:8px;transition:all .2s;font-family:'DM Sans',sans-serif}
 .profile-back:hover{background:rgba(212,175,55,0.1)}
@@ -1396,7 +1396,7 @@ function filterCelebs(query) {
 }
 
 // ── CELEBRITY PROFILE ────────────────────────
-function openProfile(id) {
+function openProfile(id, pushHistory) {
   var c = CELEBRITIES.find(function(x) { return x.id === id; });
   if (!c) return;
   currentCeleb = c;
@@ -1418,12 +1418,30 @@ function openProfile(id) {
   document.body.style.overflow = 'hidden';
   document.getElementById('celeb-profile-page').scrollTop = 0;
   document.body.style.overflow = '';
+  // push history so the URL reflects the profile (permanent link)
+  try {
+    if (pushHistory !== false) {
+      var slug = c.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+      history.pushState({celeb:id}, c.name, '/artist/' + slug + '?id=' + id);
+    }
+  } catch (e) { console.warn('pushState failed', e); }
 }
 
 function closeProfile() {
   document.getElementById('celeb-profile-page').style.display = 'none';
   currentCeleb = null;
 }
+
+// Close/open profile on browser navigation
+window.addEventListener('popstate', function(e) {
+  if (e.state && e.state.celeb) {
+    // open profile without pushing another history entry
+    openProfile(e.state.celeb, false);
+  } else {
+    // no celeb state -> close overlay
+    closeProfile();
+  }
+});
 
 function submitBooking() {
   var date   = document.getElementById('bfDate').value;
