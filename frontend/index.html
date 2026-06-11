@@ -1,2224 +1,553 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
+<!doctype html>
+<html lang="ko">
+
+<!-- Mirrored from springcompany.co.kr/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Jun 2026 12:41:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="description" content="Springcompany — The World's Premier Celebrity Booking Platform. Book your favorite stars for events, meet & greets, and exclusive experiences.">
-<meta name="keywords" content="celebrity booking, book celebrity, entertainment, star booking">
-<link rel="icon" type="image/png" href="img/logo.png">
-<link rel="apple-touch-icon" href="img/logo.png">
-<title>Springcompany — Book Your Favorite Celebrities</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<style>
-/* ═══════════════════════════════════════
-   SPRINGCOMPANY — COMPLETE PLATFORM CSS
-═══════════════════════════════════════ */
-:root{
-  --gold:#D4AF37;--gold2:#F5CC5A;--gold3:#8B7322;
-  --bg:#0A0A0F;--bg2:#111118;--bg3:#18181F;--bg4:#1E1E28;
-  --surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
-  --text:#F0EEF8;--muted:#8A87A0;--dim:#4A4860;
-  --accent:#C084FC;--accent2:#A855F7;--red:#F43F5E;--green:#10B981;
-  --border:rgba(255,255,255,0.08);--border2:rgba(212,175,55,0.25);
-  --glow:0 0 40px rgba(212,175,55,0.15);
-  --r:12px;--r2:20px;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=yes">
+<meta name="HandheldFriendly" content="true">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1">
+<meta name="viewport" content="width=device-width">
+<link rel="canonical" href="index.html">
+<meta name="description" content="배우 매니지먼트 및 콘텐츠 제작 전문">
+<meta name="keywords" content="배우,소속사,매니지먼트,콘텐츠,스프링컴퍼니,spring company,스프링 컴퍼니">
+<meta name="google-site-verification" content="1fkcm7hOSdywUKT4pjLMt2SXBUfxnSCkKIAEmnaBOdg" />
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="스프링컴퍼니">
+<meta property="og:description" content="배우 매니지먼트 및 콘텐츠 제작 전문">
+<meta property="og:image" content="img/opimg.png">
+<meta property="og:url" content="index.html">
+
+<script type="application/ld+json">
+{
+ "@context": "http://schema.org",
+ "@type": "Person",
+ "name": "스프링컴퍼니",
+ "url": "https://springcompany.co.kr",
+ "sameAs": [
+   "https://www.instagram.com/spring.company_official",
+   "https://www.facebook.com/official.springcompany",
+   "https://naver.me/5zoiHYZL"
+ ]
 }
-[data-theme="light"]{
-  --bg:#F8F7FF;--bg2:#F0EEF8;--bg3:#E8E5F5;--bg4:#DDD9F0;
-  --text:#0A0A1F;--muted:#5A5780;--dim:#9A97B0;
-  --surface:rgba(0,0,0,0.03);--surface2:rgba(0,0,0,0.06);
-  --border:rgba(0,0,0,0.08);
---surface2:rgba(0,0,0,0.06);}[data-theme="light"] .mega-menu{background:rgba(255,255,255,0.99);border-color:rgba(212,175,55,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.12)}
-[data-theme="light"] .mega-menu-item{color:#1a1a3a}
-[data-theme="light"] .mega-menu-item:hover{background:rgba(212,175,55,0.08);color:#8B7322}
-[data-theme="light"] .mega-menu-item .mmi-ico{background:rgba(0,0,0,0.05)}
-[data-theme="light"] .theme-toggle{color:#3a3760;border-top-color:rgba(0,0,0,0.08)}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:default}
-
-
-
-/* SCROLLBAR */
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:2px}
-
-/* TYPOGRAPHY */
-.display{font-family:'Bebas Neue',sans-serif;letter-spacing:2px}
-.serif{font-family:'Playfair Display',serif}
-
-/* ── NAVBAR ── */
-#navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;transition:all .3s;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,175,55,0.15);box-shadow:0 2px 20px rgba(0,0,0,0.06)}
-#navbar.scrolled{background:rgba(10,10,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2)}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--gold3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-family:'Bebas Neue',sans-serif;color:#000;letter-spacing:0}
-.nav-logo-text{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;background:linear-gradient(135deg,#8B7322,#D4AF37);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav-center{display:flex;align-items:center;gap:2px}
-.nav-link{color:#3a3760;font-size:.84rem;font-weight:600;text-decoration:none;padding:8px 14px;border-radius:8px;transition:all .2s;letter-spacing:.3px}
-.nav-link:hover{color:var(--gold);background:rgba(212,175,55,0.08)}
-.nav-right{display:flex;align-items:center;gap:12px}
-.nav-btn{padding:9px 20px;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.84rem;cursor:pointer;transition:all .2s;border:none}
-.btn-ghost{background:transparent;border:1px solid rgba(212,175,55,0.5);color:#8B7322}
-.btn-ghost:hover{background:rgba(212,175,55,0.1)}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700}
-.btn-gold:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(212,175,55,0.3)}
-.hamburger{background:transparent;border:1px solid rgba(0,0,0,0.15);color:#3a3760;width:40px;height:40px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .2s}
-.hamburger:hover{border-color:var(--gold);color:var(--gold)}
-
-/* MEGA MENU */
-.mega-menu{position:fixed;top:72px;right:0;width:320px;background:var(--bg3);backdrop-filter:blur(30px);border:1px solid var(--border2);border-radius:0 0 0 20px;padding:24px;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:999}
-.mega-menu.open{transform:translateX(0)}
-.mega-menu-item{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:10px;text-decoration:none;color:var(--text);font-size:.9rem;font-weight:600;transition:all .2s;margin-bottom:4px}
-.mega-menu-item:hover{background:var(--surface2);color:var(--gold)}
-.mega-menu-item .mmi-ico{width:36px;height:36px;border-radius:9px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
-.mega-menu-item:hover .mmi-ico{background:rgba(212,175,55,0.15);color:var(--gold)}
-.theme-toggle{display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:6px;cursor:pointer;color:var(--gold);font-size:.75rem;font-weight:600;background:transparent;border:none;transition:all .2s;animation:glowBlink 2s infinite}
-.theme-toggle:hover{background:var(--gold);color:#000}
-.theme-toggle i,.theme-toggle span{animation:glowBlink 2s infinite}
-@keyframes glowBlink{0%,100%{text-shadow:0 0 5px var(--gold),0 0 10px var(--gold),0 0 15px var(--gold);color:var(--gold)}50%{text-shadow:0 0 10px var(--gold),0 0 20px var(--gold),0 0 30px var(--gold);color:#fff}}
-
-/* ── HERO SECTION ── */
-#hero{position:relative;height:100vh;min-height:700px;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.hero-slides{position:absolute;inset:0}
-.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s ease;background-size:cover;background-position:center;transform:scale(1.08)}
-.hero-slide.active{opacity:1;animation:heroZoom 7s ease-in-out forwards}
-@keyframes heroZoom{0%{transform:scale(1.08)}100%{transform:scale(1)}}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,.3) 0%,rgba(10,10,15,.55) 50%,rgba(10,10,15,.9) 100%);z-index:1}
-.hero-overlay2{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,transparent 30%,rgba(10,10,15,.6) 100%);z-index:1}
-.hero-content{position:relative;z-index:2;text-align:center;padding:0 20px;max-width:860px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,175,55,0.12);border:1px solid var(--border2);border-radius:50px;padding:6px 18px;font-size:.78rem;color:var(--gold);margin-bottom:24px;letter-spacing:1px;text-transform:uppercase;animation:fadeUp .8s ease .3s both}
-.hero-badge span{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,10vw,7.5rem);line-height:.95;letter-spacing:4px;margin-bottom:12px;animation:fadeUp .8s ease .5s both}
-.hero-title span{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s ease-in-out infinite}
-.hero-sub{font-size:1.1rem;color:rgba(240,238,248,.75);max-width:520px;margin:0 auto 36px;line-height:1.7;animation:fadeUp .8s ease .7s both}
-.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s ease .9s both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.btn-book-now{position:relative;padding:18px 48px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;border:none;border-radius:4px;cursor:pointer;overflow:hidden;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
-.btn-book-now::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold2),var(--gold));opacity:0;transition:opacity .3s}
-.btn-book-now:hover::before{opacity:1}
-.btn-book-now:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(212,175,55,0.4)}
-.btn-explore{padding:17px 36px;background:transparent;border:1px solid rgba(255,255,255,0.3);color:#fff;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;border-radius:4px;cursor:pointer;transition:all .3s;letter-spacing:.5px}
-.btn-explore:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.06)}
-.hero-dots{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px}
-.hero-dot{width:28px;height:3px;background:rgba(255,255,255,0.25);border-radius:2px;cursor:pointer;transition:all .3s}
-.hero-dot.active{background:var(--gold);width:48px}
-.hero-scroll{position:absolute;bottom:28px;right:32px;z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer}
-.hero-scroll::after{content:'';width:1px;height:40px;background:linear-gradient(var(--gold),transparent)}
-
-/* ── FLOATING SOCIALS ── */
-
-
-/* ── SECTION STYLES ── */
-.section{padding:90px 32px}
-.section-inner{max-width:1200px;margin:0 auto}
-.section-tag{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;color:var(--gold);text-transform:uppercase;letter-spacing:2.5px;font-weight:600;margin-bottom:12px}
-.section-tag::before{content:'';width:24px;height:1px;background:var(--gold)}
-h2.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin-bottom:16px}
-h2.section-title span{color:var(--gold)}
-.section-sub{color:var(--muted);font-size:.95rem;line-height:1.75;max-width:560px}
-
-/* ── TRENDING POSTS ── */
-#trending{background:var(--bg2);overflow:hidden}
-.trending-track{display:flex;gap:20px;animation:scrollTrack 30s linear infinite;width:max-content}
-.trending-track:hover{animation-play-state:paused}
-@keyframes scrollTrack{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.trend-card{flex-shrink:0;width:280px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .25s;cursor:pointer}
-.trend-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:var(--glow)}
-.trend-img{height:160px;background-size:cover;background-position:center;position:relative}
-.trend-category{position:absolute;top:10px;left:10px;background:rgba(212,175,55,0.9);color:#000;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:20px}
-.trend-body{padding:14px}
-.trend-body h4{font-size:.88rem;font-weight:600;margin-bottom:6px;line-height:1.4}
-.trend-body p{font-size:.78rem;color:var(--muted);line-height:1.5}
-.trend-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
-.trend-footer span{font-size:.72rem;color:var(--dim)}
-
-/* ── CELEBRITY GRID ── */
-#celebrities{background:var(--bg)}
-.celeb-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
-.filter-btn{padding:7px 18px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.82rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
-.filter-btn.active,.filter-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
-.celeb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.celeb-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:all .3s;position:relative;group:true;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
-.celeb-card:hover{border-color:var(--border2);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.4),var(--glow)}
-.celeb-img-wrap{position:relative;height:260px;overflow:hidden}
-.celeb-img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.celeb-card:hover .celeb-img{transform:scale(1.06)}
-.celeb-img-placeholder{width:100%;height:100%;background-size:cover;background-position:center top;transition:transform .5s ease}
-.celeb-card:hover .celeb-img-placeholder{transform:scale(1.06)}
-.celeb-badge{position:absolute;top:12px;right:12px;background:rgba(10,10,15,0.85);border:1px solid var(--gold);border-radius:6px;padding:3px 8px;font-size:.68rem;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:4px;backdrop-filter:blur(8px)}
-.celeb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,15,.9) 0%,transparent 50%);opacity:0;transition:opacity .3s}
-.celeb-card:hover .celeb-overlay{opacity:1}
-.celeb-quick-book{position:absolute;bottom:14px;left:50%;transform:translateX(-50%) translateY(10px);opacity:0;transition:all .3s;white-space:nowrap;background:var(--gold);color:#000;font-size:.75rem;font-weight:700;padding:7px 18px;border-radius:4px;border:none;cursor:pointer;z-index:2;letter-spacing:.5px}
-.celeb-card:hover .celeb-quick-book{opacity:1;transform:translateX(-50%) translateY(0)}
-.celeb-body{padding:16px}
-.celeb-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:3px}
-.celeb-occ{font-size:.78rem;color:var(--muted);margin-bottom:10px}
-.celeb-bio{font-size:.78rem;color:var(--dim);line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.celeb-actions{display:flex;gap:8px}
-.btn-view{flex:1;padding:8px;border:1px solid var(--border2);background:transparent;color:var(--gold);font-size:.78rem;font-weight:600;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
-.btn-view:hover{background:rgba(212,175,55,0.1)}
-.btn-book{flex:1;padding:8px;border:none;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-size:.78rem;font-weight:700;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
-.btn-book:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(212,175,55,0.3)}
-.celeb-stats{display:flex;gap:12px;margin-bottom:10px}
-.celeb-stat{font-size:.72rem;color:var(--dim);display:flex;align-items:center;gap:4px}
-.celeb-stat i{color:var(--gold);font-size:.65rem}
-
-/* ── VIDEO SLIDER ── */
-#videos{background:var(--bg2)}
-.video-track{display:flex;gap:20px;overflow-x:auto;padding-bottom:12px;scroll-behavior:smooth;scrollbar-width:none}
-.video-track::-webkit-scrollbar{display:none}
-.video-card{flex-shrink:0;width:360px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);background:var(--bg3);transition:all .25s}
-.video-card:hover{border-color:var(--border2);box-shadow:var(--glow)}
-.video-embed{position:relative;padding-top:56.25%;background:#000}
-.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-.video-body{padding:14px}
-.video-title{font-size:.9rem;font-weight:600;margin-bottom:4px}
-.video-sub{font-size:.76rem;color:var(--muted)}
-.video-nav{display:flex;gap:10px;margin-top:20px}
-.video-nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
-.video-nav-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
-
-/* ── ABOUT ── */
-#about{background:var(--bg)}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.about-img-wrap{position:relative}
-.about-img{width:100%;height:500px;object-fit:cover;border-radius:var(--r2);background-size:cover;background-position:center}
-.about-badge{position:absolute;bottom:-20px;right:-20px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;padding:20px 28px;border-radius:var(--r);text-align:center}
-.about-badge strong{display:block;font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:2px;line-height:1}
-.about-badge span{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px}
-.about-features{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
-.about-feat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;align-items:flex-start;gap:12px;transition:all .2s}
-.about-feat:hover{border-color:var(--border2)}
-.af-ico{width:36px;height:36px;border-radius:8px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.9rem;flex-shrink:0}
-.af-title{font-size:.84rem;font-weight:600;margin-bottom:2px}
-.af-text{font-size:.76rem;color:var(--muted);line-height:1.5}
-
-/* ── MEET & GREET ── */
-#meet-greet{background:linear-gradient(135deg,var(--bg2) 0%,rgba(212,175,55,0.05) 50%,var(--bg2) 100%);position:relative;overflow:hidden;text-align:center;padding:100px 32px}
-#meet-greet::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(212,175,55,0.06) 0%,transparent 70%);pointer-events:none}
-.mg-stars{position:absolute;inset:0;pointer-events:none}
-.mg-star{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;animation:twinkle 3s infinite}
-@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
-.mg-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5.5rem);letter-spacing:4px;margin-bottom:16px;position:relative;z-index:1}
-.mg-title span{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s ease-in-out infinite}
-@keyframes shimmer{0%,100%{filter:brightness(1)}50%{filter:brightness(1.3)}}
-.mg-sub{font-size:1.1rem;color:var(--muted);max-width:520px;margin:0 auto 36px;line-height:1.75;position:relative;z-index:1}
-.btn-mg{padding:20px 56px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;border:none;border-radius:4px;cursor:pointer;position:relative;z-index:1;transition:all .3s;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);animation:btnBlink 2.5s ease-in-out infinite}
-@keyframes btnBlink{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0)}50%{box-shadow:0 0 32px 8px rgba(212,175,55,0.3)}}
-.btn-mg:hover{transform:translateY(-3px) scale(1.02)}
-.mg-perks{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:48px;position:relative;z-index:1}
-.mg-perk{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:50px;padding:10px 20px;font-size:.82rem;color:var(--text)}
-.mg-perk i{color:var(--gold)}
-
-/* ── CONTACT ── */
-#contact{background:var(--bg3)}
-.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:start}
-.contact-info{display:flex;flex-direction:column;gap:20px}
-.ci-item{display:flex;align-items:flex-start;gap:14px;padding:16px;background:var(--bg4);border-radius:var(--r);border:1px solid var(--border)}
-.ci-ico{width:40px;height:40px;border-radius:9px;background:rgba(212,175,55,0.1);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.95rem;flex-shrink:0}
-.ci-title{font-size:.82rem;font-weight:600;margin-bottom:2px}
-.ci-text{font-size:.78rem;color:var(--muted)}
-.contact-form{background:var(--bg4);border:1px solid var(--border);border-radius:var(--r2);padding:32px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.form-field{margin-bottom:14px}
-.form-field label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
-.form-field input,.form-field select,.form-field textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border .2s}
-.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--gold)}
-.form-field textarea{resize:none;min-height:110px}
-.form-field select option{background:var(--bg3)}
-
-/* ── NEWSLETTER ── */
-#newsletter{background:var(--bg2);padding:70px 32px;text-align:center}
-.nl-inner{max-width:600px;margin:0 auto}
-.nl-row{display:flex;gap:10px;margin-top:28px}
-.nl-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:13px 18px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border .2s}
-.nl-input:focus{border-color:var(--gold)}
-.nl-btn{padding:13px 28px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700;font-size:.88rem;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'DM Sans',sans-serif}
-.nl-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(212,175,55,0.3)}
-
-/* ── FOOTER ── */
-footer{background:var(--bg);border-top:1px solid var(--border);padding:60px 32px 28px}
-.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
-.footer-brand p{font-size:.82rem;color:var(--muted);line-height:1.75;margin-top:12px;max-width:260px}
-.footer-social{display:flex;gap:10px;margin-top:20px}
-.fsoc{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.88rem;cursor:pointer;transition:all .2s;text-decoration:none}
-.fsoc:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
-.footer-col h4{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:16px}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
-.footer-col ul li a{color:var(--muted);font-size:.82rem;text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:6px}
-.footer-col ul li a::before{content:'›';color:var(--gold);font-size:1rem}
-.footer-col ul li a:hover{color:var(--gold)}
-.footer-bottom{max-width:1200px;margin:0 auto;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.footer-bottom p{font-size:.76rem;color:var(--dim)}
-
-/* ── AUTH MODAL ── */
-.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
-.modal-backdrop.open{display:flex}
-.modal{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);width:100%;max-width:440px;overflow:hidden;animation:modalIn .25s ease;position:relative;max-height:92vh;overflow-y:auto}
-@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(-12px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal-head{background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(168,85,247,0.1));padding:28px;text-align:center;border-bottom:1px solid var(--border)}
-.modal-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:4px;background:linear-gradient(135deg,var(--gold),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
-.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.07);border:none;color:var(--muted);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center}
-.modal-close:hover{color:var(--text);background:var(--surface2)}
-.modal-body{padding:24px}
-.modal-tabs{display:flex;background:var(--bg4);border-radius:10px;padding:3px;margin-bottom:20px;gap:3px}
-.modal-tab{flex:1;padding:.5rem;border-radius:8px;border:none;cursor:pointer;font-size:.84rem;color:var(--muted);background:transparent;font-family:'DM Sans',sans-serif;transition:all .2s}
-.modal-tab.active{background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700}
-.soc-btns{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
-.soc-btn{display:flex;align-items:center;gap:12px;width:100%;padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg4);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);transition:all .2s}
-.soc-btn:hover{border-color:var(--gold);background:rgba(212,175,55,0.06)}
-.divline{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--dim);font-size:.76rem}
-.divline::before,.divline::after{content:'';flex:1;height:1px;background:var(--border)}
-.mf{margin-bottom:14px}
-.mf label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
-.mf input{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border .2s}
-.mf input:focus{border-color:var(--gold)}
-.btn-auth{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-weight:700;border:none;border-radius:9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.92rem;margin-top:6px;transition:all .2s}
-.btn-auth:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(212,175,55,0.3)}
-.auth-hint{text-align:center;font-size:.76rem;color:var(--muted);margin-top:12px}
-.auth-hint a{color:var(--gold);cursor:pointer;text-decoration:none;font-weight:600}
-
-/* ── CELEBRITY PROFILE PAGE ── */
-#celeb-profile-page{display:none;position:fixed;inset:0;background:var(--bg);z-index:2000;overflow-y:auto;animation:pageIn .3s ease}
-@keyframes pageIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.profile-back{position:fixed;top:20px;left:20px;z-index:2001;background:var(--bg3);border:1px solid var(--border2);color:var(--gold);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:600;display:flex;align-items:center;gap:8px;transition:all .2s;font-family:'DM Sans',sans-serif}
-.profile-back:hover{background:rgba(212,175,55,0.1)}
-.profile-hero{height:380px;background-size:cover;background-position:center top;position:relative}
-.profile-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,0) 30%,rgba(10,10,15,1) 100%)}
-.profile-content{max-width:1200px;margin:0 auto;padding:0 32px 80px}
-.profile-grid{display:grid;grid-template-columns:340px 1fr;gap:40px;margin-top:-80px;position:relative;z-index:1}
-.profile-left{display:flex;flex-direction:column;gap:20px}
-.profile-card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden}
-.profile-img{height:380px;background-size:cover;background-position:center top}
-.profile-info{padding:20px}
-.profile-name{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.verified-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(212,175,55,0.15);border:1px solid var(--border2);border-radius:20px;padding:2px 10px;font-size:.68rem;color:var(--gold);font-weight:600}
-.profile-occ{color:var(--muted);font-size:.84rem;margin-bottom:16px}
-.profile-detail{display:flex;flex-direction:column;gap:9px}
-.pd-row{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;padding:7px 0;border-bottom:1px solid var(--border)}
-.pd-row:last-child{border:none}
-.pd-label{color:var(--muted)}
-.pd-value{font-weight:600;color:var(--text)}
-.profile-right{}
-.booking-form-card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);padding:28px}
-.booking-form-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:4px}
-.booking-form-sub{font-size:.82rem;color:var(--muted);margin-bottom:24px}
-.bf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.bf-field{margin-bottom:14px}
-.bf-field label{display:block;font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px}
-.bf-field input,.bf-field select,.bf-field textarea{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.87rem;outline:none;transition:border .2s}
-.bf-field input:focus,.bf-field select:focus,.bf-field textarea:focus{border-color:var(--gold)}
-.bf-field select option{background:var(--bg3)}
-.bf-field textarea{resize:none;min-height:90px}
-.file-upload{border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .2s}
-.file-upload:hover{border-color:var(--gold);background:rgba(212,175,55,0.04)}
-.file-upload i{font-size:1.4rem;color:var(--gold);margin-bottom:6px;display:block}
-.file-upload p{font-size:.78rem;color:var(--muted)}
-.btn-submit-booking{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;border:none;border-radius:6px;cursor:pointer;margin-top:6px;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
-.btn-submit-booking:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,175,55,0.35)}
-
-/* ── FAN CARD SECTION ── */
-.fan-cards-section{margin-top:32px}
-.fan-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
-.fan-card{border-radius:var(--r);padding:20px;text-align:center;transition:all .25s;cursor:pointer;position:relative;overflow:hidden}
-.fan-card.silver{background:linear-gradient(135deg,#4a4a6a,#2a2a40);border:1px solid #8888aa}
-.fan-card.gold{background:linear-gradient(135deg,#5a4a00,#3a2a00);border:1px solid var(--gold)}
-.fan-card.vip{background:linear-gradient(135deg,#4a0a5a,#2a0535);border:1px solid var(--accent)}
-.fan-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.4)}
-.fan-card-tier{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;margin-bottom:6px}
-.fan-card.silver .fan-card-tier{color:#bbbbd0}
-.fan-card.gold .fan-card-tier{color:var(--gold)}
-.fan-card.vip .fan-card-tier{color:var(--accent)}
-.fan-card-price{font-size:1.3rem;font-weight:800;margin-bottom:8px}
-.fan-card-perks{font-size:.72rem;color:var(--muted);line-height:1.6;margin-bottom:14px}
-.fan-card-btn{width:100%;padding:8px;border-radius:6px;border:none;cursor:pointer;font-size:.76rem;font-weight:700;font-family:'DM Sans',sans-serif;transition:all .2s}
-.fan-card.silver .fan-card-btn{background:#8888aa;color:#fff}
-.fan-card.gold .fan-card-btn{background:var(--gold);color:#000}
-.fan-card.vip .fan-card-btn{background:var(--accent);color:#fff}
-
-/* ── TOAST ── */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:12px 24px;border-radius:50px;font-size:.84rem;font-weight:600;z-index:99999;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.4);font-family:'DM Sans',sans-serif;white-space:nowrap}
-
-/* ── UTILITIES ── */
-.btn{border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
-.text-gold{color:var(--gold)}
-.mt-2{margin-top:8px}.mt-3{margin-top:16px}.mt-4{margin-top:24px}
-.fade-in{animation:fadeUp .6s ease both}
-
-@media(max-width:1024px){
-  .celeb-grid{grid-template-columns:repeat(3,1fr)}
-  .footer-grid{grid-template-columns:1fr 1fr}
-  .about-grid{grid-template-columns:1fr}
-  .contact-grid{grid-template-columns:1fr}
-  .profile-grid{grid-template-columns:1fr}
-}
-@media(max-width:900px){
-  .celeb-grid{grid-template-columns:repeat(3,1fr)}
-  .footer-grid{grid-template-columns:1fr 1fr}
-  .about-grid{grid-template-columns:1fr}
-  .contact-grid{grid-template-columns:1fr}
-  .profile-grid{grid-template-columns:1fr}
-}
-
-@media(max-width:768px){
-  /* NAVBAR — stops zooming needed */
-  #navbar{padding:0 12px;height:58px}
-  .nav-center{display:none}
-  .nav-logo-text{font-size:1.1rem;letter-spacing:1px}
-  .nav-logo-icon{width:30px;height:30px;font-size:.85rem}
-  .nav-btn{padding:6px 10px;font-size:.75rem}
-  .nav-right{gap:6px}
-  .hamburger{width:34px;height:34px;font-size:.9rem}
-  .theme-toggle{margin-left:8px;padding:4px 8px;font-size:.65rem;gap:3px}
-
-  /* HERO */
-  .hero-title{font-size:2.8rem}
-  .hero-sub{font-size:.88rem;padding:0 10px}
-  .hero-actions{flex-direction:column;align-items:center;gap:10px;padding:0 20px}
-  .btn-book-now{width:100%;text-align:center;padding:14px 24px;font-size:1.1rem}
-  .btn-explore{width:100%;text-align:center;padding:13px 24px}
-
-  /* SECTIONS */
-  .section{padding:50px 14px}
-  .section-inner{padding:0}
-
-  /* CELEBRITY GRID — VAL9JA STYLE 2-COL COMPACT CARDS */
-  .celeb-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-  .celeb-card{border-radius:10px}
-  .celeb-img-wrap{height:160px}
-  .celeb-body{padding:10px}
-  .celeb-name{font-size:.88rem}
-  .celeb-occ{font-size:.72rem;margin-bottom:6px}
-  .celeb-bio{font-size:.72rem;-webkit-line-clamp:2;margin-bottom:8px}
-  .celeb-actions{gap:5px}
-  .btn-view,.btn-book{padding:6px;font-size:.72rem}
-  .celeb-stats{gap:6px;margin-bottom:6px}
-  .celeb-stat{font-size:.68rem}
-
-  /* VIDEO GRID — VAL9JA STYLE 2-COL */
-  .video-track{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;overflow-x:visible;padding-bottom:0}
-  .video-card{width:100%;flex-shrink:unset;border-radius:10px}
-  .video-embed{padding-top:52%}
-  .video-body{padding:10px}
-  .video-title{font-size:.8rem}
-  .video-sub{font-size:.7rem}
-
-  /* MEET & GREET PERKS — HORIZONTAL 2 PER ROW */
-  .mg-perks{flex-direction:row;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center}
-  .mg-perk{padding:7px 12px;font-size:.74rem;flex:0 0 calc(50% - 8px)}
-
-  /* FORMS */
-  .form-row,.bf-row{grid-template-columns:1fr}
-  .fan-card-grid{grid-template-columns:1fr}
-  .about-features{grid-template-columns:1fr}
-
-  /* FOOTER */
-  .footer-grid{grid-template-columns:1fr}
-  .footer-grid > div{text-align:center}
-  .footer-social{justify-content:center}
-
-  /* MEGA MENU */
-  .mega-menu{width:100%;border-radius:0}
-
-  /* STATS */
-  .stats-row{grid-template-columns:repeat(2,1fr)}
-
-  /* MEET & GREET BUTTON */
-  .btn-mg{padding:16px 32px;font-size:1.1rem}
-
-  /* NEWSLETTER */
-  .nl-row{flex-direction:column}
-  .nl-input,.nl-btn{width:100%}
-
-  /* ABOUT */
-  .about-grid{grid-template-columns:1fr}
-  .contact-grid{grid-template-columns:1fr}
-
-  /* PROFILE PAGE */
-  .profile-grid{grid-template-columns:1fr}
-  .bf-row{grid-template-columns:1fr}
-}
-
-@media(max-width:480px){
-  /* VERY SMALL PHONES */
-  #navbar{padding:0 10px;height:54px}
-  .nav-logo-text{font-size:1rem;letter-spacing:0}
-  .nav-logo-icon{width:28px;height:28px;font-size:.8rem}
-  .nav-btn{padding:5px 8px;font-size:.72rem}
-  .nav-right{gap:4px}
-  .hamburger{width:32px;height:32px;font-size:.85rem}
-
-  .hero-title{font-size:2.2rem;letter-spacing:2px}
-  .hero-badge{font-size:.68rem;padding:5px 12px}
-
-  .celeb-grid{grid-template-columns:repeat(2,1fr);gap:8px}
-  .celeb-img-wrap{height:140px}
-  .celeb-name{font-size:.84rem}
-  .video-track{grid-template-columns:repeat(2,1fr);gap:8px}
-  .mg-perk{flex:0 0 calc(50% - 8px);font-size:.7rem;padding:6px 8px}
-  .fan-card-grid{grid-template-columns:1fr}
-
-  .section{padding:40px 12px}
-  .mg-title{font-size:2.2rem}
-  .about-features{grid-template-columns:1fr}
-  .profile-grid{grid-template-columns:1fr}
-}
-
-@media(max-width:360px){
-  /* VERY TINY PHONES like older Androids */
-  #navbar{padding:0 8px}
-  .nav-btn{display:none}
-  .hamburger{width:30px;height:30px}
-  .nav-logo-text{font-size:.9rem}
-  .hero-title{font-size:1.9rem}
-}
-</style>
+</script>
+<title>스프링컴퍼니</title>
+<link rel="shortcut icon" href="img/favicon.ico" />
+<link rel="stylesheet" href="js/font-awesome/css/font-awesome.min9e0f.css?ver=191202">
+<link rel="stylesheet" href="plugin/aos-master/dist/aos9e0f.css?ver=191202">
+<link rel="stylesheet" href="plugin/swiper/swiper-bundle.min9e0f.css?ver=191202">
+<link rel="stylesheet" href="theme/cookie/mobile/skin/latest/banner/style9e0f.css?ver=191202">
+<link rel="stylesheet" href="theme/cookie/mobile/skin/latest/basic/style9e0f.css?ver=191202">
+<link rel="stylesheet" href="theme/cookie/mobile/skin/latest/youtube/style9e0f.css?ver=191202">
+<link rel="stylesheet" href="theme/cookie/css/mobile9e0f.css?ver=191202">
+<!--[if lte IE 8]>
+<script src="https://springcompany.co.kr/js/html5.js"></script>
+<![endif]-->
+<script>
+// 자바스크립트에서 사용하는 전역변수 선언
+var g5_url       = "index.html";
+var g5_bbs_url   = "bbs/index.html";
+var g5_is_member = "";
+var g5_is_admin  = "";
+var g5_is_mobile = "1";
+var g5_bo_table  = "";
+var g5_sca       = "";
+var g5_editor    = "";
+var g5_cookie_domain = "";
+</script>
+<script src="js/modernizr.custom.70111.js"></script>
+<script src="js/jquery-1.12.4.min9e0f.js?ver=191202"></script>
+<script src="js/jquery-migrate-1.4.1.min9e0f.js?ver=191202"></script>
+<script src="js/jquery.menu9e0f.js?ver=191202"></script>
+<script src="js/common9e0f.js?ver=191202"></script>
+<script src="js/wrest9e0f.js?ver=191202"></script>
+<script src="js/placeholders.min9e0f.js?ver=191202"></script>
+<script src="plugin/aos-master/dist/aos.js"></script>
+<script src="plugin/swiper/swiper-bundle.min9e0f.js?ver=191202"></script>
+<script src="theme/cookie/js/theme_common9e0f.js?ver=191202"></script>
+<script src="js/jquery.bxslider9e0f.js?ver=191202"></script>
 </head>
 <body>
 
+<header id="hd">
+    <h1 id="hd_h1">스프링컴퍼니</h1>
 
+    <div class="to_content"><a href="#container">본문 바로가기</a></div>
 
-<!-- ── NAVBAR ── -->
-<nav id="navbar">
-  <a href="#" class="nav-logo">
-    <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain">
-    <span class="nav-logo-text">Springcompany</span>
-  </a>
-  <div class="theme-toggle" onclick="toggleTheme()" style="margin-left:16px">
-    <i class="fas fa-moon" id="themeIco"></i>
-    <span id="themeLabel">Switch Mode</span>
-  </div>
-  <div class="nav-center">
-    <a href="/" class="nav-link">Home</a>
-    <a href="/celebrities.html" class="nav-link">Celebrities</a>
-    <a href="/celebrities.html" class="nav-link">Featured Stars</a>
-    <a href="/about.html" class="nav-link">About Us</a>
-    <a href="/contact.html" class="nav-link">Contact Us</a>
-  </div>
-  <div class="nav-right">
-    <button class="nav-btn btn-ghost" onclick="openAuth('login')">Sign In</button>
-    <button class="nav-btn btn-gold" onclick="openAuth('register')">Join Free</button>
-    <button class="hamburger" onclick="toggleMenu()" id="hamBtn">
-      <i class="fas fa-bars"></i>
-    </button>
-  </div>
-</nav>
+    
+<!-- 팝업레이어 시작 { -->
+<div id="hd_pop">
+    <h2>팝업레이어 알림</h2>
 
-<!-- MEGA MENU -->
-<div class="mega-menu" id="megaMenu">
-  <a href="/company.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-building"></i></div><div><div style="font-weight:600">Company</div><div style="font-size:.74rem;color:var(--muted)">About & Team</div></div></a>
-  <a href="/celebrities.html" class="mega-menu-item" onclick="closeMenu()"><div class="mmi-ico"><i class="fas fa-star"></i></div><div><div style="font-weight:600">Celebrity</div><div style="font-size:.74rem;color:var(--muted)">Browse all stars</div></div></a>
-  <a href="/announce.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-bullhorn"></i></div><div><div style="font-weight:600">Announce</div><div style="font-size:.74rem;color:var(--muted)">News & Updates</div></div></a>
-  <a href="/content.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-photo-video"></i></div><div><div style="font-weight:600">Content</div><div style="font-size:.74rem;color:var(--muted)">Exclusive media</div></div></a>
-  <a href="/audition.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-microphone"></i></div><div><div style="font-weight:600">Audition</div><div style="font-size:.74rem;color:var(--muted)">Submit your talent</div></div></a>
-  <a href="/shop.html" class="mega-menu-item"><div class="mmi-ico"><i class="fas fa-shopping-bag"></i></div><div><div style="font-weight:600">Shop</div><div style="font-size:.74rem;color:var(--muted)">Merch & collectibles</div></div></a>
-</div>
+<span class="sound_only">팝업레이어 알림이 없습니다.</span></div>
 
-<!-- FLOATING SOCIAL -->
-
-
-<!-- ANNOUNCEMENTS BANNER (populated live from Firebase) -->
-<div data-fb="announcements-container" style="position:fixed;top:72px;left:0;right:0;z-index:998;padding:0 16px"></div>
-
-<!-- ══════════════ HOMEPAGE ══════════════ -->
-<div id="homepage">
-
-<!-- ── HERO ── -->
-<section id="hero">
-  <div class="hero-slides" id="heroSlides">
-    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1600&q=80')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600&q=80')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1600&q=80')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1600&q=80')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1600&q=80')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1600&q=80')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1600&q=80')"></div>
-  </div>
-  <div class="hero-overlay"></div>
-  <div class="hero-overlay2"></div>
-  <div class="hero-content">
-    <div class="hero-badge"><span></span><span data-fb="hero-tagline">World's #1 Celebrity Booking Platform</span></div>
-    <h1 class="hero-title" style="text-shadow:0 2px 20px rgba(0,0,0,0.4)" data-fb="hero-headline"><span>BOOK YOUR FAVORITE</span><br><span>CELEBRITIES</span></h1>
-    <p class="hero-sub" data-fb="hero-description">Connect with the world's most iconic entertainers. Book celebrities for events, appearances, meet & greets, and exclusive experiences.</p>
-    <div class="hero-actions">
-      <button class="btn-book-now" href="/book-now.html" onclick="document.getElementById('celebrities').scrollIntoView({behavior:'smooth'})"><span data-fb="hero-cta1">BOOK NOW</span></button>
-      <button class="btn-explore" href="/book-now.html" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})"><span data-fb="hero-cta2">Explore Platform</span></button>
-    </div>
-  </div>
-  <div class="hero-dots" id="heroDots"></div>
-  <div class="hero-scroll" onclick="document.getElementById('trending').scrollIntoView({behavior:'smooth'})">
-    Scroll
-  </div>
-</section>
-
-<!-- ── TRENDING POSTS ── -->
-<section id="trending" class="section" style="padding:60px 0">
-  <div class="section-inner" style="padding:0 32px;margin-bottom:28px">
-    <div class="section-tag">Latest News</div>
-    <a href="trending-posts.html" style="text-decoration:none;color:inherit">
-      <h2 class="section-title" style="cursor:pointer;transition:opacity .3s">Trending <span>Posts</span></h2>
-    </a>
-  </div>
-  <div style="overflow:hidden;padding:8px 0">
-    <div class="trending-track" id="trendTrack">
-      <!-- Cards generated by JS -->
-    </div>
-  </div>
-</section>
-
-<!-- ── CELEBRITIES ── -->
-<section id="celebrities" class="section">
-  <div class="section-inner">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;flex-wrap:wrap;gap:16px">
-      <div>
-        <div class="section-tag">Browse & Book</div>
-        <a href="featured-celebrities.html" style="text-decoration:none;color:inherit">
-          <h2 class="section-title" style="cursor:pointer;transition:opacity .3s">Featured <span>Celebrities</span></h2>
-        </a>
-      </div>
-      <div style="display:flex;gap:8px">
-        <div style="position:relative">
-          <input id="searchCeleb" type="text" placeholder="Search celebrities..." style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 14px 9px 36px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none;width:200px;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'" oninput="filterCelebs(this.value)">
-          <i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.8rem"></i>
-        </div>
-      </div>
-    </div>
-    <div class="celeb-filters" id="celebFilters">
-      <button class="filter-btn active" onclick="filterByCategory('All',this)">All</button>
-      <button class="filter-btn" onclick="filterByCategory('Music',this)">Music</button>
-      <button class="filter-btn" onclick="filterByCategory('Film',this)">Film & TV</button>
-      <button class="filter-btn" onclick="filterByCategory('Sports',this)">Sports</button>
-      <button class="filter-btn" onclick="filterByCategory('Comedy',this)">Comedy</button>
-      <button class="filter-btn" onclick="filterByCategory('Fashion',this)">Fashion</button>
-    </div>
-    <div class="celeb-grid" id="celebGrid"></div>
-    <div style="text-align:center;margin-top:36px">
-      <button class="btn-explore" href="/book-now.html" style="padding:13px 36px;border-radius:8px;font-size:.9rem">Load More Celebrities</button>
-    </div>
-  </div>
-</section>
-
-<!-- ── VIDEO SLIDER ── -->
-<section id="videos" class="section">
-  <div class="section-inner">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;flex-wrap:wrap;gap:16px">
-      <div>
-        <div class="section-tag">Exclusive Content</div>
-        <a href="featured-videos.html" style="text-decoration:none;color:inherit">
-          <h2 class="section-title" style="cursor:pointer;transition:opacity .3s">Featured <span>Videos</span></h2>
-        </a>
-      </div>
-      <div class="video-nav">
-        <button class="video-nav-btn" onclick="scrollVideos(-1)"><i class="fas fa-chevron-left"></i></button>
-        <button class="video-nav-btn" onclick="scrollVideos(1)"><i class="fas fa-chevron-right"></i></button>
-      </div>
-    </div>
-    <div class="video-track" id="videoTrack">
-      <div class="video-card">
-        <div class="video-embed"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen loading="lazy"></iframe></div>
-        <div class="video-body"><div class="video-title">Celebrity Event Highlights 2024</div><div class="video-sub">Springcompany Exclusive • 2.4M views</div></div>
-      </div>
-      <div class="video-card">
-        <div class="video-embed"><iframe src="https://www.youtube.com/embed/9bZkp7q19f0" allowfullscreen loading="lazy"></iframe></div>
-        <div class="video-body"><div class="video-title">Behind The Scenes: VIP Booking</div><div class="video-sub">Springcompany Exclusive • 1.8M views</div></div>
-      </div>
-      <div class="video-card">
-        <div class="video-embed"><iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk" allowfullscreen loading="lazy"></iframe></div>
-        <div class="video-body"><div class="video-title">Meet & Greet Experience Recap</div><div class="video-sub">Springcompany Exclusive • 3.1M views</div></div>
-      </div>
-      <div class="video-card">
-        <div class="video-embed"><iframe src="https://www.youtube.com/embed/OPf0YbXqDm0" allowfullscreen loading="lazy"></iframe></div>
-        <div class="video-body"><div class="video-title">Top Celebrity Appearances 2025</div><div class="video-sub">Springcompany Exclusive • 945K views</div></div>
-      </div>
-      <div class="video-card">
-        <div class="video-embed"><iframe src="https://www.youtube.com/embed/JGwWNGJdvx8" allowfullscreen loading="lazy"></iframe></div>
-        <div class="video-body"><div class="video-title">Fan Card Unboxing — VIP Tier</div><div class="video-sub">Springcompany Exclusive • 670K views</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── ABOUT ── -->
-<section id="about" class="section">
-  <div class="section-inner">
-    <div class="about-grid">
-      <div class="about-img-wrap">
-        <div class="about-img" style="background-image:url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80')"></div>
-        <div class="about-badge">
-          <strong>500+</strong>
-          <span>Celebrities</span>
-        </div>
-      </div>
-      <div>
-        <div class="section-tag">Who We Are</div>
-        <h2 class="section-title">The World's Most Trusted <span>Celebrity Platform</span></h2>
-        <p class="section-sub" style="margin-bottom:20px">Springcompany connects fans, event organisers and brands with the world's most iconic entertainers. We handle everything — from initial booking to day-of logistics — so you can focus on creating unforgettable moments.</p>
-        <p class="section-sub">With over 500 verified celebrity profiles, secure payments, and a dedicated support team, Springcompany is the gold standard in celebrity engagement.</p>
-        <div class="about-features">
-          <div class="about-feat"><div class="af-ico"><i class="fas fa-shield-alt"></i></div><div><div class="af-title">100% Verified</div><div class="af-text">All celebrities personally verified by our team</div></div></div>
-          <div class="about-feat"><div class="af-ico"><i class="fas fa-lock"></i></div><div><div class="af-title">Secure Payments</div><div class="af-text">Multiple payment methods, fully encrypted</div></div></div>
-          <div class="about-feat"><div class="af-ico"><i class="fas fa-headset"></i></div><div><div class="af-title">24/7 Support</div><div class="af-text">Dedicated concierge for every booking</div></div></div>
-          <div class="about-feat"><div class="af-ico"><i class="fas fa-calendar-check"></i></div><div><div class="af-title">Smart Scheduling</div><div class="af-text">Real-time availability calendar system</div></div></div>
-        </div>
-      </div>
-    </div>
-    <!-- STATS -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:56px">
-      <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px" data-fb="stat-celebrities">500+</div>
-        <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Verified Celebrities</div>
-      </div>
-      <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px" data-fb="stat-bookings">12K+</div>
-        <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Successful Bookings</div>
-      </div>
-      <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px" data-fb="stat-satisfaction">98%</div>
-        <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Client Satisfaction</div>
-      </div>
-      <div style="text-align:center;padding:28px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r)">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);letter-spacing:2px" data-fb="stat-countries">80+</div>
-        <div style="font-size:.82rem;color:var(--muted);margin-top:4px">Countries Served</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── MEET & GREET ── -->
-<section id="meet-greet">
-  <div id="mgStars"></div>
-  <div class="section-tag" style="justify-content:center;margin-bottom:16px;margin-top:40px">Exclusive Experience</div>
-  <h2 class="mg-title">MEET YOUR FAVORITE<br><span>CELEBRITY LIVE</span></h2>
-  <p class="mg-sub">An intimate, once-in-a-lifetime experience. Get up close with your idol, take photos, receive signed merchandise, and create memories that last forever.</p>
-  <button class="btn-mg" onclick="openAuth('register')">BOOK MEET & GREET</button>
-  <div class="mg-perks">
-    <div class="mg-perk"><i class="fas fa-camera"></i> Professional Photos</div>
-    <div class="mg-perk"><i class="fas fa-signature"></i> Signed Memorabilia</div>
-    <div class="mg-perk"><i class="fas fa-comments"></i> Private Q&A Session</div>
-    <div class="mg-perk"><i class="fas fa-crown"></i> VIP Access Pass</div>
-    <div class="mg-perk"><i class="fas fa-gift"></i> Exclusive Merch Pack</div>
-  </div>
-</section>
-
-<!-- ── CONTACT ── -->
-<section id="contact" class="section">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:48px">
-      <div class="section-tag" style="justify-content:center">Get In Touch</div>
-      <h2 class="section-title" style="text-align:center">Contact <span>Springcompany</span></h2>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-info">
-        <div class="ci-item"><div class="ci-ico"><i class="fas fa-envelope"></i></div><div><div class="ci-title">Email Us</div><div class="ci-text"><a href="/cdn-cgi/l/email-protection#442d2a222b043734362d2a23272b2934252a3d6a272b29"><span class="__cf_email__" data-cfemail="afc6c1c9c0efdcdfddc6c1c8ccc0c2dfcec1d681ccc0c2">[email&#160;protected]</span></a><br><a href="/cdn-cgi/l/email-protection#b9caccc9c9d6cbcdf9cac9cbd0d7dedad6d4c9d8d7c097dad6d4"><span class="__cf_email__" data-cfemail="12616762627d6066526162607b7c75717d7f62737c6b3c717d7f">[email&#160;protected]</span></a></div></div></div>
-        <div class="ci-item"><div class="ci-ico"><i class="fas fa-phone"></i></div><div><div class="ci-title">Call Us</div><div class="ci-text">+1 (800) SPRINGCOMPANY<br>Mon–Fri 9AM–6PM EST</div></div></div>
-        <div class="ci-item"><div class="ci-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="ci-title">Head Office</div><div class="ci-text">Beverly Hills, CA 90210<br>United States</div></div></div>
-        <div class="ci-item"><div class="ci-ico"><i class="fas fa-clock"></i></div><div><div class="ci-title">Response Time</div><div class="ci-text">Bookings confirmed within 24 hours<br>Support replies within 2 hours</div></div></div>
-      </div>
-      <div class="contact-form">
-        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:20px">Send Us a Message</h3>
-        <div class="form-row">
-          <div class="form-field"><label>Full Name</label><input type="text" placeholder="John Doe"></div>
-          <div class="form-field"><label>Email</label><input type="email" placeholder="you@example.com"></div>
-        </div>
-        <div class="form-field"><label>Subject</label>
-          <select><option>Booking Enquiry</option><option>Celebrity Onboarding</option><option>Meet & Greet</option><option>Fan Card</option><option>Technical Support</option><option>Other</option></select>
-        </div>
-        <div class="form-field"><label>Message</label><textarea placeholder="Tell us how we can help..."></textarea></div>
-        <button class="btn-auth" onclick="showToast('✅ Message sent! We will respond within 2 hours.')">Send Message</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── NEWSLETTER ── -->
-<section id="newsletter">
-  <div class="nl-inner">
-    <div class="section-tag" style="justify-content:center;margin-bottom:12px">Stay Updated</div>
-    <h2 class="section-title" style="text-align:center">Never Miss a <span>Star</span></h2>
-    <p style="color:var(--muted);font-size:.9rem;margin-top:8px">Get notified about new celebrity sign-ups, exclusive events, and limited booking slots.</p>
-    <div class="nl-row">
-      <input class="nl-input" type="email" placeholder="Enter your email address...">
-      <button class="nl-btn" onclick="showToast('🎉 Subscribed! Welcome to Springcompany.')">Subscribe</button>
-    </div>
-    <p style="font-size:.72rem;color:var(--dim);margin-top:10px">No spam. Unsubscribe anytime. Join 45,000+ subscribers.</p>
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <a href="#" class="nav-logo" style="display:inline-flex">
-        <img src="img/logo.png" alt="Springcompany Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain">
-        <span class="nav-logo-text">Springcompany</span>
-      </a>
-      <p>The world's most trusted celebrity booking platform. Connecting fans, brands and event organisers with iconic entertainers since 2020.</p>
-      <div class="footer-social">
-        <a class="fsoc" href="#"><i class="fab fa-instagram"></i></a>
-        <a class="fsoc" href="#"><i class="fab fa-twitter"></i></a>
-        <a class="fsoc" href="#"><i class="fab fa-facebook-f"></i></a>
-        <a class="fsoc" href="#"><i class="fab fa-tiktok"></i></a>
-        <a class="fsoc" href="#"><i class="fab fa-youtube"></i></a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Platform</h4>
-      <ul>
-        <li><a href="/celebrities.html">Browse Celebrities</a></li>
-        <li><a href="/about.html">How It Works</a></li>
-        <li><a href="#">Pricing & Packages</a></li>
-        <li><a href="/fan-cards.html">Fan Cards</a></li>
-        <li><a href="/meet-greet.html">Meet & Greet</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#about">About Springcompany</a></li>
-        <li><a href="/careers.html">Careers</a></li>
-        <li><a href="/press.html">Press & Media</a></li>
-        <li><a href="/celebrity-signup.html">Celebrity Sign-Up</a></li>
-        <li><a href="/investors.html">Investors</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Support</h4>
-      <ul>
-        <li><a href="#contact">Contact Us</a></li>
-        <li><a href="/help.html">Help Centre</a></li>
-        <li><a href="/privacy.html">Privacy Policy</a></li>
-        <li><a href="/terms.html">Terms of Service</a></li>
-        <li><a href="/refund.html">Refund Policy</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2026 Spring Company. All rights reserved.</p>
-    <p>Designed by Shin Young Jin for fans worldwide</p>
-  </div>
-</footer>
-
-</div><!-- end homepage -->
-
-<!-- ══════════════ CELEBRITY PROFILE PAGE ══════════════ -->
-<div id="celeb-profile-page">
-  <button class="profile-back" onclick="closeProfile()">
-    <i class="fas fa-arrow-left"></i> Back to Celebrities
-  </button>
-  <div class="profile-hero" id="profileHero"></div>
-  <div class="profile-content">
-    <div class="profile-grid">
-      <div class="profile-left">
-        <div class="profile-card">
-          <div class="profile-img" id="profileImg"></div>
-          <div class="profile-info">
-            <div class="profile-name" id="profileName">
-              Celebrity Name
-              <span class="verified-badge" id="profileBadge"><i class="fas fa-check-circle"></i> Verified</span>
-            </div>
-            <div class="profile-occ" id="profileOcc">Occupation</div>
-            <div class="profile-detail">
-              <div class="pd-row"><span class="pd-label">Date of Birth</span><span class="pd-value" id="profileDob">—</span></div>
-              <div class="pd-row"><span class="pd-label">Age</span><span class="pd-value" id="profileAge">—</span></div>
-              <div class="pd-row"><span class="pd-label">Nationality</span><span class="pd-value" id="profileNation">—</span></div>
-              <div class="pd-row"><span class="pd-label">Years Active</span><span class="pd-value" id="profileYears">—</span></div>
-              <div class="pd-row"><span class="pd-label">Category</span><span class="pd-value" id="profileCat">—</span></div>
-              <div class="pd-row"><span class="pd-label">Base Fee</span><span class="pd-value" id="profileFee" style="color:var(--gold)">—</span></div>
-            </div>
-          </div>
-        </div>
-        <!-- FAN CARDS -->
-        <div class="fan-cards-section">
-          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:4px">Fan Cards</h3>
-          <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Get exclusive perks and priority access</p>
-          <div class="fan-card-grid">
-            <div class="fan-card silver">
-              <div class="fan-card-tier">Silver</div>
-              <div class="fan-card-price">$29</div>
-              <div class="fan-card-perks">Exclusive content<br>Monthly updates<br>Fan community access</div>
-              <button class="fan-card-btn" onclick="showToast('💳 Redirecting to Silver Fan Card checkout...')">Buy Silver</button>
-            </div>
-            <div class="fan-card gold">
-              <div class="fan-card-tier">Gold ⭐</div>
-              <div class="fan-card-price">$79</div>
-              <div class="fan-card-perks">All Silver perks<br>Priority booking<br>Signed digital photo</div>
-              <button class="fan-card-btn" onclick="showToast('💳 Redirecting to Gold Fan Card checkout...')">Buy Gold</button>
-            </div>
-            <div class="fan-card vip">
-              <div class="fan-card-tier">VIP 👑</div>
-              <div class="fan-card-price">$199</div>
-              <div class="fan-card-perks">All Gold perks<br>Meet & Greet invite<br>Signed merch pack</div>
-              <button class="fan-card-btn" onclick="showToast('💳 Redirecting to VIP Fan Card checkout...')">Buy VIP</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="profile-right">
-        <div class="booking-form-card">
-          <div class="booking-form-title">Submit Booking Request</div>
-          <div class="booking-form-sub" id="bookingFormSub">Complete the form below to request this celebrity for your event</div>
-          <div class="bf-row">
-            <div class="bf-field"><label>Celebrity Name</label><input type="text" id="bfCelebName" readonly style="opacity:.7;cursor:not-allowed"></div>
-            <div class="bf-field"><label>Date of Event *</label><input type="date" id="bfDate"></div>
-          </div>
-          <div class="bf-row">
-            <div class="bf-field"><label>Event Budget (USD) *</label><input type="number" placeholder="e.g. 50000" id="bfBudget"></div>
-            <div class="bf-field"><label>Type of Event *</label>
-              <select id="bfType">
-                <option value="">Select event type</option>
-                <option>Corporate Event</option>
-                <option>Concert / Performance</option>
-                <option>Brand Activation</option>
-                <option>Private Party</option>
-                <option>Award Show</option>
-                <option>Film / TV Appearance</option>
-                <option>Meet & Greet</option>
-                <option>Sports Event</option>
-                <option>Wedding / Birthday</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-          <div class="bf-row">
-            <div class="bf-field"><label>Event Name *</label><input type="text" placeholder="e.g. Annual Gala 2025" id="bfEventName"></div>
-            <div class="bf-field"><label>Your Job Title *</label><input type="text" placeholder="e.g. Event Director" id="bfJobTitle"></div>
-          </div>
-          <div class="bf-row">
-            <div class="bf-field"><label>Organisation *</label><input type="text" placeholder="Company / Organisation name" id="bfOrg"></div>
-            <div class="bf-field"><label>Email Address *</label><input type="email" placeholder="you@company.com" id="bfEmail"></div>
-          </div>
-          <div class="bf-field"><label>Full Home / Office Address *</label><input type="text" placeholder="Street, City, Country" id="bfAddress"></div>
-          <div class="bf-row">
-            <div class="bf-field"><label>Nearest Airport *</label><input type="text" placeholder="e.g. LAX, JFK, LHR" id="bfAirport"></div>
-            <div class="bf-field"><label>Payment Method</label>
-              <select id="bfPayment">
-                <option>Paystack (Card/Bank)</option>
-                <option>Flutterwave</option>
-                <option>Bitcoin (BTC)</option>
-                <option>Western Union</option>
-                <option>Online Banking</option>
-              </select>
-            </div>
-          </div>
-          <div class="bf-field"><label>Additional Information About Event</label><textarea placeholder="Describe your event, requirements, expectations..." id="bfInfo"></textarea></div>
-          <div class="bf-field">
-            <label>Upload ID Card (optional)</label>
-            <div class="file-upload" onclick="document.getElementById('bfFile').click()">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <p>Click to upload ID card (JPG, PNG, PDF)</p>
-              <input type="file" id="bfFile" accept=".jpg,.jpeg,.png,.pdf" style="display:none">
-            </div>
-          </div>
-          <button class="btn-submit-booking" onclick="submitBooking()">SUBMIT BOOKING REQUEST</button>
-          <p style="font-size:.72rem;color:var(--dim);text-align:center;margin-top:12px">Your request will be reviewed within 24 hours. Payment is only required upon confirmation.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── AUTH MODAL ── -->
-<div class="modal-backdrop" id="authModal" onclick="if(event.target===this)closeAuth()">
-  <div class="modal">
-    <button class="modal-close" onclick="closeAuth()">✕</button>
-    <div class="modal-head">
-      <div class="modal-logo">★ SPRINGCOMPANY</div>
-      <div style="font-size:.82rem;color:var(--muted)" id="authSubtitle">Join the world's premier celebrity platform</div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-tabs">
-        <button class="modal-tab" id="tabRegister" onclick="switchAuthTab('register')">Create Account</button>
-        <button class="modal-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
-      </div>
-      <!-- Social -->
-      <div class="soc-btns">
-        <button class="soc-btn" onclick="window.location.href='/api/auth/google'">
-          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-          Continue with Google
-        </button>
-        <button class="soc-btn" onclick="socialAuth('Apple')">
-          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          Continue with Apple
-        </button>
-        <button class="soc-btn" onclick="socialAuth('Facebook')">
-          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          Continue with Facebook
-        </button>
-      </div>
-      <div class="divline">or with email</div>
-      <!-- Register -->
-      <div id="registerFields" style="display:none">
-
-  <!-- Step 1 — Personal Info -->
-  <div id="regStep1">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="mf"><label>First Name *</label><input type="text" id="regFirst" placeholder="John"></div>
-      <div class="mf"><label>Last Name *</label><input type="text" id="regLast" placeholder="Doe"></div>
-    </div>
-    <div class="mf"><label>Username *</label><input type="text" id="regUsername" placeholder="johndoe123"></div>
-    <div class="mf"><label>Gender *</label>
-      <select id="regGender" style="width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none">
-        <option value="">Select gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-        <option value="prefer_not_to_say">Prefer not to say</option>
-      </select>
-    </div>
-    <div class="mf"><label>Date of Birth *</label><input type="date" id="regDob"></div>
-    <button class="btn-auth" onclick="regNextStep()">Next Step →</button>
-    <div class="auth-hint">Already registered? <a onclick="switchAuthTab('login')">Sign in</a></div>
-  </div>
-
-  <!-- Step 2 — Contact Info -->
-  <div id="regStep2" style="display:none">
-    <div class="mf"><label>Email Address *</label><input type="email" id="regEmail" placeholder="you@example.com"></div>
-    <div class="mf"><label>Phone Number *</label>
-      <div style="display:flex;gap:6px">
-        <select id="regPhoneCode" style="width:110px;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;flex-shrink:0">
-          <option value="+234">🇳🇬 +234</option>
-          <option value="+1">🇺🇸 +1</option>
-          <option value="+44">🇬🇧 +44</option>
-          <option value="+27">🇿🇦 +27</option>
-          <option value="+971">🇦🇪 +971</option>
-          <option value="+233">🇬🇭 +233</option>
-          <option value="+254">🇰🇪 +254</option>
-          <option value="+49">🇩🇪 +49</option>
-          <option value="+33">🇫🇷 +33</option>
-          <option value="+91">🇮🇳 +91</option>
-        </select>
-        <input type="tel" id="regPhone" placeholder="08012345678" style="flex:1">
-      </div>
-    </div>
-    <div class="mf"><label>Country *</label>
-      <select id="regCountry" style="width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none" onchange="updateStates()">
-        <option value="">Select country</option>
-        <option value="Nigeria">Nigeria</option>
-        <option value="United States">United States</option>
-        <option value="United Kingdom">United Kingdom</option>
-        <option value="South Africa">South Africa</option>
-        <option value="Ghana">Ghana</option>
-        <option value="Kenya">Kenya</option>
-        <option value="UAE">United Arab Emirates</option>
-        <option value="Canada">Canada</option>
-        <option value="Australia">Australia</option>
-        <option value="Germany">Germany</option>
-        <option value="France">France</option>
-        <option value="India">India</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
-    <div class="mf"><label>State / Province *</label>
-      <select id="regState" style="width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none">
-        <option value="">Select country first</option>
-      </select>
-    </div>
-    <div class="mf"><label>LGA / City</label><input type="text" id="regLga" placeholder="Local Government Area or City"></div>
-    <div style="display:flex;gap:8px">
-      <button class="btn-auth" style="background:var(--bg4);color:var(--text);border:1px solid var(--border)" onclick="regPrevStep()">← Back</button>
-      <button class="btn-auth" style="flex:1" onclick="regNextStep2()">Next Step →</button>
-    </div>
-  </div>
-
-  <!-- Step 3 — Password + Captcha -->
-  <div id="regStep3" style="display:none">
-    <div class="mf">
-      <label style="display:block;font-size:.74rem;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Finalize Account</label>
-      <div style="background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:14px;display:flex;align-items:center;gap:12px">
-        <div style="font-size:1.2rem">�</div>
-        <div>
-          <div style="font-size:.84rem;font-weight:600;color:var(--text)">Complete Registration</div>
-          <div style="font-size:.72rem;color:var(--muted)">Click below to create your account</div>
-        </div>
-      </div>
-    </div>
-    <div class="mf"><label>Password *</label><input type="password" id="regPass" placeholder="Min 8 characters"></div>
-    <div class="mf"><label>Confirm Password *</label><input type="password" id="regPass2" placeholder="Repeat your password"></div>
-    <div class="mf">
-      <label>Verify You Are Human *</label>
-      <div style="background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:14px;display:flex;align-items:center;justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:10px">
-          <input type="checkbox" id="humanCheck" style="width:18px;height:18px;cursor:pointer;accent-color:var(--gold)">
-          <span style="font-size:.84rem;color:var(--text)">I am not a robot</span>
-        </div>
-        <div style="font-size:.7rem;color:var(--muted)">Secure</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn-auth" style="background:var(--bg4);color:var(--text);border:1px solid var(--border)" onclick="regPrevStep2()">Back</button>
-      <button class="btn-auth" style="flex:1" onclick="doRegister()">Create My Account</button>
-    </div>
-    <div class="auth-hint">Already registered? <a onclick="switchAuthTab('login')">Sign in</a></div>
-  </div>
-
-  <div id="regStep4" style="display:none">
-    <div style="text-align:center;margin-bottom:20px">
-      <div style="font-size:2.2rem;margin-bottom:8px" id="otpIcon">📧</div>
-      <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Verify Your Account</div>
-      <div style="font-size:.8rem;color:var(--muted)" id="otpHint">We sent a 6-digit code to your phone</div>
-    </div>
-    <div class="mf">
-      <label>Verification Code *</label>
-      <input type="text" id="otpInput" placeholder="Enter 6-digit code" maxlength="6" style="text-align:center;font-size:1.4rem;letter-spacing:8px;font-weight:700">
-    </div>
-    <button class="btn-auth" onclick="verifyOTP()">Verify and Complete</button>
-    <div style="text-align:center;margin-top:14px;font-size:.8rem;color:var(--muted)">
-      <div>Didn't receive the code?</div>
-      <div style="margin-top:8px">
-        <a id="resendLink" onclick="resendOTP()" style="color:var(--gold);cursor:pointer;font-weight:600">Resend Code</a>
-      </div>
-    </div>
-  </div>
-
-</div>
-      <!-- Login -->
-      <div id="loginFields">
-        <div class="mf"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com"></div>
-        <div class="mf"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••"></div>
-        <div style="text-align:right;margin-bottom:14px"><a style="font-size:.76rem;color:var(--gold);cursor:pointer">Forgot password?</a></div>
-        <button class="btn-auth" onclick="doLogin()">Sign In to Springcompany →</button>
-        <div class="auth-hint">New to Springcompany? <a onclick="switchAuthTab('register')">Create free account</a></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ══════════════════════════════════════════════
-// SPRINGCOMPANY — COMPLETE JAVASCRIPT
-// ══════════════════════════════════════════════
-
-// ── DATA ──────────────────────────────────────
-var CELEBRITIES = [
-  {id:1,name:'Ji Chang-wook',occ:'Film Actor & Singer',cat:'Film',img:'https://springcompany.co.kr/data/file/artist/thumb-2038602813_WlCEk3oi_13095abeb49b94c83d296ae4194b24abe963b617_400x600.jpg',verified:true,dob:'July 5, 1987',age:38,nation:'South Korean',years:'2006–Present',fee:'$50,000+',bio:'South Korean actor and singer who rose to fame with Smile Again (2010) and gained prominence with Empress Ki, Healer, The K2, and recent hits like Welcome to Samdal-ri.',rating:4.9,bookings:300},
-  {id:2,name:'Cha Eun-woo',occ:'Actor & Singer (ASTRO)',cat:'Film',img:'https://asianwiki.com/images/8/8b/A_Good_Day_to_Be_a_Dog-a00.jpg',verified:true,dob:'March 30, 1997',age:28,nation:'South Korean',years:'2016–Present',fee:'$60,000+',bio:'South Korean actor and singer, member of boy band ASTRO. Known for My ID is Gangnam Beauty, True Beauty, Island, and upcoming A Good Day to Be a Dog.',rating:4.9,bookings:250},
-  {id:3,name:'Seo Kang-joon',occ:'Film Actor & Singer',cat:'Film',img:'https://rollingstoneindia.com/wp-content/uploads/2024/06/Seo-Kang-Joon-Man-of-Creation-3-RS.jpg',verified:true,dob:'October 12, 1993',age:32,nation:'South Korean',years:'2012–Present',fee:'$40,000+',bio:'South Korean actor and former singer (5urprise). Gained recognition with Cheese in the Trap and starred in Are You Human?, Watcher, Grid, and Undercover High School.',rating:4.8,bookings:200},
-  {id:4,name:'Park Sung-jun',occ:'Film Actor',cat:'Film',img:'https://springcompany.co.kr/data/file/artist/thumb-2038602813_LVd1YvH9_866e8e6697f7aa75fee6566aefd3d9e44c82be16_400x600.jpg',verified:true,dob:'November 5, 1992',age:35,nation:'South Korean',years:'2010–Present',fee:'$30,000+',bio:'South Korean actor known for various television dramas and films. Part of Springcompany\'s verified artist roster.',rating:4.6,bookings:150},
-  {id:5,name:'Kim Min-seok',occ:'Film Actor',cat:'Film',img:'https://springcompany.co.kr/data/file/artist/thumb-2038602813_e6UNFJyh_20b0e8a0036dfaf7a07e1476a3c5e62be7057c9d_400x600.jpg',verified:true,dob:'January 24, 1990',age:33,nation:'South Korean',years:'2012–Present',fee:'$35,000+',bio:'South Korean actor recognized for his roles in dramas and films. Featured in Springcompany\'s artist directory.',rating:4.7,bookings:180},
-  {id:6,name:'Aria Sinclair',occ:'Pop Artist & Performer',cat:'Music',img:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',verified:true,dob:'March 15, 1990',age:35,nation:'American',years:'2010–Present',fee:'$50,000+',bio:'Multi-platinum pop artist with 12 Grammy nominations and worldwide tours.',rating:4.9,bookings:247},
-  {id:7,name:'Marcus Williams',occ:'Film Actor & Director',cat:'Film',img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',verified:true,dob:'June 22, 1985',age:39,nation:'British',years:'2005–Present',fee:'$75,000+',bio:'Award-winning actor known for blockbuster franchises and independent films.',rating:4.8,bookings:189},
-  {id:8,name:'Sofia Reyes',occ:'Latin Pop Singer',cat:'Music',img:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80',verified:true,dob:'July 4, 1995',age:29,nation:'Mexican',years:'2015–Present',fee:'$35,000+',bio:'Latin pop sensation with over 2 billion streams and international chart-toppers.',rating:4.9,bookings:312},
-  {id:9,name:'Jordan Blake',occ:'Professional Athlete',cat:'Sports',img:'https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=400&q=80',verified:true,dob:'September 10, 1992',age:32,nation:'American',years:'2012–Present',fee:'$100,000+',bio:'NBA champion and Olympic gold medalist. Brand ambassador for 15+ global brands.',rating:4.7,bookings:156},
-  {id:10,name:'Luna Chase',occ:'Fashion Model & Actress',cat:'Fashion',img:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80',verified:false,dob:'January 28, 1998',age:27,nation:'French',years:'2018–Present',fee:'$25,000+',bio:'Rising fashion icon featured in Vogue, Elle, and 30+ international campaigns.',rating:4.6,bookings:98},
-  {id:11,name:'Kevin Stone',occ:'Stand-Up Comedian',cat:'Comedy',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',verified:true,dob:'April 5, 1983',age:41,nation:'British',years:'2006–Present',fee:'$30,000+',bio:'Chart-topping comedian with 3 Netflix specials and sold-out world tours.',rating:4.8,bookings:203},
-  {id:12,name:'Isabella Voss',occ:'R&B Singer & Songwriter',cat:'Music',img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',verified:true,dob:'November 12, 1993',age:31,nation:'Brazilian',years:'2013–Present',fee:'$45,000+',bio:'Soul and R&B powerhouse with a voice that has moved millions worldwide.',rating:4.9,bookings:278},
-  {id:13,name:'Theo Anderson',occ:'Actor & Producer',cat:'Film',img:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',verified:false,dob:'February 18, 1988',age:37,nation:'Australian',years:'2008–Present',fee:'$60,000+',bio:'Critically acclaimed actor turned producer with projects across Hollywood.',rating:4.7,bookings:134},
-];
-
-var TRENDING = [
-  {cat:'Booking',title:'Taylor Swift Clone Books Out in Minutes',text:'Record-breaking demand for pop star lookalike appearances at corporate events.',img:'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80',date:'2h ago'},
-  {cat:'News',title:'Meet & Greet Packages Now Include VR Experience',text:'Springcompany launches immersive virtual reality pre-show meet and greet experiences.',img:'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&q=80',date:'5h ago'},
-  {cat:'Celebrity',title:'Marcus Williams Joins Springcompany Platform',text:'Oscar-winning actor Marcus Williams officially joins the Springcompany booking roster.',img:'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80',date:'1d ago'},
-  {cat:'Fan Card',title:'Gold Fan Cards Sell Out in 48 Hours',text:'Unprecedented demand for gold tier fan cards as platform hits 1M users.',img:'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&q=80',date:'2d ago'},
-  {cat:'Payment',title:'Bitcoin Payments Now Accepted Globally',text:'Springcompany becomes first major booking platform to accept full BTC payments.',img:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&q=80',date:'3d ago'},
-  {cat:'Event',title:'Hollywood Gala 2025 — Celebrity Lineup Revealed',text:'12 A-list celebrities confirmed for the most star-studded gala in platform history.',img:'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=400&q=80',date:'4d ago'},
-  {cat:'Booking',title:'Taylor Swift Clone Books Out in Minutes',text:'Record-breaking demand for pop star lookalike appearances at corporate events.',img:'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80',date:'2h ago'},
-  {cat:'News',title:'Meet & Greet Packages Now Include VR Experience',text:'Springcompany launches immersive virtual reality pre-show meet and greet experiences.',img:'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&q=80',date:'5h ago'},
-];
-
-var USERS = [];
-var currentUser = null;
-var currentCeleb = null;
-var heroIndex = 0;
-var heroSlides, heroDots;
-
-// ── INIT ──────────────────────────────────────
-window.addEventListener('load', function() {
-  initHero();
-  renderTrending();
-  renderCelebs(CELEBRITIES);
-  initMeetGreetStars();
-  initScrollNav();
-  initFirebase();
-});
-
-// ── FIREBASE INTEGRATION ──────────────────────
-// YOUR CONFIG: Replace these values with your own from
-// Firebase Console → Project Settings → Your Apps → Web
-var FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBXBytR2A1HmTjpNNMhqq9EWWFf8FXy6Rs",
-  authDomain: "springcompany-admin.firebaseapp.com",
-  projectId: "springcompany-admin",
-  storageBucket: "springcompany-admin.firebasestorage.app",
-  messagingSenderId: "999938884825",
-  appId: "1:999938884825:web:7acffb3c040c79d456eac8"
-};
-
-function loadScript(src, cb) {
-  var s = document.createElement('script');
-  s.src = src;
-  s.onload = cb;
-  document.head.appendChild(s);
-}
-
-function initFirebase() {
-  var v = '10.12.2';
-  loadScript('https://www.gstatic.com/firebasejs/' + v + '/firebase-app-compat.js', function() {
-    loadScript('https://www.gstatic.com/firebasejs/' + v + '/firebase-firestore-compat.js', function() {
-      try {
-        if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
-        var db = firebase.firestore();
-        fbLoadHero(db);
-        fbLoadStats(db);
-        fbLoadAnnouncements(db);
-        fbLoadCelebrities(db);
-        fbLoadTrending(db);
-        fbLoadVideos(db);
-      } catch(e) {
-        console.warn('Firebase not configured yet:', e.message);
-      }
-    });
-  });
-}
-
-// Hero section
-function fbLoadHero(db) {
-  db.collection('siteConfig').doc('hero').get().then(function(doc) {
-    if (!doc.exists) return;
-    var h = doc.data();
-    if (h.headline) document.querySelectorAll('[data-fb="hero-headline"]').forEach(function(el){ el.innerHTML = h.headline; });
-    if (h.tagline)  document.querySelectorAll('[data-fb="hero-tagline"]').forEach(function(el){ el.textContent = h.tagline; });
-    if (h.description) document.querySelectorAll('[data-fb="hero-description"]').forEach(function(el){ el.textContent = h.description; });
-    if (h.cta1) document.querySelectorAll('[data-fb="hero-cta1"]').forEach(function(el){ el.textContent = h.cta1; });
-    if (h.cta2) document.querySelectorAll('[data-fb="hero-cta2"]').forEach(function(el){ el.textContent = h.cta2; });
-  }).catch(function(){});
-}
-
-// Stats numbers
-function fbLoadStats(db) {
-  db.collection('siteConfig').doc('stats').get().then(function(doc) {
-    if (!doc.exists) return;
-    var s = doc.data();
-    if (s.celebrities)  document.querySelectorAll('[data-fb="stat-celebrities"]').forEach(function(el){ el.textContent = s.celebrities; });
-    if (s.bookings)     document.querySelectorAll('[data-fb="stat-bookings"]').forEach(function(el){ el.textContent = s.bookings; });
-    if (s.satisfaction) document.querySelectorAll('[data-fb="stat-satisfaction"]').forEach(function(el){ el.textContent = s.satisfaction; });
-    if (s.countries)    document.querySelectorAll('[data-fb="stat-countries"]').forEach(function(el){ el.textContent = s.countries; });
-  }).catch(function(){});
-}
-
-// Announcements banner
-function fbLoadAnnouncements(db) {
-  db.collection('announcements').get().then(function(snap) {
-    var container = document.querySelector('[data-fb="announcements-container"]');
-    if (!container || snap.empty) return;
-    var today = new Date().toISOString().split('T')[0];
-    var html = '';
-    snap.docs.forEach(function(doc) {
-      var a = doc.data();
-      if (a.expiry && a.expiry < today) return;
-      var colours = { Info:'#e6f1fb', Alert:'rgba(244,63,94,0.12)', Promo:'rgba(16,185,129,0.12)', Event:'rgba(212,175,55,0.12)' };
-      var bg = colours[a.type] || colours.Info;
-      html += '<div style="background:' + bg + ';border-bottom:1px solid rgba(212,175,55,0.2);padding:10px 20px;font-size:.84rem;font-weight:500;text-align:center">'
-        + '<strong>' + a.title + '</strong> — ' + a.message + '</div>';
-    });
-    if (html) container.innerHTML = html;
-  }).catch(function(){});
-}
-
-// Celebrities — replaces hardcoded CELEBRITIES array with live data
-function fbLoadCelebrities(db) {
-  db.collection('celebrities').get().then(function(snap) {
-    if (snap.empty) return; // keep hardcoded data if Firebase has none yet
-    var fbCelebs = [];
-    snap.docs.forEach(function(doc) {
-      var c = doc.data();
-      fbCelebs.push({
-        id: doc.id,
-        name: c.name || '',
-        occ: c.occupation || c.category || '',
-        cat: c.category || 'Other',
-        img: c.image || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',
-        verified: c.status === 'Available',
-        dob: c.dob || '—',
-        age: c.dob ? (new Date().getFullYear() - new Date(c.dob).getFullYear()) : '—',
-        nation: c.nationality || '—',
-        years: c.yearsActive || '—',
-        fee: c.fee ? ('$' + Number(c.fee).toLocaleString() + '+') : 'Contact for pricing',
-        bio: c.bio || '',
-        rating: 4.8,
-        bookings: 0,
-        fbId: doc.id
-      });
-    });
-    // Replace the global array and re-render
-    CELEBRITIES.length = 0;
-    fbCelebs.forEach(function(c){ CELEBRITIES.push(c); });
-    renderCelebs(CELEBRITIES);
-  }).catch(function(){});
-}
-
-// Trending posts — replaces hardcoded TRENDING array with live news from Firebase
-function fbLoadTrending(db) {
-  db.collection('news').get().then(function(snap) {
-    if (snap.empty) return; // keep hardcoded data if Firebase has none yet
-    var fbTrending = [];
-    snap.docs.forEach(function(doc) {
-      var n = doc.data();
-      if (n.status !== 'Published') return;
-      fbTrending.push({
-        cat: n.category || 'News',
-        title: n.title || '',
-        text: (n.body || '').substring(0, 100) + '...',
-        img: n.image || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80',
-        date: n.created ? new Date(n.created).toLocaleDateString('en-GB', {day:'numeric',month:'short'}) : ''
-      });
-    });
-    if (fbTrending.length === 0) return;
-    // Duplicate for infinite scroll
-    var doubled = fbTrending.concat(fbTrending);
-    var track = document.getElementById('trendTrack');
-    track.innerHTML = doubled.map(function(t) {
-      return '<div class="trend-card"><div class="trend-img" style="background-image:url(\''+t.img+'\')" loading="lazy"><span class="trend-category">'+t.cat+'</span></div><div class="trend-body"><h4>'+t.title+'</h4><p>'+t.text+'</p><div class="trend-footer"><span>'+t.date+'</span><span style="color:var(--gold);font-size:.76rem;font-weight:600;cursor:pointer">Read →</span></div></div></div>';
-    }).join('');
-  }).catch(function(){});
-}
-
-// Videos — replaces hardcoded video cards with live Firebase videos
-function fbLoadVideos(db) {
-  db.collection('videos').get().then(function(snap) {
-    if (snap.empty) return; // keep hardcoded videos if Firebase has none yet
-    var track = document.getElementById('videoTrack');
-    if (!track) return;
-    var html = '';
-    snap.docs.forEach(function(doc) {
-      var v = doc.data();
-      var embedUrl = v.url || '';
-      html += '<div class="video-card">'
-        + '<div class="video-embed"><iframe src="' + embedUrl + '" allowfullscreen loading="lazy"></iframe></div>'
-        + '<div class="video-body"><div class="video-title">' + (v.title||'') + '</div>'
-        + '<div class="video-sub">' + (v.label||'Springcompany Exclusive') + ' • ' + (v.views||'') + '</div></div>'
-        + '</div>';
-    });
-    track.innerHTML = html;
-  }).catch(function(){});
-}
-
-// Save booking to Firebase when form is submitted
-function submitBookingToFirebase(data) {
-  if (typeof firebase === 'undefined') return;
-  try {
-    firebase.firestore().collection('bookings').add(Object.assign({}, data, {
-      status: 'Pending',
-      created: new Date().toISOString()
-    }));
-  } catch(e) { console.warn('Booking save failed:', e.message); }
-}
-
-
-// ── CUSTOM CURSOR ──────────────────────────────
-
-
-// ── SCROLL NAV ────────────────────────────────
-function initScrollNav() {
-  window.addEventListener('scroll', function() {
-    var nav = document.getElementById('navbar');
-    if (window.scrollY > 60) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
-  });
-}
-
-// ── HERO SLIDESHOW ────────────────────────────
-function initHero() {
-  heroSlides = document.querySelectorAll('.hero-slide');
-  var dotsEl = document.getElementById('heroDots');
-  heroSlides.forEach(function(_, i) {
-    var d = document.createElement('div');
-    d.className = 'hero-dot' + (i === 0 ? ' active' : '');
-    d.onclick = function() { goHeroSlide(i); };
-    dotsEl.appendChild(d);
-  });
-  setInterval(function() { goHeroSlide((heroIndex + 1) % heroSlides.length); }, 6000);
-}
-
-function goHeroSlide(n) {
-  heroSlides[heroIndex].classList.remove('active');
-  document.querySelectorAll('.hero-dot')[heroIndex].classList.remove('active');
-  heroIndex = n;
-  heroSlides[heroIndex].classList.add('active');
-  document.querySelectorAll('.hero-dot')[heroIndex].classList.add('active');
-}
-
-// ── TRENDING POSTS ────────────────────────────
-function renderTrending() {
-  var track = document.getElementById('trendTrack');
-  track.innerHTML = TRENDING.map(function(t) {
-    return '<div class="trend-card"><div class="trend-img" style="background-image:url(\''+t.img+'\')" loading="lazy"><span class="trend-category">'+t.cat+'</span></div><div class="trend-body"><h4>'+t.title+'</h4><p>'+t.text+'</p><div class="trend-footer"><span>'+t.date+'</span><span style="color:var(--gold);font-size:.76rem;font-weight:600;cursor:pointer">Read →</span></div></div></div>';
-  }).join('');
-}
-
-// ── CELEBRITY GRID ────────────────────────────
-function renderCelebs(list) {
-  var grid = document.getElementById('celebGrid');
-  if (!list.length) {
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px">No celebrities found matching your search.</div>';
-    return;
-  }
-  grid.innerHTML = list.map(function(c) {
-    return '<div class="celeb-card">'+
-      '<div class="celeb-img-wrap">'+
-      '<div class="celeb-img-placeholder" style="background-image:url(\''+c.img+'\')" loading="lazy"></div>'+
-      (c.verified ? '<div class="celeb-badge"><i class="fas fa-check-circle"></i> Verified</div>' : '')+
-      '<div class="celeb-overlay"></div>'+
-      '<button class="celeb-quick-book" onclick="openProfile('+c.id+')">Quick Book</button>'+
-      '</div>'+
-      '<div class="celeb-body">'+
-      '<div class="celeb-stats"><span class="celeb-stat"><i class="fas fa-star"></i>'+c.rating+'</span><span class="celeb-stat"><i class="fas fa-calendar-check"></i>'+c.bookings+' bookings</span><span class="celeb-stat" style="color:var(--gold);font-size:.72rem;font-weight:600">'+c.cat+'</span></div>'+
-      '<div class="celeb-name">'+c.name+'</div>'+
-      '<div class="celeb-occ">'+c.occ+'</div>'+
-      '<div class="celeb-bio">'+c.bio+'</div>'+
-      '<div class="celeb-actions">'+
-      '<button class="btn-view" onclick="openProfile('+c.id+')">View Profile</button>'+
-      '<button class="btn-book" onclick="openProfile('+c.id+')">Book Now</button>'+
-      '</div></div></div>';
-  }).join('');
-}
-
-function filterByCategory(cat, btn) {
-  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-  btn.classList.add('active');
-  renderCelebs(cat === 'All' ? CELEBRITIES : CELEBRITIES.filter(function(c) { return c.cat === cat; }));
-}
-
-function filterCelebs(query) {
-  var q = query.toLowerCase();
-  renderCelebs(q ? CELEBRITIES.filter(function(c) {
-    return c.name.toLowerCase().includes(q) || c.occ.toLowerCase().includes(q) || c.cat.toLowerCase().includes(q);
-  }) : CELEBRITIES);
-}
-
-// ── CELEBRITY PROFILE ────────────────────────
-function openProfile(id) {
-  var c = CELEBRITIES.find(function(x) { return x.id === id; });
-  if (!c) return;
-  currentCeleb = c;
-  document.getElementById('profileHero').style.backgroundImage = "url('" + c.img + "')";
-  document.getElementById('profileImg').style.backgroundImage = "url('" + c.img + "')";
-  document.getElementById('profileName').childNodes[0].textContent = c.name + ' ';
-  document.getElementById('profileBadge').style.display = c.verified ? 'inline-flex' : 'none';
-  document.getElementById('profileOcc').textContent = c.occ;
-  document.getElementById('profileDob').textContent = c.dob;
-  document.getElementById('profileAge').textContent = c.age + ' years old';
-  document.getElementById('profileNation').textContent = c.nation;
-  document.getElementById('profileYears').textContent = c.years;
-  document.getElementById('profileCat').textContent = c.cat;
-  document.getElementById('profileFee').textContent = c.fee;
-  document.getElementById('bfCelebName').value = c.name;
-  document.getElementById('bookingFormSub').textContent = 'Complete the form to book ' + c.name + ' for your event';
-  document.getElementById('celeb-profile-page').style.display = 'block';
-  window.scrollTo(0, 0);
-  document.body.style.overflow = 'hidden';
-  document.getElementById('celeb-profile-page').scrollTop = 0;
-  document.body.style.overflow = '';
-}
-
-function closeProfile() {
-  document.getElementById('celeb-profile-page').style.display = 'none';
-  currentCeleb = null;
-}
-
-function submitBooking() {
-  var date   = document.getElementById('bfDate').value;
-  var budget = document.getElementById('bfBudget').value;
-  var type   = document.getElementById('bfType').value;
-  var email  = document.getElementById('bfEmail').value;
-  if (!date || !budget || !type || !email) {
-    showToast('⚠️ Please fill in all required fields');
-    return;
-  }
-  // Save to Firebase so it appears in the admin panel under Bookings
-  submitBookingToFirebase({
-    celebrity:    document.getElementById('bfCelebName').value,
-    eventDate:    date,
-    budget:       parseFloat(budget) || 0,
-    eventType:    type,
-    eventName:    document.getElementById('bfEventName').value,
-    jobTitle:     document.getElementById('bfJobTitle').value,
-    organisation: document.getElementById('bfOrg').value,
-    email:        email,
-    address:      document.getElementById('bfAddress').value,
-    airport:      document.getElementById('bfAirport').value,
-    payment:      document.getElementById('bfPayment').value,
-    notes:        document.getElementById('bfInfo').value
-  });
-  showToast('🎉 Booking request submitted! We will confirm within 24 hours.');
-  setTimeout(closeProfile, 2000);
-}
-
-// ── VIDEO SLIDER ──────────────────────────────
-function scrollVideos(dir) {
-  var track = document.getElementById('videoTrack');
-  track.scrollBy({ left: dir * 380, behavior: 'smooth' });
-}
-
-// ── MEET & GREET STARS ────────────────────────
-function initMeetGreetStars() {
-  var cont = document.getElementById('mgStars');
-  for (var i = 0; i < 60; i++) {
-    var s = document.createElement('div');
-    s.className = 'mg-star';
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top = Math.random() * 100 + '%';
-    s.style.animationDelay = Math.random() * 3 + 's';
-    s.style.animationDuration = (2 + Math.random() * 2) + 's';
-    cont.appendChild(s);
-  }
-}
-
-// ── MENU ──────────────────────────────────────
-function toggleMenu() {
-  document.getElementById('megaMenu').classList.toggle('open');
-}
-function closeMenu() {
-  document.getElementById('megaMenu').classList.remove('open');
-}
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('#megaMenu') && !e.target.closest('#hamBtn')) closeMenu();
-});
-
-// ── THEME ──────────────────────────────────────
-function toggleTheme() {
-  var html = document.documentElement;
-  var isDark = html.getAttribute('data-theme') === 'dark';
-  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  document.getElementById('themeIco').className = isDark ? 'fas fa-moon' : 'fas fa-sun';
-  document.getElementById('themeLabel').textContent = isDark ? 'Switch to Dark Mode' : 'Switch to Light Mode';
-}
-
-// ── AUTH ──────────────────────────────────────
-function openAuth(type) {
-  document.getElementById('authModal').classList.add('open');
-  switchAuthTab(type === 'register' ? 'register' : 'login');
-}
-function closeAuth() {
-  document.getElementById('authModal').classList.remove('open');
-}
-function switchAuthTab(tab) {
-  var isReg = tab === 'register';
-  document.getElementById('tabRegister').classList.toggle('active', isReg);
-  document.getElementById('tabLogin').classList.toggle('active', !isReg);
-  document.getElementById('registerFields').style.display = isReg ? 'block' : 'none';
-  document.getElementById('loginFields').style.display = isReg ? 'none' : 'block';
-  document.getElementById('authSubtitle').textContent = isReg ? 'Join the world\'s premier celebrity platform' : 'Welcome back to Springcompany';
-}
-function socialAuth(provider) {
-  closeAuth();
-  showToast('✅ Signed in with ' + provider + '! Welcome to Springcompany.');
-}
-function doRegister() {
-  var pass  = document.getElementById('regPass').value || '';
-  var pass2 = document.getElementById('regPass2') ? document.getElementById('regPass2').value || '' : pass;
-  var human = document.getElementById('humanCheck') ? document.getElementById('humanCheck').checked : true;
-
-  if (pass.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
-  if (pass !== pass2)  { showAuthError('Passwords do not match'); return; }
-  if (!human)          { showAuthError('Please confirm you are human'); return; }
-
-  var phoneCode = document.getElementById('regPhoneCode') ? document.getElementById('regPhoneCode').value : '+1';
-  var phoneNum  = (document.getElementById('regPhone') ? document.getElementById('regPhone').value : '').trim();
-  var fullPhone = phoneCode + phoneNum.replace(/^0/, '');
-
-  var btn = document.querySelector('#regStep3 .btn-auth') || document.querySelector('#registerFields .btn-auth');
-  var original = btn ? btn.textContent : 'Create My Account';
-  if (btn) { btn.textContent = 'Creating account...'; btn.disabled = true; }
-
-  fetch('/api/auth/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      firstName:   (document.getElementById('regFirst').value || '').trim(),
-      lastName:    (document.getElementById('regLast').value || '').trim(),
-      username:    document.getElementById('regUsername') ? (document.getElementById('regUsername').value || '').trim() : (document.getElementById('regFirst').value || '').trim().toLowerCase(),
-      gender:      document.getElementById('regGender') ? document.getElementById('regGender').value : 'prefer_not_to_say',
-      dateOfBirth: document.getElementById('regDob') ? document.getElementById('regDob').value : '2000-01-01',
-      email:       (document.getElementById('regEmail').value || '').trim(),
-      phone:       fullPhone || phoneNum,
-      country:     document.getElementById('regCountry') ? document.getElementById('regCountry').value : 'Other',
-      state:       document.getElementById('regState') ? document.getElementById('regState').value : 'Other',
-      lga:         document.getElementById('regLga') ? (document.getElementById('regLga').value || '').trim() : '',
-      password:    pass
-    })
-  })
-  .then(function(res) { return res.json(); })
-  .then(function(data) {
-    if (btn) { btn.textContent = original; btn.disabled = false; }
-    if (data.success) {
-      regUserId = data.userId;
-      regEmail  = data.email;
-      regPhone  = data.phone;
-      regVerifyMethod = data.verifyMethod || 'email';
-      
-      // Show email OTP step
-      var step3 = document.getElementById('regStep3');
-      var step4 = document.getElementById('regStep4');
-      if (step3) step3.style.display = 'none';
-      if (step4) {
-        step4.style.display = 'block';
-        var hint = document.getElementById('otpHint');
-        var icon = document.getElementById('otpIcon');
-        if (hint) hint.textContent = 'We sent a 6-digit code to ' + data.hint;
-        if (icon) icon.textContent = '📧';
-      }
-      hideAuthError();
-      showToast('📧 Check your email for the verification code!');
-    } else {
-      showAuthError(data.message || 'Registration failed. Please try again.');
-    }
-  })
-  .catch(function() {
-    if (btn) { btn.textContent = original; btn.disabled = false; }
-    showAuthError('Connection error. Please check your internet and try again.');
-  });
-}
-
-// ── REGISTRATION STATE ────────────────────────
-var regUserId       = null;
-var regEmail        = null;
-var regPhone        = null;
-var regVerifyMethod = 'phone';
-
-var statesByCountry = {
-  'Nigeria': ['Abia','Adamawa','Akwa Ibom','Anambra','Bauchi','Bayelsa','Benue','Borno','Cross River','Delta','Ebonyi','Edo','Ekiti','Enugu','FCT Abuja','Gombe','Imo','Jigawa','Kaduna','Kano','Katsina','Kebbi','Kogi','Kwara','Lagos','Nasarawa','Niger','Ogun','Ondo','Osun','Oyo','Plateau','Rivers','Sokoto','Taraba','Yobe','Zamfara'],
-  'United States': ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'],
-  'United Kingdom': ['England','Scotland','Wales','Northern Ireland'],
-  'South Africa': ['Eastern Cape','Free State','Gauteng','KwaZulu-Natal','Limpopo','Mpumalanga','Northern Cape','North West','Western Cape'],
-  'Ghana': ['Ashanti','Brong-Ahafo','Central','Eastern','Greater Accra','Northern','Upper East','Upper West','Volta','Western'],
-  'Kenya': ['Nairobi','Mombasa','Kisumu','Nakuru','Eldoret','Thika','Malindi','Kitale','Garissa','Kakamega'],
-  'UAE': ['Abu Dhabi','Dubai','Sharjah','Ajman','Umm Al Quwain','Ras Al Khaimah','Fujairah'],
-  'Canada': ['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland','Nova Scotia','Ontario','Prince Edward Island','Quebec','Saskatchewan'],
-  'Australia': ['New South Wales','Victoria','Queensland','Western Australia','South Australia','Tasmania','ACT','Northern Territory'],
-  'Germany': ['Bavaria','Berlin','Brandenburg','Bremen','Hamburg','Hesse','Mecklenburg','Lower Saxony','North Rhine-Westphalia','Rhineland-Palatinate','Saarland','Saxony','Saxony-Anhalt','Schleswig-Holstein','Thuringia'],
-  'France': ['Auvergne-Rhones-Alpes','Bourgogne-Franche-Comte','Brittany','Centre-Val de Loire','Corsica','Grand Est','Hauts-de-France','Ile-de-France','Normandy','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Cote dAzur'],
-  'India': ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal'],
-  'Other': ['Other / Not Listed']
-};
-
-function updateStates() {
-  var country = document.getElementById('regCountry') ? document.getElementById('regCountry').value : '';
-  var stateSelect = document.getElementById('regState');
-  if (!stateSelect) return;
-  var states = statesByCountry[country] || ['Other'];
-  stateSelect.innerHTML = '<option value="">Select state</option>' +
-    states.map(function(s){ return '<option value="'+s+'">'+s+'</option>'; }).join('');
-}
-
-function updateVerifyChoice() {
-  // No longer needed - only email verification
-}
-
-function regNextStep() {
-  var first  = (document.getElementById('regFirst').value || '').trim();
-  var last   = (document.getElementById('regLast').value || '').trim();
-  var uname  = (document.getElementById('regUsername').value || '').trim();
-  var gender = document.getElementById('regGender') ? document.getElementById('regGender').value : '';
-  var dob    = document.getElementById('regDob') ? document.getElementById('regDob').value : '';
-  if (!first)  { showAuthError('Please enter your first name'); return; }
-  if (!last)   { showAuthError('Please enter your last name'); return; }
-  if (!uname || uname.length < 3) { showAuthError('Username must be at least 3 characters'); return; }
-  if (!gender) { showAuthError('Please select your gender'); return; }
-  if (!dob)    { showAuthError('Please enter your date of birth'); return; }
-  document.getElementById('regStep1').style.display = 'none';
-  document.getElementById('regStep2').style.display = 'block';
-  hideAuthError();
-}
-
-function regPrevStep() {
-  document.getElementById('regStep2').style.display = 'none';
-  document.getElementById('regStep1').style.display = 'block';
-  hideAuthError();
-}
-
-function regNextStep2() {
-  var email   = (document.getElementById('regEmail').value || '').trim();
-  var phone   = (document.getElementById('regPhone').value || '').trim();
-  var country = document.getElementById('regCountry') ? document.getElementById('regCountry').value : '';
-  var state   = document.getElementById('regState') ? document.getElementById('regState').value : '';
-  if (!email || !email.includes('@')) { showAuthError('Please enter a valid email address'); return; }
-  if (!phone)   { showAuthError('Please enter your phone number'); return; }
-  if (!country) { showAuthError('Please select your country'); return; }
-  if (!state)   { showAuthError('Please select your state'); return; }
-  document.getElementById('regStep2').style.display = 'none';
-  document.getElementById('regStep3').style.display = 'block';
-  hideAuthError();
-}
-
-function regPrevStep2() {
-  document.getElementById('regStep3').style.display = 'none';
-  document.getElementById('regStep2').style.display = 'block';
-  hideAuthError();
-}
-
-function doRegister() {
-  var pass   = document.getElementById('regPass').value || '';
-  var pass2  = document.getElementById('regPass2').value || '';
-  var human  = document.getElementById('humanCheck') ? document.getElementById('humanCheck').checked : true;
-
-  if (pass.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
-  if (pass !== pass2)  { showAuthError('Passwords do not match'); return; }
-  if (!human)          { showAuthError('Please confirm you are not a robot'); return; }
-
-  var btn = document.querySelector('#regStep3 .btn-auth:last-of-type');
-  var original = btn ? btn.textContent : 'Create My Account';
-  if (btn) { btn.textContent = 'Creating account...'; btn.disabled = true; }
-
-  fetch('/api/auth/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      firstName:    (document.getElementById('regFirst').value || '').trim(),
-      lastName:     (document.getElementById('regLast').value || '').trim(),
-      username:     (document.getElementById('regUsername').value || '').trim(),
-      gender:       document.getElementById('regGender') ? document.getElementById('regGender').value : 'prefer_not_to_say',
-      dateOfBirth:  document.getElementById('regDob') ? document.getElementById('regDob').value : '',
-      email:        (document.getElementById('regEmail').value || '').trim(),
-      phone:        (document.getElementById('regPhone').value || '').trim(),
-      country:      document.getElementById('regCountry') ? document.getElementById('regCountry').value : '',
-      state:        document.getElementById('regState') ? document.getElementById('regState').value : '',
-      lga:          document.getElementById('regLga') ? (document.getElementById('regLga').value || '').trim() : '',
-      password:     pass,
-      verifyMethod: 'phone'
-    })
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data){
-    if (btn) { btn.textContent = original; btn.disabled = false; }
-    if (data.success) {
-      localStorage.setItem('sc_token', data.token);
-      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
-      closeAuth();
-      updateNavForLoggedInUser(data.user.firstName);
-      showToast('Welcome to Springcompany, ' + data.user.firstName + '!');
-    } else {
-      showAuthError(data.message || 'Registration failed. Please try again.');
-    }
-  })
-  .catch(function(){
-    if (btn) { btn.textContent = original; btn.disabled = false; }
-    showAuthError('Connection error. Please check your internet and try again.');
-  });
-}
-
-function verifyOTP() {
-  var otp = (document.getElementById('otpInput').value || '').trim();
-  if (otp.length !== 6) { showAuthError('Please enter the 6-digit code'); return; }
-
-  var btn = document.querySelector('#regStep4 .btn-auth');
-  if (btn) { btn.textContent = 'Verifying...'; btn.disabled = true; }
-
-  fetch('/api/auth/verify-otp', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId: regUserId, otp: otp })
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data){
-    if (btn) { btn.textContent = 'Verify and Complete'; btn.disabled = false; }
-    if (data.success) {
-      localStorage.setItem('sc_token', data.token);
-      localStorage.setItem('sc_current_user', JSON.stringify(data.user));
-      closeAuth();
-      updateNavForLoggedInUser(data.user.firstName);
-      showToast('Welcome to Springcompany, ' + data.user.firstName + '! Your account is verified.');
-    } else {
-      showAuthError(data.message || 'Invalid code. Please try again.');
-    }
-  })
-  .catch(function(){
-    if (btn) { btn.textContent = 'Verify and Complete'; btn.disabled = false; }
-    showAuthError('Connection error. Please try again.');
-  });
-}
-
-function resendOTP() {
-  if (!regUserId) return;
-  fetch('/api/auth/resend-otp', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId: regUserId })
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data){
-    showToast(data.success
-      ? data.message
-      : (data.message || 'Error resending code'));
-  })
-  .catch(function(){ showToast('Connection error. Please try again.'); });
-}
-
-function hideAuthError() {
-  var err = document.getElementById('authError');
-  if (err) err.style.display = 'none';
-}
-
-
-function doLogin() {
-  var email = (document.getElementById('loginEmail').value || '').trim();
-  var pass  = document.getElementById('loginPass').value || '';
-
-  if (!email) { showAuthError('Please enter your email'); return; }
-  if (!pass)  { showAuthError('Please enter your password'); return; }
-
-  var btn = document.querySelector('#loginFields .btn-auth');
-  var original = btn.textContent;
-  btn.textContent = 'Signing in...';
-  btn.disabled = true;
-
-  fetch('/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email, password: pass })
-  })
-  .then(function(res) { return res.json(); })
-  .then(function(data) {
-    btn.textContent = original;
-    btn.disabled = false;
-    if (data.success) {
-  // Save token and full user including role
-  localStorage.setItem('sc_token', data.token);
-  localStorage.setItem('sc_current_user', JSON.stringify(data.user));
-
-  // Verify it saved correctly
-  var saved = localStorage.getItem('sc_current_user');
-  console.log('Saved user:', saved);
-
-  closeAuth();
-  updateNavForLoggedInUser(data.user.firstName);
-  showToast('✅ Welcome back, ' + data.user.firstName + '!');
-
-  // If user is admin redirect to admin dashboard
-  if (data.user.role === 'admin') {
-    showToast('👑 Welcome Admin ' + data.user.firstName + '! Redirecting to dashboard...');
-    setTimeout(function() {
-      window.location.href = '/admin.html';
-    }, 1500);
-  }
-    } else {
-      showAuthError(data.message || 'Incorrect email or password.');
-    }
-  })
-  .catch(function() {
-    btn.textContent = original;
-    btn.disabled = false;
-    showAuthError('Connection error. Please check your internet and try again.');
-  });
-}
-
-function showAuthError(msg) {
-  var err = document.getElementById('authError');
-  if (!err) {
-    err = document.createElement('div');
-    err.id = 'authError';
-    err.style.cssText = 'background:rgba(244,63,94,0.12);border:1px solid rgba(244,63,94,0.3);color:#F43F5E;padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:12px;text-align:center;font-weight:500';
-    var loginFields = document.getElementById('loginFields');
-    var regFields = document.getElementById('registerFields');
-    var visible = (loginFields && loginFields.style.display !== 'none') ? loginFields : regFields;
-    if (visible) visible.insertBefore(err, visible.firstChild);
-  }
-  err.textContent = msg;
-  err.style.display = 'block';
-}
-
-function updateNavForLoggedInUser(name) {
-  if (!name) return;
-  name = name.charAt(0).toUpperCase() + name.slice(1);
-  var signInBtn = document.querySelector('.nav-btn.btn-ghost');
-  var joinBtn   = document.querySelector('.nav-btn.btn-gold');
-  if (signInBtn) signInBtn.style.display = 'none';
-  if (joinBtn)   joinBtn.style.display   = 'none';
-  var pill = document.getElementById('navUserPill');
-  if (!pill) {
-    pill = document.createElement('div');
-    pill.id = 'navUserPill';
-    pill.style.cssText = 'display:flex;align-items:center;gap:8px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);padding:6px 14px;border-radius:50px;cursor:pointer;margin-left:4px';
-    pill.onclick = showUserMenu;
-    var av = document.createElement('div');
-    av.id = 'navUserAv';
-    av.style.cssText = 'width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#8B7322);display:flex;align-items:center;justify-content:center;color:#000;font-size:11px;font-weight:700;flex-shrink:0';
-    av.textContent = name.charAt(0).toUpperCase();
-    var nm = document.createElement('span');
-    nm.id = 'navUserName';
-    nm.style.cssText = 'font-size:13px;font-weight:600;color:#D4AF37;font-family:DM Sans,sans-serif';
-    nm.textContent = name;
-    var arr = document.createElement('span');
-    arr.style.cssText = 'font-size:10px;color:#8A87A0';
-    arr.textContent = '▼';
-    pill.appendChild(av);
-    pill.appendChild(nm);
-    pill.appendChild(arr);
-    var navRight = document.querySelector('.nav-right');
-    if (navRight) navRight.appendChild(pill);
-  } else {
-    pill.style.display = 'flex';
-    var av2 = document.getElementById('navUserAv');
-    var nm2 = document.getElementById('navUserName');
-    if (av2) av2.textContent = name.charAt(0).toUpperCase();
-    if (nm2) nm2.textContent = name;
-  }
-}
-
-function showUserMenu() {
-  var existing = document.getElementById('userDropdown');
-  if (existing) { existing.remove(); return; }
-  var currentUser = JSON.parse(localStorage.getItem('sc_current_user') || 'null');
-  var dropdown = document.createElement('div');
-  dropdown.id = 'userDropdown';
-  dropdown.style.cssText = 'position:fixed;top:68px;right:16px;background:#18181F;border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:8px;min-width:180px;z-index:9999;box-shadow:0 12px 32px rgba(0,0,0,0.5);font-family:DM Sans,sans-serif';
-  var userName  = currentUser ? (currentUser.firstName || currentUser.name || 'User') : 'User';
-  var userEmail = currentUser ? (currentUser.email || '') : '';
-  dropdown.innerHTML =
-    '<div style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:6px">' +
-      '<div style="font-size:.84rem;font-weight:700;color:#F0EEF8">' + userName + '</div>' +
-      '<div style="font-size:.72rem;color:#8A87A0;margin-top:2px">' + userEmail + '</div>' +
-    '</div>' +
-    '<div onclick="window.location.href=\'user-profile.html\'" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#D0CDE8" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'transparent\'">' +
-      '<i class="fas fa-user-circle" style="color:#D4AF37;width:16px"></i> My Profile' +
-    '</div>' +
-    '<div onclick="window.location.href=\'my-zone.html\'" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#D0CDE8" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'transparent\'">' +
-      '<i class="fas fa-crown" style="color:#D4AF37;width:16px"></i> My Zone' +
-    '</div>' +
-    '<div onclick="window.location.href=\'my-zone.html?tab=fancard\'" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#D0CDE8" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'transparent\'">' +
-      '<i class="fas fa-calendar-check" style="color:#D4AF37;width:16px"></i> My Bookings' +
-    '</div>' +
-    '<div onclick="window.location.href=\'my-zone.html?tab=fancards\'" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#D0CDE8" onmouseover="this.style.background=\'rgba(255,255,255,0.05)\'" onmouseout="this.style.background=\'transparent\'">' +
-      '<i class="fas fa-id-card" style="color:#D4AF37;width:16px"></i> My Fan Cards' +
-    '</div>' +
-    '<div style="border-top:1px solid rgba(255,255,255,0.07);margin-top:6px;padding-top:6px">' +
-      '<div onclick="doLogout()" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.84rem;color:#F43F5E" onmouseover="this.style.background=\'rgba(244,63,94,0.08)\'" onmouseout="this.style.background=\'transparent\'">' +
-        '<i class="fas fa-sign-out-alt" style="width:16px"></i> Sign Out' +
-      '</div>' +
-    '</div>';
-  document.body.appendChild(dropdown);
-  setTimeout(function() {
-    document.addEventListener('click', function closeDD(e) {
-      if (!dropdown.contains(e.target) && !e.target.closest('#navUserPill')) {
-        dropdown.remove();
-        document.removeEventListener('click', closeDD);
-      }
-    });
-  }, 100);
-}
-
-function doLogout() {
-  localStorage.removeItem('sc_token');
-  localStorage.removeItem('sc_current_user');
-  var dd = document.getElementById('userDropdown');
-  if (dd) dd.remove();
-  var pill = document.getElementById('navUserPill');
-  if (pill) pill.style.display = 'none';
-  var signInBtn = document.querySelector('.nav-btn.btn-ghost');
-  var joinBtn   = document.querySelector('.nav-btn.btn-gold');
-  if (signInBtn) signInBtn.style.display = '';
-  if (joinBtn)   joinBtn.style.display   = '';
-  showToast('👋 You have been signed out. See you soon!');
-}
-
-window.addEventListener('DOMContentLoaded', function() {
-  // ── CATCH GOOGLE LOGIN REDIRECT ──────────────
-  var urlParams = new URLSearchParams(window.location.search);
-  var oauthToken = urlParams.get('token');
-  var oauthUser  = urlParams.get('user');
-  if (oauthToken && oauthUser) {
-    try {
-      var user = JSON.parse(decodeURIComponent(oauthUser));
-      localStorage.setItem('sc_token', oauthToken);
-      localStorage.setItem('sc_current_user', JSON.stringify(user));
-      updateNavForLoggedInUser(user.firstName);
-      showToast('✅ Welcome, ' + user.firstName + '! You are signed in with Google.');
-      window.history.replaceState({}, document.title, '/');
-    } catch(e) {}
-  }
-
-  // ── CHECK FOR LOGIN ERROR ─────────────────────
-  if (urlParams.get('error') === 'google') {
-    showToast('❌ Google sign in failed. Please try again.');
-    window.history.replaceState({}, document.title, '/');
-  }
-  if (urlParams.get('sessionExpired') === '1') {
-    openAuth('login');
-    showToast('Your session has expired. Please sign in again.');
-    window.history.replaceState({}, document.title, '/');
-  }
-  var savedUser  = localStorage.getItem('sc_current_user');
-var savedToken = localStorage.getItem('sc_token');
-if (savedUser && savedToken) {
-  try {
-    var user = JSON.parse(savedUser);
-    updateNavForLoggedInUser(user.firstName || user.name || 'User');
-
-    // Silently refresh user data from server to get latest role
-    fetch('/api/auth/me', {
-      headers: { 'Authorization': 'Bearer ' + savedToken }
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(me) {
-      if (me.success && me.user) {
-        localStorage.setItem('sc_current_user', JSON.stringify(me.user));
-      }
-    })
-    .catch(function() {});
-  } catch(e) {}
-}
-
-});
-
-function showHome() {
-  closeProfile();
-}
-
-// ── TOAST ─────────────────────────────────────
-function showToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.display = 'block';
-  setTimeout(function() { t.style.display = 'none'; }, 3500);
-}
-</script>
-<!-- AI CHATBOT STYLES -->
-<style>
-/* ── CHAT BUBBLE ── */
-.sb-chat-bubble{position:fixed;bottom:28px;right:28px;z-index:8000;width:52px;height:52px;background:linear-gradient(135deg,#D4AF37,#8B7322);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 28px rgba(212,175,55,0.4);transition:all .3s;animation:chatPulse 3s ease-in-out infinite}
-@keyframes chatPulse{0%,100%{box-shadow:0 8px 28px rgba(212,175,55,0.4)}50%{box-shadow:0 8px 40px rgba(212,175,55,0.7),0 0 0 8px rgba(212,175,55,0.12)}}
-.sb-chat-bubble:hover{transform:scale(1.08)}
-.sb-chat-bubble i{color:#000;font-size:1.1rem;transition:all .3s}
-.sb-chat-bubble.open i{transform:rotate(90deg)}
-.sb-chat-dot{position:absolute;top:2px;right:2px;width:12px;height:12px;background:#10B981;border-radius:50%;border:2px solid var(--bg,#0A0A0F);animation:dotBlink 2s infinite}
-@keyframes dotBlink{0%,100%{opacity:1}50%{opacity:.4}}
-
-/* ── CHAT WINDOW ── */
-.sb-chat-window{position:fixed;bottom:92px;right:28px;z-index:7999;width:340px;background:var(--bg3,#18181F);border:1px solid rgba(212,175,55,0.25);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);display:none;flex-direction:column;max-height:520px;animation:chatOpen .25s cubic-bezier(.4,0,.2,1)}
-@keyframes chatOpen{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.sb-chat-window.open{display:flex}
-
-/* ── CHAT HEADER ── */
-.sb-chat-head{background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(168,85,247,0.08));padding:14px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(212,175,55,0.15);flex-shrink:0}
-.sb-chat-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#8B7322);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
-.sb-chat-info{flex:1}
-.sb-chat-name{font-size:.88rem;font-weight:700;color:#F0EEF8;font-family:'DM Sans',sans-serif}
-.sb-chat-status{font-size:.7rem;color:#10B981;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif}
-.sb-chat-status::before{content:'';width:5px;height:5px;background:#10B981;border-radius:50%;flex-shrink:0}
-.sb-chat-close{background:transparent;border:none;color:#8A87A0;cursor:pointer;font-size:.9rem;padding:4px;transition:color .2s}
-.sb-chat-close:hover{color:#F0EEF8}
-
-/* ── CHAT MESSAGES ── */
-.sb-chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:240px}
-.sb-chat-msgs::-webkit-scrollbar{width:3px}
-.sb-chat-msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.06);border-radius:2px}
-.sb-msg{max-width:86%;font-size:.82rem;line-height:1.55;font-family:'DM Sans',sans-serif}
-.sb-msg-bot{align-self:flex-start;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:4px 14px 14px 14px;padding:9px 13px;color:#D0CDE8}
-.sb-msg-user{align-self:flex-end;background:linear-gradient(135deg,rgba(212,175,55,0.25),rgba(139,115,34,0.3));border:1px solid rgba(212,175,55,0.2);border-radius:14px 4px 14px 14px;padding:9px 13px;color:#F0EEF8}
-.sb-msg-typing{align-self:flex-start;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:4px 14px 14px 14px;padding:10px 16px;display:flex;gap:4px;align-items:center}
-.sb-typing-dot{width:6px;height:6px;background:#8A87A0;border-radius:50%;animation:typeDot 1.2s infinite}
-.sb-typing-dot:nth-child(2){animation-delay:.2s}
-.sb-typing-dot:nth-child(3){animation-delay:.4s}
-@keyframes typeDot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
-
-/* ── QUICK CHIPS ── */
-.sb-chips{padding:0 14px 10px;display:flex;flex-wrap:wrap;gap:5px;flex-shrink:0}
-.sb-chip{background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);color:#D4AF37;font-size:.72rem;padding:5px 10px;border-radius:20px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .2s;white-space:nowrap}
-.sb-chip:hover{background:rgba(212,175,55,0.2);border-color:rgba(212,175,55,0.4)}
-
-/* ── CHAT INPUT ── */
-.sb-chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid rgba(255,255,255,0.06);flex-shrink:0;background:rgba(0,0,0,0.2)}
-.sb-chat-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 12px;color:#F0EEF8;font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none;transition:border .2s;resize:none}
-.sb-chat-input:focus{border-color:rgba(212,175,55,0.4)}
-.sb-chat-input::placeholder{color:#4A4860}
-.sb-chat-send{background:linear-gradient(135deg,#D4AF37,#8B7322);border:none;width:36px;height:36px;border-radius:9px;cursor:pointer;color:#000;font-size:.9rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;align-self:flex-end}
-.sb-chat-send:hover{transform:scale(1.05)}
-
-/* ── CHAT FOOTER ── */
-.sb-chat-footer{text-align:center;padding:7px;font-size:.64rem;color:#4A4860;font-family:'DM Sans',sans-serif;border-top:1px solid rgba(255,255,255,0.04);flex-shrink:0}
-.sb-chat-footer a{color:#D4AF37;text-decoration:none}
-</style>
-
-<!-- AI CHAT HTML -->
-<button class="sb-chat-bubble" id="sbBubble" onclick="sbToggleChat()">
-  <i class="fas fa-user-circle" id="sbBubbleIco"></i>
-  <span class="sb-chat-dot"></span>
-</button>
-
-<div class="sb-chat-window" id="sbChatWindow">
-  <div class="sb-chat-head">
-    <div class="sb-chat-av"><i class="fas fa-user-circle"></i></div>
-    <div class="sb-chat-info">
-      <div class="sb-chat-name">Springcompany online Moderator Help Desk</div>
-      <div class="sb-chat-status">Online · Typically replies instantly</div>
-    </div>
-    <button class="sb-chat-close" onclick="sbToggleChat()"><i class="fas fa-times"></i></button>
-  </div>
-
-  <div class="sb-chat-msgs" id="sbMsgs">
-    <div class="sb-msg sb-msg-bot">
-      👋 Hello! I'm the <strong>Springcompany Online Moderator Help Desk</strong>. I can help you book celebrities, find the perfect star for your event, or answer any questions. How can I help you today?
-    </div>
-  </div>
-
-  <div class="sb-chips" id="sbChips">
-    <span class="sb-chip" onclick="sbChip('How do I book a celebrity?')">How to book?</span>
-    <span class="sb-chip" onclick="sbChip('Show me music celebrities')">Music stars</span>
-    <span class="sb-chip" onclick="sbChip('What are the payment options?')">Payments</span>
-    <span class="sb-chip" onclick="sbChip('What is a Fan Card?')">Fan Cards</span>
-    <span class="sb-chip" onclick="sbChip('How much does it cost to book?')">Pricing</span>
-    <span class="sb-chip" onclick="sbChip('Tell me about Meet & Greet')">Meet & Greet</span>
-  </div>
-
-  <div class="sb-chat-input-row">
-    <textarea class="sb-chat-input" id="sbInput" placeholder="Ask me anything..." rows="1"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sbSend()}"
-      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
-    <button class="sb-chat-send" onclick="sbSend()"><i class="fas fa-paper-plane"></i></button>
-  </div>
-  <div class="sb-chat-footer">Powered by <a href="#">Springcompany Moderator</a> · <a href="#">Privacy</a></div>
-</div>
-
-<!-- AI CHATBOT JAVASCRIPT -->
 <script>
-// ══════════════════════════════════════════════
-// SPRINGCOMPANY AI CHATBOT
-// ══════════════════════════════════════════════
-
-var sbOpen = false;
-
-function sbToggleChat() {
-  sbOpen = !sbOpen;
-  var win = document.getElementById('sbChatWindow');
-  var ico = document.getElementById('sbBubbleIco');
-  var bub = document.getElementById('sbBubble');
-  win.classList.toggle('open', sbOpen);
-  bub.classList.toggle('open', sbOpen);
-  ico.className = sbOpen ? 'fas fa-times' : 'fas fa-robot';
-  if (sbOpen) {
-    setTimeout(function() {
-      var inp = document.getElementById('sbInput');
-      if (inp) inp.focus();
-    }, 300);
-  }
-}
-
-// ── AI KNOWLEDGE BASE ─────────────────────────
-var sbKnowledge = {
-  booking: [
-    "To book a celebrity on Springcompany: \n\n1️⃣ Browse the celebrity grid\n2️⃣ Click 'View Profile' on your chosen star\n3️⃣ Fill in the booking request form\n4️⃣ Submit — we'll confirm within 24 hours!\n\nPayment is only required after confirmation.",
-    "Booking is simple! Find your celebrity, click 'Book Now', fill in your event details including the date, budget, and event type, then submit. Our team reviews every request within 24 hours and contacts you to confirm.",
-  ],
-  payment: [
-    "We accept multiple payment methods:\n\n💳 Paystack — Cards & bank transfer\n🌍 Flutterwave — International\n₿ Bitcoin — Crypto payments\n🏦 Wire Transfer — SWIFT USD/EUR/GBP\n🌐 Western Union — Manual confirmation\n\nPayment is only required after your booking is confirmed!",
-    "Springcompany supports Paystack (cards, bank transfer), Flutterwave, Bitcoin, Western Union and bank wire transfers. All payments are 100% secure and encrypted.",
-  ],
-  pricing: [
-    "Celebrity fees vary based on their profile and event type. Base fees start from:\n\n🎵 Music artists — from $25,000\n🎬 Film & TV stars — from $40,000\n⚽ Athletes — from $30,000\n😂 Comedians — from $20,000\n\nYour event budget is reviewed as part of the booking process.",
-    "Each celebrity sets their own base fee which is shown on their profile page. Fees can vary depending on event type, location, duration and date. Contact us for a custom quote!",
-  ],
-  fancard: [
-    "Fan Cards give you exclusive perks for your favourite celebrity! 🎉\n\n🥈 Silver ($29/yr) — Exclusive content, monthly updates\n🥇 Gold ($79/yr) — Priority booking, signed digital photo\n👑 VIP ($199/yr) — Meet & Greet invite, signed merch pack\n\nGo to any celebrity profile and click 'Buy Fan Card' to get started!",
-    "Fan Cards are annual subscriptions that unlock exclusive benefits with your favourite celebrity. There are 3 tiers: Silver ($29), Gold ($79) and VIP ($199) — each with progressively better perks!",
-  ],
-  meetgreet: [
-    "Meet & Greet experiences include:\n\n📸 Professional photo session\n✍️ Signed memorabilia\n💬 Private Q&A session\n👑 VIP access pass\n🎁 Exclusive merch pack\n\nScroll down to the 'Meet Your Favorite Celebrity Live' section to book yours!",
-    "A Meet & Greet is an intimate, once-in-a-lifetime experience. You get up close time with your favourite celebrity, professional photos, signed items, and more. Book through the Meet & Greet section on our homepage!",
-  ],
-  music: [
-    "Our music celebrities include:\n\n⭐ Aria Sinclair — Pop artist, $50K+\n⭐ Sofia Reyes — Latin pop, $35K+\n⭐ Isabella Voss — R&B singer, $45K+\n\nClick 'Music' in the celebrity filter to see all music stars available for booking!",
-    "We have over 200 music artists available for bookings — from pop and R&B to hip-hop, jazz and classical. Use the 'Music' filter on the celebrities page to browse them all!",
-  ],
-  film: [
-    "Our film & TV celebrities include:\n\n⭐ Marcus Williams — Hollywood actor, $75K+\n⭐ Theo Anderson — Actor/Producer, $60K+\n\nClick 'Film & TV' in the celebrity filter to browse all available actors!",
-  ],
-  sports: [
-    "Our sports celebrities include:\n\n⭐ Jordan Blake — NBA Champion, $100K+\n\nAthletes are great for brand activations, corporate events, sports camps, and inspirational talks. Check the 'Sports' category to see all available athletes!",
-  ],
-  default: [
-    "That's a great question! I'd recommend browsing our celebrity profiles to find the perfect match for your event. You can filter by category (Music, Film, Sports, Comedy, Fashion) and search by name. Can I help you narrow it down? 🌟",
-    "I'm here to help you find and book the perfect celebrity for your event! Feel free to ask me about specific celebrities, pricing, the booking process, or anything else about Springcompany.",
-    "I'd love to help you with that! For specific requests or complex bookings, our team is available 24/7 at bookings@springcompany.com. Is there anything specific about our celebrities or booking process I can explain?",
-    "Great question! Springcompany has over 500 verified celebrities across Music, Film, Sports, Comedy and Fashion. Is there a specific type of celebrity or event you have in mind? I can help you find the perfect match! 🎯",
-  ],
-};
-
-function sbGetReply(msg) {
-  var m = msg.toLowerCase();
-  if (m.includes('book') || m.includes('reserve') || m.includes('hire')) return sbPick(sbKnowledge.booking);
-  if (m.includes('pay') || m.includes('bitcoin') || m.includes('crypto') || m.includes('paystack') || m.includes('card')) return sbPick(sbKnowledge.payment);
-  if (m.includes('price') || m.includes('cost') || m.includes('fee') || m.includes('how much')) return sbPick(sbKnowledge.pricing);
-  if (m.includes('fan card') || m.includes('fancard') || m.includes('membership') || m.includes('subscribe')) return sbPick(sbKnowledge.fancard);
-  if (m.includes('meet') || m.includes('greet') || m.includes('photo') || m.includes('personal')) return sbPick(sbKnowledge.meetgreet);
-  if (m.includes('music') || m.includes('singer') || m.includes('artist') || m.includes('pop')) return sbPick(sbKnowledge.music);
-  if (m.includes('film') || m.includes('actor') || m.includes('movie') || m.includes('tv')) return sbPick(sbKnowledge.film);
-  if (m.includes('sport') || m.includes('athlete') || m.includes('basketball') || m.includes('football')) return sbPick(sbKnowledge.sports);
-  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! 👋 Welcome to Springcompany — the world's premier celebrity booking platform. How can I help you today?";
-  if (m.includes('thank')) return "You're very welcome! Is there anything else I can help you with? ⭐";
-  if (m.includes('human') || m.includes('agent') || m.includes('person') || m.includes('support')) return "To speak with a human agent, email support@springcompany.com or use the Contact form. We respond within 2 hours!";
-  return sbPick(sbKnowledge.default);
-}
-
-function sbPick(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function sbAddMsg(text, type) {
-  var msgs = document.getElementById('sbMsgs');
-  var div = document.createElement('div');
-  div.className = 'sb-msg sb-msg-' + type;
-  // Allow line breaks
-  div.innerHTML = text.replace(/\n/g, '<br>');
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  return div;
-}
-
-function sbShowTyping() {
-  var msgs = document.getElementById('sbMsgs');
-  var div = document.createElement('div');
-  div.className = 'sb-msg-typing';
-  div.id = 'sbTyping';
-  div.innerHTML = '<div class="sb-typing-dot"></div><div class="sb-typing-dot"></div><div class="sb-typing-dot"></div>';
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function sbRemoveTyping() {
-  var t = document.getElementById('sbTyping');
-  if (t) t.remove();
-}
-
-function sbSend() {
-  var inp = document.getElementById('sbInput');
-  var val = inp.value.trim();
-  if (!val) return;
-  sbAddMsg(val, 'user');
-  inp.value = '';
-  inp.style.height = 'auto';
-  document.getElementById('sbChips').style.display = 'none';
-  sbShowTyping();
-  var delay = 800 + Math.random() * 700;
-  setTimeout(function() {
-    sbRemoveTyping();
-    sbAddMsg(sbHandleResponse(val), 'bot');
-  }, delay);
-}
-
-function sbHandleResponse(msg) {
-  var m = msg.toLowerCase();
-  if (m.includes('book') || m.includes('hire') || m.includes('reserve')) return sbPick(sbKnowledge.booking);
-  if (m.includes('price') || m.includes('cost') || m.includes('fee') || m.includes('how much')) return sbPick(sbKnowledge.pricing);
-  if (m.includes('fan card') || m.includes('fancard') || m.includes('membership') || m.includes('subscribe')) return sbPick(sbKnowledge.fancard);
-  if (m.includes('meet') || m.includes('greet')) return sbPick(sbKnowledge.meetgreet);
-  if (m.includes('music') || m.includes('singer') || m.includes('artist') || m.includes('concert')) return sbPick(sbKnowledge.music);
-  if (m.includes('film') || m.includes('movie') || m.includes('actor') || m.includes('tv')) return sbPick(sbKnowledge.film);
-  if (m.includes('sport') || m.includes('athlete') || m.includes('football') || m.includes('basketball')) return sbPick(sbKnowledge.sports);
-  if (m.includes('pay') || m.includes('payment') || m.includes('paystack') || m.includes('bitcoin')) return sbPick(sbKnowledge.payment);
-  if (m.includes('refund') || m.includes('cancel')) return "Cancellations and refunds are handled case by case. Please email support@springcompany.com with your booking reference and we will assist you within 2 hours.";
-  if (m.includes('hello') || m.includes('hi') || m.includes('hey')) return "Hello! Welcome to Springcompany - the world's premier celebrity booking platform. How can I help you today?";
-  return sbPick(sbKnowledge.default);
-}
-
+$(function() {
+    $(".hd_pops_reject").click(function() {
+        var id = $(this).attr('class').split(' ');
+        var ck_name = id[1];
+        var exp_time = parseInt(id[2]);
+        $("#"+id[1]).css("display", "none");
+        set_cookie(ck_name, 1, exp_time, g5_cookie_domain);
+    });
+    $('.hd_pops_close').click(function() {
+        var idb = $(this).attr('class').split(' ');
+        $('#'+idb[1]).css('display','none');
+    });
+});
 </script>
+<!-- } 팝업레이어 끝 -->
+
+    <div id="hd_wrapper">
+
+        <div id="logo"><a href="index.html"><img src="img/logo.png" alt="스프링컴퍼니"></a></div>
+                
+        <nav id="gnb">
+            <h2>메인메뉴</h2>
+            <div class="gnb_wrap">
+                <ul id="gnb_1dul">
+                                        <li class="gnb_1dli" style="z-index:999">
+                        <a href="bbs/content8a20.html?co_id=company" target="_self" class="gnb_1da">COMPANY</a>
+                                            </li>
+                                        <li class="gnb_1dli" style="z-index:998">
+                        <a href="bbs/boardd9c9.html?bo_table=artist" target="_self" class="gnb_1da">ARTIST</a>
+                                            </li>
+                                        <li class="gnb_1dli" style="z-index:997">
+                        <a href="bbs/board8497.html?bo_table=notice" target="_self" class="gnb_1da">ANNOUNCE</a>
+                        <ul class="cate_2dul">
+                            <li class="gnb_2dli"><a href="bbs/board8497.html?bo_table=notice" target="_self" class="gnb_2da">NOTICE</a></li>
+                                                    <li class="gnb_2dli"><a href="bbs/board71db.html?bo_table=news" target="_self" class="gnb_2da">NEWS</a></li>
+                        </ul>
+                    </li>
+                                        <li class="gnb_1dli" style="z-index:996">
+                        <a href="bbs/board54b5.html?bo_table=content" target="_self" class="gnb_1da">CONTENT</a>
+                        <ul class="cate_2dul">
+                            <li class="gnb_2dli"><a href="bbs/board54b5.html?bo_table=content" target="_self" class="gnb_2da">CONTENT</a></li>
+                                                    <li class="gnb_2dli"><a href="bbs/boardb4f1.html?bo_table=video" target="_self" class="gnb_2da">VIDEO</a></li>
+                        </ul>
+                    </li>
+                                        <li class="gnb_1dli" style="z-index:995">
+                        <a href="bbs/boardb022.html?bo_table=audition" target="_self" class="gnb_1da">AUDITION</a>
+                                            </li>
+                                        <li class="gnb_1dli" style="z-index:994">
+                        <a href="https://springcompany.bstage.in/shop/kr" target="_blank" class="gnb_1da">SHOP</a>
+                                            </li>
+                                        <li class="gnb_1dli" style="z-index:993">
+                        <a href="bbs/content02b1.html?co_id=provision" target="_self" class="gnb_1da">POLICY</a>
+                        <ul class="cate_2dul">
+                            <li class="gnb_2dli"><a href="bbs/content02b1.html?co_id=provision" target="_self" class="gnb_2da">POLICY</a></li>
+                                                    <li class="gnb_2dli"><a href="bbs/content200d.html?co_id=privacy" target="_self" class="gnb_2da">PRIVACY POLICY</a></li>
+                        </ul>
+                    </li>
+                                    </ul>
+            </div>
+        </nav><!-- gnb -->
+        
+        <div id="mb_top">
+            <button type="button" id="gnb_open"><i class="fa fa-bars" ></i><span class="sound_only"> 메뉴열기</span></button>
+            <div id="gnb2">
+                <button type="button" class="btn_close"><i class="fa fa-times"></i></button>
+                <div class="gnb_top"></div>
+                <ul id="gnb2_1dul">
+                                    <li class="gnb2_1dli">
+                        <a href="bbs/content8a20.html?co_id=company" target="_self" class="gnb2_1da">COMPANY</a>
+                    </li>
+                                    <li class="gnb2_1dli">
+                        <a href="bbs/boardd9c9.html?bo_table=artist" target="_self" class="gnb2_1da">ARTIST</a>
+                    </li>
+                                    <li class="gnb2_1dli">
+                        <a href="bbs/board8497.html?bo_table=notice" target="_self" class="gnb2_1da">ANNOUNCE</a>
+                    </li>
+                                    <li class="gnb2_1dli">
+                        <a href="bbs/board54b5.html?bo_table=content" target="_self" class="gnb2_1da">CONTENT</a>
+                    </li>
+                                    <li class="gnb2_1dli">
+                        <a href="bbs/boardb022.html?bo_table=audition" target="_self" class="gnb2_1da">AUDITION</a>
+                    </li>
+                                    <li class="gnb2_1dli">
+                        <a href="https://springcompany.bstage.in/shop/kr" target="_blank" class="gnb2_1da">SHOP</a>
+                    </li>
+                                    <li class="gnb2_1dli">
+                        <a href="bbs/content02b1.html?co_id=provision" target="_self" class="gnb2_1da">POLICY</a>
+                    </li>
+                                </ul>
+            </div><!-- gnb2 -->
+        </div>
+    </div><!-- hd_wrapper -->
+    <div id="all_cate"></div>
+</header>
+
+<script>
+  $(function(){
+    $(document).ready(function(){
+      //var $all_cate = $('#all_cate');
+      var $cate_2dul = $(".cate_2dul");
+      var height = 37;
+      var length = 3;
+
+      $(".cate_2dul").each(function(){
+          if(length < $(this).find('.gnb_2dli').length){
+            length = $(this).find('.gnb_2dli').length;
+          }
+      });
+
+      $("#gnb_1dul,#all_cate").on('mouseover',function(){
+        $all_cate.css({display:'block'});
+        $cate_2dul.css({display:'block'});
+
+        $all_cate.stop().animate({height:height*length+20+'px'}, 200); /* 전체카테고리 높이값 */
+        $cate_2dul.stop().animate({height:height*length+10+'px'}, 200);
+      }).mouseout(function(){
+        $all_cate.stop().animate({height:'0px'}, 200);
+        $cate_2dul.stop().animate({height:'0px'}, 200, function(){
+          $all_cate.css({display:'none'});
+          $cate_2dul.css({display:'none'});
+        });
+      });
+    });
+  });
+  $( document ).ready( function() {
+    var menuscroll = $('body').offset();
+    $( window ).scroll( function() {
+        if ( $( document ).scrollTop() > menuscroll.top ) {
+            $('#hd').addClass('scroll');
+        }
+        else {
+            $('#hd').removeClass('scroll');
+        }
+    });
+});
+    
+	$(function () {
+        $(".hd_opener").on("click", function() {
+            var $this = $(this);
+            var $hd_layer = $this.next(".hd_div");
+
+            if($hd_layer.is(":visible")) {
+                $hd_layer.hide();
+                $this.find("span").text("열기");
+            } else {
+                var $hd_layer2 = $(".hd_div:visible");
+                $hd_layer2.prev(".hd_opener").find("span").text("열기");
+                $hd_layer2.hide();
+
+                $hd_layer.show();
+                $this.find("span").text("닫기");
+            }
+        });
+
+        $(".btn_gnb_op").click(function(){
+            $(this).toggleClass("btn_gnb_cl").next(".gnb2_2dul").slideToggle(300);
+            
+        });
+
+        $(".hd_closer").on("click", function() {
+            var idx = $(".hd_closer").index($(this));
+            $(".hd_div:visible").hide();
+            $(".hd_opener:eq("+idx+")").find("span").text("열기");
+        });
+
+        
+        $("#gnb_open").on("click", function() {
+            $("#gnb2").show();
+        });
+
+        $("#gnb2 .btn_close").on("click", function() {
+            $("#gnb2").hide();
+        });
+		
+	    $(".btn_gnb2_op").click(function(){
+			$(this).toggleClass("btn_gnb2_cl").next(".gnb2_2dul").slideToggle(300);
+		});
+		
+		$('.gnb2_1dli a').on('click', function() {
+			$(this).parent().find('.btn_gnb2_op').trigger('click');
+		});
+
+    });
+	
+	AOS.init();  //스크롤애니메이션 추가
+</script>
+
+
+
+<div id="wrapper">
+	
+
+<!-- MAIN VISUAL 최신글 시작 { -->
+<div class="lt_bn">
+    <ul>
+            <li class="list_0" style="background-image:url('data/file/banner/2038602813_fAGI9hBE_5f9ad5e1935bf0bb33780a9d4d48eb470e442d8f.jpg')">
+        	<a href="bbs/boardb195.html?bo_table=artist&amp;wr_id=12" class="bg"></a>
+            <!--div class="bg"></div-->
+            <!--<div class="bn_txt">
+                <div class="txt_wr">
+					<div class="bn_tit">이재균</div>
+                    <div class="bn_detail"></div>
+                </div>
+            </div>-->
+        </li>
+            <li class="list_1" style="background-image:url('data/file/banner/2038602813_hzHopmyG_e1afa45579458e5181f197376b7557d6ada1e38a.jpg')">
+        	<a href="bbs/board3e27.html?bo_table=artist&amp;wr_id=13" class="bg"></a>
+            <!--div class="bg"></div-->
+            <!--<div class="bn_txt">
+                <div class="txt_wr">
+					<div class="bn_tit">김민</div>
+                    <div class="bn_detail"></div>
+                </div>
+            </div>-->
+        </li>
+            <li class="list_2" style="background-image:url('data/file/banner/990505114_xesUNM8D_ef467ea86e4dc10b93cbe58af3473cb5aed61212.jpg')">
+        	<a href="bbs/board40ed.html?bo_table=artist&amp;wr_id=11" class="bg"></a>
+            <!--div class="bg"></div-->
+            <!--<div class="bn_txt">
+                <div class="txt_wr">
+					<div class="bn_tit">이성우</div>
+                    <div class="bn_detail"></div>
+                </div>
+            </div>-->
+        </li>
+            <li class="list_3" style="background-image:url('data/file/banner/990505114_NQCI7dB4_7cdbcbf13c8286e2c99ea181c6f4345ff0dfff45.jpg')">
+        	<a href="bbs/board1cf9.html?bo_table=artist&amp;wr_id=2" class="bg"></a>
+            <!--div class="bg"></div-->
+            <!--<div class="bn_txt">
+                <div class="txt_wr">
+					<div class="bn_tit">지창욱</div>
+                    <div class="bn_detail"></div>
+                </div>
+            </div>-->
+        </li>
+            <li class="list_4" style="background-image:url('data/file/banner/990505114_CU2Y3OXu_3847c503e4a9afd45f5f5f9c2955fd01436efbbc.jpg')">
+        	<a href="bbs/board0eae.html?bo_table=artist&amp;wr_id=9" class="bg"></a>
+            <!--div class="bg"></div-->
+            <!--<div class="bn_txt">
+                <div class="txt_wr">
+					<div class="bn_tit">공재경</div>
+                    <div class="bn_detail"></div>
+                </div>
+            </div>-->
+        </li>
+            <li class="list_5" style="background-image:url('data/file/banner/2038602813_uUPJVr7X_5a7bdb34f9b25900c84dc06bdd065fb58173ac4d.jpg')">
+        	<a href="bbs/board99e3.html?bo_table=artist&amp;wr_id=4" class="bg"></a>
+            <!--div class="bg"></div-->
+            <!--<div class="bn_txt">
+                <div class="txt_wr">
+					<div class="bn_tit">박성준</div>
+                    <div class="bn_detail"></div>
+                </div>
+            </div>-->
+        </li>
+            <li class="list_6" style="background-image:url('data/file/banner/2038602813_PtAnZ97j_253571a6fa11975adfa04204dd1079a95bc1429f.jpg')">
+        	<a href="bbs/board4f3c.html?bo_table=artist&amp;wr_id=5" class="bg"></a>
+            <!--div class="bg"></div-->
+            <!--<div class="bn_txt">
+                <div class="txt_wr">
+					<div class="bn_tit">박정원</div>
+                    <div class="bn_detail"></div>
+                </div>
+            </div>-->
+        </li>
+            <li class="list_7" style="background-image:url('data/file/banner/990505114_J9RHieV4_8151cedc122e7101e44a31febec642e821996397.jpg')">
+        	<a href="bbs/boarddb5b.html?bo_table=artist&amp;wr_id=6" class="bg"></a>
+            <!--div class="bg"></div-->
+            <!--<div class="bn_txt">
+                <div class="txt_wr">
+					<div class="bn_tit">최광제</div>
+                    <div class="bn_detail"></div>
+                </div>
+            </div>-->
+        </li>
+            </ul>
+
+    <div id="bx_pager">
+    	<div class="pager_wrap">
+			            <a data-slide-index="0" href="#">01</a>
+                        <a data-slide-index="1" href="#">02</a>
+                        <a data-slide-index="2" href="#">03</a>
+                        <a data-slide-index="3" href="#">04</a>
+                        <a data-slide-index="4" href="#">05</a>
+                        <a data-slide-index="5" href="#">06</a>
+                        <a data-slide-index="6" href="#">07</a>
+                        <a data-slide-index="7" href="#">08</a>
+                
+                    </div>
+    </div>
+</div>
+
+
+<script>
+$('.lt_bn ul').show().bxSlider({
+
+    pagerCustom: '#bx_pager',
+    controls:false,
+    auto:true,
+    pause: 5000,
+    speed: 800,
+
+     onSliderLoad: function () {
+        $('.lt_bn .bn_txt').eq(1).addClass('active-slide');
+        $(".bn_txt.active-slide").addClass("test");
+    },
+    onSlideAfter: function (currentSlideNumber, totalSlideQty, currentSlideHtmlObject) {
+        //console.log(currentSlideHtmlObject);
+        $('.active-slide').removeClass('active-slide');
+        $('.lt_bn .bn_txt').eq(currentSlideHtmlObject + 1).addClass('active-slide');
+        $(".bn_txt.active-slide").addClass("test");
+
+    },
+    onSlideBefore: function () {
+        $(".bn_txt.active-slide").removeClass("test");
+        $(".one.bn_txt.active-slide").removeAttr('style');
+
+    }
+});
+
+ function parallax(){
+    var scrolled = $(window).scrollTop();
+    $('.lt_bn ul li').css('background-position',"0 "+  (scrolled * 1 ) + 'px');
+}
+$(window).scroll(function(){
+    parallax();
+});
+
+
+jQuery(document).ready(function($) {
+    $(".btn_bottom").on("click", function() {           
+        var position=$('#index').offset(); // 위치값
+        $('html,body').animate({scrollTop:position.top},400); // 이동
+    });
+});
+</script>
+
+<!-- } MAIN VISUAL 최신글 끝 -->
+<div class="la_box">
+    <div class="left">
+<div class="lt">
+    <h2><a href="bbs/board8497.html?bo_table=notice" class="lt_title">ANNOUNCE</a></h2>
+    <ul>
+            <li>
+            <a href="bbs/board02f3.html?bo_table=news&amp;wr_id=166" class="lt_tit">[지창욱] 지창욱, ‘조각도시’ 월드와이드 1위...글로벌 제패한 ‘장르물 神’</a>        </li>
+            <li>
+            <a href="bbs/boardd843.html?bo_table=news&amp;wr_id=165" class="lt_tit">[지창욱] ‘조각도시’ 지창욱, ‘압도적 연기로 완성한 장르의 정점’ 디즈니+ 글로벌 TO…</a>        </li>
+            <li>
+            <a href="bbs/board6d2b.html?bo_table=news&amp;wr_id=164" class="lt_tit">[김민석] ‘태풍상사’ 김민석, ‘X세대 청춘’의 다채로운 얼굴...#성장통 #순정남 #올…</a>        </li>
+            <li>
+            <a href="bbs/board0805.html?bo_table=news&amp;wr_id=163" class="lt_tit">[지창욱] “지창욱 또 1위” ‘조각도시’ 월드와이드 톱4-한국 2주째 1위 ‘화제성 올킬…</a>        </li>
+            <li>
+            <a href="bbs/board98ec.html?bo_table=news&amp;wr_id=162" class="lt_tit">[이성우] ‘태풍상사’ 이성우, “얼굴에 덕이 많으십니다” 사이비 집단 ‘도믿남’ 활약</a>        </li>
+            </ul>
+</div>
+</div>
+    <div class="right">
+<div class="pic_lt">
+    <ul>
+            <li>
+            <a href="bbs/board8cbe.html?bo_table=video&amp;wr_id=85" class="lt_img"><div class="overbox"><img src="../img.youtube.com/vi/OY3PbQdlhco/sddefault.jpg" alt="[지창욱] TERRA Commercial Shoot Sketch" width="600" height="400" /></div></a>
+        </li>
+            </ul>
+</div>
+</div>
+</div>
+
+    </div>
+</div>
+
+
+<div id="ft">
+	<div class="warea">        
+        <div class="ft_copy">        
+        	<div id="ft_logo"><a href="index.html"><img src="img/logo.png" alt="스프링컴퍼니"></a></div>
+            <div class="ft_com">
+            	<p><b>주식회사 스프링컴퍼니</b><!--span>대표자. 방치구</span--><span>Registration No. 694-88-02626</span><br>
+                <span>Address. 서울특별시 성동구 왕십리로16가길 24, 5층</span><br><span>5F, 24, Wangsimni-ro 16ga-gil, Seongdong-gu, Seoul, Republic of Korea</span><br>
+                <span>Tel. <a href="tel:+82-02-3448-2220">(+82) 02-3448-2220</a></span><span>E-mail. info@springcompany.co.kr</span><br>
+                &copy; SPRING COMPANY</p>
+                <ul class="ft_link">
+                    <li><a href="bbs/content200d.html?co_id=privacy">Privacy Policy</a></li>
+                    <li><a href="bbs/content02b1.html?co_id=provision">Policy</a></li>
+                                        <li><a href="bbs/login.html">Admin</a></li>          
+                                    </ul>
+            </div>
+        </div>
+        
+        <div id="sns">
+            <a href="https://www.facebook.com/official.springcompany" target="_blank"><img src="img/sns_facebook_bg.jpg"></a>
+            <a href="https://www.instagram.com/spring.company_official" target="_blank"><img src="img/sns_instagram_bg.jpg"></a>
+            <!--a><img src="/img/sns_facebook_bg.jpg"></a>
+            <a><img src="/img/sns_instagram_bg.jpg"></a-->
+        </div>
+    </div>
+</div>
+
+<button type="button" id="top_btn"><i class="fa fa-arrow-up" aria-hidden="true"></i><span class="sound_only">상단으로</span></button>
+
+<script>
+//해당영역으로 이동
+  $(window).load(function(){
+	});
+	function goto_id(id){
+	 var top = $(id).offset().top;
+	 $("html, body").stop().animate({scrollTop:(top-0)+'px'},2000);
+	}
+</script>
+
+<script>
+jQuery(function($) {
+
+    $( document ).ready( function() {
+
+        // 폰트 리사이즈 쿠키있으면 실행
+        font_resize("container", get_cookie("ck_font_resize_rmv_class"), get_cookie("ck_font_resize_add_class"));
+        
+ 
+        if ($('#top_btn').length) {
+            var scrollTrigger = 100, // px
+                backToTop = function () {
+                    var scrollTop = $(window).scrollTop();
+                    if (scrollTop > scrollTrigger) {
+                        $('#top_btn').addClass('show');
+                    } else {
+                        $('#top_btn').removeClass('show');
+                    }
+                };
+            backToTop();
+            $(window).on('scroll', function () {
+                backToTop();
+            });
+            $('#top_btn').on('click', function (e) {
+                e.preventDefault();
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 700);
+            });
+        }
+    });
+});
+</script>
+
+
+
+<!-- ie6,7에서 사이드뷰가 게시판 목록에서 아래 사이드뷰에 가려지는 현상 수정 -->
+<!--[if lte IE 7]>
+<script>
+$(function() {
+    var $sv_use = $(".sv_use");
+    var count = $sv_use.length;
+
+    $sv_use.each(function() {
+        $(this).css("z-index", count);
+        $(this).css("position", "relative");
+        count = count - 1;
+    });
+});
+</script>
+<![endif]-->
+
 
 </body>
+
+<!-- Mirrored from springcompany.co.kr/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Jun 2026 12:42:22 GMT -->
 </html>
