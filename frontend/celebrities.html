@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
@@ -828,7 +828,7 @@ window.addEventListener('DOMContentLoaded',function(){
   document.addEventListener('click',function(e){var m=document.getElementById('megaMenu');if(m&&m.classList.contains('open')&&!m.contains(e.target)&&!e.target.closest('#hamBtn'))closeMenu();});
 });
 
-function openBk(nm){document.getElementById('bkName').textContent=nm||'Celebrity';var m=document.getElementById('bkMod');m.style.display='flex';}
+function openBk(id){if(id)window.location.href='/celebrity.html?id='+id;}
 function closeBk(){document.getElementById('bkMod').style.display='none';}
 function submitBk(){var n=document.getElementById('bk-uname').value.trim(),e=document.getElementById('bk-email').value.trim(),d=document.getElementById('bk-date').value,b=document.getElementById('bk-budget').value.trim();if(!n||!e||!d||!b){showToast('Please fill in all required fields');return;}closeBk();showToast('Booking request submitted! We will confirm within 24 hours.');}
 // Pagination state
@@ -888,7 +888,7 @@ function renderCelebrities(celebs,clear){
     var stars='';
     for(var i=1;i<=5;i++)stars+='<span style="color:'+(i<=Math.floor(c.rating||4)?'var(--gold)':'var(--bg5)')+'">&#9733;</span>';
     var img=c.image||c.img||'https://via.placeholder.com/400';
-    var n=c.name.replace(/'/g,"\\'");
+    var id=c._id||c.id||'';var n=c.name.replace(/'/g,"\\'");
     return '<div class="celeb-card" style="cursor:pointer" onclick="openBk(\''+n+'\')">'
       +'<div class="celeb-img-wrap" style="background-image:url(\''+img+'\')">'+(c.verified?'<div class="celeb-verified"><i class="fas fa-check-circle"></i> Verified</div>':'')+'</div>'
       +'<div class="celeb-body"><div class="celeb-name">'+c.name+(c.verified?'<i class="fas fa-check-circle" style="color:var(--green);font-size:.76rem;margin-left:4px"></i>':'')+'</div>'
@@ -926,3 +926,4 @@ window.addEventListener('DOMContentLoaded',function(){fetchCelebrities();});
 </script>
 </body>
 </html>
+
