@@ -13,6 +13,7 @@
     { "src": "/profile.html",             "dest": "frontend/profile.html" },
     { "src": "/about.html",               "dest": "frontend/about.html" },
     { "src": "/celebrities.html",         "dest": "frontend/celebrities.html" },
+    { "src": "/celebrity.html",           "dest": "frontend/celebrity.html" },
     { "src": "/contact.html",             "dest": "frontend/contact.html" },
     { "src": "/book-now.html",            "dest": "frontend/book-now.html" },
     { "src": "/posts.html",               "dest": "frontend/posts.html" },

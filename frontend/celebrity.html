@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Celebrity Profile — Springcompany</title>
+  <meta name="description" content="Book your favourite celebrity on Springcompany — the world's premier celebrity booking platform." />
+  <link rel="icon" href="/img/logo.png" type="image/png" />
+  <style>
+    /* ── Reset & Base ───────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold:   #c9a84c;
+      --gold2:  #e8c96a;
+      --dark:   #0a0a0f;
+      --dark2:  #111118;
+      --dark3:  #1a1a24;
+      --dark4:  #22222f;
+      --text:   #e8e8f0;
+      --text2:  #a0a0b8;
+      --radius: 12px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Navbar ─────────────────────────────────── */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .navbar-brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--text);
+      font-weight: 700; font-size: 1.1rem; letter-spacing: 0.5px;
+    }
+    .navbar-brand img { height: 36px; }
+    .navbar-links { display: flex; gap: 8px; }
+    .navbar-links a {
+      color: var(--text2); text-decoration: none;
+      padding: 6px 14px; border-radius: 8px;
+      font-size: 0.88rem; transition: all 0.2s;
+    }
+    .navbar-links a:hover { color: var(--gold); background: rgba(201,168,76,0.1); }
+    .btn-signin {
+      background: transparent; border: 1px solid var(--gold);
+      color: var(--gold); padding: 7px 18px; border-radius: 8px;
+      cursor: pointer; font-size: 0.88rem; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-signin:hover { background: var(--gold); color: #000; }
+
+    /* ── Loading & Error States ─────────────────── */
+    .state-screen {
+      min-height: 80vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 20px; text-align: center; padding: 40px;
+    }
+    .spinner {
+      width: 56px; height: 56px;
+      border: 4px solid rgba(201,168,76,0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .state-screen h2 { font-size: 1.5rem; color: var(--text); }
+    .state-screen p  { color: var(--text2); max-width: 400px; line-height: 1.6; }
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold); color: #000;
+      padding: 12px 28px; border-radius: 10px;
+      text-decoration: none; font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .btn-back:hover { opacity: 0.85; }
+
+    /* ── Hero Banner ────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--dark2) 0%, var(--dark3) 100%);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      padding: 48px 24px 40px;
+    }
+    .hero-inner {
+      max-width: 900px; margin: 0 auto;
+      display: flex; gap: 36px; align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .celeb-avatar {
+      width: 160px; height: 160px; min-width: 160px;
+      border-radius: 50%;
+      border: 4px solid var(--gold);
+      object-fit: cover;
+      box-shadow: 0 0 40px rgba(201,168,76,0.3);
+      background: var(--dark4);
+    }
+    .celeb-avatar-placeholder {
+      width: 160px; height: 160px; min-width: 160px;
+      border-radius: 50%;
+      border: 4px solid var(--gold);
+      background: var(--dark4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; color: var(--gold);
+      box-shadow: 0 0 40px rgba(201,168,76,0.3);
+    }
+    .celeb-info { flex: 1; min-width: 220px; }
+    .celeb-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold); font-size: 0.78rem; font-weight: 600;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .celeb-name {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 800; line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .celeb-occupation {
+      color: var(--gold2); font-size: 1.05rem;
+      font-weight: 500; margin-bottom: 16px;
+    }
+    .celeb-meta {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .meta-tag {
+      background: var(--dark4);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text2); font-size: 0.82rem;
+      padding: 5px 12px; border-radius: 20px;
+    }
+    .meta-tag span { color: var(--text); font-weight: 600; }
+    .celeb-fee {
+      font-size: 1.4rem; font-weight: 700; color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .celeb-fee small { font-size: 0.85rem; color: var(--text2); font-weight: 400; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-book {
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #000; font-weight: 700; font-size: 1rem;
+      padding: 14px 32px; border-radius: 10px;
+      border: none; cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-book:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(201,168,76,0.5);
+      color: var(--gold); font-size: 0.95rem;
+      padding: 13px 24px; border-radius: 10px;
+      cursor: pointer; transition: all 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-outline:hover { background: rgba(201,168,76,0.1); }
+
+    /* ── Content Grid ───────────────────────────── */
+    .content-grid {
+      max-width: 900px; margin: 40px auto;
+      padding: 0 24px 60px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 28px;
+    }
+    @media (max-width: 720px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .hero-inner { flex-direction: column; align-items: center; text-align: center; }
+      .hero-actions { justify-content: center; }
+      .celeb-meta { justify-content: center; }
+    }
+
+    /* ── Cards ──────────────────────────────────── */
+    .card {
+      background: var(--dark2);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .card-title {
+      font-size: 1rem; font-weight: 700;
+      color: var(--gold); text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+    .bio-text {
+      color: var(--text2); line-height: 1.75;
+      font-size: 0.95rem;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-top: 4px;
+    }
+    .stat-item {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px; padding: 16px;
+      text-align: center;
+    }
+    .stat-value { font-size: 1.4rem; font-weight: 700; color: var(--gold); }
+    .stat-label { font-size: 0.78rem; color: var(--text2); margin-top: 4px; }
+
+    /* ── Booking Form ───────────────────────────── */
+    .booking-card { position: sticky; top: 80px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 0.82rem; font-weight: 600;
+      color: var(--text2); margin-bottom: 6px; text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text); font-size: 0.92rem;
+      padding: 11px 14px; border-radius: 8px;
+      outline: none; transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-group select option { background: var(--dark3); }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #000; font-weight: 700; font-size: 1rem;
+      padding: 14px; border-radius: 10px;
+      border: none; cursor: pointer; margin-top: 6px;
+      transition: opacity 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.88; }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .form-note {
+      font-size: 0.76rem; color: var(--text2);
+      text-align: center; margin-top: 10px; line-height: 1.5;
+    }
+    .success-msg {
+      display: none;
+      background: rgba(40,200,100,0.1);
+      border: 1px solid rgba(40,200,100,0.4);
+      color: #4caf7d; border-radius: 10px;
+      padding: 16px; text-align: center;
+      font-weight: 600; margin-top: 12px;
+    }
+    .error-msg {
+      display: none;
+      background: rgba(220,50,50,0.1);
+      border: 1px solid rgba(220,50,50,0.3);
+      color: #e06060; border-radius: 10px;
+      padding: 12px; font-size: 0.85rem;
+      margin-top: 8px;
+    }
+
+    /* ── Breadcrumb ─────────────────────────────── */
+    .breadcrumb {
+      max-width: 900px; margin: 20px auto 0;
+      padding: 0 24px;
+      font-size: 0.83rem; color: var(--text2);
+    }
+    .breadcrumb a { color: var(--gold); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    /* ── Footer ─────────────────────────────────── */
+    .footer {
+      background: var(--dark2);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 24px; text-align: center;
+      color: var(--text2); font-size: 0.82rem;
+    }
+    .footer a { color: var(--gold); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <img src="/img/logo.png" alt="Springcompany" onerror="this.style.display='none'" />
+      Springcompany
+    </a>
+    <div class="navbar-links">
+      <a href="/">Home</a>
+      <a href="/celebrities.html">Celebrities</a>
+      <a href="/about.html">About</a>
+    </div>
+    <a href="/" class="btn-signin">Sign In</a>
+  </nav>
+
+  <!-- Loading State -->
+  <div class="state-screen" id="loadingState">
+    <div class="spinner"></div>
+    <h2>Loading Celebrity Profile…</h2>
+    <p>Fetching details from our database</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="state-screen" id="errorState" style="display:none">
+    <div style="font-size:3.5rem">😕</div>
+    <h2>Celebrity Not Found</h2>
+    <p id="errorMsg">We couldn't find this celebrity. They may have been removed or the link is invalid.</p>
+    <a href="/celebrities.html" class="btn-back">← Browse All Celebrities</a>
+  </div>
+
+  <!-- Main Profile (hidden until loaded) -->
+  <div id="profileContent" style="display:none">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="/">Home</a> › <a href="/celebrities.html">Celebrities</a> › <span id="bcName">Profile</span>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div id="avatarWrap">
+          <div class="celeb-avatar-placeholder" id="avatarPlaceholder">⭐</div>
+        </div>
+        <div class="celeb-info">
+          <div class="celeb-badge">✓ Verified Celebrity</div>
+          <h1 class="celeb-name" id="celebName">—</h1>
+          <div class="celeb-occupation" id="celebOccupation">—</div>
+          <div class="celeb-meta">
+            <div class="meta-tag">Nationality: <span id="celebNationality">—</span></div>
+            <div class="meta-tag">Category: <span id="celebCategory">—</span></div>
+            <div class="meta-tag">Years Active: <span id="celebYears">—</span></div>
+          </div>
+          <div class="celeb-fee">
+            <span id="celebFee">—</span>
+            <small> base booking fee</small>
+          </div>
+          <div class="hero-actions">
+            <a href="#bookingForm" class="btn-book">📅 Book Now</a>
+            <a href="/celebrities.html" class="btn-outline">← All Celebrities</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Grid -->
+    <div class="content-grid">
+
+      <!-- Left Column -->
+      <div>
+        <!-- Bio -->
+        <div class="card" style="margin-bottom:24px">
+          <div class="card-title">About</div>
+          <p class="bio-text" id="celebBio">No biography available.</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="card">
+          <div class="card-title">Quick Facts</div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value" id="statAge">—</div>
+              <div class="stat-label">Age</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="statDOB">—</div>
+              <div class="stat-label">Date of Birth</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="statNat">—</div>
+              <div class="stat-label">Nationality</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="statCat">—</div>
+              <div class="stat-label">Category</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column — Booking Form -->
+      <div>
+        <div class="card booking-card" id="bookingForm">
+          <div class="card-title">📅 Request Booking</div>
+
+          <div class="form-group">
+            <label>Celebrity</label>
+            <input type="text" id="formCelebName" readonly style="opacity:0.7;cursor:not-allowed" />
+          </div>
+          <div class="form-group">
+            <label>Your Full Name *</label>
+            <input type="text" id="bookName" placeholder="Enter your full name" required />
+          </div>
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" id="bookEmail" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label>Date of Event *</label>
+            <input type="date" id="bookDate" required />
+          </div>
+          <div class="form-group">
+            <label>Event Budget (USD) *</label>
+            <input type="number" id="bookBudget" placeholder="e.g. 5000" min="100" required />
+          </div>
+          <div class="form-group">
+            <label>Type of Event *</label>
+            <select id="bookEventType" required>
+              <option value="">Select event type</option>
+              <option>Corporate Event</option>
+              <option>Concert / Performance</option>
+              <option>Brand Activation</option>
+              <option>Private Party</option>
+              <option>Award Show</option>
+              <option>Film / TV Appearance</option>
+              <option>Meet & Greet</option>
+              <option>Sports Event</option>
+              <option>Wedding / Birthday</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Event Name *</label>
+            <input type="text" id="bookEventName" placeholder="Name of your event" required />
+          </div>
+          <div class="form-group">
+            <label>Organisation</label>
+            <input type="text" id="bookOrg" placeholder="Your company or organisation" />
+          </div>
+          <div class="form-group">
+            <label>Payment Method</label>
+            <select id="bookPayment">
+              <option>Paystack (Card/Bank)</option>
+              <option>Flutterwave</option>
+              <option>Bitcoin (BTC)</option>
+              <option>Western Union</option>
+              <option>Online Banking</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Additional Information</label>
+            <textarea id="bookNotes" placeholder="Any special requirements or details…"></textarea>
+          </div>
+
+          <div class="error-msg" id="formError"></div>
+
+          <button class="btn-submit" id="submitBtn" onclick="submitBooking()">
+            SUBMIT BOOKING REQUEST
+          </button>
+
+          <div class="success-msg" id="successMsg">
+            ✅ Booking request submitted!<br>
+            <small>We'll review and contact you within 24 hours.</small>
+          </div>
+
+          <p class="form-note">Payment is only required after your booking is confirmed.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2026 Spring Company. All rights reserved. &nbsp;|&nbsp;
+    <a href="/privacy.html">Privacy</a> &nbsp;|&nbsp;
+    <a href="/terms.html">Terms</a> &nbsp;|&nbsp;
+    <a href="/contact.html">Contact</a>
+  </footer>
+
+<script>
+  // ── Get celebrity ID from URL ──────────────────────────────────────
+  // Supports both:
+  //   /celebrity.html?id=abc123
+  //   /celebrity/abc123  (if you ever add that route)
+  const params   = new URLSearchParams(window.location.search);
+  const celebId  = params.get('id') || params.get('celebrity');
+
+  // ── Helper: show error state ───────────────────────────────────────
+  function showError(msg) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('profileContent').style.display = 'none';
+    document.getElementById('errorState').style.display    = 'flex';
+    if (msg) document.getElementById('errorMsg').textContent = msg;
+  }
+
+  // ── Helper: format currency ────────────────────────────────────────
+  function formatFee(val) {
+    if (!val && val !== 0) return 'Contact for pricing';
+    return '$' + Number(val).toLocaleString();
+  }
+
+  // ── Helper: calculate age ──────────────────────────────────────────
+  function calcAge(dob) {
+    if (!dob) return '—';
+    const diff = Date.now() - new Date(dob).getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+  }
+
+  // ── Helper: format date ────────────────────────────────────────────
+  function fmtDate(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  }
+
+  // ── Fetch celebrity data ───────────────────────────────────────────
+  async function loadCelebrity() {
+    if (!celebId) {
+      showError('No celebrity ID was provided in the URL. Please go back and click a celebrity card.');
+      return;
+    }
+
+    try {
+      const res  = await fetch('/api/celebrities/' + celebId);
+      const data = await res.json();
+
+      // Handle API response — support both { celebrity: {...} } and flat object
+      const c = data.celebrity || data.data || data;
+
+      if (!res.ok || !c || !c.name) {
+        showError(data.message || 'This celebrity could not be found.');
+        return;
+      }
+
+      // ── Populate page ────────────────────────────────────────────
+      document.title = c.name + ' — Springcompany';
+
+      // Breadcrumb
+      document.getElementById('bcName').textContent = c.name;
+
+      // Avatar
+      if (c.image || c.photo || c.avatar || c.profileImage) {
+        const img = document.createElement('img');
+        img.src   = c.image || c.photo || c.avatar || c.profileImage;
+        img.alt   = c.name;
+        img.className = 'celeb-avatar';
+        img.onerror = () => {}; // keep placeholder if image fails
+        document.getElementById('avatarWrap').innerHTML = '';
+        document.getElementById('avatarWrap').appendChild(img);
+      }
+
+      // Hero info
+      document.getElementById('celebName').textContent       = c.name;
+      document.getElementById('celebOccupation').textContent = c.occupation || c.title || c.role || 'Celebrity';
+      document.getElementById('celebNationality').textContent = c.nationality || c.country || '—';
+      document.getElementById('celebCategory').textContent   = c.category || '—';
+      document.getElementById('celebYears').textContent      = c.yearsActive || c.years_active || '—';
+      document.getElementById('celebFee').textContent        = formatFee(c.baseFee || c.base_fee || c.fee || c.price);
+
+      // Bio
+      document.getElementById('celebBio').textContent = c.bio || c.biography || c.description || 'No biography available for this celebrity.';
+
+      // Stats
+      document.getElementById('statAge').textContent = calcAge(c.dateOfBirth || c.dob || c.date_of_birth) || '—';
+      document.getElementById('statDOB').textContent = fmtDate(c.dateOfBirth || c.dob || c.date_of_birth);
+      document.getElementById('statNat').textContent = c.nationality || c.country || '—';
+      document.getElementById('statCat').textContent = c.category || '—';
+
+      // Booking form — pre-fill celebrity name
+      document.getElementById('formCelebName').value = c.name;
+
+      // Set min date for event to tomorrow
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById('bookDate').min = tomorrow.toISOString().split('T')[0];
+
+      // Show the profile
+      document.getElementById('loadingState').style.display  = 'none';
+      document.getElementById('profileContent').style.display = 'block';
+
+    } catch (err) {
+      console.error('Celebrity load error:', err);
+      showError('A network error occurred. Please check your connection and try again.');
+    }
+  }
+
+  // ── Submit booking ─────────────────────────────────────────────────
+  async function submitBooking() {
+    const btn     = document.getElementById('submitBtn');
+    const errDiv  = document.getElementById('formError');
+    const succDiv = document.getElementById('successMsg');
+
+    // Gather fields
+    const name      = document.getElementById('bookName').value.trim();
+    const email     = document.getElementById('bookEmail').value.trim();
+    const date      = document.getElementById('bookDate').value;
+    const budget    = document.getElementById('bookBudget').value;
+    const eventType = document.getElementById('bookEventType').value;
+    const eventName = document.getElementById('bookEventName').value.trim();
+    const org       = document.getElementById('bookOrg').value.trim();
+    const payment   = document.getElementById('bookPayment').value;
+    const notes     = document.getElementById('bookNotes').value.trim();
+
+    // Validate
+    errDiv.style.display = 'none';
+    if (!name || !email || !date || !budget || !eventType || !eventName) {
+      errDiv.textContent = 'Please fill in all required fields marked with *.';
+      errDiv.style.display = 'block';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errDiv.textContent = 'Please enter a valid email address.';
+      errDiv.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    try {
+      const res  = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          celebrity:   celebId,
+          clientName:  name,
+          email,
+          eventDate:   date,
+          budget:      Number(budget),
+          eventType,
+          eventName,
+          organisation: org,
+          paymentMethod: payment,
+          additionalInfo: notes
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok && (data.success !== false)) {
+        succDiv.style.display = 'block';
+        btn.style.display     = 'none';
+      } else {
+        errDiv.textContent   = data.message || 'Submission failed. Please try again.';
+        errDiv.style.display = 'block';
+        btn.disabled         = false;
+        btn.textContent      = 'SUBMIT BOOKING REQUEST';
+      }
+    } catch (err) {
+      errDiv.textContent   = 'Network error. Please check your connection and try again.';
+      errDiv.style.display = 'block';
+      btn.disabled         = false;
+      btn.textContent      = 'SUBMIT BOOKING REQUEST';
+    }
+  }
+
+  // ── Boot ───────────────────────────────────────────────────────────
+  loadCelebrity();
+</script>
+</body>
+</html>
